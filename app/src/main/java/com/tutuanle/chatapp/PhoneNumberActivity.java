@@ -11,5 +11,7 @@ public class PhoneNumberActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_phone_number);
         int a = 5;
+        int a = 5;       int a = 5;
+        
     }
 }
