@@ -4,12 +4,11 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.os.Bundle;
 
-public class PhoneNumberActivity extends AppCompatActivity {
+public class OTPActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_phone_number);
-        int a = 5;
+        setContentView(R.layout.activity_otpactivity);
     }
 }
