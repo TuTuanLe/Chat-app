@@ -62,21 +62,20 @@
             android:orientation="vertical">
 
             <EditText
-                android:id="@+id/editTextTextPersonName"
+                android:id="@+id/phoneBox"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:background="@drawable/textbox_outline"
                 android:ems="10"
                 android:hint="Type your phone number"
                 android:inputType="textPersonName"
-                android:padding="15" />
+                android:padding="15dp" />
 
             <Button
-                android:id="@+id/button"
+                android:id="@+id/continueBtn"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="10dp
-"
+                android:layout_marginTop="10dp"
                 android:text="continue" />
         </LinearLayout>
     </androidx.cardview.widget.CardView>

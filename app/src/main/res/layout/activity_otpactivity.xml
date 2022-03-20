@@ -69,7 +69,7 @@
                 android:layout_gravity="center"
                 android:inputType="number"
                 android:itemBackground="@color/grey"
-                android:textColor="@android:color/white"
+
                 app:OtpItemCount="6"
                 app:OtpLineColor="@color/green"
                 app:OtpViewType="line"

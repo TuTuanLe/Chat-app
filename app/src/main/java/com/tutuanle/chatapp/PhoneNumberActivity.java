@@ -2,14 +2,32 @@ package com.tutuanle.chatapp;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Intent;
 import android.os.Bundle;
+import android.view.View;
+
+import com.tutuanle.chatapp.databinding.ActivityPhoneNumberBinding;
 
 public class PhoneNumberActivity extends AppCompatActivity {
+
+    ActivityPhoneNumberBinding binding;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_phone_number);
-        int a = 5;
+        binding = ActivityPhoneNumberBinding.inflate(getLayoutInflater());
+        setContentView(binding.getRoot());
+        getSupportActionBar().hide();
+
+        binding.continueBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(PhoneNumberActivity.this, OTPActivity.class);
+                intent.putExtra("phoneNumber", binding.phoneBox.getText().toString());
+                startActivity(intent);
+            }
+        });
+
     }
 }
