@@ -3,7 +3,9 @@ package com.tutuanle.chatapp;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.app.ProgressDialog;
 import android.os.Bundle;
+import android.widget.ProgressBar;
 import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -24,6 +26,7 @@ public class OTPActivity extends AppCompatActivity {
     ActivityOtpactivityBinding binding;
     FirebaseAuth auth;
     String verificationId ;
+    ProgressDialog dialog;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -31,6 +34,12 @@ public class OTPActivity extends AppCompatActivity {
         setContentView(binding.getRoot());
 
         auth = FirebaseAuth.getInstance();
+        getSupportActionBar().hide();
+
+        dialog = new ProgressDialog(this);
+        dialog.setMessage("Send OTP...");
+        dialog.setCancelable(false);
+        dialog.show();
 
         String phoneNumber = getIntent().getStringExtra("phoneNumber");
         binding.textView.setText("Verify " + phoneNumber);
@@ -54,6 +63,7 @@ public class OTPActivity extends AppCompatActivity {
                     public void onCodeSent(@NonNull String verifyID, @NonNull PhoneAuthProvider.ForceResendingToken forceResendingToken) {
                         super.onCodeSent(verifyID, forceResendingToken);
                         verificationId= verifyID;
+                        dialog.dismiss();
                     }
                 }).build();
         PhoneAuthProvider.verifyPhoneNumber(options);

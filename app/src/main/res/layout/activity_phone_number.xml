@@ -68,8 +68,9 @@
                 android:background="@drawable/textbox_outline"
                 android:ems="10"
                 android:hint="Type your phone number"
-                android:inputType="textPersonName"
-                android:padding="15dp" />
+                android:inputType="number|textPersonName"
+                android:padding="15dp"
+                android:phoneNumber="true" />
 
             <Button
                 android:id="@+id/continueBtn"
