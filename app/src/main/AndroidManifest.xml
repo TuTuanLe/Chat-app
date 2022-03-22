@@ -11,6 +11,9 @@
         android:theme="@style/Theme.ChatApp"
         android:usesCleartextTraffic="true">
         <activity
+            android:name=".ChatActivity"
+            android:exported="false" />
+        <activity
             android:name=".SetupProfileActivity"
             android:exported="false" />
         <activity
