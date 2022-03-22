@@ -8,6 +8,7 @@ import android.view.ViewGroup;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.bumptech.glide.Glide;
 import com.tutuanle.chatapp.R;
 import com.tutuanle.chatapp.databinding.RowConversationBinding;
 import com.tutuanle.chatapp.model.User;
@@ -35,6 +36,9 @@ public class UsersAdapter extends RecyclerView.Adapter<UsersAdapter.UsersViewHol
     public void onBindViewHolder(@NonNull UsersViewHolder holder, int position) {
         User user = users.get(position);
         holder.binding.username.setText(user.getName());
+        Glide.with(context).load(user.getProfileImage())
+                .placeholder(R.drawable.avatar)
+                .into(holder.binding.profile);
     }
 
     @Override
