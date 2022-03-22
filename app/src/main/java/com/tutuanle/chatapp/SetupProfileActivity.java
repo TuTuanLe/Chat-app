@@ -58,19 +58,19 @@ public class SetupProfileActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 String name = binding.nameBox.getText().toString();
-                if(name.isEmpty()){
+                if (name.isEmpty()) {
                     binding.nameBox.setError("Please type a name");
                     return;
                 }
                 dialog.show();
-                if (selectedImage != null){
+                if (selectedImage != null) {
                     StorageReference reference = storage.getReference()
-                                                .child("Profile")
-                                                .child(auth.getUid());
+                            .child("Profile")
+                            .child(auth.getUid());
                     reference.putFile(selectedImage).addOnCompleteListener(new OnCompleteListener<UploadTask.TaskSnapshot>() {
                         @Override
                         public void onComplete(@NonNull Task<UploadTask.TaskSnapshot> task) {
-                            if(task.isSuccessful()){
+                            if (task.isSuccessful()) {
                                 reference.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
                                     @Override
                                     public void onSuccess(Uri uri) {
@@ -80,9 +80,10 @@ public class SetupProfileActivity extends AppCompatActivity {
                                         String phone = auth.getCurrentUser().getPhoneNumber();
                                         String name = binding.nameBox.getText().toString();
 
-                                        User user = new User(uid, name,phone, "No Image");
+                                        User user = new User(uid, name, phone, imageUrl);
                                         database.getReference()
                                                 .child("users")
+                                                .child(uid)
                                                 .setValue(user)
                                                 .addOnSuccessListener(new OnSuccessListener<Void>() {
                                                     @Override
@@ -108,7 +109,7 @@ public class SetupProfileActivity extends AppCompatActivity {
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         if (data != null) {
-            if (data.getData() != null){
+            if (data.getData() != null) {
                 binding.imageView.setImageURI(data.getData());
                 selectedImage = data.getData();
             }

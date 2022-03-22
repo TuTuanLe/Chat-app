@@ -43,11 +43,12 @@ public class MainActivity extends AppCompatActivity {
                 users.clear();
                 for(DataSnapshot snapshot1 : snapshot.getChildren()){
 
+
                     User user = snapshot1.getValue(User.class);
                     Log.d("log",user.toString());
-//                    users.add(user);
+                    users.add(user);
                 }
-//                usersAdapter.notifyDataSetChanged();
+                usersAdapter.notifyDataSetChanged();
             }
 
             @Override

@@ -48,6 +48,8 @@ public class UsersAdapter extends RecyclerView.Adapter<UsersAdapter.UsersViewHol
 
         public UsersViewHolder(@NonNull View itemView) {
             super(itemView);
+            binding = RowConversationBinding.bind(itemView);
+
         }
     }
 }
