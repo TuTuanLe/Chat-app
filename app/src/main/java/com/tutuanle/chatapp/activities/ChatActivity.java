@@ -1,4 +1,4 @@
-package com.tutuanle.chatapp;
+package com.tutuanle.chatapp.activities;
 
 import androidx.appcompat.app.AppCompatActivity;
 

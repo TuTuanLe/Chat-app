@@ -1,4 +1,4 @@
-package com.tutuanle.chatapp.model;
+package com.tutuanle.chatapp.models;
 
 public class User {
     private  String uid, name, phoneNumber,profileImage;

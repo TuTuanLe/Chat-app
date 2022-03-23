@@ -1,8 +1,7 @@
-package com.tutuanle.chatapp;
+package com.tutuanle.chatapp.activities;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.recyclerview.widget.LinearLayoutManager;
 
 import android.os.Bundle;
 import android.util.Log;
@@ -14,9 +13,10 @@ import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
-import com.tutuanle.chatapp.adapter.UsersAdapter;
+import com.tutuanle.chatapp.R;
+import com.tutuanle.chatapp.adapters.UsersAdapter;
 import com.tutuanle.chatapp.databinding.ActivityMainBinding;
-import com.tutuanle.chatapp.model.User;
+import com.tutuanle.chatapp.models.User;
 
 import java.util.ArrayList;
 

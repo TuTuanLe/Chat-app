@@ -1,4 +1,4 @@
-package com.tutuanle.chatapp;
+package com.tutuanle.chatapp.activities;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -19,7 +19,7 @@ import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
 import com.tutuanle.chatapp.databinding.ActivitySetupProfileBinding;
-import com.tutuanle.chatapp.model.User;
+import com.tutuanle.chatapp.models.User;
 
 
 public class SetupProfileActivity extends AppCompatActivity {

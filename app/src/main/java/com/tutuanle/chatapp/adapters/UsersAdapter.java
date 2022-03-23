@@ -1,4 +1,4 @@
-package com.tutuanle.chatapp.adapter;
+package com.tutuanle.chatapp.adapters;
 
 import android.content.Context;
 import android.content.Intent;
@@ -10,10 +10,10 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
-import com.tutuanle.chatapp.ChatActivity;
+import com.tutuanle.chatapp.activities.ChatActivity;
 import com.tutuanle.chatapp.R;
 import com.tutuanle.chatapp.databinding.RowConversationBinding;
-import com.tutuanle.chatapp.model.User;
+import com.tutuanle.chatapp.models.User;
 
 import java.util.ArrayList;
 

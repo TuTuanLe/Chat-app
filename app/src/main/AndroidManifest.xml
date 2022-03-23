@@ -11,17 +11,17 @@
         android:theme="@style/Theme.ChatApp"
         android:usesCleartextTraffic="true">
         <activity
-            android:name=".ChatActivity"
+            android:name=".activities.ChatActivity"
             android:exported="false" />
         <activity
-            android:name=".SetupProfileActivity"
+            android:name=".activities.SetupProfileActivity"
             android:exported="false" />
         <activity
-            android:name=".OTPActivity"
+            android:name=".activities.OTPActivity"
             android:exported="false"
             android:windowSoftInputMode="stateVisible" />
         <activity
-            android:name=".PhoneNumberActivity"
+            android:name=".activities.PhoneNumberActivity"
             android:exported="true"
             android:windowSoftInputMode="stateVisible">
             // windowSoftInputMode : it sets the state of keyboard
@@ -34,7 +34,7 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".MainActivity"
+            android:name=".activities.MainActivity"
             android:exported="true" />
 
         <meta-data
