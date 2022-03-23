@@ -1,14 +1,20 @@
 package com.tutuanle.chatapp.activities;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.LinearLayoutManager;
 
 import android.os.Bundle;
 import android.provider.ContactsContract;
+import android.util.Log;
 import android.view.View;
 
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 import com.tutuanle.chatapp.adapters.MessagesAdapter;
 import com.tutuanle.chatapp.databinding.ActivityChatBinding;
 import com.tutuanle.chatapp.models.Message;
@@ -33,7 +39,8 @@ public class ChatActivity extends AppCompatActivity {
 
         messages = new ArrayList<>();
         adapter = new MessagesAdapter(this, messages);
-
+        binding.recyclerView.setAdapter(adapter);
+        binding.recyclerView.setLayoutManager(new LinearLayoutManager(this));
 
         String name = getIntent().getStringExtra("name");
         String receiverUid = getIntent().getStringExtra("uid");
@@ -43,6 +50,26 @@ public class ChatActivity extends AppCompatActivity {
         receiveRoom = receiverUid + senderUid;
         database = FirebaseDatabase.getInstance();
 
+        database.getReference().child("Chats")
+                .child(senderRoom)
+                .child("messages")
+                .addValueEventListener(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(@NonNull DataSnapshot snapshot) {
+                        messages.clear();
+                        for(DataSnapshot snapshot1: snapshot.getChildren()){
+                            Message message = snapshot1.getValue(Message.class);
+                            messages.add(message);
+                            Log.d("onDataChange: ", message.toString());
+                        }
+                        adapter.notifyDataSetChanged();
+                    }
+
+                    @Override
+                    public void onCancelled(@NonNull DatabaseError error) {
+
+                    }
+                });
 
         binding.sendBtn.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -56,6 +83,7 @@ public class ChatActivity extends AppCompatActivity {
                 database.getReference().child("Chats")
                         .child(senderRoom)
                         .child("messages")
+                        .push()
                         .setValue(message)
                         .addOnSuccessListener(new OnSuccessListener<Void>() {
                             @Override
@@ -63,6 +91,7 @@ public class ChatActivity extends AppCompatActivity {
                                 database.getReference().child("Chats")
                                         .child(receiveRoom)
                                         .child("messages")
+                                        .push()
                                         .setValue(message)
                                         .addOnSuccessListener(new OnSuccessListener<Void>() {
                                             @Override
