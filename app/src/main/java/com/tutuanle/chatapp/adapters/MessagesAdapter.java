@@ -1,12 +1,15 @@
 package com.tutuanle.chatapp.adapters;
 
 import android.content.Context;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.google.firebase.auth.FirebaseAuth;
+import com.tutuanle.chatapp.R;
 import com.tutuanle.chatapp.databinding.ItemReceiveBinding;
 import com.tutuanle.chatapp.databinding.ItemSentBinding;
 import com.tutuanle.chatapp.models.Message;
@@ -16,6 +19,9 @@ import java.util.ArrayList;
 public class MessagesAdapter extends  RecyclerView.Adapter {
     Context context;
     ArrayList<Message> messages;
+    final int ITEM_SENT = 1;
+    final int ITEM_RECEIVE = 2;
+
 
     public  MessagesAdapter(Context context, ArrayList< Message> messages){
         this.context= context;
@@ -25,12 +31,41 @@ public class MessagesAdapter extends  RecyclerView.Adapter {
     @NonNull
     @Override
     public RecyclerView.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        return null;
+        if(viewType == ITEM_SENT){
+            View view = LayoutInflater.from(context).inflate(R.layout.item_sent, parent, false);
+            return  new SendViewHolder(view);
+        }
+        else {
+            View view = LayoutInflater.from(context).inflate(R.layout.item_receive, parent, false);
+            return  new ReceiverViewHolder(view);
+        }
+
+    }
+
+    // return the view type of the item at position for the purposes of view recycling
+    @Override
+    public int getItemViewType(int position) {
+        Message message = messages.get(position);
+        if(FirebaseAuth.getInstance().getUid().equals(message.getSenderId())){
+            return ITEM_SENT;
+        }
+        else{
+            return ITEM_RECEIVE;
+        }
+//        return super.getItemViewType(position);
     }
 
     @Override
     public void onBindViewHolder(@NonNull RecyclerView.ViewHolder holder, int position) {
-
+        Message message = messages.get(position);
+        if(holder.getClass() == SendViewHolder.class){
+            SendViewHolder viewHolder =(SendViewHolder) holder;
+            viewHolder.binding.message.setText(message.getMessage());
+        }
+        else{
+            ReceiverViewHolder viewHolder = (ReceiverViewHolder) holder;
+            viewHolder.binding.message.setText(message.getMessage());
+        }
     }
 
     @Override
