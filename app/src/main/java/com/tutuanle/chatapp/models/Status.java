@@ -1,8 +1,11 @@
 package com.tutuanle.chatapp.models;
 
 public class Status {
-    private  String imageUrl ;
+    private String imageUrl;
     private long timeStamp;
+
+    public Status() {
+    }
 
     public Status(String imageUrl, long timeStamp) {
         this.imageUrl = imageUrl;
@@ -12,6 +15,7 @@ public class Status {
     public String getImageUrl() {
         return imageUrl;
     }
+
 
     public void setImageUrl(String imageUrl) {
         this.imageUrl = imageUrl;
