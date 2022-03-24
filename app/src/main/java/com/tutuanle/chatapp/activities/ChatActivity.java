@@ -36,18 +36,19 @@ public class ChatActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         binding = ActivityChatBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
-
-        messages = new ArrayList<>();
-        adapter = new MessagesAdapter(this, messages);
-        binding.recyclerView.setAdapter(adapter);
-        binding.recyclerView.setLayoutManager(new LinearLayoutManager(this));
-
         String name = getIntent().getStringExtra("name");
         String receiverUid = getIntent().getStringExtra("uid");
         String senderUid = FirebaseAuth.getInstance().getUid();
 
         senderRoom = senderUid + receiverUid;
         receiveRoom = receiverUid + senderUid;
+
+        messages = new ArrayList<>();
+        adapter = new MessagesAdapter(this, messages, senderRoom, receiveRoom);
+        binding.recyclerView.setAdapter(adapter);
+        binding.recyclerView.setLayoutManager(new LinearLayoutManager(this));
+
+
         database = FirebaseDatabase.getInstance();
 
         database.getReference().child("Chats")
@@ -59,6 +60,7 @@ public class ChatActivity extends AppCompatActivity {
                         messages.clear();
                         for(DataSnapshot snapshot1: snapshot.getChildren()){
                             Message message = snapshot1.getValue(Message.class);
+                            message.setMessageId(snapshot1.getKey());
                             messages.add(message);
                             Log.d("onDataChange: ", message.toString());
                         }
@@ -80,10 +82,13 @@ public class ChatActivity extends AppCompatActivity {
 
                 Message message = new Message(messageTxt, senderUid, date.getTime());
                 binding.messageBox.setText("");
+
+                String randomKey = database.getReference().push().getKey();
+
                 database.getReference().child("Chats")
                         .child(senderRoom)
                         .child("messages")
-                        .push()
+                        .child(randomKey)
                         .setValue(message)
                         .addOnSuccessListener(new OnSuccessListener<Void>() {
                             @Override
@@ -91,7 +96,7 @@ public class ChatActivity extends AppCompatActivity {
                                 database.getReference().child("Chats")
                                         .child(receiveRoom)
                                         .child("messages")
-                                        .push()
+                                        .child(randomKey)
                                         .setValue(message)
                                         .addOnSuccessListener(new OnSuccessListener<Void>() {
                                             @Override
