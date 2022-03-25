@@ -29,6 +29,7 @@ public class TopStatusAdapter  extends   RecyclerView.Adapter<TopStatusAdapter.T
         ItemStatusBinding binding;
         public TopStatusAdapterViewHolder(@NonNull View itemView) {
             super(itemView);
+            binding
         }
     }
 }
