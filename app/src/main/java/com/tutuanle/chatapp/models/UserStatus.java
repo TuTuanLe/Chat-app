@@ -3,9 +3,12 @@ package com.tutuanle.chatapp.models;
 import java.util.ArrayList;
 
 public class UserStatus {
-    private  String name, profileImage;
-    private  long lastUpdated;
+    private String name, profileImage;
+    private long lastUpdated;
     private ArrayList<Status> statuses;
+
+    public UserStatus() {
+    }
 
     public UserStatus(String name, String profileImage, long lastUpdated, ArrayList<Status> statuses) {
         this.name = name;

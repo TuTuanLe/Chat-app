@@ -19,6 +19,7 @@ import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
+import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.FirebaseDatabase;
@@ -44,6 +45,7 @@ public class MainActivity extends AppCompatActivity {
     TopStatusAdapter statusAdapter;
     ArrayList<UserStatus> userStatuses;
     ProgressDialog dialog;
+    User user;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -58,9 +60,22 @@ public class MainActivity extends AppCompatActivity {
         database = FirebaseDatabase.getInstance();
         users = new ArrayList<User>();
         usersAdapter= new UsersAdapter(this, users);
+        userStatuses=  new ArrayList<>();
+        database.getReference().child("users").child(FirebaseAuth.getInstance().getUid())
+                .addValueEventListener(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(@NonNull DataSnapshot snapshot) {
+                        user = snapshot.getValue(User.class);
+                    }
+
+                    @Override
+                    public void onCancelled(@NonNull DatabaseError error) {
+
+                    }
+                })
 
         statusAdapter = new TopStatusAdapter(this, userStatuses);
-        binding.statusList.setLayoutManager((new LinearLayoutManager(this)));
+//        binding.statusList.setLayoutManager((new LinearLayoutManager(this)));
         LinearLayoutManager layoutManager = new LinearLayoutManager(this);
         layoutManager.setOrientation(RecyclerView.HORIZONTAL);
         binding.statusList.setLayoutManager(layoutManager);
@@ -95,7 +110,7 @@ public class MainActivity extends AppCompatActivity {
                 switch (item.getItemId()) {
                     case R.id.status:
                         Intent intent = new Intent();
-                        intent.setType("Image/*");
+                        intent.setType("image/*");
                         intent.setAction(Intent.ACTION_GET_CONTENT);
                         startActivityForResult(intent, 75);
                         break;
@@ -122,6 +137,11 @@ public class MainActivity extends AppCompatActivity {
                             reference.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
                                 @Override
                                 public void onSuccess(Uri uri) {
+                                    UserStatus userStatus = new UserStatus();
+                                    userStatus.setName(user.getName());
+                                    userStatus.setProfileImage(user.getProfileImage());
+                                    userStatus.setLastUpdated(date.getTime());
+                                    userStatuses.add(userStatus);
                                     dialog.dismiss();
                                 }
                             });
