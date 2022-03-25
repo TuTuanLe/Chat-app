@@ -1,35 +1,52 @@
 package com.tutuanle.chatapp.adapters;
 
+import android.content.Context;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.tutuanle.chatapp.R;
 import com.tutuanle.chatapp.databinding.ItemStatusBinding;
+import com.tutuanle.chatapp.models.UserStatus;
 
-public class TopStatusAdapter  extends   RecyclerView.Adapter<TopStatusAdapter.TopStatusAdapterViewHolder> {
+import java.util.ArrayList;
+
+public class TopStatusAdapter  extends   RecyclerView.Adapter<TopStatusAdapter.TopStatusViewHolder> {
+
+    Context context;
+    ArrayList<UserStatus> userStatuses;
+
+    public  TopStatusAdapter(Context context, ArrayList<UserStatus> userStatuses){
+        this.context= context;
+        this.userStatuses= userStatuses;
+    }
+
     @NonNull
     @Override
-    public TopStatusAdapterViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        return null;
+    public TopStatusViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+        View view = LayoutInflater.from(context).inflate(R.layout.item_status, parent, false);
+
+        return new TopStatusViewHolder(view);
     }
 
     @Override
-    public void onBindViewHolder(@NonNull TopStatusAdapterViewHolder holder, int position) {
+    public void onBindViewHolder(@NonNull TopStatusViewHolder holder, int position) {
 
     }
 
     @Override
     public int getItemCount() {
-        return 0;
+        return userStatuses.size();
     }
 
-    public class TopStatusAdapterViewHolder extends RecyclerView.ViewHolder{
+    public class TopStatusViewHolder extends RecyclerView.ViewHolder{
         ItemStatusBinding binding;
-        public TopStatusAdapterViewHolder(@NonNull View itemView) {
+        public TopStatusViewHolder(@NonNull View itemView) {
             super(itemView);
-            binding
+            binding = ItemStatusBinding.bind(itemView);
         }
     }
 }
