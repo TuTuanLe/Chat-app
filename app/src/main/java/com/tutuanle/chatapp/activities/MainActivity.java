@@ -61,8 +61,8 @@ public class MainActivity extends AppCompatActivity {
 
         database = FirebaseDatabase.getInstance();
         users = new ArrayList<User>();
-        usersAdapter= new UsersAdapter(this, users);
-        userStatuses=  new ArrayList<>();
+        usersAdapter = new UsersAdapter(this, users);
+        userStatuses = new ArrayList<>();
         database.getReference().child("users").child(FirebaseAuth.getInstance().getUid())
                 .addValueEventListener(new ValueEventListener() {
                     @Override
@@ -90,14 +90,45 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 users.clear();
-                for(DataSnapshot snapshot1 : snapshot.getChildren()){
+                for (DataSnapshot snapshot1 : snapshot.getChildren()) {
 
 
                     User user = snapshot1.getValue(User.class);
-                    Log.d("log",user.toString());
+                    Log.d("log", user.toString());
                     users.add(user);
                 }
                 usersAdapter.notifyDataSetChanged();
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
+
+        database.getReference().child("stories").addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                if (snapshot.exists()) {
+                    for (DataSnapshot storySnapshot : snapshot.getChildren()) {
+                        UserStatus status = new UserStatus();
+                        status.setName(storySnapshot.child("name").getValue(String.class));
+                        status.setProfileImage(storySnapshot.child("profileImage").getValue(String.class));
+
+                        status.setLastUpdated(storySnapshot.child("lastUpdate").getValue(Long.class));
+
+
+                        ArrayList<Status> statuses = new ArrayList<>();
+                        for(DataSnapshot statusSnapshot : storySnapshot.child("statuses").getChildren()){
+                            Status sampleStatus = statusSnapshot.getValue(Status.class);
+                            statuses.add(sampleStatus);
+                        }
+                        status.setStatuses(statuses);
+                        userStatuses.add(status);
+                    }
+                    statusAdapter.notifyDataSetChanged();
+                }
+
             }
 
             @Override
@@ -116,7 +147,8 @@ public class MainActivity extends AppCompatActivity {
                         intent.setAction(Intent.ACTION_GET_CONTENT);
                         startActivityForResult(intent, 75);
                         break;
-                };
+                }
+                ;
                 return false;
             }
         });
@@ -126,16 +158,16 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        if(data != null) {
-            if(data.getData() != null){
+        if (data != null) {
+            if (data.getData() != null) {
                 dialog.show();
                 FirebaseStorage storage = FirebaseStorage.getInstance();
                 Date date = new Date();
-                StorageReference reference = storage.getReference().child("status").child(date.getTime()+"");
+                StorageReference reference = storage.getReference().child("status").child(date.getTime() + "");
                 reference.putFile(data.getData()).addOnCompleteListener(new OnCompleteListener<UploadTask.TaskSnapshot>() {
                     @Override
                     public void onComplete(@NonNull Task<UploadTask.TaskSnapshot> task) {
-                        if(task.isSuccessful()){
+                        if (task.isSuccessful()) {
                             reference.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
                                 @Override
                                 public void onSuccess(Uri uri) {
@@ -150,7 +182,7 @@ public class MainActivity extends AppCompatActivity {
                                     obj.put("lastUpdate", userStatus.getLastUpdated());
 
                                     String imageUrl = uri.toString();
-                                    Status status = new Status(imageUrl,userStatus.getLastUpdated() );
+                                    Status status = new Status(imageUrl, userStatus.getLastUpdated());
 
 
                                     database.getReference()
