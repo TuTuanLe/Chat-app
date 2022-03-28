@@ -31,11 +31,13 @@ import com.tutuanle.chatapp.R;
 import com.tutuanle.chatapp.adapters.TopStatusAdapter;
 import com.tutuanle.chatapp.adapters.UsersAdapter;
 import com.tutuanle.chatapp.databinding.ActivityMainBinding;
+import com.tutuanle.chatapp.models.Status;
 import com.tutuanle.chatapp.models.User;
 import com.tutuanle.chatapp.models.UserStatus;
 
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashMap;
 
 public class MainActivity extends AppCompatActivity {
     ActivityMainBinding binding;
@@ -72,7 +74,7 @@ public class MainActivity extends AppCompatActivity {
                     public void onCancelled(@NonNull DatabaseError error) {
 
                     }
-                })
+                });
 
         statusAdapter = new TopStatusAdapter(this, userStatuses);
 //        binding.statusList.setLayoutManager((new LinearLayoutManager(this)));
@@ -142,6 +144,26 @@ public class MainActivity extends AppCompatActivity {
                                     userStatus.setProfileImage(user.getProfileImage());
                                     userStatus.setLastUpdated(date.getTime());
                                     userStatuses.add(userStatus);
+                                    HashMap<String, Object> obj = new HashMap<>();
+                                    obj.put("name", userStatus.getName());
+                                    obj.put("profileImage", userStatus.getProfileImage());
+                                    obj.put("lastUpdate", userStatus.getLastUpdated());
+
+                                    String imageUrl = uri.toString();
+                                    Status status = new Status(imageUrl,userStatus.getLastUpdated() );
+
+
+                                    database.getReference()
+                                            .child("stories")
+                                            .child(FirebaseAuth.getInstance().getUid())
+                                            .updateChildren(obj);
+                                    database.getReference().child("stories")
+                                            .child(FirebaseAuth.getInstance().getUid())
+                                            .child("statuses")
+                                            .push()
+                                            .setValue(status);
+
+
                                     dialog.dismiss();
                                 }
                             });
