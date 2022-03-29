@@ -8,6 +8,7 @@ import android.view.ViewGroup;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.bumptech.glide.Glide;
 import com.tutuanle.chatapp.R;
 import com.tutuanle.chatapp.activities.MainActivity;
 import com.tutuanle.chatapp.databinding.ItemStatusBinding;
@@ -41,6 +42,11 @@ public class TopStatusAdapter extends RecyclerView.Adapter<TopStatusAdapter.TopS
     @Override
     public void onBindViewHolder(@NonNull TopStatusViewHolder holder, int position) {
         UserStatus userStatus = userStatuses.get(position);
+
+        Status lastStatus = userStatus.getStatuses().get(userStatus.getStatuses().size() -1);
+
+        Glide.with(context).load(lastStatus.getImageUrl()).into(holder.binding.image);
+        holder.binding.circularStatusView.setPortionsCount(userStatus.getStatuses().size());
 
         holder.binding.circularStatusView.setOnClickListener(new View.OnClickListener() {
             @Override
