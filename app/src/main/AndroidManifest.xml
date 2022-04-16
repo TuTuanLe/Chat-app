@@ -11,6 +11,9 @@
         android:theme="@style/Theme.ChatApp"
         android:usesCleartextTraffic="true">
         <activity
+            android:name=".activities.SignInActivity"
+            android:exported="false" />
+        <activity
             android:name=".activities.ChatActivity"
             android:exported="false" />
         <activity
