@@ -95,4 +95,5 @@ public class SignUpActivity extends AppCompatActivity {
         byte[] bytes = byteArrayOutputStream.toByteArray();
         return Base64.encodeToString(bytes, Base64.DEFAULT);
     }
+    private  void  test(){}
 }
