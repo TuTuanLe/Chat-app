@@ -53,4 +53,14 @@ dependencies {
     implementation 'com.github.3llomi:CircularStatusView:V1.0.2'
 
     implementation 'com.github.OMARIHAMZA:StoryView:1.0.2-alpha'
+
+    implementation 'com.intuit.sdp:sdp-android:1.0.6'
+
+
+    implementation 'com.intuit.ssp:ssp-android:1.0.6'
+
+
+    implementation 'com.makeramen:roundedimageview:2.3.0'
+
+
 }
