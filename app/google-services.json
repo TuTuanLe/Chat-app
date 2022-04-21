@@ -1,33 +1,33 @@
 {
   "project_info": {
-    "project_number": "510773139658",
-    "project_id": "messagechatapp-86ee0",
-    "storage_bucket": "messagechatapp-86ee0.appspot.com"
+    "project_number": "319398028976",
+    "project_id": "messagingchatapp",
+    "storage_bucket": "messagingchatapp.appspot.com"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:510773139658:android:ae22c04cf08fd8c4183c33",
+        "mobilesdk_app_id": "1:319398028976:android:9b23257a12b423b5fd3d75",
         "android_client_info": {
           "package_name": "com.tutuanle.chatapp"
         }
       },
       "oauth_client": [
         {
-          "client_id": "510773139658-na1aku0j0edss7db424vd0386nirgqt4.apps.googleusercontent.com",
+          "client_id": "319398028976-9alus694br2dlsnsrdoarlploujt7djt.apps.googleusercontent.com",
           "client_type": 3
         }
       ],
       "api_key": [
         {
-          "current_key": "AIzaSyBXOvhStIXnRzIAhc-pYnlf5zNlbCn7pzc"
+          "current_key": "AIzaSyARfX8bTzmdjfDRy78h6LPY8mZKpBCGXxM"
         }
       ],
       "services": {
         "appinvite_service": {
           "other_platform_oauth_client": [
             {
-              "client_id": "510773139658-na1aku0j0edss7db424vd0386nirgqt4.apps.googleusercontent.com",
+              "client_id": "319398028976-9alus694br2dlsnsrdoarlploujt7djt.apps.googleusercontent.com",
               "client_type": 3
             }
           ]
