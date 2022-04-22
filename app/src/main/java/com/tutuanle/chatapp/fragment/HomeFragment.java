@@ -113,7 +113,7 @@ public class HomeFragment extends Fragment {
 
                         }
                         if(users.size()>0){
-                            Users_Adapter users_adapter = new Users_Adapter(users);
+                            Users_Adapter users_adapter = new Users_Adapter(users,mainScreenActivity);
 
                             RecyclerView temp = view.findViewById(R.id.userRecyclerView);
                             temp.setAdapter(users_adapter);

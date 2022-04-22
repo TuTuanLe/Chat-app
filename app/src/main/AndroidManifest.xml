@@ -16,6 +16,7 @@
         tools:targetApi="m">
         <activity
             android:name=".activities.ChatScreenActivity"
+            android:windowSoftInputMode="adjustResize"
             android:exported="false" />
         <activity
             android:name=".activities.ProfileActivity"

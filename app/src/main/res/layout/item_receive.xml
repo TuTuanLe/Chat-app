@@ -43,6 +43,7 @@
         android:contentDescription="@string/app_name" />
 
     <TextView
+        android:id="@+id/textDateTime"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:textColor="@color/secondary_text"
