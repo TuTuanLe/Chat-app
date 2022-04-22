@@ -30,7 +30,7 @@ import java.util.HashMap;
 
 public class MainScreenActivity extends AppCompatActivity {
     private ActivityMainScreenBinding binding;
-    private PreferenceManager preferenceManager;
+    public PreferenceManager preferenceManager;
 
     private final int ID_HOME = 1;
     private final int ID_MESSAGE = 2;
