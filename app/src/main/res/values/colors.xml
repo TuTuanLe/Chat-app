@@ -19,10 +19,12 @@
     <color name="received_message_background">#090D16</color>
 
     <color name="shadowColor">#2E2E2E</color>
-    <color name="defaultIconColor">#F6F6F6</color>
+    <color name="defaultIconColor">#A2A2A2</color>
     <color  name="selectedIconColor">#04E1F8</color>
     <color name="countTextColor">#ffffff</color>
     <color name="countBackgroundColor">#F45EB0</color>
     <color  name="circleColor">#fff</color>
     <color  name="backgroundBottomColor">#04E1F8</color>
+
+    <color name="primaryHeader">#24A3C8</color>
 </resources>

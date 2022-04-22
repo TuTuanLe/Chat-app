@@ -151,6 +151,7 @@ public class SignUpActivity extends AppCompatActivity {
                         binding.imageProfile.setImageBitmap(bitmap);
                         binding.layoutImageView.setVisibility(View.GONE);
                         encodedImage = encodeImage(bitmap);
+
                     } catch (FileNotFoundException e) {
                         e.printStackTrace();
                     }

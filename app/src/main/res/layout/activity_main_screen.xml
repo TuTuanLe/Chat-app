@@ -1,35 +1,27 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:animateLayoutChanges="true"
     tools:context=".activities.MainScreenActivity"
+    android:orientation="vertical"
     android:backgroundTint="@color/white"
     >
 
-    <LinearLayout
+    <FrameLayout
+        android:id="@+id/frame_layout"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:gravity="center">
-
-        <TextView
-            android:id="@+id/pageSelected"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="hello"
-            android:textColor="@color/black"
-            android:textSize="@dimen/_20sdp" />
-    </LinearLayout>
+        android:layout_weight="1"
+        android:layout_height="0dp" />
     <com.etebarian.meowbottomnavigation.MeowBottomNavigation
         android:id="@+id/BottomNavigation"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_gravity="bottom"
-
+        android:layout_weight="0"
         app:mbn_shadowColor="@color/shadowColor"
-        app:mbn_backgroundBottomColor="@color/backgroundBottomColor"
+        app:mbn_backgroundBottomColor="@color/circleColor"
         app:mbn_circleColor="@color/circleColor"
         app:mbn_countBackgroundColor="@color/countBackgroundColor"
         app:mbn_countTextColor="@color/countTextColor"
@@ -37,7 +29,4 @@
         app:mbn_selectedIconColor="@color/selectedIconColor"
 
        />
-
-
-
-</FrameLayout>
+</LinearLayout>

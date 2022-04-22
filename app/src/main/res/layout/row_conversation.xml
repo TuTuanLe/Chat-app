@@ -6,22 +6,26 @@
     android:layout_height="wrap_content"
     android:padding="5dp">
 
-    <de.hdodenhof.circleimageview.CircleImageView
+    <com.makeramen.roundedimageview.RoundedImageView
         android:id="@+id/profile"
         android:layout_width="42dp"
         android:layout_height="42dp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        android:src="@drawable/avatar" />
+        android:src="@drawable/avatar"
+        android:scaleType="centerCrop"
+        app:riv_oval="true"
+
+        />
 
     <TextView
         android:id="@+id/username"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
-        android:text="Sample NAme"
+        android:text="Sample Name"
         android:textColor="@color/black"
-        android:textSize="12sp"
+        android:textSize="@dimen/_11ssp"
         android:textStyle="bold"
         app:layout_constraintStart_toEndOf="@+id/profile"
         app:layout_constraintTop_toTopOf="@+id/profile" />
@@ -33,9 +37,11 @@
         android:layout_marginTop="4dp"
         android:fontFamily="@font/roboto_light"
         android:text="TabToChat"
-        android:textSize="10sp"
+        android:textSize="@dimen/_10sdp"
         app:layout_constraintStart_toStartOf="@+id/username"
-        app:layout_constraintTop_toBottomOf="@+id/username" />
+        app:layout_constraintTop_toBottomOf="@+id/username"
+        android:maxLines="1"
+        />
 
     <TextView
         android:id="@+id/msgTime"
@@ -44,18 +50,9 @@
         android:layout_marginEnd="8dp"
         android:fontFamily="@font/roboto_light"
         android:text="6:00 PM"
-        android:textSize="12sp"
+        android:textSize="@dimen/_10ssp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
-    <View
-        android:id="@+id/view"
-        android:layout_width="0dp"
-        android:layout_height="0.5dp"
-        android:layout_marginTop="8dp"
-        android:background="#9E9797"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/profile" />
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -1,7 +1,31 @@
 package com.tutuanle.chatapp.models;
 
-public class User {
-    private  String uid, name, phoneNumber,profileImage;
+import java.io.Serializable;
+
+public class User  implements Serializable {
+    private  String uid;
+    private String name;
+    private String phoneNumber;
+    private String profileImage;
+    private String token;
+
+    public String getToken() {
+        return token;
+    }
+
+    public void setToken(String token) {
+        this.token = token;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
+    private String email;
 
     public User(String uid, String name, String phoneNumber, String profileImage) {
         this.uid = uid;
