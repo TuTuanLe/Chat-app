@@ -22,4 +22,5 @@
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="log_out">Log out</string>
     <string name="mode_theme">Mode theme</string>
+    <string name="type_a_message">type a message ...</string>
 </resources>
