@@ -14,8 +14,9 @@
         android:theme="@style/Theme.ChatApp"
         android:usesCleartextTraffic="true"
         tools:targetApi="m">
-
-
+        <activity
+            android:name=".activities.MainScreenActivity"
+            android:exported="false" />
         <activity
             android:name=".activities.SignUpActivity"
             android:exported="false"
@@ -43,10 +44,7 @@
         <activity
             android:name=".activities.PhoneNumberActivity"
             android:exported="true"
-            android:windowSoftInputMode="stateVisible">
-
-
-        </activity>
+            android:windowSoftInputMode="stateVisible" />
         <activity
             android:name=".activities.MainActivity"
             android:exported="true" />
@@ -54,6 +52,7 @@
         <meta-data
             android:name="preloaded_fonts"
             android:resource="@array/preloaded_fonts" />
+
         <service
             android:name=".firebase.MessagingService"
             android:exported="false">
