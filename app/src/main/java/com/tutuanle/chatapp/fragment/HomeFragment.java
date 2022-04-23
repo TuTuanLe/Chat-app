@@ -109,11 +109,12 @@ public class HomeFragment extends Fragment {
                             user.setEmail(queryDocumentSnapshot.getString(Constants.KEY_EMAIL));
                             user.setProfileImage(queryDocumentSnapshot.getString(Constants.KEY_IMAGE));
                             user.setToken(queryDocumentSnapshot.getString(Constants.KEY_FCM_TOKEN));
+                            user.setUid(queryDocumentSnapshot.getId());
                             users.add(user);
 
                         }
                         if(users.size()>0){
-                            Users_Adapter users_adapter = new Users_Adapter(users);
+                            Users_Adapter users_adapter = new Users_Adapter(users,mainScreenActivity);
 
                             RecyclerView temp = view.findViewById(R.id.userRecyclerView);
                             temp.setAdapter(users_adapter);

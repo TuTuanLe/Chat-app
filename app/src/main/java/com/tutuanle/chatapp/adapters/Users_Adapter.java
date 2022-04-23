@@ -10,17 +10,19 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.tutuanle.chatapp.databinding.ItemContainerUserBinding;
+import com.tutuanle.chatapp.interfaces.UserListener;
 import com.tutuanle.chatapp.models.User;
 
 import java.util.List;
 
 
-public class Users_Adapter extends  RecyclerView.Adapter<Users_Adapter.UserViewHolder>{
+public class Users_Adapter extends RecyclerView.Adapter<Users_Adapter.UserViewHolder> {
 
     private final List<User> users;
-
-    public Users_Adapter(List<User> users) {
+    private final UserListener userListener;
+    public Users_Adapter(List<User> users, UserListener userListener) {
         this.users = users;
+        this.userListener= userListener;
     }
 
     @NonNull
@@ -42,7 +44,7 @@ public class Users_Adapter extends  RecyclerView.Adapter<Users_Adapter.UserViewH
         return users.size();
     }
 
-    class UserViewHolder extends RecyclerView.ViewHolder{
+    class UserViewHolder extends RecyclerView.ViewHolder {
 
         ItemContainerUserBinding binding;
 
@@ -50,14 +52,17 @@ public class Users_Adapter extends  RecyclerView.Adapter<Users_Adapter.UserViewH
             super(itemContainerUserBinding.getRoot());
             binding = itemContainerUserBinding;
         }
-        void setUserData(User user)
-        {
+
+        void setUserData(User user) {
             binding.username.setText(user.getName());
-            binding.profile .setImageBitmap(getUserImage(user.getProfileImage()));
+            binding.profile.setImageBitmap(getUserImage(user.getProfileImage()));
+            binding.getRoot().setOnClickListener(v ->{ userListener.onUserClicked(user);
+
+            });
         }
     }
 
-    private Bitmap getUserImage(String encodedImage){
+    private Bitmap getUserImage(String encodedImage) {
         byte[] bytes = Base64.decode(encodedImage, Base64.DEFAULT);
         return BitmapFactory.decodeByteArray(bytes, 0, bytes.length);
     }

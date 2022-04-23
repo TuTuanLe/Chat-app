@@ -4,12 +4,12 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:padding="5dp"
+    android:padding="10dp"
     >
     <com.makeramen.roundedimageview.RoundedImageView
         android:id="@+id/profile"
-        android:layout_width="42dp"
-        android:layout_height="42dp"
+        android:layout_width="45dp"
+        android:layout_height="45dp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         android:src="@drawable/avatar"
@@ -23,6 +23,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
+        android:layout_marginTop="@dimen/_4sdp"
         android:text="Sample Name"
         android:textColor="@color/black"
         android:textSize="@dimen/_11ssp"
@@ -34,7 +35,7 @@
         android:id="@+id/lastMsg"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="4dp"
+
         android:fontFamily="@font/roboto_light"
         android:text="TabToChat"
         android:textSize="@dimen/_10sdp"

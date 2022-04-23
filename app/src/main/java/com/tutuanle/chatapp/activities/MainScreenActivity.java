@@ -23,12 +23,14 @@ import com.tutuanle.chatapp.fragment.ChatFragment;
 import com.tutuanle.chatapp.fragment.HomeFragment;
 import com.tutuanle.chatapp.fragment.SettingFragment;
 import com.tutuanle.chatapp.fragment.StoryFragment;
+import com.tutuanle.chatapp.interfaces.UserListener;
+import com.tutuanle.chatapp.models.User;
 import com.tutuanle.chatapp.utilities.Constants;
 import com.tutuanle.chatapp.utilities.PreferenceManager;
 
 import java.util.HashMap;
 
-public class MainScreenActivity extends AppCompatActivity {
+public class MainScreenActivity extends AppCompatActivity  implements UserListener {
     private ActivityMainScreenBinding binding;
     public PreferenceManager preferenceManager;
 
@@ -143,5 +145,13 @@ public class MainScreenActivity extends AppCompatActivity {
                 }
                 )
                 .addOnFailureListener(e ->showToast("Unable to sign out"));
+    }
+
+    @Override
+    public void onUserClicked(User user) {
+        Intent intent = new Intent(getApplicationContext(), ChatScreenActivity.class);
+        intent.putExtra(Constants.KEY_USER, user);
+        startActivity(intent);
+//        finish();
     }
 }

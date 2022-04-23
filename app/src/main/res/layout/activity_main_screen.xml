@@ -20,7 +20,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_weight="0"
-        app:mbn_shadowColor="@color/shadowColor"
+        app:mbn_shadowColor="@color/white"
         app:mbn_backgroundBottomColor="@color/circleColor"
         app:mbn_circleColor="@color/circleColor"
         app:mbn_countBackgroundColor="@color/countBackgroundColor"
