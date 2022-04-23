@@ -2,6 +2,8 @@ package com.tutuanle.chatapp.activities;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Intent;
 import android.graphics.Bitmap;
@@ -17,6 +19,7 @@ import com.google.firebase.firestore.FieldValue;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.messaging.FirebaseMessaging;
 import com.tutuanle.chatapp.R;
+import com.tutuanle.chatapp.adapters.TopStatusAdapter;
 import com.tutuanle.chatapp.databinding.ActivityMainBinding;
 import com.tutuanle.chatapp.databinding.ActivityMainScreenBinding;
 import com.tutuanle.chatapp.fragment.ChatFragment;
@@ -25,9 +28,11 @@ import com.tutuanle.chatapp.fragment.SettingFragment;
 import com.tutuanle.chatapp.fragment.StoryFragment;
 import com.tutuanle.chatapp.interfaces.UserListener;
 import com.tutuanle.chatapp.models.User;
+import com.tutuanle.chatapp.models.UserStatus;
 import com.tutuanle.chatapp.utilities.Constants;
 import com.tutuanle.chatapp.utilities.PreferenceManager;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 
 public class MainScreenActivity extends AppCompatActivity  implements UserListener {
@@ -40,6 +45,8 @@ public class MainScreenActivity extends AppCompatActivity  implements UserListen
     private final int ID_ACCOUNT = 4;
     private String textName ;
     private Bitmap bitmap;
+
+
 
     public String getTextName() {
         return textName;
@@ -64,9 +71,11 @@ public class MainScreenActivity extends AppCompatActivity  implements UserListen
         textName = preferenceManager.getString(Constants.KEY_NAME);
         byte[] bytes = Base64.decode(preferenceManager.getString(Constants.KEY_IMAGE),Base64.DEFAULT);
         bitmap = BitmapFactory.decodeByteArray(bytes, 0,bytes.length);
-
     }
 
+    private void loadUserStatuses(){
+
+    }
 
 
     private void setBottomNavigation (){
