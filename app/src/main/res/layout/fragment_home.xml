@@ -85,26 +85,47 @@
     </androidx.cardview.widget.CardView>
 
 
+
+
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight="1">
 
-        <FrameLayout
+
+
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="0dp"
-
+            android:orientation="vertical"
             >
             <androidx.recyclerview.widget.RecyclerView
+                android:layout_marginTop="@dimen/_10sdp"
+                android:layout_marginBottom="@dimen/_10ssp"
+                android:id="@+id/statusList"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:layout_constraintBottom_toTopOf="@+id/recyclerView"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                android:orientation="horizontal"
+                app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+                />
+
+            <androidx.recyclerview.widget.RecyclerView
+
                 android:id="@+id/userRecyclerView"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:clipToPadding="false"
-                android:overScrollMode="never"
+                android:overScrollMode="ifContentScrolls"
+
                 android:paddingTop="@dimen/_20sdp"
                 android:visibility="gone"
                 app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"/>
             <ProgressBar
+
                 android:id="@+id/progressBar"
                 android:layout_width="@dimen/_25sdp"
                 android:layout_height="@dimen/_25sdp"
@@ -121,7 +142,7 @@
                 android:visibility="gone"
                 />
 
-        </FrameLayout>
+        </LinearLayout>
 
     </ScrollView>
 

@@ -10,7 +10,6 @@ import android.util.Base64;
 import android.util.Log;
 import android.view.View;
 import android.view.inputmethod.EditorInfo;
-import android.widget.Toast;
 
 import com.google.firebase.firestore.DocumentChange;
 import com.google.firebase.firestore.EventListener;
@@ -30,6 +29,7 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
+import java.util.Objects;
 
 public class ChatScreenActivity extends AppCompatActivity {
     private ActivityChatScreenBinding binding;
@@ -106,7 +106,7 @@ public class ChatScreenActivity extends AppCompatActivity {
                     chatMessage.setSenderId(documentChange.getDocument().getString(Constants.KEY_SENDER_ID));
                     chatMessage.setReceiverId(documentChange.getDocument().getString(Constants.KEY_RECEIVER_ID));
                     chatMessage.setMessage(documentChange.getDocument().getString(Constants.KEY_MESSAGE));
-                    chatMessage.setFeeling(Integer.parseInt(documentChange.getDocument().getLong(Constants.KEY_FEELING).toString()));
+                    chatMessage.setFeeling(Integer.parseInt(Objects.requireNonNull(documentChange.getDocument().getLong(Constants.KEY_FEELING)).toString()));
                     chatMessage.setDateTime(getReadableDatetime(documentChange.getDocument().getDate(Constants.KEY_TIMESTAMP)));
                     chatMessage.dataObject = documentChange.getDocument().getDate(Constants.KEY_TIMESTAMP);
                     chatMessages.add(chatMessage);
@@ -116,12 +116,12 @@ public class ChatScreenActivity extends AppCompatActivity {
                  else if(documentChange.getType() == DocumentChange.Type.MODIFIED){
                     String docID = documentChange.getDocument().getId();
                     Log.d("FEELING_TEST", docID  + findMessage(docID));
-                    chatMessages.get(findMessage(docID)).setFeeling(Integer.parseInt(documentChange.getDocument().getLong(Constants.KEY_FEELING).toString()));
+                    chatMessages.get(findMessage(docID)).setFeeling(Integer.parseInt(Objects.requireNonNull(documentChange.getDocument().getLong(Constants.KEY_FEELING)).toString()));
 
                 } else if (documentChange.getType() == DocumentChange.Type.REMOVED) {
 
                     // remove
-                    String docID = documentChange.getDocument().getId();
+//                    String docID = documentChange.getDocument().getId();
                     chatMessages.remove(documentChange.getOldIndex());
                     chatAdapter.notifyItemRemoved(documentChange.getOldIndex());
                 }
@@ -142,9 +142,7 @@ public class ChatScreenActivity extends AppCompatActivity {
 
     private void setListener() {
         binding.imageBack.setOnClickListener(v -> onBackPressed());
-        binding.layoutSend.setOnClickListener(v -> {
-            sendMessage();
-        });
+        binding.layoutSend.setOnClickListener(v -> sendMessage());
     }
 
     private  int findMessage(String uid) {

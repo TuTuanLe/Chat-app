@@ -1,8 +1,10 @@
 package com.tutuanle.chatapp.fragment;
 
+import android.annotation.SuppressLint;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.util.Log;
@@ -19,8 +21,11 @@ import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.makeramen.roundedimageview.RoundedImageView;
 import com.tutuanle.chatapp.R;
 import com.tutuanle.chatapp.activities.MainScreenActivity;
+import com.tutuanle.chatapp.adapters.TopStatusAdapter;
 import com.tutuanle.chatapp.adapters.Users_Adapter;
+import com.tutuanle.chatapp.models.Status;
 import com.tutuanle.chatapp.models.User;
+import com.tutuanle.chatapp.models.UserStatus;
 import com.tutuanle.chatapp.utilities.Constants;
 import com.tutuanle.chatapp.utilities.PreferenceManager;
 
@@ -43,6 +48,9 @@ public class HomeFragment extends Fragment {
 
     private MainScreenActivity mainScreenActivity;
     private PreferenceManager preferenceManager;
+
+    private ArrayList<UserStatus> userStatuses;
+    private TopStatusAdapter statusAdapter;
 
     public HomeFragment() {
 
@@ -78,6 +86,7 @@ public class HomeFragment extends Fragment {
 
         initialData();
         getUSer();
+        getUserStatus();
         return view;
     }
 
@@ -89,6 +98,81 @@ public class HomeFragment extends Fragment {
         image.setImageBitmap(mainScreenActivity.getBitmap());
 
     }
+
+    @SuppressLint("NotifyDataSetChanged")
+    private void getUserStatus(){
+        userStatuses = new ArrayList<>();
+
+        statusAdapter = new TopStatusAdapter(mainScreenActivity, userStatuses);
+        RecyclerView temp = view.findViewById(R.id.statusList);
+
+        temp.setAdapter(statusAdapter);
+
+        ArrayList<Status> statuses = new ArrayList<>();
+
+
+
+        statuses.add(new Status(
+                "https://firebasestorage.googleapis.com/v0/b/chatsapp-4b8d6.appspot.com/o/status%2F1648451488181?alt=media&token=9e1f4eb7-8825-43c2-8220-106c92409620",
+                164845148
+        ));
+        statuses.add(new Status(
+                "https://firebasestorage.googleapis.com/v0/b/chatsapp-4b8d6.appspot.com/o/status%2F1648451488181?alt=media&token=9e1f4eb7-8825-43c2-8220-106c92409620",
+                164853774
+        ));
+
+
+        ArrayList<Status> statuses1 = new ArrayList<>();
+
+
+
+        statuses1.add(new Status(
+                "hhttps://images.unsplash.com/photo-1453728013993-6d66e9c9123a?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxzZWFyY2h8Mnx8dmlld3xlbnwwfHwwfHw%3D&w=1000&q=80",
+                164845148
+        ));
+        statuses1.add(new Status(
+                "https://www.w3schools.com/w3images/fjords.jpg",
+                164853774
+        ));
+        statuses1.add(new Status(
+                "https://st.depositphotos.com/1006706/2671/i/600/depositphotos_26715369-stock-photo-which-way-to-choose-3d.jpg",
+                164853774
+        ));
+
+        ArrayList<Status> statuses2 = new ArrayList<>();
+
+
+
+        statuses2.add(new Status(
+                "https://www.perma-horti.com/wp-content/uploads/2019/02/image-2.jpg",
+                164845148
+        ));
+
+
+        userStatuses.add(new UserStatus(
+          "Tuan Anh",
+            "https://firebasestorage.googleapis.com/v0/b/chatsapp-4b8d6.appspot.com/o/status%2F1648537741702?alt=media&token=685fb7d8-a05d-429d-9834-1db74b41ff0e",
+                164853810,
+                statuses
+        ));
+        userStatuses.add(new UserStatus(
+                "TuTuanLe",
+                "https://www.w3schools.com/w3images/fjords.jpg",
+                174853810,
+                statuses1
+        ));
+        userStatuses.add(new UserStatus(
+                "TAnh",
+                "https://images.unsplash.com/photo-1453728013993-6d66e9c9123a?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxzZWFyY2h8Mnx8dmlld3xlbnwwfHwwfHw%3D&w=1000&q=80",
+                184853810,
+                statuses2
+        ));
+
+
+        statusAdapter.notifyDataSetChanged();
+    }
+
+
 
     private void getUSer(){
         loading(true);
