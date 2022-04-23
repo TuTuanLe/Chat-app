@@ -5,4 +5,9 @@ on:
     branches: [ master ]
   pull_request:
     branches: [ master ]
-
+    
+jobs:
+  say-hello:
+    run-on: ubuntu-latest
+    step:
+      - run: echo Hello TAnh
