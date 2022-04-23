@@ -52,21 +52,7 @@ public class SignInActivity extends AppCompatActivity {
 
     }
 
-    private void addDataToFireStore() {
-        Toast.makeText(getApplicationContext(), "hello", Toast.LENGTH_SHORT).show();
-        FirebaseFirestore database = FirebaseFirestore.getInstance();
-        HashMap<String, Object> data = new HashMap<>();
-        data.put("first_name", "tutuanle");
-        data.put("last_name", "tanh");
-        database.collection("users")
-                .add(data)
-                .addOnSuccessListener(documentReference -> {
-                    Toast.makeText(getApplicationContext(), "Data Inserted", Toast.LENGTH_SHORT).show();
-                })
-                .addOnFailureListener(exception -> {
-                    Toast.makeText(getApplicationContext(), exception.getMessage(), Toast.LENGTH_SHORT).show();
-                });
-    }
+
 
     private void showToast(String message) {
         Toast.makeText(getApplicationContext(), message, Toast.LENGTH_SHORT).show();

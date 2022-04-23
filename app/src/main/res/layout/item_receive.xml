@@ -8,12 +8,13 @@
         android:id="@+id/roundedImageView"
         android:layout_width="@dimen/_25sdp"
         android:layout_height="@dimen/_25sdp"
+        android:layout_marginStart="@dimen/_10ssp"
         android:background="@drawable/background_image"
+
         android:scaleType="center"
+
         app:layout_constraintBottom_toBottomOf="@+id/message"
         app:layout_constraintStart_toStartOf="parent"
-
-        android:layout_marginStart="@dimen/_10ssp"
         app:riv_oval="true" />
 
     <TextView
@@ -28,19 +29,22 @@
         android:textSize="@dimen/_13ssp"
         app:layout_constraintStart_toEndOf="@+id/roundedImageView"
         app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintWidth_max="wrap"
         app:layout_constraintWidth_percent="0.75" />
 
     <ImageView
         android:id="@+id/feeling"
         android:layout_width="16dp"
         android:layout_height="16dp"
+        android:contentDescription="@string/app_name"
         android:visibility="invisible"
         app:layout_constraintBottom_toBottomOf="@+id/message"
         app:layout_constraintEnd_toEndOf="@+id/message"
+        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toEndOf="@+id/message"
         app:layout_constraintTop_toTopOf="parent"
-        app:srcCompat="@drawable/ic_fb_love"
-        android:contentDescription="@string/app_name" />
+        app:layout_constraintVertical_bias="1.0"
+        app:srcCompat="@drawable/ic_fb_love" />
 
     <TextView
         android:id="@+id/textDateTime"

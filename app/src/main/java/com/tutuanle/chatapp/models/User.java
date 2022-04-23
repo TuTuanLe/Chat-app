@@ -2,8 +2,8 @@ package com.tutuanle.chatapp.models;
 
 import java.io.Serializable;
 
-public class User  implements Serializable {
-    private  String uid;
+public class User implements Serializable {
+    private String uid;
     private String name;
     private String phoneNumber;
     private String profileImage;

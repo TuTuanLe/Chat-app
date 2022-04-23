@@ -113,6 +113,19 @@
             android:textColor="@color/primary_text"
             android:textSize="@dimen/_13ssp" />
 
+        <EditText
+            android:id="@+id/inputNumberPhone"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/_45sdp"
+            android:layout_marginTop="@dimen/_16sdp"
+            android:hint="@string/number_phone"
+            android:imeOptions="actionNext"
+            android:importantForAutofill="no"
+            android:inputType="phone"
+            android:paddingStart="@dimen/_16sdp"
+            android:paddingEnd="@dimen/_16sdp"
+            android:textColor="@color/primary_text"
+            android:textSize="@dimen/_13ssp" />
 
         <FrameLayout
             android:layout_width="match_parent"

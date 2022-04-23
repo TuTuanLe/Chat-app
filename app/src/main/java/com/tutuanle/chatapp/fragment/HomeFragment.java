@@ -109,6 +109,7 @@ public class HomeFragment extends Fragment {
                             user.setEmail(queryDocumentSnapshot.getString(Constants.KEY_EMAIL));
                             user.setProfileImage(queryDocumentSnapshot.getString(Constants.KEY_IMAGE));
                             user.setToken(queryDocumentSnapshot.getString(Constants.KEY_FCM_TOKEN));
+                            user.setUid(queryDocumentSnapshot.getId());
                             users.add(user);
 
                         }

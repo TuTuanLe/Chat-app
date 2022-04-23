@@ -1,5 +1,7 @@
 package com.tutuanle.chatapp.models;
 
+import java.util.Date;
+
 public class ChatMessage {
     public String getSenderId() {
         return senderId;
@@ -33,5 +35,29 @@ public class ChatMessage {
         this.dateTime = dateTime;
     }
 
-    private String senderId, receiverId, message, dateTime;
+    public Date dataObject;
+    private String senderId;
+    private String receiverId;
+
+    public String getMessageId() {
+        return messageId;
+    }
+
+    public void setMessageId(String messageId) {
+        this.messageId = messageId;
+    }
+
+    private String messageId;
+    private String message;
+    private String dateTime;
+
+    public int getFeeling() {
+        return feeling;
+    }
+
+    public void setFeeling(int feeling) {
+        this.feeling = feeling;
+    }
+
+    private int feeling =-1;
 }
