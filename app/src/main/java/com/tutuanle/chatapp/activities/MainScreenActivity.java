@@ -1,26 +1,18 @@
 package com.tutuanle.chatapp.activities;
-
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
-
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.util.Base64;
 import android.widget.Toast;
-
-
 import com.etebarian.meowbottomnavigation.MeowBottomNavigation;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.FieldValue;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.messaging.FirebaseMessaging;
 import com.tutuanle.chatapp.R;
-import com.tutuanle.chatapp.adapters.TopStatusAdapter;
-import com.tutuanle.chatapp.databinding.ActivityMainBinding;
 import com.tutuanle.chatapp.databinding.ActivityMainScreenBinding;
 import com.tutuanle.chatapp.fragment.ChatFragment;
 import com.tutuanle.chatapp.fragment.HomeFragment;
@@ -28,11 +20,8 @@ import com.tutuanle.chatapp.fragment.SettingFragment;
 import com.tutuanle.chatapp.fragment.StoryFragment;
 import com.tutuanle.chatapp.interfaces.UserListener;
 import com.tutuanle.chatapp.models.User;
-import com.tutuanle.chatapp.models.UserStatus;
 import com.tutuanle.chatapp.utilities.Constants;
 import com.tutuanle.chatapp.utilities.PreferenceManager;
-
-import java.util.ArrayList;
 import java.util.HashMap;
 
 public class MainScreenActivity extends AppCompatActivity  implements UserListener {
@@ -73,9 +62,7 @@ public class MainScreenActivity extends AppCompatActivity  implements UserListen
         bitmap = BitmapFactory.decodeByteArray(bytes, 0,bytes.length);
     }
 
-    private void loadUserStatuses(){
 
-    }
 
 
     private void setBottomNavigation (){
@@ -131,12 +118,8 @@ public class MainScreenActivity extends AppCompatActivity  implements UserListen
         DocumentReference documentReference = database.collection(Constants.KEY_COLLECTION_USERS)
                 .document(preferenceManager.getString(Constants.KEY_USER_ID));
         documentReference.update(Constants.KEY_FCM_TOKEN, token)
-                .addOnSuccessListener( item->{
-                    showToast("Token update successfully");
-                })
-                .addOnFailureListener(item->{
-                    showToast("Unable to update token");
-                });
+                .addOnSuccessListener( item-> showToast("Token update successfully"))
+                .addOnFailureListener(item->showToast("Unable to update token"));
     }
 
     public void  signOut(){

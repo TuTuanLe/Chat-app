@@ -21,8 +21,10 @@ import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.makeramen.roundedimageview.RoundedImageView;
 import com.tutuanle.chatapp.R;
 import com.tutuanle.chatapp.activities.MainScreenActivity;
+import com.tutuanle.chatapp.adapters.HomeFriendAdapter;
 import com.tutuanle.chatapp.adapters.TopStatusAdapter;
 import com.tutuanle.chatapp.adapters.Users_Adapter;
+import com.tutuanle.chatapp.models.ChatMessage;
 import com.tutuanle.chatapp.models.Status;
 import com.tutuanle.chatapp.models.User;
 import com.tutuanle.chatapp.models.UserStatus;
@@ -40,7 +42,6 @@ import java.util.List;
 public class HomeFragment extends Fragment {
 
 
-
     private static final String ARG_PARAM1 = "param1";
     private static final String ARG_PARAM2 = "param2";
 
@@ -51,15 +52,14 @@ public class HomeFragment extends Fragment {
 
     private ArrayList<UserStatus> userStatuses;
     private TopStatusAdapter statusAdapter;
+    private HomeFriendAdapter homeFriendAdapter;
+    private FirebaseFirestore database;
+    private List<ChatMessage> listFriends;
+
 
     public HomeFragment() {
 
     }
-
-
-
-
-
 
 
     public static HomeFragment newInstance(String param1, String param2) {
@@ -79,8 +79,8 @@ public class HomeFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        view =  inflater.inflate(R.layout.fragment_home, container, false);
-        mainScreenActivity =(MainScreenActivity) getActivity();
+        view = inflater.inflate(R.layout.fragment_home, container, false);
+        mainScreenActivity = (MainScreenActivity) getActivity();
         assert mainScreenActivity != null;
         preferenceManager = mainScreenActivity.preferenceManager;
 
@@ -92,15 +92,23 @@ public class HomeFragment extends Fragment {
 
     private void initialData() {
 
-        TextView temp= view.findViewById(R.id.nameTextView);
+        TextView temp = view.findViewById(R.id.nameTextView);
         temp.setText(mainScreenActivity.getTextName());
         RoundedImageView image = view.findViewById(R.id.imageProfile);
         image.setImageBitmap(mainScreenActivity.getBitmap());
-
     }
 
+    private void initFriend() {
+        listFriends = new ArrayList<>();
+        homeFriendAdapter = new HomeFriendAdapter(listFriends);
+        RecyclerView temp = view.findViewById(R.id.userRecyclerView);
+        temp.setAdapter(homeFriendAdapter);
+        database = FirebaseFirestore.getInstance();
+    }
+
+
     @SuppressLint("NotifyDataSetChanged")
-    private void getUserStatus(){
+    private void getUserStatus() {
         userStatuses = new ArrayList<>();
 
         statusAdapter = new TopStatusAdapter(mainScreenActivity, userStatuses);
@@ -109,7 +117,6 @@ public class HomeFragment extends Fragment {
         temp.setAdapter(statusAdapter);
 
         ArrayList<Status> statuses = new ArrayList<>();
-
 
 
         statuses.add(new Status(
@@ -123,7 +130,6 @@ public class HomeFragment extends Fragment {
 
 
         ArrayList<Status> statuses1 = new ArrayList<>();
-
 
 
         statuses1.add(new Status(
@@ -142,7 +148,6 @@ public class HomeFragment extends Fragment {
         ArrayList<Status> statuses2 = new ArrayList<>();
 
 
-
         statuses2.add(new Status(
                 "https://www.perma-horti.com/wp-content/uploads/2019/02/image-2.jpg",
                 164845148
@@ -150,8 +155,8 @@ public class HomeFragment extends Fragment {
 
 
         userStatuses.add(new UserStatus(
-          "Tuan Anh",
-            "https://firebasestorage.googleapis.com/v0/b/chatsapp-4b8d6.appspot.com/o/status%2F1648537741702?alt=media&token=685fb7d8-a05d-429d-9834-1db74b41ff0e",
+                "Tuan Anh",
+                "https://firebasestorage.googleapis.com/v0/b/chatsapp-4b8d6.appspot.com/o/status%2F1648537741702?alt=media&token=685fb7d8-a05d-429d-9834-1db74b41ff0e",
                 164853810,
                 statuses
         ));
@@ -173,19 +178,18 @@ public class HomeFragment extends Fragment {
     }
 
 
-
-    private void getUSer(){
+    private void getUSer() {
         loading(true);
-        FirebaseFirestore database  =FirebaseFirestore.getInstance();
-        database.collection(Constants.KEY_COLLECTION_USERS  )
+        FirebaseFirestore database = FirebaseFirestore.getInstance();
+        database.collection(Constants.KEY_COLLECTION_USERS)
                 .get()
                 .addOnCompleteListener(task -> {
                     loading(false);
                     String currentUserId = preferenceManager.getString(Constants.KEY_USER_ID);
-                    if(task.isSuccessful() && task.getResult() != null){
+                    if (task.isSuccessful() && task.getResult() != null) {
                         List<User> users = new ArrayList<>();
-                        for (QueryDocumentSnapshot queryDocumentSnapshot :task.getResult()){
-                            if(currentUserId.equals(queryDocumentSnapshot.getId())){
+                        for (QueryDocumentSnapshot queryDocumentSnapshot : task.getResult()) {
+                            if (currentUserId.equals(queryDocumentSnapshot.getId())) {
                                 continue;
                             }
                             User user = new User();
@@ -197,29 +201,31 @@ public class HomeFragment extends Fragment {
                             users.add(user);
 
                         }
-                        if(users.size()>0){
-                            Users_Adapter users_adapter = new Users_Adapter(users,mainScreenActivity);
+                        if (users.size() > 0) {
+                            Users_Adapter users_adapter = new Users_Adapter(users, mainScreenActivity);
 
                             RecyclerView temp = view.findViewById(R.id.userRecyclerView);
                             temp.setAdapter(users_adapter);
                             temp.setVisibility(View.VISIBLE);
-                        }else{
+                        } else {
                             showErrorMessage();
                         }
                     }
                 });
     }
-    private void loading(Boolean isLoading){
+
+    private void loading(Boolean isLoading) {
         ProgressBar temp = view.findViewById(R.id.progressBar);
-        if(isLoading){
+        if (isLoading) {
             temp.setVisibility(View.VISIBLE);
-        }else{
+        } else {
             temp.setVisibility(View.INVISIBLE);
         }
     }
-    private  void showErrorMessage(){
+
+    private void showErrorMessage() {
         TextView temp = view.findViewById(R.id.textErrorMessage);
-        temp.setText("No user available");
+        temp.setText("Not exist");
         temp.setVisibility(View.VISIBLE);
     }
 }

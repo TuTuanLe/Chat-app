@@ -18,9 +18,9 @@ public class Constants {
     public static final String KEY_COLLECTION_CHAT = "chat";
     public static final String KEY_MESSAGE = "message";
     public static final String KEY_TIMESTAMP = "timestamp";
-    public static final String KEY_FEELING ="feeling";
+    public static final String KEY_FEELING = "feeling";
 
-    public static int REACTIONS[] = new int[]{
+    public static int[] REACTIONS = new int[]{
             R.drawable.ic_fb_like,
             R.drawable.ic_fb_love,
             R.drawable.ic_fb_laugh,
@@ -28,4 +28,12 @@ public class Constants {
             R.drawable.ic_fb_sad,
             R.drawable.ic_fb_angry
     };
+
+    public static final String KEY_CONVERSATIONS = "conversations";
+    public static final String KEY_SENDER_NAME = "senderName";
+    public static final String KEY_SENDER_IMAGE = "senderImage";
+    public static final String KEY_RECEIVER_NAME = "receiverName";
+    public static final String KEY_RECEIVER_IMAGE = "receiverImage";
+
+
 }
