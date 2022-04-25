@@ -15,9 +15,12 @@
         android:usesCleartextTraffic="true"
         tools:targetApi="m">
         <activity
-            android:name=".activities.ChatScreenActivity"
-            android:windowSoftInputMode="adjustResize"
+            android:name=".activities.infoGoogleAcc"
             android:exported="false" />
+        <activity
+            android:name=".activities.ChatScreenActivity"
+            android:exported="false"
+            android:windowSoftInputMode="adjustResize" />
         <activity
             android:name=".activities.ProfileActivity"
             android:exported="false" />
