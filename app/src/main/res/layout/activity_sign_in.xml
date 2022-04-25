@@ -178,9 +178,7 @@
             android:backgroundTint="#E94134"
             android:text="@string/login_width_google"
             android:textColor="@color/white"
-            android:textStyle="normal"
-
-            />
+            android:textStyle="normal" />
 
     </LinearLayout>
 </ScrollView>
