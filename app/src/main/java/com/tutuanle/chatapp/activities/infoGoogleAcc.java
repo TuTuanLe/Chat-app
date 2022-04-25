@@ -6,6 +6,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.google.android.gms.auth.api.signin.GoogleSignIn;
@@ -44,19 +45,16 @@ public class infoGoogleAcc extends AppCompatActivity {
             binding.txtImg.setText("img uri : "+ acct.getPhotoUrl());
         }
 
+        // signout  account GG when click btn Logout
+
+        binding.btnLogoutGG.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                signOut();
+            }
+        });
 
     }
-
-    // signout  account GG when click btn Logout
-    public void onClick(View v) {
-        switch (v.getId()) {
-            // ...
-            case R.id.btnLogoutGG:
-                signOut();
-                break;
-            // ...
-        }
-    };
 
     // after click logout show Sigin Screen
     private void signOut() {
