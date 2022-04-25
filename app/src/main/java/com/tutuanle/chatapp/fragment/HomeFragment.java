@@ -14,10 +14,13 @@ import android.view.ViewGroup;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
+import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.errorprone.annotations.Var;
+import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.Query;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
+import com.google.firebase.firestore.QuerySnapshot;
 import com.makeramen.roundedimageview.RoundedImageView;
 import com.tutuanle.chatapp.R;
 import com.tutuanle.chatapp.activities.MainScreenActivity;
@@ -55,6 +58,8 @@ public class HomeFragment extends Fragment {
     private HomeFriendAdapter homeFriendAdapter;
     private FirebaseFirestore database;
     private List<ChatMessage> listFriends;
+    private String conversionId = null;
+    private User receiverUser;
 
 
     public HomeFragment() {
@@ -228,4 +233,35 @@ public class HomeFragment extends Fragment {
         temp.setText("Not exist");
         temp.setVisibility(View.VISIBLE);
     }
+
+    private void checkForConversion(){
+        if(listFriends.size() != 0  ){
+            checkForConversionRemotely(
+                    preferenceManager.getString(Constants.KEY_USER_ID),
+                    receiverUser.getUid()
+            );
+        }else{
+            checkForConversionRemotely(
+                    receiverUser.getUid(),
+                    preferenceManager.getString(Constants.KEY_USER_ID)
+            );
+        }
+    }
+
+
+    private void checkForConversionRemotely(String senderId, String receiverId){
+        database.collection(Constants.KEY_COLLECTION_CONVERSATIONS)
+                .whereEqualTo(Constants.KEY_SENDER_ID, senderId)
+                .whereEqualTo(Constants.KEY_RECEIVER_ID, receiverId)
+                .get()
+                .addOnCompleteListener(conversionOnCompleteListener);
+    }
+
+
+    private final OnCompleteListener<QuerySnapshot> conversionOnCompleteListener  = task -> {
+        if(task.isSuccessful() && task.getResult() != null  && task.getResult().getDocuments().size() > 0  ){
+            DocumentSnapshot documentSnapshot = task.getResult().getDocuments().get(0);
+            conversionId = documentSnapshot.getId();
+        }
+    };
 }

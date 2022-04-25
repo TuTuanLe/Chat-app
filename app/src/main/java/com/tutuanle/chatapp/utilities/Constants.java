@@ -29,7 +29,7 @@ public class Constants {
             R.drawable.ic_fb_angry
     };
 
-    public static final String KEY_CONVERSATIONS = "conversations";
+    public static final String KEY_COLLECTION_CONVERSATIONS = "conversations";
     public static final String KEY_SENDER_NAME = "senderName";
     public static final String KEY_SENDER_IMAGE = "senderImage";
     public static final String KEY_RECEIVER_NAME = "receiverName";
