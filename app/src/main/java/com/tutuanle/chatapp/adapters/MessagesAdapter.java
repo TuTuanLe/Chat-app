@@ -156,6 +156,7 @@ public class MessagesAdapter extends  RecyclerView.Adapter {
                     return false;
                 }
             });
+
         }
     }
 

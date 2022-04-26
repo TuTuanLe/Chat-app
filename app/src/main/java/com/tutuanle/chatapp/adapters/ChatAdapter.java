@@ -9,6 +9,7 @@ import android.view.LayoutInflater;
 
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ScrollView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -76,6 +77,7 @@ public class ChatAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
                 .build();
 
         ReactionPopup popup = new ReactionPopup(context, config, (pos) -> {
+            if(pos < 0 ) return false;
             if (holder.getClass() == SentMessageViewHolder.class) {
                 SentMessageViewHolder viewHolder = (SentMessageViewHolder) holder;
                 viewHolder.binding.feeling.setImageResource(Constants.REACTIONS[pos]);
@@ -114,10 +116,14 @@ public class ChatAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
                 viewHolder.binding.feeling.setVisibility(View.GONE);
             }
 
-            viewHolder.binding.message.setOnTouchListener((view, motionEvent) -> {
-                popup.onTouch(view, motionEvent);
-                return false;
-            });
+                viewHolder.binding.message.setOnTouchListener((view, motionEvent) -> {
+                    popup.onTouch(view, motionEvent);
+                    return false;
+                });
+
+
+
+
         }
 
         if (getItemViewType(position) == VIEW_TYPE_SENT) {
