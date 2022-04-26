@@ -110,16 +110,17 @@ public class ChatScreenActivity extends AppCompatActivity {
                     chatMessage.setDateTime(getReadableDatetime(documentChange.getDocument().getDate(Constants.KEY_TIMESTAMP)));
                     chatMessage.dataObject = documentChange.getDocument().getDate(Constants.KEY_TIMESTAMP);
                     chatMessages.add(chatMessage);
-
-
                 }
                  else if(documentChange.getType() == DocumentChange.Type.MODIFIED){
                     String docID = documentChange.getDocument().getId();
-                    Log.d("FEELING_TEST", docID  + findMessage(docID));
-                    chatMessages.get(findMessage(docID)).setFeeling(Integer.parseInt(Objects.requireNonNull(documentChange.getDocument().getLong(Constants.KEY_FEELING)).toString()));
 
+                    chatMessages.get(findMessage(docID)).setFeeling(
+                            Integer.parseInt(  Objects.requireNonNull(documentChange.getDocument().getLong(Constants.KEY_FEELING)).toString()) );
+
+                    Log.d("FEELING_TEST", docID  + "  -  " + findMessage(docID) );
+                    chatAdapter.notifyDataSetChanged();
                 } else if (documentChange.getType() == DocumentChange.Type.REMOVED) {
-
+//
                     // remove
 //                    String docID = documentChange.getDocument().getId();
                     chatMessages.remove(documentChange.getOldIndex());
