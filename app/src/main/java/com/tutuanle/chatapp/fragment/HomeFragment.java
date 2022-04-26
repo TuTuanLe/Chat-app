@@ -16,7 +16,9 @@ import android.widget.TextView;
 
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.errorprone.annotations.Var;
+import com.google.firebase.firestore.DocumentChange;
 import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.EventListener;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.Query;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
@@ -35,7 +37,9 @@ import com.tutuanle.chatapp.utilities.Constants;
 import com.tutuanle.chatapp.utilities.PreferenceManager;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
+import java.util.Objects;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -58,8 +62,6 @@ public class HomeFragment extends Fragment {
     private HomeFriendAdapter homeFriendAdapter;
     private FirebaseFirestore database;
     private List<ChatMessage> listFriends;
-    private String conversionId = null;
-    private User receiverUser;
 
 
     public HomeFragment() {
@@ -92,8 +94,11 @@ public class HomeFragment extends Fragment {
         initialData();
         getUSer();
         getUserStatus();
+//        initFriend();
+//        listenListFriend();
         return view;
     }
+
 
     private void initialData() {
 
@@ -234,34 +239,77 @@ public class HomeFragment extends Fragment {
         temp.setVisibility(View.VISIBLE);
     }
 
-    private void checkForConversion(){
-        if(listFriends.size() != 0  ){
-            checkForConversionRemotely(
-                    preferenceManager.getString(Constants.KEY_USER_ID),
-                    receiverUser.getUid()
-            );
-        }else{
-            checkForConversionRemotely(
-                    receiverUser.getUid(),
-                    preferenceManager.getString(Constants.KEY_USER_ID)
-            );
-        }
-    }
-
-
-    private void checkForConversionRemotely(String senderId, String receiverId){
+    private void listenListFriend() {
         database.collection(Constants.KEY_COLLECTION_CONVERSATIONS)
-                .whereEqualTo(Constants.KEY_SENDER_ID, senderId)
-                .whereEqualTo(Constants.KEY_RECEIVER_ID, receiverId)
-                .get()
-                .addOnCompleteListener(conversionOnCompleteListener);
+                .whereEqualTo(Constants.KEY_SENDER_ID, preferenceManager.getString(Constants.KEY_USER_ID))
+                .addSnapshotListener(eventListener);
+        database.collection(Constants.KEY_COLLECTION_CONVERSATIONS)
+                .whereEqualTo(Constants.KEY_RECEIVER_ID, preferenceManager.getString(Constants.KEY_USER_ID))
+                .addSnapshotListener(eventListener);
     }
 
 
-    private final OnCompleteListener<QuerySnapshot> conversionOnCompleteListener  = task -> {
-        if(task.isSuccessful() && task.getResult() != null  && task.getResult().getDocuments().size() > 0  ){
-            DocumentSnapshot documentSnapshot = task.getResult().getDocuments().get(0);
-            conversionId = documentSnapshot.getId();
+    @SuppressLint("NotifyDataSetChanged")
+    private final EventListener<QuerySnapshot> eventListener = (value, error) -> {
+        if (error != null) {
+            return;
         }
+        if (value != null) {
+
+
+            for (DocumentChange documentChange : value.getDocumentChanges()) {
+
+
+                if (documentChange.getType() == DocumentChange.Type.ADDED) {
+
+                    String senderID = documentChange.getDocument().getString(Constants.KEY_SENDER_ID);
+                    String receiverID = documentChange.getDocument().getString(Constants.KEY_RECEIVER_ID);
+                    ChatMessage chatMessage = new ChatMessage();
+                    chatMessage.setMessageId(documentChange.getDocument().getId());
+                    chatMessage.setSenderId(documentChange.getDocument().getString(Constants.KEY_SENDER_ID));
+                    chatMessage.setReceiverId(documentChange.getDocument().getString(Constants.KEY_RECEIVER_ID));
+
+                    if (preferenceManager.getString(Constants.KEY_USER_ID).equals(senderID)) {
+                        chatMessage.setConversionImage(documentChange.getDocument().getString(Constants.KEY_RECEIVER_IMAGE));
+                        chatMessage.setConversionName(documentChange.getDocument().getString(Constants.KEY_RECEIVER_NAME));
+                        chatMessage.setConversionId(documentChange.getDocument().getString(Constants.KEY_RECEIVER_ID));
+
+                    } else {
+                        chatMessage.setConversionImage(documentChange.getDocument().getString(Constants.KEY_SENDER_IMAGE));
+                        chatMessage.setConversionName(documentChange.getDocument().getString(Constants.KEY_SENDER_NAME));
+                        chatMessage.setConversionId(documentChange.getDocument().getString(Constants.KEY_SENDER_ID));
+                    }
+                    chatMessage.setMessage(documentChange.getDocument().getString(Constants.KEY_LAST_MESSAGE));
+                    chatMessage.dataObject = documentChange.getDocument().getDate(Constants.KEY_TIMESTAMP);
+                    listFriends.add(chatMessage);
+
+                } else if (documentChange.getType() == DocumentChange.Type.MODIFIED) {
+                    String senderID = documentChange.getDocument().getString(Constants.KEY_SENDER_ID);
+                    String receiverID = documentChange.getDocument().getString(Constants.KEY_RECEIVER_ID);
+                    for (int i = 0; i < listFriends.size(); i++) {
+                        if (listFriends.get(i).getSenderId().equals(senderID) && listFriends.get(i).getReceiverId().equals(receiverID)) {
+                            listFriends.get(i).setMessage(documentChange.getDocument().getString(Constants.KEY_LAST_MESSAGE));
+                            listFriends.get(i).dataObject = documentChange.getDocument().getDate(Constants.KEY_TIMESTAMP);
+                            break;
+                        }
+                    }
+                }
+                Collections.sort(listFriends, (x, y) -> x.dataObject.compareTo(y.dataObject));
+                homeFriendAdapter.notifyDataSetChanged();
+                RecyclerView temp = view.findViewById(R.id.userRecyclerView);
+                temp.smoothScrollToPosition(0);
+
+                temp.setVisibility(View.VISIBLE);
+
+                ProgressBar progressBar = view.findViewById(R.id.progressBar);
+                progressBar.setVisibility(View.GONE);
+
+
+            }
+
+        }
+
+
     };
+
 }
