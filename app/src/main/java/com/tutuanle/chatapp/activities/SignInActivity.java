@@ -135,6 +135,7 @@ public class SignInActivity extends AppCompatActivity {
     private void loginWithGoogle(){
         Intent signInIntent = mGoogleSignInClient.getSignInIntent();
         startActivityForResult(signInIntent, RC_SIGN_IN);
+
     }
 
     public void onActivityResult(int requestCode, int resultCode, Intent data) {

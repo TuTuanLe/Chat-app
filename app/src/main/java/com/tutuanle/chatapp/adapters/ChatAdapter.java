@@ -80,12 +80,12 @@ public class ChatAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
                 SentMessageViewHolder viewHolder = (SentMessageViewHolder) holder;
                 viewHolder.binding.feeling.setImageResource(Constants.REACTIONS[pos]);
                 viewHolder.binding.feeling.setVisibility(View.VISIBLE);
-                viewHolder.binding.message.setText("ltt");
+
             } else {
                 ReceiverMessageViewHolder viewHolder = (ReceiverMessageViewHolder) holder;
                 viewHolder.binding.feeling.setImageResource(Constants.REACTIONS[pos]);
                 viewHolder.binding.feeling.setVisibility(View.VISIBLE);
-                viewHolder.binding.message.setText("ltt");
+
             }
             message.setFeeling(pos);
             updateFeeling(message.getFeeling(), message.getMessageId());

@@ -3,10 +3,10 @@ package com.tutuanle.chatapp.activities;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
-import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.google.android.gms.auth.api.signin.GoogleSignIn;
@@ -15,7 +15,7 @@ import com.google.android.gms.auth.api.signin.GoogleSignInClient;
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
-import com.tutuanle.chatapp.R;
+
 import com.tutuanle.chatapp.databinding.ActivityInfoGoogleAccBinding;
 
 public class infoGoogleAcc extends AppCompatActivity {
@@ -24,6 +24,7 @@ public class infoGoogleAcc extends AppCompatActivity {
     private ActivityInfoGoogleAccBinding binding;
 
 
+    @SuppressLint("SetTextI18n")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -59,12 +60,9 @@ public class infoGoogleAcc extends AppCompatActivity {
     // after click logout show Sigin Screen
     private void signOut() {
         mGoogleSignInClient.signOut()
-                .addOnCompleteListener(this, new OnCompleteListener<Void>() {
-                    @Override
-                    public void onComplete(@NonNull Task<Void> task) {
-                        Intent intent = new Intent(getApplicationContext(), SignInActivity.class);
-                        startActivity(intent);
-                    }
+                .addOnCompleteListener(this, task -> {
+                    Intent intent = new Intent(getApplicationContext(), SignInActivity.class);
+                    startActivity(intent);
                 });
     }
 }

@@ -118,7 +118,7 @@ public class MainScreenActivity extends AppCompatActivity  implements UserListen
         DocumentReference documentReference = database.collection(Constants.KEY_COLLECTION_USERS)
                 .document(preferenceManager.getString(Constants.KEY_USER_ID));
         documentReference.update(Constants.KEY_FCM_TOKEN, token)
-                .addOnSuccessListener( item-> showToast("Token update successfully"))
+                .addOnSuccessListener( item-> {})
                 .addOnFailureListener(item->showToast("Unable to update token"));
     }
 
