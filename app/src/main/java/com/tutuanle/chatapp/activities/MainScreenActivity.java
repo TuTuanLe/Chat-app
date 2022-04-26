@@ -137,6 +137,7 @@ public class MainScreenActivity extends AppCompatActivity  implements UserListen
                 }
                 )
                 .addOnFailureListener(e ->showToast("Unable to sign out"));
+
     }
 
     @Override

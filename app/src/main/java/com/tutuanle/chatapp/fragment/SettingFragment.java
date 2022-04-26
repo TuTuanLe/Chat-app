@@ -10,6 +10,9 @@ import android.view.ViewGroup;
 import android.widget.FrameLayout;
 import android.widget.TextView;
 
+import com.google.android.gms.auth.api.signin.GoogleSignIn;
+import com.google.android.gms.auth.api.signin.GoogleSignInClient;
+import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
 import com.makeramen.roundedimageview.RoundedImageView;
 import com.tutuanle.chatapp.R;
 import com.tutuanle.chatapp.activities.MainScreenActivity;
@@ -24,7 +27,7 @@ public class SettingFragment extends Fragment {
     private View view;
 
     private MainScreenActivity mainScreenActivity;
-
+    private GoogleSignInClient mGoogleSignInClient;
 
     public SettingFragment() {
 
@@ -69,7 +72,10 @@ public class SettingFragment extends Fragment {
     private void setListeners(){
         FrameLayout frameLayout =  view.findViewById(R.id.logout);
         frameLayout.setOnClickListener( v-> {
+            GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN).requestEmail().build();
+            mGoogleSignInClient = GoogleSignIn.getClient(mainScreenActivity, gso);
             mainScreenActivity.signOut();
+            mGoogleSignInClient.signOut();
         });
 
     }
