@@ -183,7 +183,7 @@ public class ChatScreenActivity extends AppCompatActivity {
 
         }else {
             HashMap<String, Object> conversion = new HashMap<>();
-            conversion.put(Constants.KEY_SENDER_ID, preferenceManager.getString(Constants.KEY_USER));
+            conversion.put(Constants.KEY_SENDER_ID, preferenceManager.getString(Constants.KEY_USER_ID));
             conversion.put(Constants.KEY_SENDER_NAME, preferenceManager.getString(Constants.KEY_NAME));
             conversion.put(Constants.KEY_SENDER_IMAGE,preferenceManager.getString(Constants.KEY_IMAGE));
             conversion.put(Constants.KEY_RECEIVER_ID, receiverUSer.getUid());
@@ -218,6 +218,9 @@ public class ChatScreenActivity extends AppCompatActivity {
                 Constants.KEY_TIMESTAMP, new Date()
         );
     }
+
+
+
 
 
     private void checkForConversion(){

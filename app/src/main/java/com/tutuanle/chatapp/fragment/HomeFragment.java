@@ -4,8 +4,9 @@ import android.annotation.SuppressLint;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
-import androidx.recyclerview.widget.LinearLayoutManager;
+
 import androidx.recyclerview.widget.RecyclerView;
+
 
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -14,13 +15,12 @@ import android.view.ViewGroup;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
-import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.errorprone.annotations.Var;
+
 import com.google.firebase.firestore.DocumentChange;
-import com.google.firebase.firestore.DocumentSnapshot;
+
 import com.google.firebase.firestore.EventListener;
 import com.google.firebase.firestore.FirebaseFirestore;
-import com.google.firebase.firestore.Query;
+
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
 import com.makeramen.roundedimageview.RoundedImageView;
@@ -36,10 +36,12 @@ import com.tutuanle.chatapp.models.UserStatus;
 import com.tutuanle.chatapp.utilities.Constants;
 import com.tutuanle.chatapp.utilities.PreferenceManager;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Date;
 import java.util.List;
-import java.util.Objects;
+import java.util.Locale;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -92,10 +94,10 @@ public class HomeFragment extends Fragment {
         preferenceManager = mainScreenActivity.preferenceManager;
 
         initialData();
-        getUSer();
+//        getUSer();
         getUserStatus();
-//        initFriend();
-//        listenListFriend();
+        initFriend();
+        listenListFriend();
         return view;
     }
 
@@ -109,8 +111,11 @@ public class HomeFragment extends Fragment {
     }
 
     private void initFriend() {
+
+
+
         listFriends = new ArrayList<>();
-        homeFriendAdapter = new HomeFriendAdapter(listFriends);
+        homeFriendAdapter = new HomeFriendAdapter(listFriends, mainScreenActivity);
         RecyclerView temp = view.findViewById(R.id.userRecyclerView);
         temp.setAdapter(homeFriendAdapter);
         database = FirebaseFirestore.getInstance();
@@ -249,21 +254,24 @@ public class HomeFragment extends Fragment {
     }
 
 
+    private String getReadableDatetime(Date date) {
+        return new SimpleDateFormat("hh:mm a", Locale.getDefault()).format(date);
+    }
+
     @SuppressLint("NotifyDataSetChanged")
     private final EventListener<QuerySnapshot> eventListener = (value, error) -> {
         if (error != null) {
+            Log.d( "TEST_DATA","data not found" );
             return;
         }
         if (value != null) {
 
-
             for (DocumentChange documentChange : value.getDocumentChanges()) {
-
+                Log.d( "TEST_DATA",documentChange.getDocument().getString(Constants.KEY_SENDER_ID) );
 
                 if (documentChange.getType() == DocumentChange.Type.ADDED) {
 
                     String senderID = documentChange.getDocument().getString(Constants.KEY_SENDER_ID);
-                    String receiverID = documentChange.getDocument().getString(Constants.KEY_RECEIVER_ID);
                     ChatMessage chatMessage = new ChatMessage();
                     chatMessage.setMessageId(documentChange.getDocument().getId());
                     chatMessage.setSenderId(documentChange.getDocument().getString(Constants.KEY_SENDER_ID));
@@ -280,6 +288,7 @@ public class HomeFragment extends Fragment {
                         chatMessage.setConversionId(documentChange.getDocument().getString(Constants.KEY_SENDER_ID));
                     }
                     chatMessage.setMessage(documentChange.getDocument().getString(Constants.KEY_LAST_MESSAGE));
+                    chatMessage.setDateTime(getReadableDatetime(documentChange.getDocument().getDate(Constants.KEY_TIMESTAMP)));
                     chatMessage.dataObject = documentChange.getDocument().getDate(Constants.KEY_TIMESTAMP);
                     listFriends.add(chatMessage);
 
@@ -289,22 +298,24 @@ public class HomeFragment extends Fragment {
                     for (int i = 0; i < listFriends.size(); i++) {
                         if (listFriends.get(i).getSenderId().equals(senderID) && listFriends.get(i).getReceiverId().equals(receiverID)) {
                             listFriends.get(i).setMessage(documentChange.getDocument().getString(Constants.KEY_LAST_MESSAGE));
+                            listFriends.get(i).setDateTime(getReadableDatetime(documentChange.getDocument().getDate(Constants.KEY_TIMESTAMP)));
                             listFriends.get(i).dataObject = documentChange.getDocument().getDate(Constants.KEY_TIMESTAMP);
                             break;
                         }
                     }
                 }
-                Collections.sort(listFriends, (x, y) -> x.dataObject.compareTo(y.dataObject));
+                Collections.sort(listFriends, (x, y) -> y.dataObject.compareTo(x.dataObject));
                 homeFriendAdapter.notifyDataSetChanged();
+
+
+
+
                 RecyclerView temp = view.findViewById(R.id.userRecyclerView);
+                temp.setAdapter(homeFriendAdapter);
                 temp.smoothScrollToPosition(0);
-
                 temp.setVisibility(View.VISIBLE);
-
                 ProgressBar progressBar = view.findViewById(R.id.progressBar);
                 progressBar.setVisibility(View.GONE);
-
-
             }
 
         }
