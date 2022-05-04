@@ -3,64 +3,116 @@ package com.tutuanle.chatapp.fragment;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.RecyclerView;
 
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ProgressBar;
+import android.widget.TextView;
 
+import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.QueryDocumentSnapshot;
+import com.makeramen.roundedimageview.RoundedImageView;
 import com.tutuanle.chatapp.R;
+import com.tutuanle.chatapp.activities.MainScreenActivity;
+import com.tutuanle.chatapp.adapters.Users_Adapter;
+import com.tutuanle.chatapp.models.User;
+import com.tutuanle.chatapp.utilities.Constants;
+import com.tutuanle.chatapp.utilities.PreferenceManager;
 
-/**
- * A simple {@link Fragment} subclass.
- * Use the {@link ChatFragment#newInstance} factory method to
- * create an instance of this fragment.
- */
+import java.util.ArrayList;
+import java.util.List;
+
+
 public class ChatFragment extends Fragment {
 
-    // TODO: Rename parameter arguments, choose names that match
-    // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-    private static final String ARG_PARAM1 = "param1";
-    private static final String ARG_PARAM2 = "param2";
+    private View view;
 
-    // TODO: Rename and change types of parameters
-    private String mParam1;
-    private String mParam2;
-
+    private MainScreenActivity mainScreenActivity;
+    private PreferenceManager preferenceManager;
     public ChatFragment() {
-        // Required empty public constructor
     }
 
-    /**
-     * Use this factory method to create a new instance of
-     * this fragment using the provided parameters.
-     *
-     * @param param1 Parameter 1.
-     * @param param2 Parameter 2.
-     * @return A new instance of fragment ChatFragment.
-     */
-    // TODO: Rename and change types and number of parameters
-    public static ChatFragment newInstance(String param1, String param2) {
-        ChatFragment fragment = new ChatFragment();
-        Bundle args = new Bundle();
-        args.putString(ARG_PARAM1, param1);
-        args.putString(ARG_PARAM2, param2);
-        fragment.setArguments(args);
-        return fragment;
-    }
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        if (getArguments() != null) {
-            mParam1 = getArguments().getString(ARG_PARAM1);
-            mParam2 = getArguments().getString(ARG_PARAM2);
-        }
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_chat, container, false);
+        view = inflater.inflate(R.layout.fragment_chat, container, false);
+        mainScreenActivity = (MainScreenActivity) getActivity();
+        assert mainScreenActivity != null;
+        preferenceManager = mainScreenActivity.preferenceManager;
+
+        initialData();
+        getUSer();
+
+        return view;
+    }
+
+    private void getUSer() {
+        loading(true);
+        FirebaseFirestore database = FirebaseFirestore.getInstance();
+        database.collection(Constants.KEY_COLLECTION_USERS)
+                .get()
+                .addOnCompleteListener(task -> {
+                    loading(false);
+                    String currentUserId = preferenceManager.getString(Constants.KEY_USER_ID);
+                    if (task.isSuccessful() && task.getResult() != null) {
+                        List<User> users = new ArrayList<>();
+                        for (QueryDocumentSnapshot queryDocumentSnapshot : task.getResult()) {
+                            if (currentUserId.equals(queryDocumentSnapshot.getId())) {
+                                continue;
+                            }
+                            User user = new User();
+                            user.setName(queryDocumentSnapshot.getString(Constants.KEY_NAME));
+                            user.setEmail(queryDocumentSnapshot.getString(Constants.KEY_EMAIL));
+                            user.setProfileImage(queryDocumentSnapshot.getString(Constants.KEY_IMAGE));
+                            user.setToken(queryDocumentSnapshot.getString(Constants.KEY_FCM_TOKEN));
+                            user.setUid(queryDocumentSnapshot.getId());
+                            users.add(user);
+
+                        }
+                        if (users.size() > 0) {
+                            Users_Adapter users_adapter = new Users_Adapter(users, mainScreenActivity);
+
+                            RecyclerView temp = view.findViewById(R.id.userRecyclerView);
+                            temp.setAdapter(users_adapter);
+                            temp.setVisibility(View.VISIBLE);
+                        } else {
+                            showErrorMessage();
+                        }
+                    }
+                });
+
+
+
+
+    }
+
+    private void initialData() {
+
+        TextView temp = view.findViewById(R.id.nameTextView);
+        temp.setText(mainScreenActivity.getTextName());
+        RoundedImageView image = view.findViewById(R.id.imageProfile);
+        image.setImageBitmap(mainScreenActivity.getBitmap());
+    }
+
+    private void loading(Boolean isLoading) {
+        ProgressBar temp = view.findViewById(R.id.progressBar);
+        if (isLoading) {
+            temp.setVisibility(View.VISIBLE);
+        } else {
+            temp.setVisibility(View.INVISIBLE);
+        }
+    }
+    private void showErrorMessage() {
+        TextView temp = view.findViewById(R.id.textErrorMessage);
+        temp.setText("Not exist");
+        temp.setVisibility(View.VISIBLE);
     }
 }

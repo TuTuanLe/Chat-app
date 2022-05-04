@@ -30,6 +30,7 @@
         app:layout_constraintStart_toEndOf="@+id/roundedImageView"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintWidth_max="wrap"
+        android:maxWidth="@dimen/_180sdp"
         app:layout_constraintWidth_percent="0.75" />
 
     <ImageView

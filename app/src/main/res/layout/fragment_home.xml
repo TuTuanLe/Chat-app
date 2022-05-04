@@ -42,43 +42,8 @@
                 android:text="Admin" />
 
 
-            <FrameLayout
-                android:layout_width="@dimen/_30sdp"
-                android:layout_height="@dimen/_30sdp"
-                android:layout_gravity="end"
-                android:layout_marginTop="@dimen/_10sdp"
-                android:layout_marginEnd="@dimen/_56sdp"
-                android:background="@drawable/background_image">
 
-                <com.makeramen.roundedimageview.RoundedImageView
-                    android:id="@+id/imageCamera"
-                    android:layout_width="@dimen/_15sdp"
-                    android:layout_height="@dimen/_15sdp"
-                    android:layout_gravity="center"
-                    android:src="@drawable/ic_baseline_photo_camera_24"
-                    app:riv_corner_radius="@dimen/_8sdp" />
 
-            </FrameLayout>
-
-            <FrameLayout
-                android:layout_width="@dimen/_30sdp"
-                android:layout_height="@dimen/_30sdp"
-                android:layout_gravity="end"
-                android:layout_marginTop="@dimen/_10sdp"
-                android:layout_marginEnd="@dimen/_16sdp"
-                android:background="@drawable/background_image"
-
-                >
-
-                <com.makeramen.roundedimageview.RoundedImageView
-                    android:id="@+id/imageEdit"
-                    android:layout_width="@dimen/_15sdp"
-                    android:layout_height="@dimen/_15sdp"
-                    android:layout_gravity="center"
-                    android:src="@drawable/ic_baseline_edit_24"
-                    app:riv_corner_radius="@dimen/_8sdp" />
-
-            </FrameLayout>
 
 
         </FrameLayout>
@@ -93,14 +58,25 @@
         android:layout_weight="1">
 
 
-
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="0dp"
             android:orientation="vertical"
             >
-            <androidx.recyclerview.widget.RecyclerView
+            <TextView
                 android:layout_marginTop="@dimen/_10sdp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Story"
+                android:layout_marginStart="@dimen/_5sdp"
+                android:textStyle="bold"
+                android:textSize="@dimen/_12sdp"
+                android:textColor="@color/black"
+
+                />
+
+            <androidx.recyclerview.widget.RecyclerView
+
                 android:layout_marginBottom="@dimen/_10ssp"
                 android:id="@+id/statusList"
                 android:layout_width="wrap_content"
@@ -113,6 +89,17 @@
                 app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
                 />
 
+            <TextView
+                android:layout_marginTop="@dimen/_5sdp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Recent Chat"
+                android:layout_marginStart="@dimen/_5sdp"
+                android:textStyle="bold"
+                android:textSize="@dimen/_12sdp"
+                android:textColor="@color/black"
+
+                />
             <androidx.recyclerview.widget.RecyclerView
 
                 android:id="@+id/userRecyclerView"
@@ -120,7 +107,7 @@
                 android:layout_height="match_parent"
                 android:clipToPadding="false"
                 android:overScrollMode="never"
-                android:paddingTop="@dimen/_20sdp"
+                android:paddingTop="@dimen/_10sdp"
                 android:visibility="gone"
 
                 app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"/>
