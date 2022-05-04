@@ -86,4 +86,14 @@ public class ChatMessage {
     public void setConversionImage(String conversionImage) {
         this.conversionImage = conversionImage;
     }
+
+    private  int CountMessageSeen;
+
+    public int getCountMessageSeen() {
+        return CountMessageSeen;
+    }
+
+    public void setCountMessageSeen(int countMessageSeen) {
+        CountMessageSeen = countMessageSeen;
+    }
 }

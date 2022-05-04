@@ -42,6 +42,7 @@ import java.util.Collections;
 import java.util.Date;
 import java.util.List;
 import java.util.Locale;
+import java.util.Objects;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -286,6 +287,7 @@ public class HomeFragment extends Fragment {
                         chatMessage.setConversionImage(documentChange.getDocument().getString(Constants.KEY_SENDER_IMAGE));
                         chatMessage.setConversionName(documentChange.getDocument().getString(Constants.KEY_SENDER_NAME));
                         chatMessage.setConversionId(documentChange.getDocument().getString(Constants.KEY_SENDER_ID));
+                        chatMessage.setCountMessageSeen(Integer.parseInt(Objects.requireNonNull(documentChange.getDocument().getString(Constants.KEY_COUNT_NUMBER_OF_MESSAGE_SEEN))));
                     }
                     chatMessage.setMessage(documentChange.getDocument().getString(Constants.KEY_LAST_MESSAGE));
                     chatMessage.setDateTime(getReadableDatetime(documentChange.getDocument().getDate(Constants.KEY_TIMESTAMP)));

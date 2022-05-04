@@ -2,7 +2,7 @@
     <!-- Base application theme. -->
     <style name="Theme.ChatApp" parent="Theme.MaterialComponents.DayNight.NoActionBar">
         <item name="colorPrimary">@color/primary</item>
-        <item name="android:statusBarColor" tools:targetApi="l">@color/primary</item>
-
+        <item name="android:statusBarColor" tools:targetApi="l">@color/white</item>
+        <item name="android:windowLightNavigationBar">false</item>
     </style>
 </resources>

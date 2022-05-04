@@ -27,4 +27,12 @@
     <color  name="backgroundBottomColor">#04E1F8</color>
 
     <color name="primaryHeader">#24A3C8</color>
+
+    <color name="colorPrimary">#3F51B5</color>
+    <color name="colorPrimaryDark">#303F9F</color>
+    <color name="colorAccent">#c6d6f0</color>
+    <color name="colorGray">#757575</color>
+
+
+
 </resources>

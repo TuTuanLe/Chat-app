@@ -37,5 +37,7 @@ public class Constants {
     public static final String KEY_LAST_MESSAGE  ="lastMessage";
     public static final String KEY_COLLECTION_FRIENDS = "friends";
     public static final String KEY_COLLECTION_USER_GROUP="groups";
+    public  static final String KEY_COUNT_NUMBER_OF_MESSAGE_SEEN = "countMessageSeen";
+
 
 }

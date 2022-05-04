@@ -191,11 +191,9 @@ public class ChatScreenActivity extends AppCompatActivity {
             conversion.put(Constants.KEY_RECEIVER_IMAGE,receiverUSer.getProfileImage());
             conversion.put(Constants.KEY_LAST_MESSAGE,binding.inputMessage.getText().toString());
             conversion.put(Constants.KEY_TIMESTAMP,new Date());
-
+            conversion.put(Constants.KEY_COUNT_NUMBER_OF_MESSAGE_SEEN, 0);
             addConversion(conversion);
         }
-
-
         binding.inputMessage.setText(null);
         binding.inputMessage.onEditorAction(EditorInfo.IME_ACTION_DONE);
     }

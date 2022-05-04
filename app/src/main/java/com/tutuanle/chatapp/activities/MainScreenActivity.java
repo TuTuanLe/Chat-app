@@ -1,9 +1,13 @@
 package com.tutuanle.chatapp.activities;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
+
+import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.util.Base64;
 import android.widget.Toast;
@@ -23,6 +27,7 @@ import com.tutuanle.chatapp.models.User;
 import com.tutuanle.chatapp.utilities.Constants;
 import com.tutuanle.chatapp.utilities.PreferenceManager;
 import java.util.HashMap;
+import java.util.Objects;
 
 public class MainScreenActivity extends AppCompatActivity  implements UserListener {
     private ActivityMainScreenBinding binding;
@@ -52,9 +57,17 @@ public class MainScreenActivity extends AppCompatActivity  implements UserListen
         setContentView(binding.getRoot());
         preferenceManager = new PreferenceManager(getApplicationContext());
         setBottomNavigation();
+        setStatusBar();
         loadUserDetail();
         getToken();
     }
+
+    private  void setStatusBar(){
+//        getWindow().setStatusBarColor(ContextCompat.getColor(MainScreenActivity.this, R.color.green ));
+//    Objects.requireNonNull(getSupportActionBar()).setBackgroundDrawable(new ColorDrawable(getResources().getColor(R.color.green )));
+
+    }
+
 
     private void loadUserDetail(){
         textName = preferenceManager.getString(Constants.KEY_NAME);
