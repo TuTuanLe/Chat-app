@@ -8,8 +8,8 @@
     >
     <com.makeramen.roundedimageview.RoundedImageView
         android:id="@+id/profile"
-        android:layout_width="45dp"
-        android:layout_height="45dp"
+        android:layout_width="@dimen/_40sdp"
+        android:layout_height="@dimen/_40sdp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         android:src="@drawable/avatar"
@@ -48,11 +48,40 @@
         android:id="@+id/msgTime"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginEnd="8dp"
+        android:layout_marginEnd="16dp"
         android:fontFamily="@font/roboto_light"
         android:text="6:00 PM"
         android:textSize="@dimen/_10ssp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.277" />
+
+    <FrameLayout
+        android:layout_width="@dimen/_14sdp"
+        android:layout_height="@dimen/_14sdp"
+        android:background="@drawable/item_rounded_count_image"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="@+id/msgTime"
+        app:layout_constraintStart_toStartOf="@+id/msgTime"
+        app:layout_constraintTop_toBottomOf="@+id/msgTime"
+       >
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:gravity="center"
+            android:text="1"
+            android:textColor="@color/white"
+
+            />
+    </FrameLayout>
+
+    <FrameLayout
+        android:layout_width="@dimen/_12sdp"
+        android:layout_height="@dimen/_12sdp"
+        android:background="@drawable/item_status_active"
+        app:layout_constraintBottom_toBottomOf="@+id/profile"
+        app:layout_constraintEnd_toEndOf="@+id/profile" />
+
+
 </androidx.constraintlayout.widget.ConstraintLayout>

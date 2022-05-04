@@ -52,8 +52,8 @@
 
                 <com.makeramen.roundedimageview.RoundedImageView
                     android:id="@+id/imageCamera"
-                    android:layout_width="@dimen/_20sdp"
-                    android:layout_height="@dimen/_20sdp"
+                    android:layout_width="@dimen/_15sdp"
+                    android:layout_height="@dimen/_15sdp"
                     android:layout_gravity="center"
                     android:src="@drawable/ic_baseline_photo_camera_24"
                     app:riv_corner_radius="@dimen/_8sdp" />
@@ -72,8 +72,8 @@
 
                 <com.makeramen.roundedimageview.RoundedImageView
                     android:id="@+id/imageEdit"
-                    android:layout_width="@dimen/_20sdp"
-                    android:layout_height="@dimen/_20sdp"
+                    android:layout_width="@dimen/_15sdp"
+                    android:layout_height="@dimen/_15sdp"
                     android:layout_gravity="center"
                     android:src="@drawable/ic_baseline_edit_24"
                     app:riv_corner_radius="@dimen/_8sdp" />
@@ -122,6 +122,7 @@
                 android:overScrollMode="never"
                 android:paddingTop="@dimen/_20sdp"
                 android:visibility="gone"
+
                 app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"/>
             <ProgressBar
 
