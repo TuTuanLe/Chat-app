@@ -287,7 +287,7 @@ public class HomeFragment extends Fragment {
                         chatMessage.setConversionImage(documentChange.getDocument().getString(Constants.KEY_SENDER_IMAGE));
                         chatMessage.setConversionName(documentChange.getDocument().getString(Constants.KEY_SENDER_NAME));
                         chatMessage.setConversionId(documentChange.getDocument().getString(Constants.KEY_SENDER_ID));
-                        chatMessage.setCountMessageSeen(Integer.parseInt(Objects.requireNonNull(documentChange.getDocument().getString(Constants.KEY_COUNT_NUMBER_OF_MESSAGE_SEEN))));
+//                        chatMessage.setCountMessageSeen(Integer.parseInt(Objects.requireNonNull(documentChange.getDocument().getString(Constants.KEY_COUNT_NUMBER_OF_MESSAGE_SEEN))));
                     }
                     chatMessage.setMessage(documentChange.getDocument().getString(Constants.KEY_LAST_MESSAGE));
                     chatMessage.setDateTime(getReadableDatetime(documentChange.getDocument().getDate(Constants.KEY_TIMESTAMP)));
@@ -318,6 +318,7 @@ public class HomeFragment extends Fragment {
                 temp.setVisibility(View.VISIBLE);
                 ProgressBar progressBar = view.findViewById(R.id.progressBar);
                 progressBar.setVisibility(View.GONE);
+
             }
 
         }

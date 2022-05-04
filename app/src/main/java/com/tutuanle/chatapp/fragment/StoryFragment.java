@@ -10,12 +10,15 @@ import androidx.recyclerview.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 
+import com.makeramen.roundedimageview.RoundedImageView;
 import com.tutuanle.chatapp.R;
 import com.tutuanle.chatapp.activities.MainScreenActivity;
 import com.tutuanle.chatapp.adapters.StoryAdapter;
 import com.tutuanle.chatapp.models.Status;
 import com.tutuanle.chatapp.models.UserStatus;
+import com.tutuanle.chatapp.utilities.GridSpacingItemDecoration;
 import com.tutuanle.chatapp.utilities.PreferenceManager;
 
 import java.util.ArrayList;
@@ -50,6 +53,7 @@ public class StoryFragment extends Fragment {
         assert mainScreenActivity != null;
         preferenceManager = mainScreenActivity.preferenceManager;
         getUserStatus();
+        initialData();
         return view;
     }
 
@@ -144,4 +148,12 @@ public class StoryFragment extends Fragment {
         storyAdapter.notifyDataSetChanged();
     }
 
+
+    private void initialData() {
+
+        TextView temp = view.findViewById(R.id.nameTextView);
+        temp.setText(mainScreenActivity.getTextName());
+        RoundedImageView image = view.findViewById(R.id.imageProfile);
+        image.setImageBitmap(mainScreenActivity.getBitmap());
+    }
 }

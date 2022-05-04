@@ -69,11 +69,12 @@
                 >
 
                 <com.makeramen.roundedimageview.RoundedImageView
-                    android:id="@+id/imageEdit"
+                    android:id="@+id/addStoryBook"
                     android:layout_width="@dimen/_15sdp"
                     android:layout_height="@dimen/_15sdp"
                     android:layout_gravity="center"
-                    android:src="@drawable/ic_baseline_edit_24"
+                    android:src="@drawable/ic_baseline_add_circle_outline_24"
+                    android:tint="@color/black"
                     app:riv_corner_radius="@dimen/_8sdp" />
 
             </FrameLayout>

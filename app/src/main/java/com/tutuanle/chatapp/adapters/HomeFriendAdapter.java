@@ -85,6 +85,14 @@ public class HomeFriendAdapter extends RecyclerView.Adapter<HomeFriendAdapter.Ho
                                     user.setUid(queryDocumentSnapshot.getId());
                                     break;
                                 }
+                                if (chatMessage.getSenderId().equals(queryDocumentSnapshot.getId())) {
+                                    user.setName(queryDocumentSnapshot.getString(Constants.KEY_NAME));
+                                    user.setEmail(queryDocumentSnapshot.getString(Constants.KEY_EMAIL));
+                                    user.setProfileImage(queryDocumentSnapshot.getString(Constants.KEY_IMAGE));
+                                    user.setToken(queryDocumentSnapshot.getString(Constants.KEY_FCM_TOKEN));
+                                    user.setUid(queryDocumentSnapshot.getId());
+                                    break;
+                                }
                             }
 
                         }
