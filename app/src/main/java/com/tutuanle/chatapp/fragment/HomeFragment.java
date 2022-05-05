@@ -21,17 +21,15 @@ import com.google.firebase.firestore.DocumentChange;
 import com.google.firebase.firestore.EventListener;
 import com.google.firebase.firestore.FirebaseFirestore;
 
-import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
 import com.makeramen.roundedimageview.RoundedImageView;
 import com.tutuanle.chatapp.R;
 import com.tutuanle.chatapp.activities.MainScreenActivity;
 import com.tutuanle.chatapp.adapters.HomeFriendAdapter;
 import com.tutuanle.chatapp.adapters.TopStatusAdapter;
-import com.tutuanle.chatapp.adapters.Users_Adapter;
+
 import com.tutuanle.chatapp.models.ChatMessage;
 import com.tutuanle.chatapp.models.Status;
-import com.tutuanle.chatapp.models.User;
 import com.tutuanle.chatapp.models.UserStatus;
 import com.tutuanle.chatapp.utilities.Constants;
 import com.tutuanle.chatapp.utilities.PreferenceManager;
@@ -42,24 +40,16 @@ import java.util.Collections;
 import java.util.Date;
 import java.util.List;
 import java.util.Locale;
-import java.util.Objects;
 
-/**
- * A simple {@link Fragment} subclass.
- * Use the {@link HomeFragment#newInstance} factory method to
- * create an instance of this fragment.
- */
+
+
 public class HomeFragment extends Fragment {
 
 
-    private static final String ARG_PARAM1 = "param1";
-    private static final String ARG_PARAM2 = "param2";
 
     private View view;
-
     private MainScreenActivity mainScreenActivity;
     private PreferenceManager preferenceManager;
-
     private ArrayList<UserStatus> userStatuses;
     private TopStatusAdapter statusAdapter;
     private HomeFriendAdapter homeFriendAdapter;
@@ -67,19 +57,7 @@ public class HomeFragment extends Fragment {
     private List<ChatMessage> listFriends;
 
 
-    public HomeFragment() {
-
-    }
-
-
-    public static HomeFragment newInstance(String param1, String param2) {
-        HomeFragment fragment = new HomeFragment();
-        Bundle args = new Bundle();
-        args.putString(ARG_PARAM1, param1);
-        args.putString(ARG_PARAM2, param2);
-        fragment.setArguments(args);
-        return fragment;
-    }
+    public HomeFragment() { }
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -95,7 +73,6 @@ public class HomeFragment extends Fragment {
         preferenceManager = mainScreenActivity.preferenceManager;
 
         initialData();
-//        getUSer();
         getUserStatus();
         initFriend();
         listenListFriend();
@@ -112,9 +89,6 @@ public class HomeFragment extends Fragment {
     }
 
     private void initFriend() {
-
-
-
         listFriends = new ArrayList<>();
         homeFriendAdapter = new HomeFriendAdapter(listFriends, mainScreenActivity);
         RecyclerView temp = view.findViewById(R.id.userRecyclerView);
@@ -191,58 +165,6 @@ public class HomeFragment extends Fragment {
 
 
         statusAdapter.notifyDataSetChanged();
-    }
-
-
-    private void getUSer() {
-        loading(true);
-        FirebaseFirestore database = FirebaseFirestore.getInstance();
-        database.collection(Constants.KEY_COLLECTION_USERS)
-                .get()
-                .addOnCompleteListener(task -> {
-                    loading(false);
-                    String currentUserId = preferenceManager.getString(Constants.KEY_USER_ID);
-                    if (task.isSuccessful() && task.getResult() != null) {
-                        List<User> users = new ArrayList<>();
-                        for (QueryDocumentSnapshot queryDocumentSnapshot : task.getResult()) {
-                            if (currentUserId.equals(queryDocumentSnapshot.getId())) {
-                                continue;
-                            }
-                            User user = new User();
-                            user.setName(queryDocumentSnapshot.getString(Constants.KEY_NAME));
-                            user.setEmail(queryDocumentSnapshot.getString(Constants.KEY_EMAIL));
-                            user.setProfileImage(queryDocumentSnapshot.getString(Constants.KEY_IMAGE));
-                            user.setToken(queryDocumentSnapshot.getString(Constants.KEY_FCM_TOKEN));
-                            user.setUid(queryDocumentSnapshot.getId());
-                            users.add(user);
-
-                        }
-                        if (users.size() > 0) {
-                            Users_Adapter users_adapter = new Users_Adapter(users, mainScreenActivity);
-
-                            RecyclerView temp = view.findViewById(R.id.userRecyclerView);
-                            temp.setAdapter(users_adapter);
-                            temp.setVisibility(View.VISIBLE);
-                        } else {
-                            showErrorMessage();
-                        }
-                    }
-                });
-    }
-
-    private void loading(Boolean isLoading) {
-        ProgressBar temp = view.findViewById(R.id.progressBar);
-        if (isLoading) {
-            temp.setVisibility(View.VISIBLE);
-        } else {
-            temp.setVisibility(View.INVISIBLE);
-        }
-    }
-
-    private void showErrorMessage() {
-        TextView temp = view.findViewById(R.id.textErrorMessage);
-        temp.setText("Not exist");
-        temp.setVisibility(View.VISIBLE);
     }
 
     private void listenListFriend() {

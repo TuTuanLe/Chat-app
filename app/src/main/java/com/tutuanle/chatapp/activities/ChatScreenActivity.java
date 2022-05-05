@@ -83,13 +83,14 @@ public class ChatScreenActivity extends AppCompatActivity {
     private void listenMessages() {
 
         database.collection(Constants.KEY_COLLECTION_CHAT)
-                .whereEqualTo(Constants.KEY_SENDER_ID, receiverUSer.getUid())
-                .whereEqualTo(Constants.KEY_RECEIVER_ID, preferenceManager.getString(Constants.KEY_USER_ID))
-                .addSnapshotListener(eventListener);
-        database.collection(Constants.KEY_COLLECTION_CHAT)
                 .whereEqualTo(Constants.KEY_SENDER_ID, preferenceManager.getString(Constants.KEY_USER_ID))
                 .whereEqualTo(Constants.KEY_RECEIVER_ID, receiverUSer.getUid())
                 .addSnapshotListener(eventListener);
+        database.collection(Constants.KEY_COLLECTION_CHAT)
+                .whereEqualTo(Constants.KEY_SENDER_ID, receiverUSer.getUid())
+                .whereEqualTo(Constants.KEY_RECEIVER_ID, preferenceManager.getString(Constants.KEY_USER_ID))
+                .addSnapshotListener(eventListener);
+
 
     }
 
@@ -114,17 +115,14 @@ public class ChatScreenActivity extends AppCompatActivity {
                     chatMessage.setDateTime(getReadableDatetime(documentChange.getDocument().getDate(Constants.KEY_TIMESTAMP)));
                     chatMessage.dataObject = documentChange.getDocument().getDate(Constants.KEY_TIMESTAMP);
                     chatMessages.add(chatMessage);
-                }
-                 else if(documentChange.getType() == DocumentChange.Type.MODIFIED){
+                } else if (documentChange.getType() == DocumentChange.Type.MODIFIED) {
                     String docID = documentChange.getDocument().getId();
 
                     chatMessages.get(findMessage(docID)).setFeeling(
-                            Integer.parseInt(  Objects.requireNonNull(documentChange.getDocument().getLong(Constants.KEY_FEELING)).toString()) );
+                            Integer.parseInt(Objects.requireNonNull(documentChange.getDocument().getLong(Constants.KEY_FEELING)).toString()));
 
-                    Log.d("FEELING_TEST", docID  + "  -  " + findMessage(docID) );
                     chatAdapter.notifyDataSetChanged();
                 } else if (documentChange.getType() == DocumentChange.Type.REMOVED) {
-//
                     // remove
 //                    String docID = documentChange.getDocument().getId();
                     chatMessages.remove(documentChange.getOldIndex());
@@ -143,8 +141,7 @@ public class ChatScreenActivity extends AppCompatActivity {
             binding.chatRecyclerView.setVisibility(View.VISIBLE);
         }
         binding.progressBar.setVisibility(View.GONE);
-        if(conversionId == null)
-        {
+        if (conversionId == null) {
             checkForConversion();
         }
     };
@@ -154,9 +151,9 @@ public class ChatScreenActivity extends AppCompatActivity {
         binding.layoutSend.setOnClickListener(v -> sendMessage());
     }
 
-    private  int findMessage(String uid) {
-        for(int i=0; i<chatMessages.size(); i++)
-            if(chatMessages.get(i).getMessageId().equals(uid))
+    private int findMessage(String uid) {
+        for (int i = 0; i < chatMessages.size(); i++)
+            if (chatMessages.get(i).getMessageId().equals(uid))
                 return i;
         return -1;
     }
@@ -165,33 +162,27 @@ public class ChatScreenActivity extends AppCompatActivity {
         HashMap<String, Object> message = new HashMap<>();
         // get senderId from Preference manage on save a local app
         message.put(Constants.KEY_SENDER_ID, preferenceManager.getString(Constants.KEY_USER_ID));
-        // get intent when on click user
         message.put(Constants.KEY_RECEIVER_ID, receiverUSer.getUid());
-        // input text get line from keyboard
         message.put(Constants.KEY_MESSAGE, binding.inputMessage.getText().toString());
-        // create 1 timestamp
         message.put(Constants.KEY_TIMESTAMP, new Date());
-        // default not exist feeling = -1
         message.put(Constants.KEY_FEELING, -1);
 
-        database.collection(Constants.KEY_COLLECTION_CHAT)
-                .add(message);
+        database.collection(Constants.KEY_COLLECTION_CHAT).add(message);
 
         // set recent chat
         if (conversionId != null) {
             updateConversion(binding.inputMessage.getText().toString());
-
-        }else {
+        } else {
             HashMap<String, Object> conversion = new HashMap<>();
             conversion.put(Constants.KEY_SENDER_ID, preferenceManager.getString(Constants.KEY_USER_ID));
             conversion.put(Constants.KEY_SENDER_NAME, preferenceManager.getString(Constants.KEY_NAME));
-            conversion.put(Constants.KEY_SENDER_IMAGE,preferenceManager.getString(Constants.KEY_IMAGE));
+            conversion.put(Constants.KEY_SENDER_IMAGE, preferenceManager.getString(Constants.KEY_IMAGE));
             conversion.put(Constants.KEY_RECEIVER_ID, receiverUSer.getUid());
             conversion.put(Constants.KEY_RECEIVER_NAME, receiverUSer.getName());
-            conversion.put(Constants.KEY_RECEIVER_IMAGE,receiverUSer.getProfileImage());
-            conversion.put(Constants.KEY_LAST_MESSAGE,binding.inputMessage.getText().toString());
-            conversion.put(Constants.KEY_TIMESTAMP,new Date());
-            conversion.put(Constants.KEY_COUNT_NUMBER_OF_MESSAGE_SEEN, 0);
+            conversion.put(Constants.KEY_RECEIVER_IMAGE, receiverUSer.getProfileImage());
+            conversion.put(Constants.KEY_LAST_MESSAGE, binding.inputMessage.getText().toString());
+            conversion.put(Constants.KEY_TIMESTAMP, new Date());
+//            conversion.put(Constants.KEY_COUNT_NUMBER_OF_MESSAGE_SEEN, 0);
             addConversion(conversion);
         }
         binding.inputMessage.setText(null);
@@ -202,13 +193,13 @@ public class ChatScreenActivity extends AppCompatActivity {
         return new SimpleDateFormat("hh:mm a", Locale.getDefault()).format(date);
     }
 
-    private void addConversion(HashMap<String, Object> conversion)  {
+    private void addConversion(HashMap<String, Object> conversion) {
         database.collection(Constants.KEY_COLLECTION_CONVERSATIONS)
                 .add(conversion)
-                .addOnSuccessListener( value -> conversionId = value.getId());
+                .addOnSuccessListener(value -> conversionId = value.getId());
     }
 
-    private void updateConversion(String message){
+    private void updateConversion(String message) {
         DocumentReference documentReference =
                 database.collection(Constants.KEY_COLLECTION_CONVERSATIONS).document(conversionId);
         documentReference.update(
@@ -218,23 +209,23 @@ public class ChatScreenActivity extends AppCompatActivity {
     }
 
 
+    private void checkForConversion() {
 
-
-
-    private void checkForConversion(){
-        if(chatMessages.size() != 0  ){
-            checkForConversionRemotely(
-                    preferenceManager.getString(Constants.KEY_USER_ID),
-                    receiverUSer.getUid()
-            );
-        }else{
+        Log.d("test_data_123", receiverUSer.getUid() + "  --- 1 ---   " + preferenceManager.getString(Constants.KEY_USER_ID));
+        checkForConversionRemotely(
+                preferenceManager.getString(Constants.KEY_USER_ID),
+                receiverUSer.getUid()
+        );
+        if (conversionId == null) {
+            Log.d("test_data_123", receiverUSer.getUid() + "  --- 2---   " + preferenceManager.getString(Constants.KEY_USER_ID));
             checkForConversionRemotely(
                     receiverUSer.getUid(),
                     preferenceManager.getString(Constants.KEY_USER_ID)
             );
         }
     }
-    private void checkForConversionRemotely(String senderId, String receiverId){
+
+    private void checkForConversionRemotely(String senderId, String receiverId) {
         database.collection(Constants.KEY_COLLECTION_CONVERSATIONS)
                 .whereEqualTo(Constants.KEY_SENDER_ID, senderId)
                 .whereEqualTo(Constants.KEY_RECEIVER_ID, receiverId)
@@ -243,10 +234,11 @@ public class ChatScreenActivity extends AppCompatActivity {
     }
 
 
-    private final OnCompleteListener<QuerySnapshot> conversionOnCompleteListener  = task -> {
-        if(task.isSuccessful() && task.getResult() != null  && task.getResult().getDocuments().size() > 0  ){
+    private final OnCompleteListener<QuerySnapshot> conversionOnCompleteListener = task -> {
+        if (task.isSuccessful() && task.getResult() != null && task.getResult().getDocuments().size() > 0) {
             DocumentSnapshot documentSnapshot = task.getResult().getDocuments().get(0);
             conversionId = documentSnapshot.getId();
+            Log.d("KEY_CONVERSION_ID", conversionId);
         }
     };
 }
