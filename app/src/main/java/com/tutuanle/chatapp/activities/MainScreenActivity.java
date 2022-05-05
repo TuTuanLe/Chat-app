@@ -124,6 +124,7 @@ public class MainScreenActivity extends BaseActivity  implements UserListener , 
         documentReference.update(Constants.KEY_FCM_TOKEN, token)
                 .addOnSuccessListener( item-> {})
                 .addOnFailureListener(item->showToast("Unable to update token"));
+        preferenceManager.putString(Constants.KEY_FCM_TOKEN, token);
     }
 
     public void  signOut(){
