@@ -22,6 +22,7 @@ import com.tutuanle.chatapp.fragment.ChatFragment;
 import com.tutuanle.chatapp.fragment.HomeFragment;
 import com.tutuanle.chatapp.fragment.SettingFragment;
 import com.tutuanle.chatapp.fragment.StoryFragment;
+import com.tutuanle.chatapp.interfaces.FriendListener;
 import com.tutuanle.chatapp.interfaces.UserListener;
 import com.tutuanle.chatapp.models.User;
 import com.tutuanle.chatapp.utilities.Constants;
@@ -29,7 +30,7 @@ import com.tutuanle.chatapp.utilities.PreferenceManager;
 import java.util.HashMap;
 import java.util.Objects;
 
-public class MainScreenActivity extends AppCompatActivity  implements UserListener {
+public class MainScreenActivity extends AppCompatActivity  implements UserListener , FriendListener {
     private ActivityMainScreenBinding binding;
     public PreferenceManager preferenceManager;
 
@@ -159,5 +160,12 @@ public class MainScreenActivity extends AppCompatActivity  implements UserListen
         intent.putExtra(Constants.KEY_USER, user);
         startActivity(intent);
 //        finish();
+    }
+
+    @Override
+    public void onFriendClicked(User user) {
+        Intent intent = new Intent(getApplicationContext(), ChatScreenActivity.class);
+        intent.putExtra(Constants.KEY_USER, user);
+        startActivity(intent);
     }
 }
