@@ -34,7 +34,7 @@ import java.util.List;
 import java.util.Locale;
 import java.util.Objects;
 
-public class ChatScreenActivity extends AppCompatActivity {
+public class ChatScreenActivity extends BaseActivity {
     private ActivityChatScreenBinding binding;
     private User receiverUSer;
     private ChatAdapter chatAdapter;
@@ -42,6 +42,7 @@ public class ChatScreenActivity extends AppCompatActivity {
     private FirebaseFirestore database;
     private List<ChatMessage> chatMessages;
     private String conversionId = null;
+    private  Boolean isReceiverAvailable = false;
 
 
     @Override
@@ -241,4 +242,31 @@ public class ChatScreenActivity extends AppCompatActivity {
             Log.d("KEY_CONVERSION_ID", conversionId);
         }
     };
+
+    private void  listenAvailabilityOfReceiver(){
+        database.collection(Constants.KEY_COLLECTION_USERS)
+                .document(receiverUSer.getUid())
+                .addSnapshotListener( ChatScreenActivity.this, (value, error) -> {
+                    if(error != null){
+                        return ;
+                    }
+                    if(value != null){
+                        if(value.getLong(Constants.KEY_AVAILABILITY)!= null){
+                            int availability = Objects.requireNonNull(value.getLong(Constants.KEY_AVAILABILITY)).intValue();
+                            isReceiverAvailable = availability == 1;
+                        }
+                        if(isReceiverAvailable){
+                            binding.statusAvailability.setVisibility(View.VISIBLE);
+                        }else{
+                            binding.statusAvailability.setVisibility(View.GONE);
+                        }
+                    }
+                });
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        listenAvailabilityOfReceiver();
+    }
 }
