@@ -28,7 +28,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="end"
-            android:background="@color/white"
+            android:background="@color/trans"
             android:contentDescription="@string/app_name"
             android:src="@drawable/ic_baseline_search_24"
             app:tint="@color/black" />
@@ -88,7 +88,7 @@
             android:layout_gravity="start"
             android:layout_marginStart="@dimen/_12sdp"
             android:layout_marginTop="@dimen/_12sdp"
-            android:background="@color/white"
+            android:background="@color/trans"
             android:contentDescription="@string/app_name"
             android:src="@drawable/ic_baseline_brightness_2_24"
             app:tint="@color/blue" />
@@ -131,7 +131,7 @@
                 android:layout_gravity="start"
                 android:layout_marginStart="@dimen/_12sdp"
                 android:layout_marginTop="@dimen/_12sdp"
-                android:background="@color/white"
+                android:background="@color/trans"
                 android:contentDescription="@string/app_name"
                 android:src="@drawable/ic_baseline_login_24"
                 app:tint="@color/blue" />
@@ -152,7 +152,7 @@
                 android:layout_gravity="end"
                 android:layout_marginStart="@dimen/_12sdp"
                 android:layout_marginTop="@dimen/_12sdp"
-                android:background="@color/white"
+                android:background="@color/trans"
                 android:contentDescription="@string/app_name"
                 android:src="@drawable/ic_baseline_navigate_next_24"
                 app:tint="@color/colorTextSecondary" />
@@ -167,7 +167,6 @@
         android:layout_marginTop="@dimen/_5sdp">
 
         <FrameLayout
-
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
 

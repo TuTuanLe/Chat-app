@@ -1,6 +1,5 @@
 package com.tutuanle.chatapp.adapters;
 
-import android.animation.ValueAnimator;
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.graphics.Bitmap;
@@ -9,22 +8,16 @@ import android.view.LayoutInflater;
 
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ScrollView;
 
 import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.github.pgreze.reactions.ReactionPopup;
 import com.github.pgreze.reactions.ReactionsConfig;
 import com.github.pgreze.reactions.ReactionsConfigBuilder;
 
-import com.google.firebase.firestore.EventListener;
 import com.google.firebase.firestore.FirebaseFirestore;
 
-import com.google.firebase.firestore.FirebaseFirestoreException;
-import com.google.firebase.firestore.QueryDocumentSnapshot;
-import com.google.firebase.firestore.QuerySnapshot;
 import com.tutuanle.chatapp.databinding.ItemReceiveBinding;
 import com.tutuanle.chatapp.databinding.ItemSentBinding;
 import com.tutuanle.chatapp.models.ChatMessage;
@@ -32,6 +25,9 @@ import com.tutuanle.chatapp.utilities.Constants;
 
 
 import java.util.List;
+import java.util.Objects;
+import java.util.concurrent.Executor;
+import java.util.concurrent.atomic.AtomicReference;
 
 public class ChatAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
     private final List<ChatMessage> chatMessages;
@@ -179,6 +175,8 @@ public class ChatAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
         public void setData(ChatMessage chatMessage) {
             binding.message.setText(chatMessage.getMessage());
             binding.textDateTime.setText(chatMessage.getDateTime());
+
+
 
         }
     }

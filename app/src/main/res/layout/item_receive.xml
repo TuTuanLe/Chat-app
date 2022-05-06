@@ -8,20 +8,23 @@
         android:id="@+id/roundedImageView"
         android:layout_width="@dimen/_25sdp"
         android:layout_height="@dimen/_25sdp"
-        android:layout_marginStart="@dimen/_10ssp"
+        android:layout_marginStart="@dimen/_5ssp"
         android:background="@drawable/background_image"
 
         android:scaleType="center"
 
         app:layout_constraintBottom_toBottomOf="@+id/message"
         app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/message"
         app:riv_oval="true" />
+
+
 
     <TextView
         android:id="@+id/message"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="@dimen/_10ssp"
+        android:layout_marginStart="@dimen/_6ssp"
         android:background="@drawable/receive_drawable"
         android:padding="@dimen/_12sdp"
         android:paddingBottom="5dp"

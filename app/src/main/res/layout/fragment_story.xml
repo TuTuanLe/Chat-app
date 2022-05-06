@@ -33,6 +33,9 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_vertical"
                 android:layout_marginStart="@dimen/_56sdp"
+                android:textStyle="bold"
+                android:textSize="@dimen/_12ssp"
+                android:textColor="@color/colorTextSecondary"
                 android:text="Admin" />
 
 
@@ -68,14 +71,15 @@
 
                 >
 
-                <com.makeramen.roundedimageview.RoundedImageView
+                <ImageButton
                     android:id="@+id/addStoryBook"
-                    android:layout_width="@dimen/_15sdp"
-                    android:layout_height="@dimen/_15sdp"
+                    android:layout_width="@dimen/_13sdp"
+                    android:layout_height="@dimen/_13sdp"
                     android:layout_gravity="center"
                     android:src="@drawable/ic_baseline_add_circle_outline_24"
-                    android:tint="@color/black"
-                    app:riv_corner_radius="@dimen/_8sdp" />
+                    android:scaleType="fitXY"
+                    android:background="@color/trans"
+                    app:tint="@color/black" />
 
             </FrameLayout>
 

@@ -322,7 +322,7 @@ public class ChatScreenActivity extends BaseActivity {
                     } catch (JSONException e) {
                         e.printStackTrace();
                     }
-                    showToast("Notification sent successfully");
+
                 }else {
                     showToast("Error"+ response.code());
                 }
