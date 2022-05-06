@@ -1,0 +1,121 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:clipToPadding="false"
+    android:overScrollMode="never"
+    android:paddingHorizontal="@dimen/_24sdp"
+    android:scrollbars="none"
+    tools:context=".activities.OTPScreenActivity">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center_horizontal"
+        android:orientation="vertical">
+
+        <ImageButton
+            android:id="@+id/goBack"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="start"
+            android:layout_marginTop="@dimen/_12sdp"
+            android:layout_marginStart="-17dp"
+            android:background="@color/trans"
+            android:contentDescription="@string/app_name"
+            android:src="@drawable/ic_baseline_chevron_left_24"
+            app:tint="@color/blue" />
+
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="@dimen/_10sdp"
+            android:text="My Mobile Number is"
+            android:textAlignment="center"
+            android:textColor="@color/colorTextPrimary"
+            android:textSize="@dimen/_18ssp"
+            android:textStyle="bold" />
+
+        <ImageView
+            android:layout_width="@dimen/_100sdp"
+            android:layout_height="@dimen/_100sdp"
+            android:src="@drawable/uit" />
+
+
+        <LinearLayout
+            android:layout_marginTop="@dimen/_40sdp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"  >
+            <EditText
+                android:layout_weight="1"
+                android:layout_width="@dimen/_50sdp"
+                android:layout_height="@dimen/_50sdp"
+                android:background="@drawable/textbox_outline"
+                android:layout_margin="@dimen/_5sdp"
+                />
+            <EditText
+                android:layout_weight="1"
+                android:layout_width="@dimen/_50sdp"
+                android:layout_height="@dimen/_50sdp"
+                android:background="@drawable/textbox_outline"
+                android:layout_margin="@dimen/_5sdp"
+                />
+            <EditText
+                android:layout_weight="1"
+                android:layout_width="@dimen/_50sdp"
+                android:layout_height="@dimen/_50sdp"
+                android:background="@drawable/textbox_outline"
+                android:layout_margin="@dimen/_5sdp"
+                />
+            <EditText
+                android:layout_weight="1"
+                android:layout_width="@dimen/_50sdp"
+                android:layout_height="@dimen/_50sdp"
+                android:background="@drawable/textbox_outline"
+                android:layout_margin="@dimen/_5sdp"
+                />
+        </LinearLayout>
+
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/_13sdp"
+            android:paddingHorizontal="@dimen/_40sdp"
+            android:text="Check your SMS messages , we have sent your pin at + 0396694769"
+            android:textAlignment="center" />
+
+
+
+        <com.agrawalsuneet.dotsloader.loaders.LinearDotsLoader
+            android:layout_marginTop="@dimen/_10sdp"
+            android:id="@+id/progressBar"
+            android:layout_gravity="center"
+            android:visibility="visible"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:loader_animDur="400"
+            app:loader_noOfDots="5"
+            app:loader_circleRadius="6dp"
+            app:loader_defaultColor="@color/gray_scale"
+            app:loader_selectedColor="@color/gray_scale"
+            app:loader_dotsDist="3dp"
+            app:loader_expandOnSelect="false"
+            app:loader_isSingleDir="false"
+            app:loader_selectedRadius="10dp"
+            app:loader_showRunningShadow="true"
+            app:loader_firstShadowColor="@color/blue"
+            app:loader_secondShadowColor="@color/gray_scale"/>
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Didn't receive SMS"
+        />
+
+    </LinearLayout>
+</ScrollView>

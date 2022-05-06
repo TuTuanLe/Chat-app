@@ -17,10 +17,12 @@
         android:orientation="vertical">
 
         <ImageButton
+            android:id="@+id/goBack"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="start"
             android:layout_marginTop="@dimen/_12sdp"
+            android:layout_marginStart="-17dp"
             android:background="@color/trans"
             android:contentDescription="@string/app_name"
             android:src="@drawable/ic_baseline_chevron_left_24"
@@ -109,7 +111,6 @@
                 android:id="@+id/buttonGetNumber"
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/_50sdp"
-
                 >
 
                 <TextView
@@ -122,12 +123,26 @@
                     android:textStyle="bold" />
             </com.balysv.materialripple.MaterialRippleLayout>
 
-            <ProgressBar
+
+
+            <com.agrawalsuneet.dotsloader.loaders.LinearDotsLoader
                 android:id="@+id/progressBar"
-                android:layout_width="@dimen/_25sdp"
-                android:layout_height="35dp"
                 android:layout_gravity="center"
-                android:visibility="invisible" />
+                android:visibility="invisible"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:loader_animDur="400"
+                app:loader_noOfDots="5"
+                app:loader_circleRadius="6dp"
+                app:loader_defaultColor="@color/gray_scale"
+                app:loader_selectedColor="@color/gray_scale"
+                app:loader_dotsDist="3dp"
+                app:loader_expandOnSelect="false"
+                app:loader_isSingleDir="false"
+                app:loader_selectedRadius="10dp"
+                app:loader_showRunningShadow="true"
+                app:loader_firstShadowColor="@color/white"
+                app:loader_secondShadowColor="@color/gray_scale"/>
         </FrameLayout>
 
 
