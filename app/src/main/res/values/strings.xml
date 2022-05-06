@@ -24,4 +24,11 @@
     <string name="mode_theme">Mode theme</string>
     <string name="type_a_message">Type a message ...</string>
     <string name="number_phone">Number Phone</string>
+    <string name="settings">Settings</string>
+    <string name="trust_your_feelings_be_a_good_human_beings">Trust your feelings ,be a good human beings</string>
+    <string name="chat_settings">Chat settings</string>
+    <string name="about">About</string>
+    <string name="account">Account</string>
+    <string name="privacy_and_security">Privacy and security</string>
+    <string name="dark_mode">Dark mode</string>
 </resources>

@@ -7,74 +7,318 @@
     tools:context=".fragment.SettingFragment"
     android:orientation="vertical"
     android:padding="@dimen/_15sdp">
-
-
-    <com.makeramen.roundedimageview.RoundedImageView
-        android:id="@+id/imageProfile"
-        android:layout_width="@dimen/_100sdp"
-        android:layout_height="@dimen/_100sdp"
-        android:background="@drawable/background_image"
-        android:layout_gravity="center_horizontal"
-        android:layout_margin="@dimen/_10sdp"
-        android:scaleType="centerCrop"
-        app:riv_oval="true"
-        />
-    <TextView
-        android:id="@+id/nameProfile"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="@string/app_name"
-        android:textSize="@dimen/_16ssp"
-        android:textStyle="bold"
-        android:textAlignment="center"
-        android:layout_marginTop="@dimen/_10sdp"
-        />
     <FrameLayout
-        android:id="@+id/logout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         >
-        <FrameLayout
-            android:layout_width="@dimen/_35sdp"
-            android:layout_height="@dimen/_35sdp"
+        <TextView
+
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/settings"
+            android:textSize="@dimen/_18ssp"
+            android:layout_gravity="start"
+            android:paddingStart="@dimen/_10sdp"
+            android:textStyle="bold"
+            android:textColor="@color/colorTextPrimary"
+            />
+
+        <ImageButton
+
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="end"
+            android:background="@color/white"
+            android:src="@drawable/ic_baseline_search_24"
+            app:tint="@color/black"
+            android:contentDescription="@string/app_name" />
+
+    </FrameLayout>
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        >
+        <com.makeramen.roundedimageview.RoundedImageView
+            android:id="@+id/imageProfile"
+            android:layout_width="@dimen/_64sdp"
+            android:layout_height="@dimen/_64sdp"
             android:background="@drawable/background_image"
-            android:layout_gravity="center_vertical"
+            android:layout_gravity="start"
+            android:layout_margin="@dimen/_10sdp"
+            android:scaleType="centerCrop"
+            app:riv_oval="true"
             />
 
         <TextView
-            android:layout_width="match_parent"
+            android:id="@+id/nameProfile"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/log_out"
-            android:textSize="@dimen/_16ssp"
-            android:layout_gravity="center_horizontal"
-            android:padding="@dimen/_10sdp"
-            android:layout_marginStart="@dimen/_30sdp"
+            android:text="@string/app_name"
+            android:textSize="@dimen/_18ssp"
+            android:textStyle="bold"
+            android:textAlignment="center"
+            android:layout_marginStart="@dimen/_100sdp"
+            android:layout_marginTop="@dimen/_16sdp"
+            android:textColor="@color/colorTextPrimary"
             />
+
+        <TextView
+            android:layout_width="@dimen/_168sdp"
+            android:layout_height="wrap_content"
+            android:text="@string/trust_your_feelings_be_a_good_human_beings"
+            android:textSize="@dimen/_12sdp"
+            android:textStyle="normal"
+            android:textAlignment="textStart"
+            android:layout_marginStart="@dimen/_100sdp"
+            android:layout_marginTop="@dimen/_40sdp"
+            android:textColor="@color/colorTextSecondary"
+            />
+
+
+
     </FrameLayout>
+
+
 
     <FrameLayout
         android:id="@+id/modeTheme"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/_40sdp"
+
         >
-        <FrameLayout
-            android:layout_width="@dimen/_35sdp"
-            android:layout_height="@dimen/_35sdp"
-            android:background="@drawable/background_image"
-            android:layout_gravity="center_vertical"
-            />
+        <ImageButton
+            android:layout_marginTop="@dimen/_12sdp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="start"
+            android:layout_marginStart="@dimen/_12sdp"
+            android:background="@color/white"
+            android:src="@drawable/ic_baseline_brightness_2_24"
+            app:tint="@color/blue"
+            android:contentDescription="@string/app_name" />
 
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="@string/mode_theme"
-            android:textSize="@dimen/_16ssp"
+            android:text="@string/dark_mode"
+            android:textSize="@dimen/_14ssp"
             android:layout_gravity="center_horizontal"
-            android:padding="@dimen/_10sdp"
-            android:layout_marginStart="@dimen/_30sdp"
+            android:padding="@dimen/_11sdp"
+            android:layout_marginStart="@dimen/_20sdp"
+            android:textColor="@color/colorTextSecondary"
             />
+
+        <androidx.appcompat.widget.SwitchCompat
+            android:id="@+id/switch_id"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_gravity="end"
+            app:thumbTint="@color/colorTextSecondary"
+            app:trackTint="#F1EAEA" />
+
     </FrameLayout>
 
+    <FrameLayout
+        android:id="@+id/logout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/_5sdp"
+        >
+        <ImageButton
+            android:layout_marginTop="@dimen/_12sdp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="start"
+            android:layout_marginStart="@dimen/_12sdp"
+            android:background="@color/white"
+            android:src="@drawable/ic_baseline_login_24"
+            app:tint="@color/blue"
+            android:contentDescription="@string/app_name" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/log_out"
+            android:textSize="@dimen/_14ssp"
+            android:layout_gravity="center_horizontal"
+            android:padding="@dimen/_11sdp"
+            android:layout_marginStart="@dimen/_20sdp"
+            android:textColor="@color/colorTextSecondary"
+            />
+        <ImageButton
+            android:layout_marginTop="@dimen/_12sdp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="end"
+            android:layout_marginStart="@dimen/_12sdp"
+            android:background="@color/white"
+            android:src="@drawable/ic_baseline_navigate_next_24"
+            app:tint="@color/colorTextSecondary"
+            android:contentDescription="@string/app_name" />
+
+    </FrameLayout>
+
+    <FrameLayout
+        android:id="@+id/Account"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/_5sdp"
+        >
+        <ImageButton
+            android:layout_marginTop="@dimen/_12sdp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="start"
+            android:layout_marginStart="@dimen/_12sdp"
+            android:background="@color/white"
+            android:src="@drawable/ic_baseline_account_circle_24"
+            app:tint="@color/blue"
+            android:contentDescription="@string/app_name" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/account"
+            android:textSize="@dimen/_14ssp"
+            android:layout_gravity="center_horizontal"
+            android:padding="@dimen/_11sdp"
+            android:layout_marginStart="@dimen/_20sdp"
+            android:textColor="@color/colorTextSecondary"
+            />
+        <ImageButton
+            android:layout_marginTop="@dimen/_12sdp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="end"
+            android:layout_marginStart="@dimen/_12sdp"
+            android:background="@color/white"
+            android:src="@drawable/ic_baseline_navigate_next_24"
+            app:tint="@color/colorTextSecondary"
+            android:contentDescription="@string/app_name" />
+
+    </FrameLayout>
+
+    <FrameLayout
+        android:id="@+id/settings"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/_5sdp"
+        >
+        <ImageButton
+            android:layout_marginTop="@dimen/_12sdp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="start"
+            android:layout_marginStart="@dimen/_12sdp"
+            android:background="@color/white"
+            android:src="@drawable/ic_baseline_settings_24"
+            app:tint="@color/blue"
+            android:contentDescription="@string/app_name" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/chat_settings"
+            android:textSize="@dimen/_14ssp"
+            android:layout_gravity="center_horizontal"
+            android:padding="@dimen/_11sdp"
+            android:layout_marginStart="@dimen/_20sdp"
+            android:textColor="@color/colorTextSecondary"
+            />
+        <ImageButton
+            android:layout_marginTop="@dimen/_12sdp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="end"
+            android:layout_marginStart="@dimen/_12sdp"
+            android:background="@color/white"
+            android:src="@drawable/ic_baseline_navigate_next_24"
+            app:tint="@color/colorTextSecondary"
+            android:contentDescription="@string/app_name" />
+
+    </FrameLayout>
+
+    <FrameLayout
+        android:id="@+id/privacy"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/_5sdp"
+        >
+        <ImageButton
+            android:layout_marginTop="@dimen/_12sdp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="start"
+            android:layout_marginStart="@dimen/_12sdp"
+            android:background="@color/white"
+            android:src="@drawable/ic_baseline_lock_24"
+            app:tint="@color/blue"
+            android:contentDescription="@string/app_name" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/privacy_and_security"
+            android:textSize="@dimen/_14ssp"
+            android:layout_gravity="center_horizontal"
+            android:padding="@dimen/_11sdp"
+            android:layout_marginStart="@dimen/_20sdp"
+            android:textColor="@color/colorTextSecondary"
+            />
+        <ImageButton
+            android:layout_marginTop="@dimen/_12sdp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="end"
+            android:layout_marginStart="@dimen/_12sdp"
+            android:background="@color/white"
+            android:src="@drawable/ic_baseline_navigate_next_24"
+            app:tint="@color/colorTextSecondary"
+            android:contentDescription="@string/app_name" />
+
+    </FrameLayout>
+
+    <FrameLayout
+        android:id="@+id/about"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/_5sdp"
+        >
+        <ImageButton
+            android:layout_marginTop="@dimen/_12sdp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+          
+            android:layout_gravity="start"
+            android:layout_marginStart="@dimen/_12sdp"
+            android:background="@color/white"
+            android:src="@drawable/ic_baseline_info_24"
+            app:tint="@color/blue"
+            android:contentDescription="@string/app_name" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/about"
+            android:textSize="@dimen/_14ssp"
+            android:layout_gravity="center_horizontal"
+            android:padding="@dimen/_11sdp"
+            android:layout_marginStart="@dimen/_20sdp"
+            android:textColor="@color/colorTextSecondary"
+            />
+        <ImageButton
+            android:layout_marginTop="@dimen/_12sdp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="end"
+            android:layout_marginStart="@dimen/_12sdp"
+            android:background="@color/white"
+            android:src="@drawable/ic_baseline_navigate_next_24"
+            app:tint="@color/colorTextSecondary"
+            android:contentDescription="@string/app_name" />
+
+    </FrameLayout>
 
 
 </LinearLayout>

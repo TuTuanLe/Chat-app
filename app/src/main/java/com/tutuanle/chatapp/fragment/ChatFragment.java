@@ -2,15 +2,20 @@ package com.tutuanle.chatapp.fragment;
 
 import android.os.Bundle;
 
+import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.animation.LinearInterpolator;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
+import com.agrawalsuneet.dotsloader.loaders.CircularDotsLoader;
+import com.agrawalsuneet.dotsloader.loaders.LazyLoader;
+import com.agrawalsuneet.dotsloader.loaders.TashieLoader;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.makeramen.roundedimageview.RoundedImageView;
@@ -50,7 +55,6 @@ public class ChatFragment extends Fragment {
 
         initialData();
         getUSer();
-
         return view;
     }
 
@@ -103,7 +107,7 @@ public class ChatFragment extends Fragment {
     }
 
     private void loading(Boolean isLoading) {
-        ProgressBar temp = view.findViewById(R.id.progressBar);
+        TashieLoader temp = view.findViewById(R.id.progressBar);
         if (isLoading) {
             temp.setVisibility(View.VISIBLE);
         } else {
@@ -115,4 +119,6 @@ public class ChatFragment extends Fragment {
         temp.setText("Not exist");
         temp.setVisibility(View.VISIBLE);
     }
+
+
 }
