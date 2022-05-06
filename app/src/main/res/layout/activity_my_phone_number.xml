@@ -98,23 +98,26 @@
         <FrameLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-
-            android:animateLayoutChanges="true">
+            android:layout_marginTop="@dimen/_20sdp"
+            android:animateLayoutChanges="true"
+            android:background="@drawable/button_bg"
+            android:elevation="@dimen/_2sdp"
+            >
 
 
             <com.balysv.materialripple.MaterialRippleLayout
                 android:id="@+id/buttonGetNumber"
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/_50sdp"
-                android:layout_marginTop="@dimen/_20sdp"
-                android:background="@drawable/button_bg">
+
+                >
 
                 <TextView
+
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:layout_marginTop="@dimen/_17sdp"
+                    android:gravity="center"
                     android:text="CONTINUE"
-                    android:textAlignment="center"
                     android:textColor="@color/white"
                     android:textStyle="bold" />
             </com.balysv.materialripple.MaterialRippleLayout>
@@ -124,7 +127,6 @@
                 android:layout_width="@dimen/_25sdp"
                 android:layout_height="35dp"
                 android:layout_gravity="center"
-                android:layout_marginTop="@dimen/_10sdp"
                 android:visibility="invisible" />
         </FrameLayout>
 
