@@ -87,4 +87,6 @@ dependencies {
 
     //loading
     implementation 'com.agrawalsuneet.androidlibs:dotsloader:1.4'
+
+    implementation 'com.balysv:material-ripple:1.0.2'
 }
