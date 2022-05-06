@@ -1,0 +1,133 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:clipToPadding="false"
+    android:overScrollMode="never"
+    android:paddingHorizontal="@dimen/_24sdp"
+    android:scrollbars="none"
+    tools:context=".activities.MyPhoneNumberActivity">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center_horizontal"
+        android:orientation="vertical">
+
+        <ImageButton
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="start"
+            android:layout_marginTop="@dimen/_12sdp"
+            android:background="@color/trans"
+            android:contentDescription="@string/app_name"
+            android:src="@drawable/ic_baseline_chevron_left_24"
+            app:tint="@color/blue" />
+
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="@dimen/_10sdp"
+            android:text="My Mobile Number is"
+            android:textAlignment="center"
+            android:textColor="@color/colorTextPrimary"
+            android:textSize="@dimen/_18ssp"
+            android:textStyle="bold" />
+
+        <ImageView
+            android:layout_width="@dimen/_100sdp"
+            android:layout_height="@dimen/_100sdp"
+            android:src="@drawable/uit" />
+
+        <FrameLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/_40sdp"
+            android:background="@drawable/textbox_outline">
+
+            <FrameLayout
+                android:layout_width="@dimen/_55sdp"
+                android:layout_height="match_parent"
+                android:layout_gravity="center_vertical"
+                android:background="@drawable/textbox_area"
+
+                >
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:gravity="center"
+                    android:paddingStart="@dimen/_10sdp"
+                    android:text="+84"
+                    android:textColor="@color/colorTextPrimary"
+                    android:textSize="@dimen/_13ssp"
+                    android:textStyle="bold" />
+
+                <ImageButton
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_gravity="end"
+                    android:background="@color/trans"
+                    android:contentDescription="@string/app_name"
+                    android:paddingEnd="@dimen/_5sdp"
+                    android:src="@drawable/ic_baseline_expand_more_24"
+                    app:tint="@color/colorTextPrimary" />
+            </FrameLayout>
+
+            <EditText
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/_40sdp"
+                android:layout_marginStart="@dimen/_60sdp"
+                android:background="@color/trans"
+                android:hint="Mobile Number"
+                android:inputType="number"
+                android:letterSpacing="0.3" />
+        </FrameLayout>
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/_13sdp"
+            android:paddingHorizontal="@dimen/_40sdp"
+            android:text="We need your mobile number to verify your account and to be able to get in touch"
+            android:textAlignment="center" />
+
+        <FrameLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+
+            android:animateLayoutChanges="true">
+
+
+            <com.balysv.materialripple.MaterialRippleLayout
+                android:id="@+id/buttonGetNumber"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/_50sdp"
+                android:layout_marginTop="@dimen/_20sdp"
+                android:background="@drawable/button_bg">
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_marginTop="@dimen/_17sdp"
+                    android:text="CONTINUE"
+                    android:textAlignment="center"
+                    android:textColor="@color/white"
+                    android:textStyle="bold" />
+            </com.balysv.materialripple.MaterialRippleLayout>
+
+            <ProgressBar
+                android:id="@+id/progressBar"
+                android:layout_width="@dimen/_25sdp"
+                android:layout_height="35dp"
+                android:layout_gravity="center"
+                android:layout_marginTop="@dimen/_10sdp"
+                android:visibility="invisible" />
+        </FrameLayout>
+
+
+    </LinearLayout>
+</ScrollView>

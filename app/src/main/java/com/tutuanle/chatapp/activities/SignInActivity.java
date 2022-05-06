@@ -69,6 +69,10 @@ public class SignInActivity extends AppCompatActivity {
             startActivityForResult(signInIntent, RC_SIGN_IN);
         });
 
+        binding.forgetPassword.setOnClickListener( v ->{
+            startActivity(new Intent(getApplicationContext(), MyPhoneNumberActivity.class));
+        });
+
     }
 
 

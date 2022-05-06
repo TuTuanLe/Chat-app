@@ -26,6 +26,7 @@
         <entry key="..\:/study/Mobile-App-Development/ChatsApp/app/src/main/res/drawable/background_image.xml" value="0.2425" />
         <entry key="..\:/study/Mobile-App-Development/ChatsApp/app/src/main/res/drawable/background_input.xml" value="0.2065" />
         <entry key="..\:/study/Mobile-App-Development/ChatsApp/app/src/main/res/drawable/background_splashscreen.xml" value="0.28" />
+        <entry key="..\:/study/Mobile-App-Development/ChatsApp/app/src/main/res/drawable/button_bg.xml" value="0.3205" />
         <entry key="..\:/study/Mobile-App-Development/ChatsApp/app/src/main/res/drawable/circle_bg.xml" value="0.2425" />
         <entry key="..\:/study/Mobile-App-Development/ChatsApp/app/src/main/res/drawable/circle_green.xml" value="0.218" />
         <entry key="..\:/study/Mobile-App-Development/ChatsApp/app/src/main/res/drawable/custom_header.xml" value="0.2495" />
@@ -34,11 +35,13 @@
         <entry key="..\:/study/Mobile-App-Development/ChatsApp/app/src/main/res/drawable/ic_attachment.xml" value="0.255" />
         <entry key="..\:/study/Mobile-App-Development/ChatsApp/app/src/main/res/drawable/ic_baseline_account_circle_24.xml" value="0.28" />
         <entry key="..\:/study/Mobile-App-Development/ChatsApp/app/src/main/res/drawable/ic_baseline_add_circle_outline_24.xml" value="0.2095" />
+        <entry key="..\:/study/Mobile-App-Development/ChatsApp/app/src/main/res/drawable/ic_baseline_chevron_left_24.xml" value="0.282" />
         <entry key="..\:/study/Mobile-App-Development/ChatsApp/app/src/main/res/drawable/ic_baseline_edit_24.xml" value="0.255" />
         <entry key="..\:/study/Mobile-App-Development/ChatsApp/app/src/main/res/drawable/ic_baseline_message_24.xml" value="0.28" />
         <entry key="..\:/study/Mobile-App-Development/ChatsApp/app/src/main/res/drawable/ic_baseline_photo_camera_24.xml" value="0.255" />
         <entry key="..\:/study/Mobile-App-Development/ChatsApp/app/src/main/res/drawable/ic_camera.xml" value="0.14" />
         <entry key="..\:/study/Mobile-App-Development/ChatsApp/app/src/main/res/drawable/ic_chats.xml" value="0.1" />
+        <entry key="..\:/study/Mobile-App-Development/ChatsApp/app/src/main/res/drawable/ic_search.xml" value="0.3205" />
         <entry key="..\:/study/Mobile-App-Development/ChatsApp/app/src/main/res/drawable/ic_send.xml" value="0.2775" />
         <entry key="..\:/study/Mobile-App-Development/ChatsApp/app/src/main/res/drawable/ic_status.xml" value="0.2815" />
         <entry key="..\:/study/Mobile-App-Development/ChatsApp/app/src/main/res/drawable/item_rounded_count_image.xml" value="0.2495" />
@@ -46,11 +49,13 @@
         <entry key="..\:/study/Mobile-App-Development/ChatsApp/app/src/main/res/drawable/layout_story.xml" value="0.21" />
         <entry key="..\:/study/Mobile-App-Development/ChatsApp/app/src/main/res/drawable/onpress_layout.xml" value="0.28" />
         <entry key="..\:/study/Mobile-App-Development/ChatsApp/app/src/main/res/drawable/sent_drawable.xml" value="0.25" />
+        <entry key="..\:/study/Mobile-App-Development/ChatsApp/app/src/main/res/drawable/textbox_area.xml" value="0.282" />
         <entry key="..\:/study/Mobile-App-Development/ChatsApp/app/src/main/res/drawable/textbox_outline.xml" value="0.2095" />
         <entry key="..\:/study/Mobile-App-Development/ChatsApp/app/src/main/res/layout/activity_chat.xml" value="0.3703125" />
         <entry key="..\:/study/Mobile-App-Development/ChatsApp/app/src/main/res/layout/activity_chat_screen.xml" value="0.2378826530612245" />
         <entry key="..\:/study/Mobile-App-Development/ChatsApp/app/src/main/res/layout/activity_main.xml" value="0.5" />
         <entry key="..\:/study/Mobile-App-Development/ChatsApp/app/src/main/res/layout/activity_main_screen.xml" value="0.33" />
+        <entry key="..\:/study/Mobile-App-Development/ChatsApp/app/src/main/res/layout/activity_my_phone_number.xml" value="0.5" />
         <entry key="..\:/study/Mobile-App-Development/ChatsApp/app/src/main/res/layout/activity_otpactivity.xml" value="0.12" />
         <entry key="..\:/study/Mobile-App-Development/ChatsApp/app/src/main/res/layout/activity_phone_number.xml" value="0.371875" />
         <entry key="..\:/study/Mobile-App-Development/ChatsApp/app/src/main/res/layout/activity_profile.xml" value="0.33" />
