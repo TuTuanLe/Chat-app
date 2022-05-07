@@ -33,7 +33,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginBottom="@dimen/_10sdp"
-            android:text="My Mobile Number is"
+            android:text="@string/my_mobile_number_is"
             android:textAlignment="center"
             android:textColor="@color/colorTextPrimary"
             android:textSize="@dimen/_18ssp"
@@ -80,13 +80,15 @@
             </FrameLayout>
 
             <EditText
+                android:id="@+id/phoneBox"
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/_40sdp"
                 android:layout_marginStart="@dimen/_60sdp"
                 android:background="@color/trans"
-                android:hint="Mobile Number"
+                android:hint="@string/mobile_number"
                 android:inputType="number"
-                android:letterSpacing="0.3" />
+                android:letterSpacing="0.3"
+                tools:ignore="TextFields" />
         </FrameLayout>
 
         <TextView
@@ -94,7 +96,7 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/_13sdp"
             android:paddingHorizontal="@dimen/_40sdp"
-            android:text="We need your mobile number to verify your account and to be able to get in touch"
+            android:text="@string/we_need_your_mobile_number_to_verify_your_account_and_to_be_able_to_get_in_touch"
             android:textAlignment="center" />
 
         <FrameLayout
@@ -110,7 +112,7 @@
             <com.balysv.materialripple.MaterialRippleLayout
                 android:id="@+id/buttonGetNumber"
                 android:layout_width="match_parent"
-                android:layout_height="@dimen/_50sdp"
+                android:layout_height="@dimen/_40sdp"
                 >
 
                 <TextView

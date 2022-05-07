@@ -31,4 +31,10 @@
     <string name="account">Account</string>
     <string name="privacy_and_security">Privacy and security</string>
     <string name="dark_mode">Dark mode</string>
+    <string name="mobile_number">Mobile Number</string>
+    <string name="we_need_your_mobile_number_to_verify_your_account_and_to_be_able_to_get_in_touch">We need your mobile number to verify your account and to be able to get in touch</string>
+    <string name="my_mobile_number_is">My Mobile Number is</string>
+    <string name="check_your_sms_messages_we_have_sent_your_pin_at_0396694769">Check your SMS messages , we have sent your pin at + 0396694769</string>
+    <string name="didn_t_receive_the_otp">Didn\'t receive the OTP?</string>
+    <string name="resend_otp">RESEND OTP</string>
 </resources>

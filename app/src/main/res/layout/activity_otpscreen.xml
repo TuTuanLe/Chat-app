@@ -45,48 +45,89 @@
             android:src="@drawable/uit" />
 
 
-        <LinearLayout
-            android:layout_marginTop="@dimen/_40sdp"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal"  >
-            <EditText
-                android:layout_weight="1"
-                android:layout_width="@dimen/_50sdp"
-                android:layout_height="@dimen/_50sdp"
-                android:background="@drawable/textbox_outline"
-                android:layout_margin="@dimen/_5sdp"
-                />
-            <EditText
-                android:layout_weight="1"
-                android:layout_width="@dimen/_50sdp"
-                android:layout_height="@dimen/_50sdp"
-                android:background="@drawable/textbox_outline"
-                android:layout_margin="@dimen/_5sdp"
-                />
-            <EditText
-                android:layout_weight="1"
-                android:layout_width="@dimen/_50sdp"
-                android:layout_height="@dimen/_50sdp"
-                android:background="@drawable/textbox_outline"
-                android:layout_margin="@dimen/_5sdp"
-                />
-            <EditText
-                android:layout_weight="1"
-                android:layout_width="@dimen/_50sdp"
-                android:layout_height="@dimen/_50sdp"
-                android:background="@drawable/textbox_outline"
-                android:layout_margin="@dimen/_5sdp"
-                />
-        </LinearLayout>
+     <LinearLayout
+         android:layout_width="match_parent"
+         android:layout_height="wrap_content"
+         android:layout_marginTop="@dimen/_30sdp"
+         android:gravity="center"
+         android:orientation="horizontal"
+         >
 
+         <EditText
+             android:id="@+id/inputCode1"
+             android:layout_width="@dimen/_40sdp"
+             android:layout_height="@dimen/_40sdp"
+             android:gravity="center"
+             android:imeOptions="actionNext"
+             android:importantForAutofill="no"
+             android:inputType="number"
+             android:maxLength="1"
+             android:textColor="@color/black"
+             android:textSize="@dimen/_20ssp"
+             android:textStyle="bold"
+             tools:ignore="LabelFor"
+             android:background="@drawable/textbox_outline"
+             android:layout_marginHorizontal="@dimen/_5sdp"
+             />
+         <EditText
+             android:id="@+id/inputCode2"
+             android:layout_width="@dimen/_40sdp"
+             android:layout_height="@dimen/_40sdp"
+             android:gravity="center"
+             android:imeOptions="actionNext"
+             android:importantForAutofill="no"
+             android:inputType="number"
+             android:maxLength="1"
+             android:textColor="@color/black"
+             android:textSize="@dimen/_20ssp"
+             android:textStyle="bold"
+             tools:ignore="LabelFor"
+             android:background="@drawable/textbox_outline"
+             android:layout_marginHorizontal="@dimen/_5sdp"
+             />
+         <EditText
+             android:id="@+id/inputCode3"
+             android:layout_width="@dimen/_40sdp"
+             android:layout_height="@dimen/_40sdp"
+             android:gravity="center"
+             android:imeOptions="actionNext"
+             android:importantForAutofill="no"
+             android:inputType="number"
+             android:maxLength="1"
+             android:textColor="@color/black"
+             android:textSize="@dimen/_20ssp"
+             android:textStyle="bold"
+             tools:ignore="LabelFor"
+             android:background="@drawable/textbox_outline"
+             android:layout_marginHorizontal="@dimen/_5sdp"
+             />
+         <EditText
+             android:id="@+id/inputCode4"
+             android:layout_width="@dimen/_40sdp"
+             android:layout_height="@dimen/_40sdp"
+             android:gravity="center"
+             android:imeOptions="actionNext"
+             android:importantForAutofill="no"
+             android:inputType="number"
+             android:maxLength="1"
+             android:textColor="@color/black"
+             android:textSize="@dimen/_20ssp"
+             android:textStyle="bold"
+             tools:ignore="LabelFor"
+             android:background="@drawable/textbox_outline"
+             android:layout_marginHorizontal="@dimen/_5sdp"
+             />
+
+
+     </LinearLayout>
 
         <TextView
+            android:id="@+id/textView"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/_13sdp"
             android:paddingHorizontal="@dimen/_40sdp"
-            android:text="Check your SMS messages , we have sent your pin at + 0396694769"
+            android:text="@string/check_your_sms_messages_we_have_sent_your_pin_at_0396694769"
             android:textAlignment="center" />
 
 
@@ -95,7 +136,7 @@
             android:layout_marginTop="@dimen/_10sdp"
             android:id="@+id/progressBar"
             android:layout_gravity="center"
-            android:visibility="visible"
+            android:visibility="invisible"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             app:loader_animDur="400"
@@ -111,11 +152,28 @@
             app:loader_firstShadowColor="@color/blue"
             app:loader_secondShadowColor="@color/gray_scale"/>
 
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="Didn't receive SMS"
-        />
+       <LinearLayout
+           android:layout_width="match_parent"
+           android:layout_height="wrap_content"
+            android:orientation="horizontal"
+           android:gravity="center"
+           >
+           <TextView
+               android:layout_width="wrap_content"
+               android:layout_height="wrap_content"
+               android:text="@string/didn_t_receive_the_otp"
+               android:textSize="@dimen/_9ssp"/>
+           <TextView
+               android:id="@+id/textResendOTP"
+               android:layout_width="wrap_content"
+               android:layout_height="wrap_content"
+               android:textSize="@dimen/_11ssp"
+               android:textStyle="bold"
+               android:text="@string/resend_otp"
+               android:layout_marginStart="@dimen/_5sdp"
+               android:textColor="@color/colorTextPrimary"
+               />
 
+       </LinearLayout>
     </LinearLayout>
 </ScrollView>
