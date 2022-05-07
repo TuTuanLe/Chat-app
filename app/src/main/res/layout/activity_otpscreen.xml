@@ -67,7 +67,7 @@
              android:textStyle="bold"
              tools:ignore="LabelFor"
              android:background="@drawable/textbox_outline"
-             android:layout_marginHorizontal="@dimen/_5sdp"
+             android:layout_marginHorizontal="@dimen/_2sdp"
              />
          <EditText
              android:id="@+id/inputCode2"
@@ -83,7 +83,7 @@
              android:textStyle="bold"
              tools:ignore="LabelFor"
              android:background="@drawable/textbox_outline"
-             android:layout_marginHorizontal="@dimen/_5sdp"
+             android:layout_marginHorizontal="@dimen/_2sdp"
              />
          <EditText
              android:id="@+id/inputCode3"
@@ -99,7 +99,7 @@
              android:textStyle="bold"
              tools:ignore="LabelFor"
              android:background="@drawable/textbox_outline"
-             android:layout_marginHorizontal="@dimen/_5sdp"
+             android:layout_marginHorizontal="@dimen/_2sdp"
              />
          <EditText
              android:id="@+id/inputCode4"
@@ -115,7 +115,39 @@
              android:textStyle="bold"
              tools:ignore="LabelFor"
              android:background="@drawable/textbox_outline"
-             android:layout_marginHorizontal="@dimen/_5sdp"
+             android:layout_marginHorizontal="@dimen/_2sdp"
+             />
+         <EditText
+             android:id="@+id/inputCode5"
+             android:layout_width="@dimen/_40sdp"
+             android:layout_height="@dimen/_40sdp"
+             android:gravity="center"
+             android:imeOptions="actionNext"
+             android:importantForAutofill="no"
+             android:inputType="number"
+             android:maxLength="1"
+             android:textColor="@color/black"
+             android:textSize="@dimen/_20ssp"
+             android:textStyle="bold"
+             tools:ignore="LabelFor"
+             android:background="@drawable/textbox_outline"
+             android:layout_marginHorizontal="@dimen/_2sdp"
+             />
+         <EditText
+             android:id="@+id/inputCode6"
+             android:layout_width="@dimen/_40sdp"
+             android:layout_height="@dimen/_40sdp"
+             android:gravity="center"
+             android:imeOptions="actionNext"
+             android:importantForAutofill="no"
+             android:inputType="number"
+             android:maxLength="1"
+             android:textColor="@color/black"
+             android:textSize="@dimen/_20ssp"
+             android:textStyle="bold"
+             tools:ignore="LabelFor"
+             android:background="@drawable/textbox_outline"
+             android:layout_marginHorizontal="@dimen/_2sdp"
              />
 
 

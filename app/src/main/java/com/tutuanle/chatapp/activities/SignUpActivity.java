@@ -72,6 +72,7 @@ public class SignUpActivity extends AppCompatActivity {
         user.put(Constants.KEY_NAME, binding.inputName.getText().toString());
         user.put(Constants.KEY_EMAIL, binding.inputEmail.getText().toString());
         user.put(Constants.KEY_PASSWORD, binding.inputPassword.getText().toString());
+        user.put(Constants.KEY_NUMBER_PHONE, binding.inputNumberPhone.getText().toString());
         user.put(Constants.KEY_IMAGE, encodedImage);
         database.collection(Constants.KEY_COLLECTION_USERS)
                 .add(user)
