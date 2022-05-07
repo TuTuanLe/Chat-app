@@ -82,6 +82,9 @@ public class SignUpActivity extends AppCompatActivity {
                     preferenceManager.putString(Constants.KEY_USER_ID, documentReference.getId());
                     preferenceManager.putString(Constants.KEY_NAME, binding.inputName.getText().toString());
                     preferenceManager.putString(Constants.KEY_IMAGE, encodedImage);
+                    preferenceManager.putString(Constants.KEY_EMAIL,  binding.inputEmail.getText().toString());
+                    preferenceManager.putString(Constants.KEY_NUMBER_PHONE, binding.inputNumberPhone.getText().toString());
+                    preferenceManager.putString(Constants.KEY_PASSWORD, binding.inputPassword.getText().toString());
                     Intent intent = new Intent(getApplicationContext(), MainScreenActivity.class);
                     intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
                     startActivity(intent);

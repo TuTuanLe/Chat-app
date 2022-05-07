@@ -65,7 +65,7 @@
                 android:id="@+id/phoneBox"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:background="@drawable/textbox_outline"
+                android:background="@drawable/text_box_outline"
                 android:ems="10"
                 android:hint="Type your phone number"
                 android:inputType="number|textPersonName"

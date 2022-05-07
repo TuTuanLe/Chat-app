@@ -72,16 +72,13 @@ public class OTPActivity extends AppCompatActivity {
             @Override
             public void onOtpCompleted(String otp) {
                 PhoneAuthCredential credential = PhoneAuthProvider.getCredential(verificationId, otp);
-                auth.signInWithCredential(credential).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
-                    @Override
-                    public void onComplete(@NonNull Task<AuthResult> task) {
-                        if(task.isSuccessful()){
-                            Intent intent = new Intent(OTPActivity.this, SetupProfileActivity.class);
-                            startActivity(intent);
-                            finishAffinity();
-                        }else{
-                            Toast.makeText(OTPActivity.this,"Failed.", Toast.LENGTH_SHORT).show();
-                        }
+                auth.signInWithCredential(credential).addOnCompleteListener(task -> {
+                    if(task.isSuccessful()){
+                        Intent intent = new Intent(OTPActivity.this, SetupProfileActivity.class);
+                        startActivity(intent);
+                        finishAffinity();
+                    }else{
+                        Toast.makeText(OTPActivity.this,"Failed.", Toast.LENGTH_SHORT).show();
                     }
                 });
             }

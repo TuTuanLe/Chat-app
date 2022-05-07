@@ -8,6 +8,34 @@ public class User implements Serializable {
     private String phoneNumber;
     private String profileImage;
     private String token;
+    private String email;
+
+
+    private  String password;
+
+    public User() {
+    }
+
+
+    public User(String uid, String name, String phoneNumber, String profileImage) {
+        this.uid = uid;
+        this.name = name;
+        this.phoneNumber = phoneNumber;
+        this.profileImage = profileImage;
+    }
+
+
+    public String getPassword() {
+        return password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
+    }
+
+    public String getPhoneNumber() {
+        return phoneNumber;
+    }
 
     public String getToken() {
         return token;
@@ -25,17 +53,6 @@ public class User implements Serializable {
         this.email = email;
     }
 
-    private String email;
-
-    public User(String uid, String name, String phoneNumber, String profileImage) {
-        this.uid = uid;
-        this.name = name;
-        this.phoneNumber = phoneNumber;
-        this.profileImage = profileImage;
-    }
-
-    public User() {
-    }
 
     public void setUid(String uid) {
         this.uid = uid;
@@ -59,10 +76,6 @@ public class User implements Serializable {
 
     public String getName() {
         return name;
-    }
-
-    public String getPhoneNumber() {
-        return phoneNumber;
     }
 
     public String getProfileImage() {

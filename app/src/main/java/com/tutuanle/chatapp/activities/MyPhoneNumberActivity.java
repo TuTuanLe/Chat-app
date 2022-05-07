@@ -17,6 +17,7 @@ import com.tutuanle.chatapp.databinding.ActivityMyPhoneNumberBinding;
 import com.tutuanle.chatapp.models.User;
 import com.tutuanle.chatapp.utilities.Constants;
 
+import java.util.Objects;
 import java.util.concurrent.TimeUnit;
 
 public class MyPhoneNumberActivity extends AppCompatActivity {
@@ -58,6 +59,9 @@ public class MyPhoneNumberActivity extends AppCompatActivity {
                         user.setUid(snapshot.getId());
                         user.setName( snapshot.getString(Constants.KEY_NAME));
                         user.setProfileImage( snapshot.getString(Constants.KEY_IMAGE));
+                        user.setPhoneNumber(snapshot.getString(Constants.KEY_NUMBER_PHONE));
+                        user.setEmail(snapshot.getString(Constants.KEY_EMAIL));
+                        user.setPassword(snapshot.getString(Constants.KEY_EMAIL));
                         getAuthPhone();
                     } else {
                         Toast.makeText(this, "Doesn't exist number phone ...", Toast.LENGTH_SHORT).show();
@@ -92,6 +96,7 @@ public class MyPhoneNumberActivity extends AppCompatActivity {
                         Intent intent = new Intent(getApplicationContext(), OTPScreenActivity.class);
                         intent.putExtra("phoneNumber", binding.phoneBox.getText().toString());
                         intent.putExtra("verificationId", s);
+                        intent.putExtra(Constants.KEY_USER, user);
                         startActivity(intent);
                     }
                 }

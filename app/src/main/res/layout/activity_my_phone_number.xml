@@ -47,14 +47,14 @@
         <FrameLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/_40sdp"
-            android:background="@drawable/textbox_outline">
+            android:layout_marginTop="@dimen/_35sdp"
+            android:background="@drawable/text_box_outline">
 
             <FrameLayout
                 android:layout_width="@dimen/_55sdp"
                 android:layout_height="match_parent"
                 android:layout_gravity="center_vertical"
-                android:background="@drawable/textbox_area"
+                android:background="@drawable/text_box_area"
 
                 >
 
@@ -88,6 +88,7 @@
                 android:hint="@string/mobile_number"
                 android:inputType="number"
                 android:letterSpacing="0.3"
+                android:textStyle="bold"
                 tools:ignore="TextFields" />
         </FrameLayout>
 

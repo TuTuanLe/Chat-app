@@ -55,8 +55,8 @@
 
          <EditText
              android:id="@+id/inputCode1"
-             android:layout_width="@dimen/_40sdp"
-             android:layout_height="@dimen/_40sdp"
+             android:layout_width="@dimen/_38sdp"
+             android:layout_height="@dimen/_38sdp"
              android:gravity="center"
              android:imeOptions="actionNext"
              android:importantForAutofill="no"
@@ -66,13 +66,13 @@
              android:textSize="@dimen/_20ssp"
              android:textStyle="bold"
              tools:ignore="LabelFor"
-             android:background="@drawable/textbox_outline"
+             android:background="@drawable/text_box_outline"
              android:layout_marginHorizontal="@dimen/_2sdp"
              />
          <EditText
              android:id="@+id/inputCode2"
-             android:layout_width="@dimen/_40sdp"
-             android:layout_height="@dimen/_40sdp"
+             android:layout_width="@dimen/_38sdp"
+             android:layout_height="@dimen/_38sdp"
              android:gravity="center"
              android:imeOptions="actionNext"
              android:importantForAutofill="no"
@@ -82,13 +82,13 @@
              android:textSize="@dimen/_20ssp"
              android:textStyle="bold"
              tools:ignore="LabelFor"
-             android:background="@drawable/textbox_outline"
+             android:background="@drawable/text_box_outline"
              android:layout_marginHorizontal="@dimen/_2sdp"
              />
          <EditText
              android:id="@+id/inputCode3"
-             android:layout_width="@dimen/_40sdp"
-             android:layout_height="@dimen/_40sdp"
+             android:layout_width="@dimen/_38sdp"
+             android:layout_height="@dimen/_38sdp"
              android:gravity="center"
              android:imeOptions="actionNext"
              android:importantForAutofill="no"
@@ -98,13 +98,13 @@
              android:textSize="@dimen/_20ssp"
              android:textStyle="bold"
              tools:ignore="LabelFor"
-             android:background="@drawable/textbox_outline"
+             android:background="@drawable/text_box_outline"
              android:layout_marginHorizontal="@dimen/_2sdp"
              />
          <EditText
              android:id="@+id/inputCode4"
-             android:layout_width="@dimen/_40sdp"
-             android:layout_height="@dimen/_40sdp"
+             android:layout_width="@dimen/_38sdp"
+             android:layout_height="@dimen/_38sdp"
              android:gravity="center"
              android:imeOptions="actionNext"
              android:importantForAutofill="no"
@@ -114,13 +114,13 @@
              android:textSize="@dimen/_20ssp"
              android:textStyle="bold"
              tools:ignore="LabelFor"
-             android:background="@drawable/textbox_outline"
+             android:background="@drawable/text_box_outline"
              android:layout_marginHorizontal="@dimen/_2sdp"
              />
          <EditText
              android:id="@+id/inputCode5"
-             android:layout_width="@dimen/_40sdp"
-             android:layout_height="@dimen/_40sdp"
+             android:layout_width="@dimen/_38sdp"
+             android:layout_height="@dimen/_38sdp"
              android:gravity="center"
              android:imeOptions="actionNext"
              android:importantForAutofill="no"
@@ -130,13 +130,13 @@
              android:textSize="@dimen/_20ssp"
              android:textStyle="bold"
              tools:ignore="LabelFor"
-             android:background="@drawable/textbox_outline"
+             android:background="@drawable/text_box_outline"
              android:layout_marginHorizontal="@dimen/_2sdp"
              />
          <EditText
              android:id="@+id/inputCode6"
-             android:layout_width="@dimen/_40sdp"
-             android:layout_height="@dimen/_40sdp"
+             android:layout_width="@dimen/_38sdp"
+             android:layout_height="@dimen/_38sdp"
              android:gravity="center"
              android:imeOptions="actionNext"
              android:importantForAutofill="no"
@@ -146,7 +146,7 @@
              android:textSize="@dimen/_20ssp"
              android:textStyle="bold"
              tools:ignore="LabelFor"
-             android:background="@drawable/textbox_outline"
+             android:background="@drawable/text_box_outline"
              android:layout_marginHorizontal="@dimen/_2sdp"
              />
 
@@ -166,12 +166,13 @@
 
         <com.agrawalsuneet.dotsloader.loaders.LinearDotsLoader
             android:layout_marginTop="@dimen/_10sdp"
+            android:layout_marginBottom="@dimen/_10sdp"
             android:id="@+id/progressBar"
             android:layout_gravity="center"
             android:visibility="invisible"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            app:loader_animDur="400"
+            app:loader_animDur="200"
             app:loader_noOfDots="5"
             app:loader_circleRadius="6dp"
             app:loader_defaultColor="@color/gray_scale"
