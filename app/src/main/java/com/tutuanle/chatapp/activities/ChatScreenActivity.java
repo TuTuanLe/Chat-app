@@ -77,7 +77,7 @@ public class ChatScreenActivity extends BaseActivity {
         init();
         listenMessages();
         setIconSend();
-//        customizeYourChat();
+        customizeYourChat();
     }
 
     private void loadReceiverDetails() {
@@ -111,19 +111,21 @@ public class ChatScreenActivity extends BaseActivity {
         dialog.setCancelable(Gravity.BOTTOM == gravity);
 
         dialog.findViewById(R.id.Theme_default).setOnClickListener(v->{
+            binding.setImageScreen.setBackgroundResource(0);
             dialog.dismiss();
         });
 
         dialog.findViewById(R.id.Theme_chill).setOnClickListener(v->{
+            binding.setImageScreen.setBackgroundResource(R.drawable.bg_3);
             dialog.dismiss();
         });
-        dialog.findViewById(R.id.Theme_doctor_strange).setOnClickListener(v->{
-            dialog.dismiss();
-        });
+
         dialog.findViewById(R.id.Theme_love).setOnClickListener(v->{
+            binding.setImageScreen.setBackgroundResource(R.drawable.bg_4);
             dialog.dismiss();
         });
         dialog.findViewById(R.id.Theme_sky).setOnClickListener(v->{
+            binding.setImageScreen.setBackgroundResource(R.drawable.bg_sky);
             dialog.dismiss();
         });
         dialog.findViewById(R.id.icon_close).setOnClickListener(v->{

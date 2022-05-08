@@ -4,23 +4,24 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/background_while_corner"
     android:layout_margin="@dimen/_16sdp"
+    android:background="@drawable/background_while_corner"
     android:orientation="vertical">
+
     <FrameLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@drawable/background_header_corner"
-        >
+        android:background="@drawable/background_header_corner">
+
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:padding="@dimen/_12ssp"
-            android:textColor="@color/white"
-            android:textSize="@dimen/_13sdp"
             android:gravity="start"
+            android:padding="@dimen/_12ssp"
             android:text="Customize your chat"
-            />
+            android:textColor="@color/white"
+            android:textSize="@dimen/_13sdp" />
+
         <ImageButton
             android:id="@+id/icon_close"
             android:layout_width="@dimen/_30sdp"
@@ -28,19 +29,20 @@
             android:layout_gravity="end"
             android:background="@color/trans"
             android:contentDescription="@string/app_name"
-            android:src="@drawable/ic_baseline_close_24"
             android:paddingEnd="@dimen/_10sdp"
+            android:src="@drawable/ic_baseline_close_24"
             tools:ignore="RtlSymmetry" />
     </FrameLayout>
+
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="@string/theme"
-        android:gravity="start"
-        android:textColor="@color/colorTextPrimary"
         android:layout_marginStart="@dimen/_10sdp"
         android:layout_marginTop="@dimen/_10sdp"
-        />
+        android:gravity="start"
+        android:text="@string/theme"
+        android:textColor="@color/colorTextPrimary" />
+
     <com.balysv.materialripple.MaterialRippleLayout
         android:id="@+id/Theme_default"
         android:layout_width="match_parent"
@@ -52,14 +54,15 @@
             android:layout_height="wrap_content">
 
             <com.makeramen.roundedimageview.RoundedImageView
-                android:layout_marginStart="@dimen/_10sdp"
-                android:layout_marginTop="@dimen/_5sdp"
+                android:id="@+id/ThemeDefaultImage"
                 android:layout_width="@dimen/_30sdp"
                 android:layout_height="@dimen/_30sdp"
+                android:layout_marginStart="@dimen/_10sdp"
+                android:layout_marginTop="@dimen/_5sdp"
                 android:background="@drawable/circle_bg"
                 android:scaleType="center"
                 app:riv_oval="true"
-                android:src="@drawable/bg"
+
                 />
 
 
@@ -72,7 +75,6 @@
                 android:text="Default"
                 android:textColor="@color/colorTextSecondary"
                 android:textSize="@dimen/_12ssp" />
-
 
 
         </FrameLayout>
@@ -89,15 +91,14 @@
             android:layout_height="wrap_content">
 
             <com.makeramen.roundedimageview.RoundedImageView
-                android:layout_marginStart="@dimen/_10sdp"
-                android:layout_marginTop="@dimen/_5sdp"
+                android:id="@+id/themeLoveImage"
                 android:layout_width="@dimen/_30sdp"
                 android:layout_height="@dimen/_30sdp"
+                android:layout_marginStart="@dimen/_10sdp"
+                android:layout_marginTop="@dimen/_5sdp"
                 android:background="@drawable/circle_bg"
                 android:scaleType="fitXY"
-                app:riv_oval="true"
-                android:src="@drawable/bg_4"
-                />
+                app:riv_oval="true" />
 
 
             <TextView
@@ -109,7 +110,6 @@
                 android:text="Love"
                 android:textColor="@color/colorTextSecondary"
                 android:textSize="@dimen/_12ssp" />
-
 
 
         </FrameLayout>
@@ -126,14 +126,15 @@
             android:layout_height="wrap_content">
 
             <com.makeramen.roundedimageview.RoundedImageView
-                android:layout_marginStart="@dimen/_10sdp"
-                android:layout_marginTop="@dimen/_5sdp"
+                android:id="@+id/themSkyImage"
                 android:layout_width="@dimen/_30sdp"
                 android:layout_height="@dimen/_30sdp"
+                android:layout_marginStart="@dimen/_10sdp"
+                android:layout_marginTop="@dimen/_5sdp"
                 android:background="@drawable/circle_bg"
                 android:scaleType="fitXY"
                 app:riv_oval="true"
-                android:src="@drawable/bg_sky"
+
                 />
 
 
@@ -149,7 +150,6 @@
                 android:textSize="@dimen/_12ssp" />
 
 
-
         </FrameLayout>
     </com.balysv.materialripple.MaterialRippleLayout>
 
@@ -157,22 +157,24 @@
         android:id="@+id/Theme_chill"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="@dimen/_5sdp">
+        android:layout_marginTop="@dimen/_5sdp"
+        android:layout_marginBottom="@dimen/_30sdp"
+        >
 
         <FrameLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
 
             <com.makeramen.roundedimageview.RoundedImageView
-                android:layout_marginTop="@dimen/_5sdp"
+                android:id="@+id/themeLoveChill"
                 android:layout_width="@dimen/_30sdp"
                 android:layout_height="@dimen/_30sdp"
+                android:layout_marginStart="@dimen/_10sdp"
+                android:layout_marginTop="@dimen/_5sdp"
                 android:background="@drawable/circle_bg"
                 android:scaleType="fitXY"
-                app:riv_oval="true"
-                android:src="@drawable/bg_3"
-                android:layout_marginStart="@dimen/_10sdp"
-                />
+                app:riv_oval="true" />
+
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -184,47 +186,9 @@
                 android:textSize="@dimen/_12ssp" />
 
 
-
         </FrameLayout>
     </com.balysv.materialripple.MaterialRippleLayout>
 
-    <com.balysv.materialripple.MaterialRippleLayout
-        android:id="@+id/Theme_doctor_strange"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="@dimen/_5sdp"
-        android:layout_marginBottom="@dimen/_10sdp"
-        >
-
-        <FrameLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content">
-
-            <com.makeramen.roundedimageview.RoundedImageView
-                android:layout_marginTop="@dimen/_5sdp"
-                android:layout_width="@dimen/_30sdp"
-                android:layout_height="@dimen/_30sdp"
-                android:background="@drawable/circle_bg"
-                android:scaleType="fitXY"
-                app:riv_oval="true"
-                android:src="@drawable/bg_5"
-                android:layout_marginStart="@dimen/_10sdp"
-                />
-
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center_horizontal"
-                android:layout_marginStart="@dimen/_30sdp"
-                android:padding="@dimen/_11sdp"
-                android:text="Doctor Strange"
-                android:textColor="@color/colorTextSecondary"
-                android:textSize="@dimen/_12ssp" />
-
-
-
-        </FrameLayout>
-    </com.balysv.materialripple.MaterialRippleLayout>
 
 
 </LinearLayout>

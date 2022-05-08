@@ -4,9 +4,9 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/bg_5"
+    android:id="@+id/setImageScreen"
     tools:context=".activities.ChatScreenActivity">
-
+<!--    android:background="@drawable/bg_5"-->
     <androidx.cardview.widget.CardView
         android:id="@+id/cardView3"
         android:layout_width="match_parent"
@@ -143,7 +143,7 @@
             android:layout_height="match_parent"
             android:padding="@dimen/_8sdp"
             android:src="@drawable/ic_baseline_send_24"
-            app:tint="@color/gray_scale"
+            app:tint="@color/colorGray"
             android:contentDescription="@string/app_name"
 
             />
