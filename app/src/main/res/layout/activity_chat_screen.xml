@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/bg"
+    android:background="@drawable/bg_5"
     tools:context=".activities.ChatScreenActivity">
 
     <androidx.cardview.widget.CardView
@@ -28,7 +28,8 @@
                 android:layout_height="@dimen/_40sdp"
                 android:layout_weight="1"
                 android:padding="@dimen/_10sdp"
-                android:src="@drawable/ic_baseline_arrow_back_24" />
+                android:src="@drawable/ic_baseline_arrow_back_24"
+                android:tint="@color/black"/>
 
 
             <androidx.constraintlayout.widget.ConstraintLayout
@@ -73,7 +74,9 @@
                 android:layout_height="@dimen/_30sdp"
                 android:layout_weight="1"
                 android:padding="@dimen/_6sdp"
-                android:src="@drawable/ic_baseline_call_24" />
+                android:src="@drawable/ic_baseline_call_24"
+                android:tint="@color/blue"
+                />
 
             <androidx.appcompat.widget.AppCompatImageView
                 android:id="@+id/imageVideoCall"
@@ -81,7 +84,8 @@
                 android:layout_height="@dimen/_30sdp"
                 android:layout_weight="1"
                 android:padding="@dimen/_6sdp"
-                android:src="@drawable/ic_baseline_videocam_24" />
+                android:src="@drawable/ic_baseline_videocam_24"
+                android:tint="@color/blue"/>
 
             <androidx.appcompat.widget.AppCompatImageView
                 android:id="@+id/imageInfo"
@@ -90,7 +94,7 @@
                 android:layout_weight="1"
                 android:padding="@dimen/_6sdp"
                 android:src="@drawable/ic_baseline_info_24"
-
+                android:tint="@color/blue"
                 />
 
 
@@ -202,6 +206,7 @@
                 android:background="@android:color/transparent"
                 android:hint="@string/type_a_message"
                 android:paddingStart="@dimen/_10sdp"
+                android:textColor="@color/colorTextPrimary"
                 tools:ignore="RtlSymmetry" />
 
             <ImageView

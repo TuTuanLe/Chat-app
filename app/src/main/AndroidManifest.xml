@@ -15,6 +15,9 @@
         android:usesCleartextTraffic="true"
         tools:targetApi="m">
         <activity
+            android:name=".activities.InfomationActivity"
+            android:exported="false" />
+        <activity
             android:name=".activities.OTPScreenActivity"
             android:exported="false" />
         <activity

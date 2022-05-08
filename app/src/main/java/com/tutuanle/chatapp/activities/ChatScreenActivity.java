@@ -1,20 +1,27 @@
 package com.tutuanle.chatapp.activities;
 
 import android.annotation.SuppressLint;
+import android.app.Dialog;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.Base64;
 import android.util.Log;
+import android.view.Gravity;
 import android.view.View;
+import android.view.Window;
+import android.view.WindowManager;
 import android.view.inputmethod.EditorInfo;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.core.content.ContextCompat;
 
+import com.balysv.materialripple.MaterialRippleLayout;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.firebase.firestore.DocumentChange;
 import com.google.firebase.firestore.DocumentReference;
@@ -70,6 +77,7 @@ public class ChatScreenActivity extends BaseActivity {
         init();
         listenMessages();
         setIconSend();
+//        customizeYourChat();
     }
 
     private void loadReceiverDetails() {
@@ -77,6 +85,53 @@ public class ChatScreenActivity extends BaseActivity {
         binding.textName.setText(receiverUSer.getName());
         binding.imageFriend.setImageBitmap(getBitmapFromEnCodedString(receiverUSer.getProfileImage()));
     }
+
+    private void customizeYourChat() {
+        binding.imageInfo.setOnClickListener(v -> {
+            openDialog(Gravity.CENTER);
+        });
+    }
+
+    private void openDialog(int gravity) {
+        final Dialog dialog = new Dialog(this);
+        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+        dialog.setContentView(R.layout.layout_dialog_theme);
+
+        Window window = dialog.getWindow();
+        if(window == null){
+            return ;
+        }
+        window.setLayout(WindowManager.LayoutParams.MATCH_PARENT, WindowManager.LayoutParams.WRAP_CONTENT);
+        window.setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+
+        WindowManager.LayoutParams windowAttributes = window.getAttributes();
+        windowAttributes.gravity = gravity;
+        window.setAttributes(windowAttributes);
+
+        dialog.setCancelable(Gravity.BOTTOM == gravity);
+
+        dialog.findViewById(R.id.Theme_default).setOnClickListener(v->{
+            dialog.dismiss();
+        });
+
+        dialog.findViewById(R.id.Theme_chill).setOnClickListener(v->{
+            dialog.dismiss();
+        });
+        dialog.findViewById(R.id.Theme_doctor_strange).setOnClickListener(v->{
+            dialog.dismiss();
+        });
+        dialog.findViewById(R.id.Theme_love).setOnClickListener(v->{
+            dialog.dismiss();
+        });
+        dialog.findViewById(R.id.Theme_sky).setOnClickListener(v->{
+            dialog.dismiss();
+        });
+        dialog.findViewById(R.id.icon_close).setOnClickListener(v->{
+            dialog.dismiss();
+        });
+        dialog.show();
+    }
+
 
     private void init() {
         preferenceManager = new PreferenceManager(getApplicationContext());
@@ -111,7 +166,7 @@ public class ChatScreenActivity extends BaseActivity {
 
     }
 
-    private void setIconSend(){
+    private void setIconSend() {
         binding.inputMessage.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
@@ -123,7 +178,7 @@ public class ChatScreenActivity extends BaseActivity {
                 if (!charSequence.toString().trim().isEmpty()) {
                     binding.iconSend.setColorFilter(ContextCompat.getColor(ChatScreenActivity.this, R.color.blue), android.graphics.PorterDuff.Mode.MULTIPLY);
 
-                }else{
+                } else {
                     binding.iconSend.setColorFilter(ContextCompat.getColor(ChatScreenActivity.this, R.color.colorGray), android.graphics.PorterDuff.Mode.MULTIPLY);
                 }
             }
@@ -227,21 +282,21 @@ public class ChatScreenActivity extends BaseActivity {
             addConversion(conversion);
         }
 
-        if(!isReceiverAvailable){
-            try{
+        if (!isReceiverAvailable) {
+            try {
                 JSONArray tokens = new JSONArray();
                 tokens.put(receiverUSer.getToken());
                 JSONObject data = new JSONObject();
                 data.put(Constants.KEY_USER_ID, preferenceManager.getString(Constants.KEY_USER_ID));
                 data.put(Constants.KEY_NAME, preferenceManager.getString(Constants.KEY_NAME));
                 data.put(Constants.KEY_FCM_TOKEN, preferenceManager.getString(Constants.KEY_FCM_TOKEN));
-                data.put(Constants.KEY_MESSAGE,binding.inputMessage.getText().toString() );
+                data.put(Constants.KEY_MESSAGE, binding.inputMessage.getText().toString());
                 JSONObject body = new JSONObject();
                 body.put(Constants.REMOTE_MSG_DATA, data);
                 body.put(Constants.REMOTE_MSG_REGISTRATION_IDS, tokens);
                 sendNotification(body.toString());
 
-            }catch (Exception e){
+            } catch (Exception e) {
                 showToast(e.getMessage());
             }
         }
@@ -352,8 +407,8 @@ public class ChatScreenActivity extends BaseActivity {
                         e.printStackTrace();
                     }
 
-                }else {
-                    showToast("Error"+ response.code());
+                } else {
+                    showToast("Error" + response.code());
                 }
             }
 

@@ -37,4 +37,5 @@
     <string name="check_your_sms_messages_we_have_sent_your_pin_at_0396694769">Check your SMS messages , we have sent your pin at + 0396694769</string>
     <string name="didn_t_receive_the_otp">Didn\'t receive the OTP?</string>
     <string name="resend_otp">RESEND OTP</string>
+    <string name="theme">Theme</string>
 </resources>
