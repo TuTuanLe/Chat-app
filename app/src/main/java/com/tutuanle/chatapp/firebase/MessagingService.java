@@ -1,15 +1,14 @@
 package com.tutuanle.chatapp.firebase;
 
-import android.app.Notification;
+import android.annotation.SuppressLint;
 import android.app.NotificationChannel;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.content.Intent;
 import android.os.Build;
-import android.util.Log;
+import android.widget.RemoteViews;
 
 import androidx.annotation.NonNull;
-import androidx.annotation.RequiresApi;
 import androidx.core.app.NotificationCompat;
 import androidx.core.app.NotificationManagerCompat;
 
@@ -27,9 +26,6 @@ public class MessagingService extends FirebaseMessagingService {
     public void onNewToken(@NonNull String token) {
         super.onNewToken(token);
     }
-
-    @RequiresApi(api = Build.VERSION_CODES.O)
-    @Override
     public void onMessageReceived(@NonNull RemoteMessage message) {
         super.onMessageReceived(message);
 
@@ -44,8 +40,19 @@ public class MessagingService extends FirebaseMessagingService {
         intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
         intent.putExtra(Constants.KEY_USER, user);
         PendingIntent pendingIntent = PendingIntent.getActivity(this, 0, intent, 0);
+
+
+        // custom notification
+        @SuppressLint("RemoteViewLayout")
+        RemoteViews notificationLayout  = new RemoteViews(getPackageName(), R.layout.custom_notification);
+//        notificationLayout.setTextViewText(R.id.username, user.getName());
+//        notificationLayout.setTextViewText(R.id.message, message.getData().get(Constants.KEY_MESSAGE));
+//        notificationLayout.setImageViewBitmap();
+
+
+
         NotificationCompat.Builder builder = new NotificationCompat.Builder(this, channelId);
-        builder.setSmallIcon(R.drawable.ic_baseline_message_24);
+        builder.setSmallIcon(R.drawable.ic_baseline_toys_24);
         builder.setContentTitle(user.getName());
         builder.setStyle(new NotificationCompat.BigTextStyle().bigText(
                 message.getData().get(Constants.KEY_MESSAGE)
@@ -55,18 +62,20 @@ public class MessagingService extends FirebaseMessagingService {
         builder.setAutoCancel(true);
 
 
+//        builder.setSmallIcon(R.drawable.ic_baseline_message_24);
+//        builder.setCustomContentView(notificationLayout);
+//        builder.setPriority(NotificationCompat.PRIORITY_DEFAULT);
+//        builder.setAutoCancel(true);
 
         if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.O){
             CharSequence channelName = "Chat Message ";
             String channelDescription = "This notification channel is used for chat message notification";
-            int importance = NotificationManager.IMPORTANCE_DEFAULT;
+            int importance = NotificationManager.IMPORTANCE_HIGH;
             NotificationChannel channel = new NotificationChannel(channelId, channelName, importance);
             channel.setDescription(channelDescription);
             NotificationManager notificationManager = getSystemService(NotificationManager.class);
             notificationManager.createNotificationChannel(channel);
-
         }
-
         NotificationManagerCompat notificationManagerCompat = NotificationManagerCompat.from(this);
         notificationManagerCompat.notify(notificationID, builder.build());
     }
