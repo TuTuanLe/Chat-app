@@ -280,7 +280,7 @@ public class ChatScreenActivity extends BaseActivity {
             conversion.put(Constants.KEY_RECEIVER_IMAGE, receiverUSer.getProfileImage());
             conversion.put(Constants.KEY_LAST_MESSAGE, binding.inputMessage.getText().toString());
             conversion.put(Constants.KEY_TIMESTAMP, new Date());
-//            conversion.put(Constants.KEY_COUNT_NUMBER_OF_MESSAGE_SEEN, 0);
+            conversion.put(Constants.KEY_COUNT_NUMBER_OF_MESSAGE_SEEN, 0);
             addConversion(conversion);
         }
 

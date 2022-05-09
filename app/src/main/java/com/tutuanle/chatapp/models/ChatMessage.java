@@ -87,13 +87,13 @@ public class ChatMessage {
         this.conversionImage = conversionImage;
     }
 
-    private  int CountMessageSeen;
+    private  String CountMessageSeen;
 
-    public int getCountMessageSeen() {
+    public String getCountMessageSeen() {
         return CountMessageSeen;
     }
 
-    public void setCountMessageSeen(int countMessageSeen) {
+    public void setCountMessageSeen(String countMessageSeen) {
         CountMessageSeen = countMessageSeen;
     }
 }

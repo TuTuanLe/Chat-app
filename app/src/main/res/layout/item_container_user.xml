@@ -59,6 +59,7 @@
         app:layout_constraintVertical_bias="0.277" />
 
     <FrameLayout
+        android:id="@+id/count_message_frame"
         android:layout_width="@dimen/_14sdp"
         android:layout_height="@dimen/_14sdp"
         android:background="@drawable/item_rounded_count_image"
@@ -68,12 +69,12 @@
         app:layout_constraintTop_toBottomOf="@+id/msgTime"
        >
         <TextView
+            android:id="@+id/count_message_text"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:gravity="center"
             android:text="1"
             android:textColor="@color/white"
-
             />
     </FrameLayout>
 

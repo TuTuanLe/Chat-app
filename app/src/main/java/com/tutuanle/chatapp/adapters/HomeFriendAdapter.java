@@ -1,10 +1,14 @@
 package com.tutuanle.chatapp.adapters;
 
+import android.annotation.SuppressLint;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.util.Base64;
+import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
@@ -65,11 +69,32 @@ public class HomeFriendAdapter extends RecyclerView.Adapter<HomeFriendAdapter.Ho
 
         }
 
-        void setData(ChatMessage chatMessage){
+        @SuppressLint("SetTextI18n")
+        void setData(ChatMessage chatMessage) {
             binding.profile.setImageBitmap(getConversionImage(chatMessage.getConversionImage()));
             binding.username.setText(chatMessage.getConversionName());
             binding.lastMsg.setText(chatMessage.getMessage());
             binding.msgTime.setText(chatMessage.getDateTime());
+//            chatMessage.setCountMessageSeen("0");
+            Log.d("data_nun",chatMessage.getCountMessageSeen());
+            binding.countMessageText.setText(chatMessage.getCountMessageSeen());
+            if (!chatMessage.getCountMessageSeen().equals("0")) {
+                binding.countMessageFrame.setVisibility(View.VISIBLE);
+            } else {
+                binding.countMessageFrame.setVisibility(View.GONE);
+            }
+//            try {
+//                Log.d("data_nun",chatMessage.getCountMessageSeen());
+//                binding.countMessageText.setText(chatMessage.getCountMessageSeen());
+//                if (chatMessage.getCountMessageSeen().equals("0")) {
+//                    binding.countMessageFrame.setVisibility(View.INVISIBLE);
+//                } else {
+//                    binding.countMessageFrame.setVisibility(View.GONE);
+//                }
+//            }catch (NullPointerException e) {
+//                Log.d("data_nun", e.getMessage());
+//
+//            }
 
 
             binding.getRoot().setOnClickListener(v ->{
