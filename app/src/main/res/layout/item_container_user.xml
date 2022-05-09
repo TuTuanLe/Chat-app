@@ -4,16 +4,16 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:padding="10dp"
-    >
+    android:padding="10dp">
+
     <com.makeramen.roundedimageview.RoundedImageView
         android:id="@+id/profile"
         android:layout_width="@dimen/_40sdp"
         android:layout_height="@dimen/_40sdp"
+        android:scaleType="centerCrop"
+        android:src="@drawable/avatar"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        android:src="@drawable/avatar"
-        android:scaleType="centerCrop"
         app:riv_oval="true"
 
         />
@@ -24,9 +24,9 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
         android:layout_marginTop="@dimen/_4sdp"
+        android:fontFamily="@font/roboto_light"
         android:text="Sample Name"
-        android:textColor="@color/black"
-        android:textSize="@dimen/_11ssp"
+        android:textSize="@dimen/_13ssp"
         android:textStyle="bold"
         app:layout_constraintStart_toEndOf="@+id/profile"
         app:layout_constraintTop_toTopOf="@+id/profile" />
@@ -37,11 +37,11 @@
         android:layout_height="wrap_content"
 
         android:fontFamily="@font/roboto_light"
+        android:maxLines="1"
         android:text="TabToChat"
         android:textSize="@dimen/_10sdp"
         app:layout_constraintStart_toStartOf="@+id/username"
         app:layout_constraintTop_toBottomOf="@+id/username"
-        android:maxLines="1"
 
         />
 
@@ -66,16 +66,15 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="@+id/msgTime"
         app:layout_constraintStart_toStartOf="@+id/msgTime"
-        app:layout_constraintTop_toBottomOf="@+id/msgTime"
-       >
+        app:layout_constraintTop_toBottomOf="@+id/msgTime">
+
         <TextView
             android:id="@+id/count_message_text"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:gravity="center"
             android:text="1"
-            android:textColor="@color/white"
-            />
+            android:textColor="@color/white" />
     </FrameLayout>
 
     <FrameLayout

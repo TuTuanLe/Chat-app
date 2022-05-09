@@ -36,6 +36,7 @@
     <color name="colorGray">#B5AEAE</color>
     <color name="colorTextPrimary">#1B1A57</color>
     <color name="colorTextSecondary">#4F5E7B</color>
+    <color name="colorTextSeen">#474646</color>
 
 
 </resources>

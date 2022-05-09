@@ -280,7 +280,7 @@ public class ChatScreenActivity extends BaseActivity {
             conversion.put(Constants.KEY_RECEIVER_IMAGE, receiverUSer.getProfileImage());
             conversion.put(Constants.KEY_LAST_MESSAGE, binding.inputMessage.getText().toString());
             conversion.put(Constants.KEY_TIMESTAMP, new Date());
-            conversion.put(Constants.KEY_COUNT_NUMBER_OF_MESSAGE_SEEN, 0);
+            conversion.put(Constants.KEY_COUNT_NUMBER_OF_MESSAGE_SEEN, "1");
             addConversion(conversion);
         }
 
@@ -319,22 +319,16 @@ public class ChatScreenActivity extends BaseActivity {
     private void updateConversion(String message) {
         DocumentReference documentReference =
                 database.collection(Constants.KEY_COLLECTION_CONVERSATIONS).document(conversionId);
-        documentReference.update(
-                Constants.KEY_LAST_MESSAGE, message,
-                Constants.KEY_TIMESTAMP, new Date()
-        );
+        documentReference.update(Constants.KEY_LAST_MESSAGE, message, Constants.KEY_TIMESTAMP, new Date(), Constants.KEY_COUNT_NUMBER_OF_MESSAGE_SEEN, "3");
     }
 
 
     private void checkForConversion() {
-
-        Log.d("test_data_123", receiverUSer.getUid() + "  --- 1 ---   " + preferenceManager.getString(Constants.KEY_USER_ID));
         checkForConversionRemotely(
                 preferenceManager.getString(Constants.KEY_USER_ID),
                 receiverUSer.getUid()
         );
         if (conversionId == null) {
-            Log.d("test_data_123", receiverUSer.getUid() + "  --- 2---   " + preferenceManager.getString(Constants.KEY_USER_ID));
             checkForConversionRemotely(
                     receiverUSer.getUid(),
                     preferenceManager.getString(Constants.KEY_USER_ID)

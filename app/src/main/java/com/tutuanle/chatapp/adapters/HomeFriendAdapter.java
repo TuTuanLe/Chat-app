@@ -3,6 +3,7 @@ package com.tutuanle.chatapp.adapters;
 import android.annotation.SuppressLint;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.Typeface;
 import android.util.Base64;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -11,10 +12,12 @@ import android.view.ViewGroup;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
+import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
+import com.tutuanle.chatapp.R;
 import com.tutuanle.chatapp.databinding.ItemContainerUserBinding;
 import com.tutuanle.chatapp.interfaces.FriendListener;
 import com.tutuanle.chatapp.interfaces.UserListener;
@@ -69,33 +72,29 @@ public class HomeFriendAdapter extends RecyclerView.Adapter<HomeFriendAdapter.Ho
 
         }
 
-        @SuppressLint("SetTextI18n")
+        @SuppressLint({"SetTextI18n", "ResourceAsColor"})
         void setData(ChatMessage chatMessage) {
             binding.profile.setImageBitmap(getConversionImage(chatMessage.getConversionImage()));
             binding.username.setText(chatMessage.getConversionName());
             binding.lastMsg.setText(chatMessage.getMessage());
             binding.msgTime.setText(chatMessage.getDateTime());
-//            chatMessage.setCountMessageSeen("0");
+
             Log.d("data_nun",chatMessage.getCountMessageSeen());
             binding.countMessageText.setText(chatMessage.getCountMessageSeen());
             if (!chatMessage.getCountMessageSeen().equals("0")) {
                 binding.countMessageFrame.setVisibility(View.VISIBLE);
+                binding.username.setTypeface(null, Typeface.BOLD);
+                binding.lastMsg.setTypeface(null, Typeface.BOLD);
+                binding.lastMsg.setTextColor(ContextCompat.getColor(binding.getRoot().getContext(), R.color.black));
+                binding.username.setTextColor(ContextCompat.getColor(binding.getRoot().getContext(), R.color.black));
+
             } else {
                 binding.countMessageFrame.setVisibility(View.GONE);
+                binding.username.setTypeface(null, Typeface.NORMAL);
+                binding.lastMsg.setTypeface(null, Typeface.NORMAL);
+                binding.lastMsg.setTextColor(ContextCompat.getColor(binding.getRoot().getContext(), R.color.colorTextSeen));
+                binding.username.setTextColor(ContextCompat.getColor(binding.getRoot().getContext(), R.color.colorTextSeen));
             }
-//            try {
-//                Log.d("data_nun",chatMessage.getCountMessageSeen());
-//                binding.countMessageText.setText(chatMessage.getCountMessageSeen());
-//                if (chatMessage.getCountMessageSeen().equals("0")) {
-//                    binding.countMessageFrame.setVisibility(View.INVISIBLE);
-//                } else {
-//                    binding.countMessageFrame.setVisibility(View.GONE);
-//                }
-//            }catch (NullPointerException e) {
-//                Log.d("data_nun", e.getMessage());
-//
-//            }
-
 
             binding.getRoot().setOnClickListener(v ->{
                 User user = new User();
