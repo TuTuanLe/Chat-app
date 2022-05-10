@@ -38,4 +38,9 @@
     <string name="didn_t_receive_the_otp">Didn\'t receive the OTP?</string>
     <string name="resend_otp">RESEND OTP</string>
     <string name="theme">Theme</string>
+    <string name="upload_image">upload image</string>
+    <string name="next">Next</string>
+    <string name="create_new_group">Create New Group</string>
+    <string name="group_name">Group name</string>
+    <string name="participants_2">Participants: 2</string>
 </resources>

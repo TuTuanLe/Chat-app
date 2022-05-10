@@ -10,30 +10,4 @@ jobs:
   say-hello:
     runs-on: ubuntu-latest
     steps:
-      ## Checkout our repository ###
-    - name: Checkout
-      uses: actions/checkout@v2.3.3
-
-    - name: Set up our JDK environment
-      uses: actions/setup-java@v1.4.3
-      with:
-        java-version: 1.8
-        
-      ## Build all our Build Types at once ##
-    - name: Build all artifacts
-      id: buildAllApks
-      uses: eskatos/gradle-command-action@v1.3.3
-      with:
-        gradle-version: current
-        wrapper-cache-enabled: true
-        dependencies-cache-enabled: true
-        configuration-cache-enabled: true
-        arguments: assembleRelease
-        
-    - name: Run Kotlin Linter
-      run: ./gradlew ktlintStagingDebugCheck
-
-    - name: Run Unit Tests
-      run: ./gradlew testStagingDebugUnitTest
-      
-  
+      - run: echo Hello TAnh
