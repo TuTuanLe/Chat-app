@@ -43,4 +43,5 @@
     <string name="create_new_group">Create New Group</string>
     <string name="group_name">Group name</string>
     <string name="participants_2">Participants: 2</string>
+    <string name="search">Search</string>
 </resources>

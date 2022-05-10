@@ -92,6 +92,49 @@
         </FrameLayout>
     </androidx.cardview.widget.CardView>
 
+    <FrameLayout
+        android:layout_marginStart="@dimen/_15sdp"
+        android:layout_marginEnd="@dimen/_15sdp"
+        android:layout_marginBottom="@dimen/_15sdp"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/_30sdp"
+        android:background="@drawable/text_box_search"
+        >
+
+        <com.balysv.materialripple.MaterialRippleLayout
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/_30sdp"
+
+            >
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="horizontal"
+                android:layout_gravity="center"
+                >
+                <ImageButton
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_gravity="start"
+                    android:layout_marginStart="@dimen/_12sdp"
+                    android:background="@color/trans"
+                    android:contentDescription="@string/app_name"
+                    android:src="@drawable/ic_baseline_search_24"
+                    android:scaleType="center"
+                />
+                <TextView
+                    android:layout_marginStart="@dimen/_10sdp"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:text="@string/search"
+                    android:gravity="center_vertical"
+
+                    />
+            </LinearLayout>
+        </com.balysv.materialripple.MaterialRippleLayout>
+    </FrameLayout>
+
+
 
     <ScrollView
         android:layout_width="match_parent"
