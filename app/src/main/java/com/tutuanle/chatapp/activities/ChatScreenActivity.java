@@ -65,7 +65,7 @@ public class ChatScreenActivity extends BaseActivity {
     private List<ChatMessage> chatMessages;
     private String conversionId = null;
     private Boolean isReceiverAvailable = false;
-
+    private Integer countMessage = 0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -98,8 +98,8 @@ public class ChatScreenActivity extends BaseActivity {
         dialog.setContentView(R.layout.layout_dialog_theme);
 
         Window window = dialog.getWindow();
-        if(window == null){
-            return ;
+        if (window == null) {
+            return;
         }
         window.setLayout(WindowManager.LayoutParams.MATCH_PARENT, WindowManager.LayoutParams.WRAP_CONTENT);
         window.setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
@@ -110,25 +110,25 @@ public class ChatScreenActivity extends BaseActivity {
 
         dialog.setCancelable(Gravity.BOTTOM == gravity);
 
-        dialog.findViewById(R.id.Theme_default).setOnClickListener(v->{
+        dialog.findViewById(R.id.Theme_default).setOnClickListener(v -> {
             binding.setImageScreen.setBackgroundResource(0);
             dialog.dismiss();
         });
 
-        dialog.findViewById(R.id.Theme_chill).setOnClickListener(v->{
+        dialog.findViewById(R.id.Theme_chill).setOnClickListener(v -> {
             binding.setImageScreen.setBackgroundResource(R.drawable.bg_3);
             dialog.dismiss();
         });
 
-        dialog.findViewById(R.id.Theme_love).setOnClickListener(v->{
+        dialog.findViewById(R.id.Theme_love).setOnClickListener(v -> {
             binding.setImageScreen.setBackgroundResource(R.drawable.bg_4);
             dialog.dismiss();
         });
-        dialog.findViewById(R.id.Theme_sky).setOnClickListener(v->{
+        dialog.findViewById(R.id.Theme_sky).setOnClickListener(v -> {
             binding.setImageScreen.setBackgroundResource(R.drawable.bg_sky);
             dialog.dismiss();
         });
-        dialog.findViewById(R.id.icon_close).setOnClickListener(v->{
+        dialog.findViewById(R.id.icon_close).setOnClickListener(v -> {
             dialog.dismiss();
         });
         dialog.show();
@@ -164,7 +164,6 @@ public class ChatScreenActivity extends BaseActivity {
                 .whereEqualTo(Constants.KEY_SENDER_ID, receiverUSer.getUid())
                 .whereEqualTo(Constants.KEY_RECEIVER_ID, preferenceManager.getString(Constants.KEY_USER_ID))
                 .addSnapshotListener(eventListener);
-
 
     }
 
@@ -280,7 +279,7 @@ public class ChatScreenActivity extends BaseActivity {
             conversion.put(Constants.KEY_RECEIVER_IMAGE, receiverUSer.getProfileImage());
             conversion.put(Constants.KEY_LAST_MESSAGE, binding.inputMessage.getText().toString());
             conversion.put(Constants.KEY_TIMESTAMP, new Date());
-            conversion.put(Constants.KEY_COUNT_NUMBER_OF_MESSAGE_SEEN, "1");
+            conversion.put(Constants.KEY_COUNT_NUMBER_OF_MESSAGE_SEEN, "0");
             addConversion(conversion);
         }
 
@@ -319,7 +318,15 @@ public class ChatScreenActivity extends BaseActivity {
     private void updateConversion(String message) {
         DocumentReference documentReference =
                 database.collection(Constants.KEY_COLLECTION_CONVERSATIONS).document(conversionId);
-        documentReference.update(Constants.KEY_LAST_MESSAGE, message, Constants.KEY_TIMESTAMP, new Date(), Constants.KEY_COUNT_NUMBER_OF_MESSAGE_SEEN, "3");
+        documentReference.
+
+                update(
+//                        Constants.KEY_SENDER_ID, preferenceManager.getString(Constants.KEY_USER_ID),
+//                        Constants.KEY_RECEIVER_ID, receiverUSer.getUid(),
+                        Constants.KEY_LAST_MESSAGE, message,
+                        Constants.KEY_TIMESTAMP, new Date(),
+                        Constants.KEY_COUNT_NUMBER_OF_MESSAGE_SEEN, (countMessage++).toString()
+                );
     }
 
 
@@ -349,6 +356,10 @@ public class ChatScreenActivity extends BaseActivity {
         if (task.isSuccessful() && task.getResult() != null && task.getResult().getDocuments().size() > 0) {
             DocumentSnapshot documentSnapshot = task.getResult().getDocuments().get(0);
             conversionId = documentSnapshot.getId();
+
+
+            countMessage = Integer.valueOf(Objects.requireNonNull(documentSnapshot.getString(Constants.KEY_COUNT_NUMBER_OF_MESSAGE_SEEN)));
+            Log.d("TEST_TEST", countMessage.toString());
             Log.d("KEY_CONVERSION_ID", conversionId);
         }
     };
@@ -397,7 +408,6 @@ public class ChatScreenActivity extends BaseActivity {
                                 showToast(error.getString("error"));
                                 return;
                             }
-
                         }
                     } catch (JSONException e) {
                         e.printStackTrace();
