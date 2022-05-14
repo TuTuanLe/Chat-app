@@ -23,6 +23,7 @@ public class Constants {
     public static final String KEY_TIMESTAMP = "timestamp";
     public static final String KEY_FEELING = "feeling";
     public static final String KEY_IS_ACTIVE = "isActive";
+    public static final String KEY_ON_CHAT = "onChat";
 
     public static int[] REACTIONS = new int[]{
             R.drawable.ic_fb_like,

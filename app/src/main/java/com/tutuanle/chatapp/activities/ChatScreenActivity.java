@@ -56,7 +56,7 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-public class ChatScreenActivity extends BaseActivity {
+public class ChatScreenActivity extends OnChatActivity {
     private ActivityChatScreenBinding binding;
     private User receiverUSer;
     private ChatAdapter chatAdapter;
@@ -65,6 +65,7 @@ public class ChatScreenActivity extends BaseActivity {
     private List<ChatMessage> chatMessages;
     private String conversionId = null;
     private Boolean isReceiverAvailable = false;
+    private Boolean isOnChat = false;
     private Integer countMessage = 0;
 
     @Override
@@ -280,7 +281,7 @@ public class ChatScreenActivity extends BaseActivity {
             conversion.put(Constants.KEY_LAST_MESSAGE, binding.inputMessage.getText().toString());
             conversion.put(Constants.KEY_TIMESTAMP, new Date());
             conversion.put(Constants.KEY_COUNT_NUMBER_OF_MESSAGE_SEEN, "0");
-            conversion.put(Constants.KEY_IS_ACTIVE, preferenceManager.getString(Constants.KEY_USER_ID) );
+            conversion.put(Constants.KEY_IS_ACTIVE, preferenceManager.getString(Constants.KEY_USER_ID));
             addConversion(conversion);
         }
 
@@ -317,7 +318,11 @@ public class ChatScreenActivity extends BaseActivity {
     }
 
     private void updateConversion(String message) {
+        checkForConversion();
+        countMessage = (isOnChat ? 0 : countMessage+1);
 
+
+        Log.d("TAG_CHAT_countMessage", countMessage.toString());
         DocumentReference documentReference =
                 database.collection(Constants.KEY_COLLECTION_CONVERSATIONS).document(conversionId);
         documentReference.
@@ -325,7 +330,7 @@ public class ChatScreenActivity extends BaseActivity {
                         Constants.KEY_IS_ACTIVE, preferenceManager.getString(Constants.KEY_USER_ID),
                         Constants.KEY_LAST_MESSAGE, message,
                         Constants.KEY_TIMESTAMP, new Date(),
-                        Constants.KEY_COUNT_NUMBER_OF_MESSAGE_SEEN, (countMessage++).toString()
+                        Constants.KEY_COUNT_NUMBER_OF_MESSAGE_SEEN, countMessage.toString()
                 );
     }
 
@@ -370,6 +375,13 @@ public class ChatScreenActivity extends BaseActivity {
                         if (value.getLong(Constants.KEY_AVAILABILITY) != null) {
                             int availability = Objects.requireNonNull(value.getLong(Constants.KEY_AVAILABILITY)).intValue();
                             isReceiverAvailable = availability == 1;
+
+                        }
+
+                        if (value.getLong(Constants.KEY_ON_CHAT) != null) {
+                            int onchat = Objects.requireNonNull(value.getLong(Constants.KEY_ON_CHAT)).intValue();
+                            isOnChat = onchat == 1;
+                            Log.d("TAG_CHAT", "listenAvailabilityOfReceiver: " + isOnChat);
                         }
 
                         receiverUSer.setToken(value.getString(Constants.KEY_FCM_TOKEN));
