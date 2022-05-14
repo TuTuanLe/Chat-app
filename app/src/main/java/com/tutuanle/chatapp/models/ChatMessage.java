@@ -35,6 +35,16 @@ public class ChatMessage {
         this.dateTime = dateTime;
     }
 
+    public  String isActive;
+
+    public String getIsActive() {
+        return isActive;
+    }
+
+    public void setIsActive(String isActive) {
+        this.isActive = isActive;
+    }
+
     public Date dataObject;
     private String senderId;
     private String receiverId;

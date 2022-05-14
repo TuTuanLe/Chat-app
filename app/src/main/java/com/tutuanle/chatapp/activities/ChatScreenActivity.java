@@ -280,6 +280,7 @@ public class ChatScreenActivity extends BaseActivity {
             conversion.put(Constants.KEY_LAST_MESSAGE, binding.inputMessage.getText().toString());
             conversion.put(Constants.KEY_TIMESTAMP, new Date());
             conversion.put(Constants.KEY_COUNT_NUMBER_OF_MESSAGE_SEEN, "0");
+            conversion.put(Constants.KEY_IS_ACTIVE, preferenceManager.getString(Constants.KEY_USER_ID) );
             addConversion(conversion);
         }
 
@@ -321,12 +322,7 @@ public class ChatScreenActivity extends BaseActivity {
                 database.collection(Constants.KEY_COLLECTION_CONVERSATIONS).document(conversionId);
         documentReference.
                 update(
-                        Constants.KEY_SENDER_ID, preferenceManager.getString(Constants.KEY_USER_ID),
-                        Constants.KEY_SENDER_IMAGE, preferenceManager.getString(Constants.KEY_IMAGE),
-                        Constants.KEY_SENDER_NAME, preferenceManager.getString(Constants.KEY_NAME),
-                        Constants.KEY_RECEIVER_ID, receiverUSer.getUid(),
-                        Constants.KEY_RECEIVER_IMAGE, receiverUSer.getProfileImage(),
-                        Constants.KEY_RECEIVER_NAME, receiverUSer.getName(),
+                        Constants.KEY_IS_ACTIVE, preferenceManager.getString(Constants.KEY_USER_ID),
                         Constants.KEY_LAST_MESSAGE, message,
                         Constants.KEY_TIMESTAMP, new Date(),
                         Constants.KEY_COUNT_NUMBER_OF_MESSAGE_SEEN, (countMessage++).toString()
@@ -354,7 +350,6 @@ public class ChatScreenActivity extends BaseActivity {
                 .get()
                 .addOnCompleteListener(conversionOnCompleteListener);
     }
-
 
     private final OnCompleteListener<QuerySnapshot> conversionOnCompleteListener = task -> {
         if (task.isSuccessful() && task.getResult() != null && task.getResult().getDocuments().size() > 0) {

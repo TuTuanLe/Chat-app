@@ -46,7 +46,6 @@ import java.util.Objects;
 public class HomeFragment extends Fragment {
 
 
-
     private View view;
     private MainScreenActivity mainScreenActivity;
     private PreferenceManager preferenceManager;
@@ -57,7 +56,8 @@ public class HomeFragment extends Fragment {
     private List<ChatMessage> listFriends;
 
 
-    public HomeFragment() { }
+    public HomeFragment() {
+    }
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -201,14 +201,24 @@ public class HomeFragment extends Fragment {
                         chatMessage.setConversionImage(documentChange.getDocument().getString(Constants.KEY_RECEIVER_IMAGE));
                         chatMessage.setConversionName(documentChange.getDocument().getString(Constants.KEY_RECEIVER_NAME));
                         chatMessage.setConversionId(documentChange.getDocument().getString(Constants.KEY_RECEIVER_ID));
-                        chatMessage.setCountMessageSeen("0");
+//                        chatMessage.setCountMessageSeen("0");
 
                     } else {
                         chatMessage.setConversionImage(documentChange.getDocument().getString(Constants.KEY_SENDER_IMAGE));
                         chatMessage.setConversionName(documentChange.getDocument().getString(Constants.KEY_SENDER_NAME));
                         chatMessage.setConversionId(documentChange.getDocument().getString(Constants.KEY_SENDER_ID));
+//                        chatMessage.setCountMessageSeen(documentChange.getDocument().getString(Constants.KEY_COUNT_NUMBER_OF_MESSAGE_SEEN));
+                    }
+
+                    chatMessage.setIsActive(documentChange.getDocument().getString(Constants.KEY_IS_ACTIVE));
+
+                    if(!chatMessage.getIsActive().equals(preferenceManager.getString(Constants.KEY_USER_ID))){
                         chatMessage.setCountMessageSeen(documentChange.getDocument().getString(Constants.KEY_COUNT_NUMBER_OF_MESSAGE_SEEN));
                     }
+                    else{
+                        chatMessage.setCountMessageSeen("0");
+                    }
+
                     chatMessage.setMessage(documentChange.getDocument().getString(Constants.KEY_LAST_MESSAGE));
                     chatMessage.setDateTime(getReadableDatetime(documentChange.getDocument().getDate(Constants.KEY_TIMESTAMP)));
                     chatMessage.dataObject = documentChange.getDocument().getDate(Constants.KEY_TIMESTAMP);
@@ -222,10 +232,17 @@ public class HomeFragment extends Fragment {
                     String receiverID = documentChange.getDocument().getString(Constants.KEY_RECEIVER_ID);
                     for (int i = 0; i < listFriends.size(); i++) {
                         if (listFriends.get(i).getSenderId().equals(senderID) && listFriends.get(i).getReceiverId().equals(receiverID)) {
+                            listFriends.get(i).setIsActive(documentChange.getDocument().getString(Constants.KEY_IS_ACTIVE));
                             listFriends.get(i).setMessage(documentChange.getDocument().getString(Constants.KEY_LAST_MESSAGE));
                             listFriends.get(i).setDateTime(getReadableDatetime(documentChange.getDocument().getDate(Constants.KEY_TIMESTAMP)));
                             listFriends.get(i).dataObject = documentChange.getDocument().getDate(Constants.KEY_TIMESTAMP);
-                            listFriends.get(i).setCountMessageSeen(documentChange.getDocument().getString(Constants.KEY_COUNT_NUMBER_OF_MESSAGE_SEEN));
+                            if(!listFriends.get(i).getIsActive().equals(preferenceManager.getString(Constants.KEY_USER_ID))){
+                                listFriends.get(i).setCountMessageSeen(documentChange.getDocument().getString(Constants.KEY_COUNT_NUMBER_OF_MESSAGE_SEEN));
+                            }
+                            else{
+                                listFriends.get(i).setCountMessageSeen("0");
+                            }
+
                             break;
                         }
                     }

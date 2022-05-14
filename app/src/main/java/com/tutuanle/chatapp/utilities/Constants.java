@@ -9,7 +9,7 @@ public class Constants {
     public static final String KEY_NAME = "name";
     public static final String KEY_EMAIL = "email";
     public static final String KEY_PASSWORD = "password";
-    public static final String KEY_NUMBER_PHONE="numberPhone";
+    public static final String KEY_NUMBER_PHONE = "numberPhone";
     public static final String KEY_PREFERENCE_NAME = "ChatAppPreference";
     public static final String KEY_IS_SIGNED_IN = "isSignedIn";
     public static final String KEY_USER_ID = "userId";
@@ -22,6 +22,7 @@ public class Constants {
     public static final String KEY_MESSAGE = "message";
     public static final String KEY_TIMESTAMP = "timestamp";
     public static final String KEY_FEELING = "feeling";
+    public static final String KEY_IS_ACTIVE = "isActive";
 
     public static int[] REACTIONS = new int[]{
             R.drawable.ic_fb_like,
