@@ -316,13 +316,17 @@ public class ChatScreenActivity extends BaseActivity {
     }
 
     private void updateConversion(String message) {
+
         DocumentReference documentReference =
                 database.collection(Constants.KEY_COLLECTION_CONVERSATIONS).document(conversionId);
         documentReference.
-
                 update(
-//                        Constants.KEY_SENDER_ID, preferenceManager.getString(Constants.KEY_USER_ID),
-//                        Constants.KEY_RECEIVER_ID, receiverUSer.getUid(),
+                        Constants.KEY_SENDER_ID, preferenceManager.getString(Constants.KEY_USER_ID),
+                        Constants.KEY_SENDER_IMAGE, preferenceManager.getString(Constants.KEY_IMAGE),
+                        Constants.KEY_SENDER_NAME, preferenceManager.getString(Constants.KEY_NAME),
+                        Constants.KEY_RECEIVER_ID, receiverUSer.getUid(),
+                        Constants.KEY_RECEIVER_IMAGE, receiverUSer.getProfileImage(),
+                        Constants.KEY_RECEIVER_NAME, receiverUSer.getName(),
                         Constants.KEY_LAST_MESSAGE, message,
                         Constants.KEY_TIMESTAMP, new Date(),
                         Constants.KEY_COUNT_NUMBER_OF_MESSAGE_SEEN, (countMessage++).toString()
@@ -356,11 +360,7 @@ public class ChatScreenActivity extends BaseActivity {
         if (task.isSuccessful() && task.getResult() != null && task.getResult().getDocuments().size() > 0) {
             DocumentSnapshot documentSnapshot = task.getResult().getDocuments().get(0);
             conversionId = documentSnapshot.getId();
-
-
             countMessage = Integer.valueOf(Objects.requireNonNull(documentSnapshot.getString(Constants.KEY_COUNT_NUMBER_OF_MESSAGE_SEEN)));
-            Log.d("TEST_TEST", countMessage.toString());
-            Log.d("KEY_CONVERSION_ID", conversionId);
         }
     };
 

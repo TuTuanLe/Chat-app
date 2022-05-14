@@ -184,14 +184,11 @@ public class HomeFragment extends Fragment {
     @SuppressLint("NotifyDataSetChanged")
     private final EventListener<QuerySnapshot> eventListener = (value, error) -> {
         if (error != null) {
-            Log.d( "TEST_DATA","data not found" );
             return;
         }
         if (value != null) {
 
             for (DocumentChange documentChange : value.getDocumentChanges()) {
-                Log.d( "TEST_DATA",documentChange.getDocument().getString(Constants.KEY_SENDER_ID) );
-
                 if (documentChange.getType() == DocumentChange.Type.ADDED) {
 
                     String senderID = documentChange.getDocument().getString(Constants.KEY_SENDER_ID);
@@ -217,6 +214,8 @@ public class HomeFragment extends Fragment {
                     chatMessage.dataObject = documentChange.getDocument().getDate(Constants.KEY_TIMESTAMP);
 
                     listFriends.add(chatMessage);
+                    Collections.sort(listFriends, (x, y) -> y.dataObject.compareTo(x.dataObject));
+                    homeFriendAdapter.notifyDataSetChanged();
 
                 } else if (documentChange.getType() == DocumentChange.Type.MODIFIED) {
                     String senderID = documentChange.getDocument().getString(Constants.KEY_SENDER_ID);
@@ -226,19 +225,13 @@ public class HomeFragment extends Fragment {
                             listFriends.get(i).setMessage(documentChange.getDocument().getString(Constants.KEY_LAST_MESSAGE));
                             listFriends.get(i).setDateTime(getReadableDatetime(documentChange.getDocument().getDate(Constants.KEY_TIMESTAMP)));
                             listFriends.get(i).dataObject = documentChange.getDocument().getDate(Constants.KEY_TIMESTAMP);
-                            if (preferenceManager.getString(Constants.KEY_USER_ID).equals(senderID)) {
-                                listFriends.get(i).setCountMessageSeen("0");
-                            } else {
-                                listFriends.get(i).setCountMessageSeen(documentChange.getDocument().getString(Constants.KEY_COUNT_NUMBER_OF_MESSAGE_SEEN));
-                            }
+                            listFriends.get(i).setCountMessageSeen(documentChange.getDocument().getString(Constants.KEY_COUNT_NUMBER_OF_MESSAGE_SEEN));
                             break;
                         }
                     }
+                    Collections.sort(listFriends, (x, y) -> y.dataObject.compareTo(x.dataObject));
+                    homeFriendAdapter.notifyDataSetChanged();
                 }
-                Collections.sort(listFriends, (x, y) -> y.dataObject.compareTo(x.dataObject));
-                homeFriendAdapter.notifyDataSetChanged();
-
-
 
 
                 RecyclerView temp = view.findViewById(R.id.userRecyclerView);
