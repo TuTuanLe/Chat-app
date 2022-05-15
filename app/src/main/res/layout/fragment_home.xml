@@ -15,11 +15,14 @@
     <androidx.cardview.widget.CardView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        app:cardElevation="0dp"
+
         >
+
         <FrameLayout
             android:layout_width="match_parent"
-            android:layout_height="@dimen/_50sdp"
-           >
+            android:layout_height="@dimen/_90sdp"
+            android:background="@drawable/layout_header_chat">
 
             <com.makeramen.roundedimageview.RoundedImageView
                 android:id="@+id/imageProfile"
@@ -27,11 +30,10 @@
                 android:layout_height="@dimen/_30sdp"
                 android:layout_gravity="start"
                 android:layout_marginStart="@dimen/_16sdp"
-                android:layout_marginTop="@dimen/_10sdp"
+                android:layout_marginTop="@dimen/_25sdp"
                 android:background="@drawable/background_image"
                 android:scaleType="centerCrop"
-                app:riv_oval="true"
-                />
+                app:riv_oval="true" />
 
             <TextView
                 android:id="@+id/nameTextView"
@@ -39,17 +41,16 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_vertical"
                 android:layout_marginStart="@dimen/_56sdp"
-                android:text="Admin" />
-
-
-
+                android:layout_marginBottom="@dimen/_5sdp"
+                android:text="Admin"
+                android:textColor="@color/white"
+                android:textSize="@dimen/_12ssp"
+                android:textStyle="bold" />
 
 
 
         </FrameLayout>
     </androidx.cardview.widget.CardView>
-
-
 
 
     <ScrollView
@@ -61,45 +62,45 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="0dp"
-            android:orientation="vertical"
-            >
+            android:orientation="vertical">
+
             <TextView
-                android:layout_marginTop="@dimen/_10sdp"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Story"
                 android:layout_marginStart="@dimen/_5sdp"
-                android:textStyle="bold"
-                android:textSize="@dimen/_12sdp"
+                android:layout_marginTop="@dimen/_10sdp"
+                android:text="Story"
                 android:textColor="@color/black"
+                android:textSize="@dimen/_12sdp"
+                android:textStyle="bold"
 
                 />
 
             <androidx.recyclerview.widget.RecyclerView
 
-                android:layout_marginBottom="@dimen/_10ssp"
                 android:id="@+id/statusList"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_marginBottom="@dimen/_10ssp"
+                android:orientation="horizontal"
+                app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
                 app:layout_constraintBottom_toTopOf="@+id/recyclerView"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
-                android:orientation="horizontal"
-                app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-                />
+                app:layout_constraintTop_toTopOf="parent" />
 
             <TextView
-                android:layout_marginTop="@dimen/_5sdp"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Recent Chat"
                 android:layout_marginStart="@dimen/_5sdp"
-                android:textStyle="bold"
-                android:textSize="@dimen/_12sdp"
+                android:layout_marginTop="@dimen/_5sdp"
+                android:text="Recent Chat"
                 android:textColor="@color/black"
+                android:textSize="@dimen/_12sdp"
+                android:textStyle="bold"
 
                 />
+
             <androidx.recyclerview.widget.RecyclerView
 
                 android:id="@+id/userRecyclerView"
@@ -110,14 +111,15 @@
                 android:paddingTop="@dimen/_10sdp"
                 android:visibility="gone"
 
-                app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"/>
+                app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager" />
+
             <ProgressBar
 
                 android:id="@+id/progressBar"
                 android:layout_width="@dimen/_25sdp"
                 android:layout_height="@dimen/_25sdp"
-                android:layout_gravity="center"
-                />
+                android:layout_gravity="center" />
+
             <TextView
                 android:id="@+id/textErrorMessage"
                 android:layout_width="match_parent"
@@ -126,8 +128,7 @@
                 android:layout_marginStart="@dimen/_24sdp"
                 android:layout_marginEnd="@dimen/_24sdp"
                 android:textColor="@color/primary"
-                android:visibility="gone"
-                />
+                android:visibility="gone" />
 
         </LinearLayout>
 

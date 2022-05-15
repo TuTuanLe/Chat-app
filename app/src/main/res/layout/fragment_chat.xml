@@ -17,7 +17,7 @@
 
         <FrameLayout
             android:layout_width="match_parent"
-            android:layout_height="@dimen/_50sdp">
+            android:layout_height="@dimen/_70sdp">
 
             <com.makeramen.roundedimageview.RoundedImageView
                 android:id="@+id/imageProfile"
@@ -25,7 +25,7 @@
                 android:layout_height="@dimen/_30sdp"
                 android:layout_gravity="start"
                 android:layout_marginStart="@dimen/_16sdp"
-                android:layout_marginTop="@dimen/_10sdp"
+                android:layout_marginTop="@dimen/_25sdp"
                 android:background="@drawable/background_image"
                 android:scaleType="centerCrop"
                 app:riv_oval="true" />
@@ -36,6 +36,7 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_vertical"
                 android:layout_marginStart="@dimen/_56sdp"
+                android:layout_marginTop="@dimen/_5sdp"
                 android:textStyle="bold"
                 android:textSize="@dimen/_12ssp"
                 android:textColor="@color/colorTextSecondary"
@@ -46,7 +47,7 @@
                 android:layout_width="@dimen/_25sdp"
                 android:layout_height="@dimen/_25sdp"
                 android:layout_gravity="end"
-                android:layout_marginTop="@dimen/_12sdp"
+                android:layout_marginTop="@dimen/_27sdp"
                 android:layout_marginEnd="@dimen/_56sdp"
                 android:clipToOutline="true"
                 android:background="@drawable/background_image">
@@ -69,7 +70,7 @@
                 android:layout_width="@dimen/_25sdp"
                 android:layout_height="@dimen/_25sdp"
                 android:layout_gravity="end"
-                android:layout_marginTop="@dimen/_12sdp"
+                android:layout_marginTop="@dimen/_27sdp"
                 android:layout_marginEnd="@dimen/_16sdp"
                 android:background="@drawable/background_image"
 
@@ -93,6 +94,7 @@
     </androidx.cardview.widget.CardView>
 
     <FrameLayout
+
         android:layout_marginStart="@dimen/_15sdp"
         android:layout_marginEnd="@dimen/_15sdp"
         android:layout_marginBottom="@dimen/_15sdp"

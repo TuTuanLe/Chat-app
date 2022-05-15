@@ -8,6 +8,7 @@
     tools:context=".activities.MainScreenActivity"
     android:orientation="vertical"
     android:backgroundTint="@color/white"
+
     >
 
     <FrameLayout

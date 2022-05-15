@@ -211,7 +211,7 @@ public class SignInActivity extends AppCompatActivity {
                 Bitmap temp = getBitmapFromURL(Objects.requireNonNull(account.getPhotoUrl()));
                 assert temp != null;
 
-                signUpGoogle(account.getGivenName(), account.getEmail(), account.getEmail(), encodeImage(temp));
+                signUpGoogle(account.getDisplayName(), account.getEmail(), account.getEmail(), encodeImage(temp));
 
             } catch (Exception e) {
                 Log.d("handleSignInResult", e.toString());
