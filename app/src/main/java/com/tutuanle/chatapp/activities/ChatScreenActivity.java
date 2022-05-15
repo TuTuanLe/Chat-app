@@ -257,11 +257,13 @@ public class ChatScreenActivity extends OnChatActivity {
     }
 
     private void sendMessage() {
+
+        String ms =   binding.inputMessage.getText().length() == 0 ? "\uD83D\uDC4D" : binding.inputMessage.getText().toString();
         HashMap<String, Object> message = new HashMap<>();
         // get senderId from Preference manage on save a local app
         message.put(Constants.KEY_SENDER_ID, preferenceManager.getString(Constants.KEY_USER_ID));
         message.put(Constants.KEY_RECEIVER_ID, receiverUSer.getUid());
-        message.put(Constants.KEY_MESSAGE, binding.inputMessage.getText().toString());
+        message.put(Constants.KEY_MESSAGE,ms);
         message.put(Constants.KEY_TIMESTAMP, new Date());
         message.put(Constants.KEY_FEELING, -1);
 
@@ -269,7 +271,7 @@ public class ChatScreenActivity extends OnChatActivity {
 
         // set recent chat
         if (conversionId != null) {
-            updateConversion(binding.inputMessage.getText().toString());
+            updateConversion(ms);
         } else {
             HashMap<String, Object> conversion = new HashMap<>();
             conversion.put(Constants.KEY_SENDER_ID, preferenceManager.getString(Constants.KEY_USER_ID));
@@ -278,7 +280,7 @@ public class ChatScreenActivity extends OnChatActivity {
             conversion.put(Constants.KEY_RECEIVER_ID, receiverUSer.getUid());
             conversion.put(Constants.KEY_RECEIVER_NAME, receiverUSer.getName());
             conversion.put(Constants.KEY_RECEIVER_IMAGE, receiverUSer.getProfileImage());
-            conversion.put(Constants.KEY_LAST_MESSAGE, binding.inputMessage.getText().toString());
+            conversion.put(Constants.KEY_LAST_MESSAGE, ms);
             conversion.put(Constants.KEY_TIMESTAMP, new Date());
             conversion.put(Constants.KEY_COUNT_NUMBER_OF_MESSAGE_SEEN, "0");
             conversion.put(Constants.KEY_IS_ACTIVE, preferenceManager.getString(Constants.KEY_USER_ID));
@@ -319,7 +321,7 @@ public class ChatScreenActivity extends OnChatActivity {
 
     private void updateConversion(String message) {
         checkForConversion();
-        countMessage = (isOnChat ? 0 : countMessage+1);
+        countMessage = (isOnChat ? 0 : countMessage + 1);
 
 
         Log.d("TAG_CHAT_countMessage", countMessage.toString());
