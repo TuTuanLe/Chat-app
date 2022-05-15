@@ -63,9 +63,11 @@ public class SignInActivity extends AppCompatActivity {
             startActivity(intent);
             finish();
         }
+
+
         setContentView(binding.getRoot());
-        setListeners();
         initLoginWithGoogle();
+        setListeners();
 
     }
 
@@ -201,34 +203,37 @@ public class SignInActivity extends AppCompatActivity {
             GoogleSignInAccount account = completedTask.getResult(ApiException.class);
 
             // Signed in successfully, show authenticated UI.
-            account.getPhotoUrl();
             loading(true);
+
             try {
                 StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
                 StrictMode.setThreadPolicy(policy);
                 Bitmap temp = getBitmapFromURL(Objects.requireNonNull(account.getPhotoUrl()));
                 assert temp != null;
+
                 signUpGoogle(account.getGivenName(), account.getEmail(), account.getEmail(), encodeImage(temp));
 
             } catch (Exception e) {
                 Log.d("handleSignInResult", e.toString());
             }
 
+
         } catch (ApiException e) {
-            // The ApiException status code indicates the detailed failure reason.
-            // Please refer to the GoogleSignInStatusCodes class reference for more information.
             Log.w("Error", "signInResult:failed code=" + e.getStatusCode());
         }
     }
 
-    private int checkEmail(String email, String password) {
-        AtomicInteger rs = new AtomicInteger(-1);
+
+
+    private void signUpGoogle(String inputName, String email, String password, String encodedImage) {
+        loading(true);
+
         FirebaseFirestore database = FirebaseFirestore.getInstance();
         database.collection(Constants.KEY_COLLECTION_USERS)
                 .whereEqualTo(Constants.KEY_EMAIL, email)
-                .whereEqualTo(Constants.KEY_PASSWORD, password)
                 .get()
                 .addOnCompleteListener(task -> {
+
                     if (task.isSuccessful() && task.getResult() != null && task.getResult().getDocuments().size() > 0) {
                         DocumentSnapshot snapshot = task.getResult().getDocuments().get(0);
                         preferenceManager.putBoolean(Constants.KEY_IS_SIGNED_IN, true);
@@ -238,44 +243,34 @@ public class SignInActivity extends AppCompatActivity {
                         preferenceManager.putString(Constants.KEY_EMAIL, snapshot.getString(Constants.KEY_EMAIL));
                         preferenceManager.putString(Constants.KEY_NUMBER_PHONE, snapshot.getString(Constants.KEY_NUMBER_PHONE));
                         preferenceManager.putString(Constants.KEY_PASSWORD, snapshot.getString(Constants.KEY_PASSWORD));
-                        rs.set(0);
-                    }
-                });
-        Log.d("Test_id", rs.toString());
-        return rs.get();
-    }
-
-
-    private void signUpGoogle(String inputName, String email, String password, String encodedImage) {
-        loading(true);
-        if (checkEmail(email, password) == 0) {
-            Intent intent = new Intent(getApplicationContext(), MainScreenActivity.class);
-            intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
-            startActivity(intent);
-        } else {
-            FirebaseFirestore database = FirebaseFirestore.getInstance();
-            HashMap<String, Object> user = new HashMap<>();
-            user.put(Constants.KEY_NAME, inputName);
-            user.put(Constants.KEY_EMAIL, email);
-            user.put(Constants.KEY_PASSWORD, password);
-            user.put(Constants.KEY_IMAGE, encodedImage);
-            database.collection(Constants.KEY_COLLECTION_USERS)
-                    .add(user)
-                    .addOnSuccessListener(documentReference -> {
-                        loading(false);
-                        preferenceManager.putBoolean(Constants.KEY_IS_SIGNED_IN, true);
-                        preferenceManager.putString(Constants.KEY_USER_ID, documentReference.getId());
-                        preferenceManager.putString(Constants.KEY_NAME, inputName);
-                        preferenceManager.putString(Constants.KEY_IMAGE, encodedImage);
                         Intent intent = new Intent(getApplicationContext(), MainScreenActivity.class);
                         intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
                         startActivity(intent);
-                    })
-                    .addOnFailureListener(exception -> {
+                    } else {
                         loading(false);
-                        showToast(exception.getMessage());
-                    });
-        }
+                        HashMap<String, Object> user = new HashMap<>();
+                        user.put(Constants.KEY_NAME, inputName);
+                        user.put(Constants.KEY_EMAIL, email);
+                        user.put(Constants.KEY_PASSWORD, password);
+                        user.put(Constants.KEY_IMAGE, encodedImage);
+                        database.collection(Constants.KEY_COLLECTION_USERS)
+                                .add(user)
+                                .addOnSuccessListener(documentReference -> {
+                                    loading(false);
+                                    preferenceManager.putBoolean(Constants.KEY_IS_SIGNED_IN, true);
+                                    preferenceManager.putString(Constants.KEY_USER_ID, documentReference.getId());
+                                    preferenceManager.putString(Constants.KEY_NAME, inputName);
+                                    preferenceManager.putString(Constants.KEY_IMAGE, encodedImage);
+                                    Intent intent = new Intent(getApplicationContext(), MainScreenActivity.class);
+                                    intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                                    startActivity(intent);
+                                })
+                                .addOnFailureListener(exception -> {
+                                    loading(false);
+                                    showToast(exception.getMessage());
+                                });
+                    }
+                });
 
 
     }
