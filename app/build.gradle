@@ -89,4 +89,6 @@ dependencies {
     implementation 'com.agrawalsuneet.androidlibs:dotsloader:1.4'
 
     implementation 'com.balysv:material-ripple:1.0.2'
+
+    implementation 'com.vanniktech:emoji-google:0.7.0'
 }

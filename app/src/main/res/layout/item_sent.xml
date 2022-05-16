@@ -9,18 +9,18 @@
         android:id="@+id/message"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginEnd="@dimen/_10ssp"
+        android:layout_marginEnd="@dimen/_12ssp"
         android:background="@drawable/sent_drawable"
-        android:padding="@dimen/_12sdp"
+        android:maxWidth="@dimen/_200sdp"
+        android:padding="@dimen/_8sdp"
         android:paddingTop="@dimen/_5sdp"
         android:paddingBottom="@dimen/_5sdp"
         android:text="@string/app_name"
         android:textColor="@color/white"
-        android:textSize="@dimen/_13ssp"
-        app:layout_constraintWidth_max="wrap"
+        android:textSize="@dimen/_11ssp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        android:maxWidth="@dimen/_200sdp"
+        app:layout_constraintWidth_max="wrap"
         app:layout_constraintWidth_percent="0.8" />
 
     <ImageView
@@ -44,10 +44,27 @@
 
         android:text="@string/app_name"
         android:textColor="@color/secondary_text"
-        android:textSize="@dimen/_10ssp"
+        android:textSize="@dimen/_7ssp"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/message"
-  />
+        app:layout_constraintTop_toBottomOf="@+id/message" />
+
+
+    <com.makeramen.roundedimageview.RoundedImageView
+        android:id="@+id/checkSeen"
+        android:layout_width="@dimen/_10sdp"
+        android:layout_height="@dimen/_10sdp"
+        android:visibility="gone"
+        android:src="@drawable/ic_baseline_check_circle_24"
+        android:scaleType="centerCrop"
+        android:padding="@dimen/_1sdp"
+        android:paddingStart="@dimen/_2sdp"
+        android:layout_marginTop="@dimen/_24sdp"
+        app:layout_constraintBottom_toBottomOf="@+id/message"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:riv_oval="true"
+        android:tint="@color/blue"
+        />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

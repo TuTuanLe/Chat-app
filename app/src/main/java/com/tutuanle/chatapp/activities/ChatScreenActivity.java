@@ -40,6 +40,7 @@ import com.tutuanle.chatapp.network.ApiClient;
 import com.tutuanle.chatapp.network.ApiService;
 import com.tutuanle.chatapp.utilities.Constants;
 import com.tutuanle.chatapp.utilities.PreferenceManager;
+import com.vanniktech.emoji.EmojiPopup;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -119,16 +120,16 @@ public class ChatScreenActivity extends OnChatActivity {
         });
 
         dialog.findViewById(R.id.Theme_chill).setOnClickListener(v -> {
-            binding.setImageScreen.setBackgroundResource(R.drawable.bg_3);
+            binding.setImageScreen.setBackgroundResource(R.drawable.bg_4);
             dialog.dismiss();
         });
 
         dialog.findViewById(R.id.Theme_love).setOnClickListener(v -> {
-            binding.setImageScreen.setBackgroundResource(R.drawable.bg_4);
+            binding.setImageScreen.setBackgroundResource(R.drawable.bg_5);
             dialog.dismiss();
         });
         dialog.findViewById(R.id.Theme_sky).setOnClickListener(v -> {
-            binding.setImageScreen.setBackgroundResource(R.drawable.bg_sky);
+            binding.setImageScreen.setBackgroundResource(R.drawable.bg_3);
             dialog.dismiss();
         });
         dialog.findViewById(R.id.icon_close).setOnClickListener(v -> {
@@ -214,6 +215,7 @@ public class ChatScreenActivity extends OnChatActivity {
                     chatMessage.setFeeling(Integer.parseInt(Objects.requireNonNull(documentChange.getDocument().getLong(Constants.KEY_FEELING)).toString()));
                     chatMessage.setDateTime(getReadableDatetime(documentChange.getDocument().getDate(Constants.KEY_TIMESTAMP)));
                     chatMessage.dataObject = documentChange.getDocument().getDate(Constants.KEY_TIMESTAMP);
+//                    chatMessage.setIsSeen(Integer.parseInt(Objects.requireNonNull(documentChange.getDocument().getLong(Constants.KEY_IS_SEEN)).toString()));
                     chatMessages.add(chatMessage);
                 } else if (documentChange.getType() == DocumentChange.Type.MODIFIED) {
                     String docID = documentChange.getDocument().getId();
@@ -249,13 +251,13 @@ public class ChatScreenActivity extends OnChatActivity {
     private void setListener() {
         binding.imageBack.setOnClickListener(v -> onBackPressed());
         binding.layoutSend.setOnClickListener(v -> sendMessage());
-        binding.btnEmoji.setOnClickListener(v -> showEmoji());
+//        EmojiPopup popup =  EmojiPopup.Builder.fromRootView(binding.getRoot()).build(binding.inputMessage);
+//        binding.btnEmoji.setOnClickListener(v -> showEmoji(popup));
     }
 
-    private void showEmoji() {
-        binding.inputMessage.dispatchKeyEvent(new KeyEvent(KeyEvent.ACTION_DOWN, KeyEvent.KEYCODE_PICTSYMBOLS));
-        showToast("hello");
-    }
+//    private void showEmoji(EmojiPopup popup) {
+//        popup.toggle();
+//    }
 
     private int findMessage(String uid) {
         for (int i = 0; i < chatMessages.size(); i++)
@@ -274,7 +276,7 @@ public class ChatScreenActivity extends OnChatActivity {
         message.put(Constants.KEY_MESSAGE, ms);
         message.put(Constants.KEY_TIMESTAMP, new Date());
         message.put(Constants.KEY_FEELING, -1);
-
+        message.put(Constants.KEY_IS_SEEN , isOnChat ? 0 : 1);
         database.collection(Constants.KEY_COLLECTION_CHAT).add(message);
 
         // set recent chat

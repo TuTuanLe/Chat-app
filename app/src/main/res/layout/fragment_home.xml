@@ -12,14 +12,11 @@
     <!-- TODO: Update blank fragment layout -->
 
 
-    <androidx.cardview.widget.CardView
+    <FrameLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        app:cardElevation="0dp"
         android:background="@color/trans"
         >
-
-
         <FrameLayout
             android:layout_width="match_parent"
             android:layout_height="@dimen/_90sdp"
@@ -85,7 +82,7 @@
 
 
         </FrameLayout>
-    </androidx.cardview.widget.CardView>
+    </FrameLayout>
 
 
     <ScrollView

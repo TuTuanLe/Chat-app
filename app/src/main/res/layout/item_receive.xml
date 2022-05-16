@@ -26,15 +26,16 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="@dimen/_6ssp"
         android:background="@drawable/receive_drawable"
-        android:padding="@dimen/_12sdp"
+        android:padding="@dimen/_8sdp"
         android:paddingBottom="5dp"
         android:text="@string/app_name"
-        android:textSize="@dimen/_13ssp"
+        android:textSize="@dimen/_11ssp"
         app:layout_constraintStart_toEndOf="@+id/roundedImageView"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintWidth_max="wrap"
         android:maxWidth="@dimen/_180sdp"
-        app:layout_constraintWidth_percent="0.75" />
+        app:layout_constraintWidth_percent="0.75"
+        android:textColor="@color/black"/>
 
     <ImageView
         android:id="@+id/feeling"
@@ -55,7 +56,7 @@
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:textColor="@color/secondary_text"
-        android:textSize="@dimen/_10ssp"
+        android:textSize="@dimen/_7ssp"
         app:layout_constraintStart_toStartOf="@+id/message"
         app:layout_constraintTop_toBottomOf="@+id/message" />
 

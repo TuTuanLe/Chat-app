@@ -3,6 +3,7 @@ package com.tutuanle.chatapp.adapters;
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.graphics.Bitmap;
+import android.graphics.Color;
 import android.os.SystemClock;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -73,6 +74,7 @@ public class ChatAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
         ReactionsConfig config = new ReactionsConfigBuilder(context)
                 .withReactions(Constants.REACTIONS)
+                .withPopupColor(Color.LTGRAY)
                 .build();
 
         ReactionPopup popup = new ReactionPopup(context, config, (pos) -> {
@@ -102,10 +104,19 @@ public class ChatAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
             } else {
                 viewHolder.binding.feeling.setVisibility(View.GONE);
             }
-            viewHolder.binding.message.setOnTouchListener((view, motionEvent) -> {
-                popup.onTouch(view, motionEvent);
+            viewHolder.binding.message.setOnLongClickListener((view) -> {
+                popup.onTouch(view, MotionEvent.obtain(SystemClock.uptimeMillis(),SystemClock.uptimeMillis(), MotionEvent.ACTION_DOWN,0,0, 0 ));
                 return false;
             });
+
+//            if(chatMessages.get(chatMessages.size()-1).getIsSeen() == 1){
+//                viewHolder.binding.checkSeen.setVisibility(View.VISIBLE);
+//            }
+//            else {
+//                viewHolder.binding.checkSeen.setVisibility(View.GONE);
+//            }
+
+
         } else if (holder.getClass() == ReceiverMessageViewHolder.class) {
             ReceiverMessageViewHolder viewHolder = (ReceiverMessageViewHolder) holder;
             if (message.getFeeling() >= 0) {
@@ -115,12 +126,7 @@ public class ChatAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
                 viewHolder.binding.feeling.setVisibility(View.GONE);
             }
 
-//            viewHolder.binding.message.setOnTouchListener((view, motionEvent) -> {
-//                popup.onTouch(view, motionEvent);
-//                return false;
-//            });
             viewHolder.binding.message.setOnLongClickListener((view) -> {
-
                 popup.onTouch(view, MotionEvent.obtain(SystemClock.uptimeMillis(),SystemClock.uptimeMillis(), MotionEvent.ACTION_DOWN,0,0, 0 ));
                 return false;
             });

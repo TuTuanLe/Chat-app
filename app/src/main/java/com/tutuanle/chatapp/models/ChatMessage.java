@@ -45,6 +45,16 @@ public class ChatMessage {
         this.isActive = isActive;
     }
 
+    public  int IsSeen;
+
+    public int getIsSeen() {
+        return IsSeen;
+    }
+
+    public void setIsSeen(int isSeen) {
+        IsSeen = isSeen;
+    }
+
     public Date dataObject;
     private String senderId;
     private String receiverId;

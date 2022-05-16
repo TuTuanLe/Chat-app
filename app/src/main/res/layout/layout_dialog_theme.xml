@@ -61,10 +61,9 @@
                 android:layout_height="@dimen/_30sdp"
                 android:layout_marginStart="@dimen/_10sdp"
                 android:layout_marginTop="@dimen/_5sdp"
-                android:background="@drawable/circle_bg"
                 android:scaleType="center"
                 app:riv_oval="true"
-                android:src="@drawable/ic_baseline_search_24"
+                android:src="@drawable/bg"
 
                 />
 
@@ -99,9 +98,9 @@
                 android:layout_height="@dimen/_30sdp"
                 android:layout_marginStart="@dimen/_10sdp"
                 android:layout_marginTop="@dimen/_5sdp"
-                android:background="@drawable/circle_bg"
+
                 android:scaleType="fitXY"
-                android:src="@drawable/ic_baseline_search_24"
+                android:src="@drawable/bg_5"
                 app:riv_oval="true" />
 
 
@@ -131,13 +130,13 @@
             android:layout_height="wrap_content">
 
             <com.makeramen.roundedimageview.RoundedImageView
-                android:src="@drawable/ic_baseline_search_24"
+                android:src="@drawable/bg_3"
                 android:id="@+id/themSkyImage"
                 android:layout_width="@dimen/_30sdp"
                 android:layout_height="@dimen/_30sdp"
                 android:layout_marginStart="@dimen/_10sdp"
                 android:layout_marginTop="@dimen/_5sdp"
-                android:background="@drawable/circle_bg"
+
                 android:scaleType="fitXY"
                 app:riv_oval="true"
 
@@ -172,7 +171,7 @@
             android:layout_height="wrap_content">
 
             <com.makeramen.roundedimageview.RoundedImageView
-                android:src="@drawable/ic_baseline_search_24"
+                android:src="@drawable/bg_4"
                 android:id="@+id/themeLoveChill"
                 android:layout_width="@dimen/_30sdp"
                 android:layout_height="@dimen/_30sdp"
