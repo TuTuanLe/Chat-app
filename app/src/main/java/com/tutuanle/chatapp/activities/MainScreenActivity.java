@@ -5,6 +5,7 @@ import androidx.fragment.app.Fragment;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.Color;
 import android.os.Build;
 import android.os.Bundle;
 import android.util.Base64;
@@ -65,9 +66,7 @@ public class MainScreenActivity extends BaseActivity  implements UserListener , 
         }
 //        getWindow().setFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS,
 //                WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
-//        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-//            getWindow().clearFlags(View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR);
-//        }
+
     }
 
 
@@ -108,7 +107,7 @@ public class MainScreenActivity extends BaseActivity  implements UserListener , 
             loadFragment(fragment);
 
         });
-        binding.BottomNavigation.setCount(ID_NOTIFICATION, "4");
+        binding.BottomNavigation.setCount(ID_HOME, "4");
         binding.BottomNavigation.show(ID_HOME, true);
     }
 
@@ -139,7 +138,7 @@ public class MainScreenActivity extends BaseActivity  implements UserListener , 
     }
 
     public void  signOut(){
-        showToast("sign out ....");
+        showToast("Sign out ");
         FirebaseFirestore database = FirebaseFirestore.getInstance();
         DocumentReference documentReference = database.collection(Constants.KEY_COLLECTION_USERS)
                 .document(preferenceManager.getString(Constants.KEY_USER_ID));

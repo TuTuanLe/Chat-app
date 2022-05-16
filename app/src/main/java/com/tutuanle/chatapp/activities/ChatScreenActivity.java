@@ -12,6 +12,7 @@ import android.text.TextWatcher;
 import android.util.Base64;
 import android.util.Log;
 import android.view.Gravity;
+import android.view.KeyEvent;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
@@ -247,6 +248,12 @@ public class ChatScreenActivity extends OnChatActivity {
     private void setListener() {
         binding.imageBack.setOnClickListener(v -> onBackPressed());
         binding.layoutSend.setOnClickListener(v -> sendMessage());
+        binding.btnEmoji.setOnClickListener(v -> showEmoji());
+    }
+
+    private void showEmoji() {
+        binding.inputMessage.dispatchKeyEvent(new KeyEvent(KeyEvent.ACTION_DOWN, KeyEvent.KEYCODE_PICTSYMBOLS));
+        showToast("hello");
     }
 
     private int findMessage(String uid) {
@@ -258,12 +265,12 @@ public class ChatScreenActivity extends OnChatActivity {
 
     private void sendMessage() {
 
-        String ms =   binding.inputMessage.getText().length() == 0 ? "\uD83D\uDC4D" : binding.inputMessage.getText().toString();
+        String ms = binding.inputMessage.getText().length() == 0 ? "\uD83D\uDC4D" : binding.inputMessage.getText().toString();
         HashMap<String, Object> message = new HashMap<>();
         // get senderId from Preference manage on save a local app
         message.put(Constants.KEY_SENDER_ID, preferenceManager.getString(Constants.KEY_USER_ID));
         message.put(Constants.KEY_RECEIVER_ID, receiverUSer.getUid());
-        message.put(Constants.KEY_MESSAGE,ms);
+        message.put(Constants.KEY_MESSAGE, ms);
         message.put(Constants.KEY_TIMESTAMP, new Date());
         message.put(Constants.KEY_FEELING, -1);
 

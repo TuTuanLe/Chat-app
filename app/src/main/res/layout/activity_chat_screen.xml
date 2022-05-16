@@ -207,10 +207,11 @@
                 android:hint="@string/type_a_message"
                 android:paddingStart="@dimen/_10sdp"
                 android:textColor="@color/colorTextPrimary"
-                tools:ignore="RtlSymmetry" />
+                tools:ignore="RtlSymmetry"
+                />
 
             <ImageView
-                android:id="@+id/btnCamera"
+                android:id="@+id/btnEmoji"
                 android:layout_width="@dimen/_37sdp"
                 android:layout_height="match_parent"
                 android:background="@color/trans"
