@@ -3,11 +3,14 @@ package com.tutuanle.chatapp.adapters;
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.graphics.Bitmap;
+import android.os.SystemClock;
 import android.util.Log;
 import android.view.LayoutInflater;
 
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
@@ -73,7 +76,7 @@ public class ChatAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
                 .build();
 
         ReactionPopup popup = new ReactionPopup(context, config, (pos) -> {
-            if(pos < 0 ) return false;
+            if (pos < 0) return false;
             if (holder.getClass() == SentMessageViewHolder.class) {
                 SentMessageViewHolder viewHolder = (SentMessageViewHolder) holder;
                 viewHolder.binding.feeling.setImageResource(Constants.REACTIONS[pos]);
@@ -112,11 +115,15 @@ public class ChatAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
                 viewHolder.binding.feeling.setVisibility(View.GONE);
             }
 
-                viewHolder.binding.message.setOnTouchListener((view, motionEvent) -> {
-                    popup.onTouch(view, motionEvent);
-                    return false;
-                });
+//            viewHolder.binding.message.setOnTouchListener((view, motionEvent) -> {
+//                popup.onTouch(view, motionEvent);
+//                return false;
+//            });
+            viewHolder.binding.message.setOnLongClickListener((view) -> {
 
+                popup.onTouch(view, MotionEvent.obtain(SystemClock.uptimeMillis(),SystemClock.uptimeMillis(), MotionEvent.ACTION_DOWN,0,0, 0 ));
+                return false;
+            });
 
 
 
@@ -175,7 +182,6 @@ public class ChatAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
         public void setData(ChatMessage chatMessage) {
             binding.message.setText(chatMessage.getMessage());
             binding.textDateTime.setText(chatMessage.getDateTime());
-
 
 
         }
