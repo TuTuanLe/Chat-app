@@ -31,7 +31,9 @@
             android:contentDescription="@string/app_name"
             android:paddingEnd="@dimen/_10sdp"
             android:src="@drawable/ic_baseline_close_24"
-            tools:ignore="RtlSymmetry" />
+            tools:ignore="RtlSymmetry"
+            android:tint="@color/white"
+            />
     </FrameLayout>
 
     <TextView
@@ -62,6 +64,7 @@
                 android:background="@drawable/circle_bg"
                 android:scaleType="center"
                 app:riv_oval="true"
+                android:src="@drawable/ic_baseline_search_24"
 
                 />
 
@@ -98,6 +101,7 @@
                 android:layout_marginTop="@dimen/_5sdp"
                 android:background="@drawable/circle_bg"
                 android:scaleType="fitXY"
+                android:src="@drawable/ic_baseline_search_24"
                 app:riv_oval="true" />
 
 
@@ -109,7 +113,8 @@
                 android:padding="@dimen/_11sdp"
                 android:text="Love"
                 android:textColor="@color/colorTextSecondary"
-                android:textSize="@dimen/_12ssp" />
+                android:textSize="@dimen/_12ssp"
+                />
 
 
         </FrameLayout>
@@ -126,6 +131,7 @@
             android:layout_height="wrap_content">
 
             <com.makeramen.roundedimageview.RoundedImageView
+                android:src="@drawable/ic_baseline_search_24"
                 android:id="@+id/themSkyImage"
                 android:layout_width="@dimen/_30sdp"
                 android:layout_height="@dimen/_30sdp"
@@ -166,6 +172,7 @@
             android:layout_height="wrap_content">
 
             <com.makeramen.roundedimageview.RoundedImageView
+                android:src="@drawable/ic_baseline_search_24"
                 android:id="@+id/themeLoveChill"
                 android:layout_width="@dimen/_30sdp"
                 android:layout_height="@dimen/_30sdp"
