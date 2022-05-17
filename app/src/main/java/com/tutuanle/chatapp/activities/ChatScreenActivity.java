@@ -7,7 +7,9 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
+import android.net.Uri;
 import android.os.Bundle;
+import android.provider.MediaStore;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.Base64;
@@ -20,7 +22,10 @@ import android.view.WindowManager;
 import android.view.inputmethod.EditorInfo;
 import android.widget.Toast;
 
+import androidx.activity.result.ActivityResultLauncher;
+import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.core.content.ContextCompat;
 
 import com.balysv.materialripple.MaterialRippleLayout;
@@ -48,6 +53,9 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.ByteArrayOutputStream;
+import java.io.FileNotFoundException;
+import java.io.InputStream;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -73,6 +81,7 @@ public class ChatScreenActivity extends OnChatActivity {
     private Boolean isOnChat = false;
     private Integer countMessage = 0;
     private CustomizeChat customizeChat;
+    private String encodedImage;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -370,12 +379,48 @@ public class ChatScreenActivity extends OnChatActivity {
         binding.imageBack.setOnClickListener(v -> onBackPressed());
         binding.layoutSend.setOnClickListener(v -> sendMessage());
 //        EmojiPopup popup =  EmojiPopup.Builder.fromRootView(binding.getRoot()).build(binding.inputMessage);
-//        binding.btnEmoji.setOnClickListener(v -> showEmoji(popup));
+        binding.btnEmoji.setOnClickListener(v -> showEmoji());
     }
 
-//    private void showEmoji(EmojiPopup popup) {
-//        popup.toggle();
-//    }
+    private void showEmoji() {
+//        Intent intent = new Intent();
+//        intent.setAction(Intent.ACTION_GET_CONTENT);
+//        intent.setType("image/*"); // video/*
+//        startActivityForResult(intent, 25);
+        Intent intent = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
+        intent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
+        pickImage.launch(intent);
+
+    }
+
+    private final ActivityResultLauncher<Intent> pickImage = registerForActivityResult(
+            new ActivityResultContracts.StartActivityForResult(),
+            result -> {
+                if (result.getResultCode() == RESULT_OK) {
+                    assert result.getData() != null;
+                    Uri imageUri = result.getData().getData();
+                    try {
+                        InputStream inputStream = getContentResolver().openInputStream(imageUri);
+                        Bitmap bitmap = BitmapFactory.decodeStream(inputStream);
+                        encodedImage = encodeImage(bitmap);
+                        showToast(encodedImage);
+                    } catch (FileNotFoundException e) {
+                        e.printStackTrace();
+                    }
+                }
+            }
+    );
+
+    private String encodeImage(Bitmap bitmap) {
+        int previewWidth = 150;
+        int previewHeight = bitmap.getHeight() * previewWidth / bitmap.getWidth();
+        Bitmap previewBitmap = Bitmap.createScaledBitmap(bitmap, previewWidth, previewHeight, false);
+        ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
+        previewBitmap.compress(Bitmap.CompressFormat.JPEG, 50, byteArrayOutputStream);
+        byte[] bytes = byteArrayOutputStream.toByteArray();
+        return Base64.encodeToString(bytes, Base64.DEFAULT);
+    }
+
 
     private int findMessage(String uid) {
         for (int i = 0; i < chatMessages.size(); i++)

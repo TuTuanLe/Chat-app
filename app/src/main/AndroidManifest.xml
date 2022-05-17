@@ -18,7 +18,7 @@
             android:name=".activities.CreateGroupActivity"
             android:exported="false" />
         <activity
-            android:name=".activities.InfomationActivity"
+            android:name=".activities.InformationActivity"
             android:exported="false" />
         <activity
             android:name=".activities.OTPScreenActivity"
