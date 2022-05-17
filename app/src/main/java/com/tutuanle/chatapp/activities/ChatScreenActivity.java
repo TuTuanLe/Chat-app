@@ -2,6 +2,7 @@ package com.tutuanle.chatapp.activities;
 
 import android.annotation.SuppressLint;
 import android.app.Dialog;
+import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Color;
@@ -35,6 +36,7 @@ import com.tutuanle.chatapp.R;
 import com.tutuanle.chatapp.adapters.ChatAdapter;
 import com.tutuanle.chatapp.databinding.ActivityChatScreenBinding;
 import com.tutuanle.chatapp.models.ChatMessage;
+import com.tutuanle.chatapp.models.CustomizeChat;
 import com.tutuanle.chatapp.models.User;
 import com.tutuanle.chatapp.network.ApiClient;
 import com.tutuanle.chatapp.network.ApiService;
@@ -70,6 +72,7 @@ public class ChatScreenActivity extends OnChatActivity {
     private Boolean isReceiverAvailable = false;
     private Boolean isOnChat = false;
     private Integer countMessage = 0;
+    private CustomizeChat customizeChat;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -77,12 +80,14 @@ public class ChatScreenActivity extends OnChatActivity {
         binding = ActivityChatScreenBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
         loadReceiverDetails();
-        setListener();
         init();
+        initCustomTheme();
+        setListener();
         listenMessages();
         setIconSend();
         customizeYourChat();
 //        updateConversation();
+
     }
 
     private void loadReceiverDetails() {
@@ -94,6 +99,8 @@ public class ChatScreenActivity extends OnChatActivity {
     private void customizeYourChat() {
         binding.imageInfo.setOnClickListener(v -> {
             openDialog(Gravity.CENTER);
+
+
         });
     }
 
@@ -117,6 +124,7 @@ public class ChatScreenActivity extends OnChatActivity {
 
         dialog.findViewById(R.id.Theme_default).setOnClickListener(v -> {
             binding.setImageScreen.setBackgroundResource(0);
+            ListenerTheme();
             dialog.dismiss();
         });
 
@@ -143,6 +151,7 @@ public class ChatScreenActivity extends OnChatActivity {
     private void init() {
         preferenceManager = new PreferenceManager(getApplicationContext());
         chatMessages = new ArrayList<>();
+        customizeChat = new CustomizeChat();
         chatAdapter = new ChatAdapter(
                 chatMessages,
                 getBitmapFromEnCodedString(receiverUSer.getProfileImage()),
@@ -195,6 +204,91 @@ public class ChatScreenActivity extends OnChatActivity {
             }
         });
     }
+
+    private void ListenerTheme() {
+        database.collection(Constants.KEY_COLLECTION_CUSTOM_CHAT)
+                .document(customizeChat.getCustomizeUid())
+                .addSnapshotListener(eventListenerTheme);
+    }
+
+
+    private void initCustomTheme() {
+        database.collection(Constants.KEY_COLLECTION_CUSTOM_CHAT)
+                .whereEqualTo(Constants.KEY_USER_UID_1, preferenceManager.getString(Constants.KEY_USER_ID))
+                .whereEqualTo(Constants.KEY_USER_UID_2, receiverUSer.getUid())
+                .get()
+                .addOnCompleteListener(task -> {
+                    if (task.isSuccessful() && task.getResult() != null && task.getResult().getDocuments().size() > 0) {
+                        DocumentSnapshot snapshot = task.getResult().getDocuments().get(0);
+                        int KeyTheme = Integer.parseInt(Objects.requireNonNull(snapshot.getLong(Constants.KEY_THEME)).toString());
+                        customizeChat.setCustomizeUid(snapshot.getId());
+                        customizeChat.setTheme(KeyTheme);
+                        customizeChat.setGradient(snapshot.getString(Constants.KEY_GRADIENT));
+
+                        if (KeyTheme == 1)
+                            binding.setImageScreen.setBackgroundResource(R.drawable.bg_1);
+                        else if (KeyTheme == 2)
+                            binding.setImageScreen.setBackgroundResource(R.drawable.bg_2);
+                        else if (KeyTheme == 3)
+                            binding.setImageScreen.setBackgroundResource(R.drawable.bg_3);
+                        else if (KeyTheme == 4)
+                            binding.setImageScreen.setBackgroundResource(R.drawable.bg_4);
+                        else if (KeyTheme == 5)
+                            binding.setImageScreen.setBackgroundResource(R.drawable.bg_5);
+                    } else {
+
+                        database.collection(Constants.KEY_COLLECTION_CUSTOM_CHAT)
+                                .whereEqualTo(Constants.KEY_USER_UID_1, receiverUSer.getUid())
+                                .whereEqualTo(Constants.KEY_USER_UID_2, preferenceManager.getString(Constants.KEY_USER_ID))
+                                .get()
+                                .addOnCompleteListener(task1 -> {
+
+                                    if (task1.isSuccessful() && task1.getResult() != null && task1.getResult().getDocuments().size() > 0) {
+                                        DocumentSnapshot snapshot = task1.getResult().getDocuments().get(0);
+                                        int KeyTheme = Integer.parseInt(Objects.requireNonNull(snapshot.getLong(Constants.KEY_THEME)).toString());
+                                        customizeChat.setCustomizeUid(snapshot.getId());
+                                        customizeChat.setTheme(KeyTheme);
+                                        customizeChat.setGradient(snapshot.getString(Constants.KEY_GRADIENT));
+
+
+                                        if (KeyTheme == 1)
+                                            binding.setImageScreen.setBackgroundResource(R.drawable.bg_1);
+                                        else if (KeyTheme == 2)
+                                            binding.setImageScreen.setBackgroundResource(R.drawable.bg_2);
+                                        else if (KeyTheme == 3)
+                                            binding.setImageScreen.setBackgroundResource(R.drawable.bg_3);
+                                        else if (KeyTheme == 4)
+                                            binding.setImageScreen.setBackgroundResource(R.drawable.bg_4);
+                                        else if (KeyTheme == 5)
+                                            binding.setImageScreen.setBackgroundResource(R.drawable.bg_5);
+                                    } else {
+                                        HashMap<String, Object> cusChat = new HashMap<>();
+                                        cusChat.put(Constants.KEY_USER_UID_1, preferenceManager.getString(Constants.KEY_USER_ID));
+                                        cusChat.put(Constants.KEY_USER_UID_2, receiverUSer.getUid());
+                                        cusChat.put(Constants.KEY_THEME, 0);
+                                        cusChat.put(Constants.KEY_GRADIENT, "#fff");
+                                        database.collection(Constants.KEY_COLLECTION_CUSTOM_CHAT)
+                                                .add(cusChat);
+                                    }
+                                });
+                    }
+                });
+
+
+    }
+
+    @SuppressLint("NotifyDataSetChanged")
+    private final EventListener<DocumentSnapshot> eventListenerTheme = (value, error) -> {
+        if (error != null) {
+            return;
+        }
+        if (value != null) {
+
+            showToast("continue");
+            binding.setImageScreen.setBackgroundResource(R.drawable.bg_3);
+        }
+
+    };
 
 
     @SuppressLint("NotifyDataSetChanged")
@@ -295,6 +389,7 @@ public class ChatScreenActivity extends OnChatActivity {
         message.put(Constants.KEY_IS_SEEN, isOnChat ? 0 : 1);
         database.collection(Constants.KEY_COLLECTION_CHAT).add(message);
 
+
         // set recent chat
         if (conversionId != null) {
             updateConversion(ms);
@@ -334,6 +429,7 @@ public class ChatScreenActivity extends OnChatActivity {
         binding.inputMessage.setText(null);
         binding.inputMessage.onEditorAction(EditorInfo.IME_ACTION_DONE);
     }
+
 
     private String getReadableDatetime(Date date) {
         return new SimpleDateFormat("hh:mm a", Locale.getDefault()).format(date);

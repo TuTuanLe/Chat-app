@@ -24,7 +24,13 @@ public class Constants {
     public static final String KEY_FEELING = "feeling";
     public static final String KEY_IS_ACTIVE = "isActive";
     public static final String KEY_ON_CHAT = "onChat";
-    public  static  final String KEY_IS_SEEN = "isSeen";
+    public static final String KEY_IS_SEEN = "isSeen";
+    public static final String KEY_COLLECTION_CUSTOM_CHAT = "customChat";
+    public static final String KEY_USER_UID_1 = "userUid1";
+    public static final String KEY_USER_UID_2 = "userUid2";
+    public static final String KEY_THEME = "theme";
+    public static final String KEY_GRADIENT = "gradient";
+
 
     public static int[] REACTIONS = new int[]{
             R.drawable.ic_fb_like,
