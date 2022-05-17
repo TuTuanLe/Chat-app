@@ -220,13 +220,15 @@ public class ChatScreenActivity extends OnChatActivity {
                 .collection(Constants.KEY_COLLECTION_CUSTOM_CHAT)
                 .document(customizeChat.getCustomizeUid())
                 .update(Constants.KEY_THEME, theme);
+        binding.setImageScreen.setBackgroundResource(0);
         database.collection(Constants.KEY_COLLECTION_CUSTOM_CHAT)
-                .whereEqualTo(Constants.KEY_USER_UID_1, customizeChat.getUserUid_1())
-                .whereEqualTo(Constants.KEY_USER_UID_2, customizeChat.getUserUid_2())
+                .whereEqualTo(Constants.KEY_USER_UID_1, preferenceManager.getString(Constants.KEY_USER_ID))
+                .whereEqualTo(Constants.KEY_USER_UID_2, receiverUSer.getUid())
                 .addSnapshotListener(eventListenerTheme);
+
         database.collection(Constants.KEY_COLLECTION_CUSTOM_CHAT)
-                .whereEqualTo(Constants.KEY_USER_UID_1, customizeChat.getUserUid_2())
-                .whereEqualTo(Constants.KEY_USER_UID_2, customizeChat.getUserUid_1())
+                .whereEqualTo(Constants.KEY_USER_UID_1, receiverUSer.getUid())
+                .whereEqualTo(Constants.KEY_USER_UID_2, preferenceManager.getString(Constants.KEY_USER_ID))
                 .addSnapshotListener(eventListenerTheme);
     }
 
@@ -353,12 +355,13 @@ public class ChatScreenActivity extends OnChatActivity {
         }
         if (value != null) {
             for (DocumentChange documentChange : value.getDocumentChanges()) {
-                if (documentChange.getType() == DocumentChange.Type.MODIFIED) {
+//                if (documentChange.getType() == DocumentChange.Type.MODIFIED) {
 
                     int KeyTheme = Integer.parseInt(String.valueOf(documentChange.getDocument().getLong(Constants.KEY_THEME)));
                     Log.d("test_change_theme", String.valueOf(KeyTheme));
                     binding.setImageScreen.setBackgroundResource(Constants.THEMES[KeyTheme]);
-                }
+
+
             }
         }
     };
