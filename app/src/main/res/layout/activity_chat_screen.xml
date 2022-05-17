@@ -2,11 +2,11 @@
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/setImageScreen"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:id="@+id/setImageScreen"
     tools:context=".activities.ChatScreenActivity">
-<!--    android:background="@drawable/bg_5"-->
+    <!--    android:background="@drawable/bg_5"-->
     <androidx.cardview.widget.CardView
         android:id="@+id/cardView3"
         android:layout_width="match_parent"
@@ -29,7 +29,7 @@
                 android:layout_weight="1"
                 android:padding="@dimen/_10sdp"
                 android:src="@drawable/ic_baseline_arrow_back_24"
-                android:tint="@color/black"/>
+                android:tint="@color/black" />
 
 
             <androidx.constraintlayout.widget.ConstraintLayout
@@ -75,8 +75,7 @@
                 android:layout_weight="1"
                 android:padding="@dimen/_6sdp"
                 android:src="@drawable/ic_baseline_call_24"
-                android:tint="@color/blue"
-                />
+                android:tint="@color/blue" />
 
             <androidx.appcompat.widget.AppCompatImageView
                 android:id="@+id/imageVideoCall"
@@ -85,7 +84,7 @@
                 android:layout_weight="1"
                 android:padding="@dimen/_6sdp"
                 android:src="@drawable/ic_baseline_videocam_24"
-                android:tint="@color/blue"/>
+                android:tint="@color/blue" />
 
             <androidx.appcompat.widget.AppCompatImageView
                 android:id="@+id/imageInfo"
@@ -94,8 +93,7 @@
                 android:layout_weight="1"
                 android:padding="@dimen/_6sdp"
                 android:src="@drawable/ic_baseline_info_24"
-                android:tint="@color/blue"
-                />
+                android:tint="@color/blue" />
 
 
         </LinearLayout>
@@ -130,6 +128,45 @@
 
 
     <FrameLayout
+        android:id="@+id/layoutChoiceImage"
+        android:visibility="gone"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintBottom_toTopOf="@+id/cardView2"
+        app:layout_constraintEnd_toEndOf="@+id/cardView2"
+        app:layout_constraintStart_toEndOf="@+id/layoutExtend"
+        android:background="@drawable/button_bg"
+        android:padding="@dimen/_5sdp"
+        android:layout_margin="@dimen/_7sdp"
+        >
+        <com.makeramen.roundedimageview.RoundedImageView
+            android:id="@+id/ImageChoice"
+            android:layout_width="@dimen/_100sdp"
+            android:layout_height="@dimen/_100sdp"
+            android:cropToPadding="true"
+            android:scaleType="centerCrop"
+            android:src="@drawable/bg_4"
+            android:visibility="visible"
+
+            app:riv_corner_radius="10dip" />
+
+        <ImageButton
+            android:id="@+id/iconCloseImage"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="end"
+            android:background="@color/trans"
+            android:contentDescription="@string/app_name"
+            android:layout_marginEnd="@dimen/_5sdp"
+            android:layout_marginTop="@dimen/_5sdp"
+            android:src="@drawable/ic_baseline_close_24"
+            tools:ignore="RtlSymmetry,UseAppTint"
+            android:tint="@color/white"
+            />
+
+    </FrameLayout>
+
+    <FrameLayout
         android:id="@+id/layoutSend"
         android:layout_width="@dimen/_33sdp"
         android:layout_height="@dimen/_36sdp"
@@ -143,10 +180,10 @@
             android:id="@+id/icon_send"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
+            android:contentDescription="@string/app_name"
             android:padding="@dimen/_8sdp"
             android:src="@drawable/ic_baseline_send_24"
             app:tint="@color/colorGray"
-            android:contentDescription="@string/app_name"
 
             />
 
@@ -157,20 +194,19 @@
         android:id="@+id/layoutExtend"
         android:layout_width="@dimen/_33sdp"
         android:layout_height="@dimen/_36sdp"
-        android:background="@color/trans"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
         android:layout_marginEnd="@dimen/_2ssp"
         android:layout_marginBottom="@dimen/_10sdp"
-        >
+        android:background="@color/trans"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent">
 
         <ImageView
             android:id="@+id/icon_extend"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
+            android:layout_marginStart="@dimen/_5sdp"
             android:contentDescription="@string/app_name"
             android:padding="@dimen/_5sdp"
-            android:layout_marginStart="@dimen/_5sdp"
             android:src="@drawable/ic_baseline_add_circle_outline_24"
             app:tint="@color/blue" />
 
@@ -184,21 +220,20 @@
         android:layout_marginStart="@dimen/_34sdp"
         android:layout_marginEnd="@dimen/_40sdp"
         android:layout_marginBottom="@dimen/_12sdp"
+        app:cardBackgroundColor="@color/transparent"
         app:cardCornerRadius="30dp"
+        app:cardElevation="0dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:cardBackgroundColor="@color/transparent"
-        app:cardElevation="0dp"
 
         >
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:orientation="horizontal"
             android:background="@drawable/input_send"
-            >
+            android:orientation="horizontal">
 
             <EditText
                 android:id="@+id/inputMessage"
@@ -209,8 +244,7 @@
                 android:hint="@string/type_a_message"
                 android:paddingStart="@dimen/_10sdp"
                 android:textColor="@color/colorTextPrimary"
-                tools:ignore="RtlSymmetry"
-                />
+                tools:ignore="RtlSymmetry" />
 
             <ImageView
                 android:id="@+id/btnEmoji"

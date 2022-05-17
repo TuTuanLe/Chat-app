@@ -380,6 +380,12 @@ public class ChatScreenActivity extends OnChatActivity {
         binding.layoutSend.setOnClickListener(v -> sendMessage());
 //        EmojiPopup popup =  EmojiPopup.Builder.fromRootView(binding.getRoot()).build(binding.inputMessage);
         binding.btnEmoji.setOnClickListener(v -> showEmoji());
+        binding.iconCloseImage.setOnClickListener( v->setCloseLayoutChoiseImage());
+    }
+
+    private void setCloseLayoutChoiseImage(){
+        binding.ImageChoice.setBackgroundResource(0);
+        binding.layoutChoiceImage.setVisibility(View.GONE);
     }
 
     private void showEmoji() {
@@ -403,7 +409,8 @@ public class ChatScreenActivity extends OnChatActivity {
                         InputStream inputStream = getContentResolver().openInputStream(imageUri);
                         Bitmap bitmap = BitmapFactory.decodeStream(inputStream);
                         encodedImage = encodeImage(bitmap);
-                        showToast(encodedImage);
+                        binding.layoutChoiceImage.setVisibility(View.VISIBLE);
+                        binding.ImageChoice.setImageBitmap(bitmap);
                     } catch (FileNotFoundException e) {
                         e.printStackTrace();
                     }
