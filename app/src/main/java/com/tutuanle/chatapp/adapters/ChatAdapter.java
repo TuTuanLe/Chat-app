@@ -105,16 +105,18 @@ public class ChatAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
                 viewHolder.binding.feeling.setVisibility(View.GONE);
             }
             viewHolder.binding.message.setOnLongClickListener((view) -> {
-                popup.onTouch(view, MotionEvent.obtain(SystemClock.uptimeMillis(),SystemClock.uptimeMillis(), MotionEvent.ACTION_DOWN,0,0, 0 ));
+                popup.onTouch(view, MotionEvent.obtain(SystemClock.uptimeMillis(), SystemClock.uptimeMillis(), MotionEvent.ACTION_DOWN, 0, 0, 0));
                 return false;
             });
+            if(chatMessages.size() != 0){
+                if (chatMessages.get(chatMessages.size() - 1).getIsSeen() == 1 && chatMessages.get(chatMessages.size() - 1) ==  message) {
+                    Log.d("TAG_MESSAGE_LIST", "onBindViewHolder: "+ chatMessages.size());
+                    viewHolder.binding.checkSeen.setVisibility(View.VISIBLE);
+                } else {
+                    viewHolder.binding.checkSeen.setVisibility(View.GONE);
+                }
+            }
 
-//            if(chatMessages.get(chatMessages.size()-1).getIsSeen() == 1){
-//                viewHolder.binding.checkSeen.setVisibility(View.VISIBLE);
-//            }
-//            else {
-//                viewHolder.binding.checkSeen.setVisibility(View.GONE);
-//            }
 
 
         } else if (holder.getClass() == ReceiverMessageViewHolder.class) {
@@ -127,10 +129,9 @@ public class ChatAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
             }
 
             viewHolder.binding.message.setOnLongClickListener((view) -> {
-                popup.onTouch(view, MotionEvent.obtain(SystemClock.uptimeMillis(),SystemClock.uptimeMillis(), MotionEvent.ACTION_DOWN,0,0, 0 ));
+                popup.onTouch(view, MotionEvent.obtain(SystemClock.uptimeMillis(), SystemClock.uptimeMillis(), MotionEvent.ACTION_DOWN, 0, 0, 0));
                 return false;
             });
-
 
 
         }

@@ -82,6 +82,7 @@ public class ChatScreenActivity extends OnChatActivity {
         listenMessages();
         setIconSend();
         customizeYourChat();
+//        updateConversation();
     }
 
     private void loadReceiverDetails() {
@@ -204,6 +205,7 @@ public class ChatScreenActivity extends OnChatActivity {
         if (value != null) {
             int count = chatMessages.size();
 
+
             for (DocumentChange documentChange : value.getDocumentChanges()) {
 
                 if (documentChange.getType() == DocumentChange.Type.ADDED) {
@@ -215,14 +217,15 @@ public class ChatScreenActivity extends OnChatActivity {
                     chatMessage.setFeeling(Integer.parseInt(Objects.requireNonNull(documentChange.getDocument().getLong(Constants.KEY_FEELING)).toString()));
                     chatMessage.setDateTime(getReadableDatetime(documentChange.getDocument().getDate(Constants.KEY_TIMESTAMP)));
                     chatMessage.dataObject = documentChange.getDocument().getDate(Constants.KEY_TIMESTAMP);
-//                    chatMessage.setIsSeen(Integer.parseInt(Objects.requireNonNull(documentChange.getDocument().getLong(Constants.KEY_IS_SEEN)).toString()));
+                    chatMessage.setIsSeen(Integer.parseInt(Objects.requireNonNull(documentChange.getDocument().getLong(Constants.KEY_IS_SEEN)).toString()));
                     chatMessages.add(chatMessage);
                 } else if (documentChange.getType() == DocumentChange.Type.MODIFIED) {
                     String docID = documentChange.getDocument().getId();
 
                     chatMessages.get(findMessage(docID)).setFeeling(
                             Integer.parseInt(Objects.requireNonNull(documentChange.getDocument().getLong(Constants.KEY_FEELING)).toString()));
-
+                    chatMessages.get(findMessage(docID)).setIsSeen(
+                            Integer.parseInt(Objects.requireNonNull(documentChange.getDocument().getLong(Constants.KEY_IS_SEEN)).toString()));
                     chatAdapter.notifyDataSetChanged();
                 } else if (documentChange.getType() == DocumentChange.Type.REMOVED) {
                     // remove
@@ -266,6 +269,19 @@ public class ChatScreenActivity extends OnChatActivity {
         return -1;
     }
 
+
+    private void updateConversation() {
+        if (isOnChat && chatMessages.size() != 0) {
+            FirebaseFirestore.getInstance()
+                    .collection(Constants.KEY_COLLECTION_CHAT)
+                    .document(chatMessages.get(chatMessages.size() - 1).getMessageId())
+                    .update(Constants.KEY_IS_SEEN, 0)
+                    .addOnSuccessListener(item -> Log.d("IS_SEEN", "update successfully"))
+                    .addOnFailureListener(item -> Log.d("IS_SEEN", "fail "));
+        }
+    }
+
+
     private void sendMessage() {
 
         String ms = binding.inputMessage.getText().length() == 0 ? "\uD83D\uDC4D" : binding.inputMessage.getText().toString();
@@ -276,7 +292,7 @@ public class ChatScreenActivity extends OnChatActivity {
         message.put(Constants.KEY_MESSAGE, ms);
         message.put(Constants.KEY_TIMESTAMP, new Date());
         message.put(Constants.KEY_FEELING, -1);
-        message.put(Constants.KEY_IS_SEEN , isOnChat ? 0 : 1);
+        message.put(Constants.KEY_IS_SEEN, isOnChat ? 0 : 1);
         database.collection(Constants.KEY_COLLECTION_CHAT).add(message);
 
         // set recent chat
