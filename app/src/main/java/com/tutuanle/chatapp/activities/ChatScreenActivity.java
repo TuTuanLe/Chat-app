@@ -122,23 +122,33 @@ public class ChatScreenActivity extends OnChatActivity {
 
         dialog.setCancelable(Gravity.BOTTOM == gravity);
 
-        dialog.findViewById(R.id.Theme_default).setOnClickListener(v -> {
-            binding.setImageScreen.setBackgroundResource(0);
-            ListenerTheme();
-            dialog.dismiss();
-        });
+        dialog.findViewById(R.id.Theme_0).setOnClickListener(v -> {
 
-        dialog.findViewById(R.id.Theme_chill).setOnClickListener(v -> {
-            binding.setImageScreen.setBackgroundResource(R.drawable.bg_4);
+            ListenerTheme(0);
             dialog.dismiss();
         });
-
-        dialog.findViewById(R.id.Theme_love).setOnClickListener(v -> {
-            binding.setImageScreen.setBackgroundResource(R.drawable.bg_5);
+        dialog.findViewById(R.id.Theme_1).setOnClickListener(v -> {
+            ListenerTheme(1);
             dialog.dismiss();
         });
-        dialog.findViewById(R.id.Theme_sky).setOnClickListener(v -> {
-            binding.setImageScreen.setBackgroundResource(R.drawable.bg_3);
+        dialog.findViewById(R.id.Theme_2).setOnClickListener(v -> {
+            ListenerTheme(2);
+            dialog.dismiss();
+        });
+        dialog.findViewById(R.id.Theme_3).setOnClickListener(v -> {
+            ListenerTheme(3);
+            dialog.dismiss();
+        });
+        dialog.findViewById(R.id.Theme_4).setOnClickListener(v -> {
+            ListenerTheme(4);
+            dialog.dismiss();
+        });
+        dialog.findViewById(R.id.Theme_5).setOnClickListener(v -> {
+            ListenerTheme(5);
+            dialog.dismiss();
+        });
+        dialog.findViewById(R.id.Theme_6).setOnClickListener(v -> {
+            ListenerTheme(6);
             dialog.dismiss();
         });
         dialog.findViewById(R.id.icon_close).setOnClickListener(v -> {
@@ -205,9 +215,18 @@ public class ChatScreenActivity extends OnChatActivity {
         });
     }
 
-    private void ListenerTheme() {
-        database.collection(Constants.KEY_COLLECTION_CUSTOM_CHAT)
+    private void ListenerTheme(int theme) {
+        FirebaseFirestore.getInstance()
+                .collection(Constants.KEY_COLLECTION_CUSTOM_CHAT)
                 .document(customizeChat.getCustomizeUid())
+                .update(Constants.KEY_THEME, theme);
+        database.collection(Constants.KEY_COLLECTION_CUSTOM_CHAT)
+                .whereEqualTo(Constants.KEY_USER_UID_1, customizeChat.getUserUid_1())
+                .whereEqualTo(Constants.KEY_USER_UID_2, customizeChat.getUserUid_2())
+                .addSnapshotListener(eventListenerTheme);
+        database.collection(Constants.KEY_COLLECTION_CUSTOM_CHAT)
+                .whereEqualTo(Constants.KEY_USER_UID_1, customizeChat.getUserUid_2())
+                .whereEqualTo(Constants.KEY_USER_UID_2, customizeChat.getUserUid_1())
                 .addSnapshotListener(eventListenerTheme);
     }
 
@@ -224,17 +243,9 @@ public class ChatScreenActivity extends OnChatActivity {
                         customizeChat.setCustomizeUid(snapshot.getId());
                         customizeChat.setTheme(KeyTheme);
                         customizeChat.setGradient(snapshot.getString(Constants.KEY_GRADIENT));
-
-                        if (KeyTheme == 1)
-                            binding.setImageScreen.setBackgroundResource(R.drawable.bg_1);
-                        else if (KeyTheme == 2)
-                            binding.setImageScreen.setBackgroundResource(R.drawable.bg_2);
-                        else if (KeyTheme == 3)
-                            binding.setImageScreen.setBackgroundResource(R.drawable.bg_3);
-                        else if (KeyTheme == 4)
-                            binding.setImageScreen.setBackgroundResource(R.drawable.bg_4);
-                        else if (KeyTheme == 5)
-                            binding.setImageScreen.setBackgroundResource(R.drawable.bg_5);
+                        customizeChat.setUserUid_1(snapshot.getString(Constants.KEY_USER_UID_1));
+                        customizeChat.setUserUid_2(snapshot.getString(Constants.KEY_USER_UID_2));
+                        binding.setImageScreen.setBackgroundResource(Constants.THEMES[KeyTheme]);
                     } else {
 
                         database.collection(Constants.KEY_COLLECTION_CUSTOM_CHAT)
@@ -249,18 +260,9 @@ public class ChatScreenActivity extends OnChatActivity {
                                         customizeChat.setCustomizeUid(snapshot.getId());
                                         customizeChat.setTheme(KeyTheme);
                                         customizeChat.setGradient(snapshot.getString(Constants.KEY_GRADIENT));
-
-
-                                        if (KeyTheme == 1)
-                                            binding.setImageScreen.setBackgroundResource(R.drawable.bg_1);
-                                        else if (KeyTheme == 2)
-                                            binding.setImageScreen.setBackgroundResource(R.drawable.bg_2);
-                                        else if (KeyTheme == 3)
-                                            binding.setImageScreen.setBackgroundResource(R.drawable.bg_3);
-                                        else if (KeyTheme == 4)
-                                            binding.setImageScreen.setBackgroundResource(R.drawable.bg_4);
-                                        else if (KeyTheme == 5)
-                                            binding.setImageScreen.setBackgroundResource(R.drawable.bg_5);
+                                        customizeChat.setUserUid_1(snapshot.getString(Constants.KEY_USER_UID_1));
+                                        customizeChat.setUserUid_2(snapshot.getString(Constants.KEY_USER_UID_2));
+                                        binding.setImageScreen.setBackgroundResource(Constants.THEMES[KeyTheme]);
                                     } else {
                                         HashMap<String, Object> cusChat = new HashMap<>();
                                         cusChat.put(Constants.KEY_USER_UID_1, preferenceManager.getString(Constants.KEY_USER_ID));
@@ -277,21 +279,19 @@ public class ChatScreenActivity extends OnChatActivity {
 
     }
 
-    @SuppressLint("NotifyDataSetChanged")
-    private final EventListener<DocumentSnapshot> eventListenerTheme = (value, error) -> {
-        if (error != null) {
-            return;
-        }
-        if (value != null) {
+//    @SuppressLint("NotifyDataSetChanged")
+//    private final EventListener<DocumentSnapshot> eventListenerTheme = (value, error) -> {
+//        if (error != null) {
+//            return;
+//        }
+//        if (value != null) {
+//            int KeyTheme= Integer.parseInt(String.valueOf(value.get(Constants.KEY_THEME))) ;
+//            binding.setImageScreen.setBackgroundResource(Constants.THEMES[KeyTheme]);
+//        }
+//
+//    };
 
-            showToast("continue");
-            binding.setImageScreen.setBackgroundResource(R.drawable.bg_3);
-        }
 
-    };
-
-
-    @SuppressLint("NotifyDataSetChanged")
     private final EventListener<QuerySnapshot> eventListener = (value, error) -> {
         if (error != null) {
             return;
@@ -342,6 +342,24 @@ public class ChatScreenActivity extends OnChatActivity {
         binding.progressBar.setVisibility(View.GONE);
         if (conversionId == null) {
             checkForConversion();
+        }
+    };
+
+
+    @SuppressLint("NotifyDataSetChanged")
+    private final EventListener<QuerySnapshot> eventListenerTheme = (value, error) -> {
+        if (error != null) {
+            return;
+        }
+        if (value != null) {
+            for (DocumentChange documentChange : value.getDocumentChanges()) {
+                if (documentChange.getType() == DocumentChange.Type.MODIFIED) {
+
+                    int KeyTheme = Integer.parseInt(String.valueOf(documentChange.getDocument().getLong(Constants.KEY_THEME)));
+                    Log.d("test_change_theme", String.valueOf(KeyTheme));
+                    binding.setImageScreen.setBackgroundResource(Constants.THEMES[KeyTheme]);
+                }
+            }
         }
     };
 

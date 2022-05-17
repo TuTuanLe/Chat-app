@@ -46,7 +46,7 @@
         android:textColor="@color/colorTextPrimary" />
 
     <com.balysv.materialripple.MaterialRippleLayout
-        android:id="@+id/Theme_default"
+        android:id="@+id/Theme_0"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="@dimen/_5sdp">
@@ -54,9 +54,7 @@
         <FrameLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
-
             <com.makeramen.roundedimageview.RoundedImageView
-                android:id="@+id/ThemeDefaultImage"
                 android:layout_width="@dimen/_30sdp"
                 android:layout_height="@dimen/_30sdp"
                 android:layout_marginStart="@dimen/_10sdp"
@@ -83,7 +81,7 @@
     </com.balysv.materialripple.MaterialRippleLayout>
 
     <com.balysv.materialripple.MaterialRippleLayout
-        android:id="@+id/Theme_love"
+        android:id="@+id/Theme_1"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="@dimen/_5sdp">
@@ -93,14 +91,13 @@
             android:layout_height="wrap_content">
 
             <com.makeramen.roundedimageview.RoundedImageView
-                android:id="@+id/themeLoveImage"
                 android:layout_width="@dimen/_30sdp"
                 android:layout_height="@dimen/_30sdp"
                 android:layout_marginStart="@dimen/_10sdp"
                 android:layout_marginTop="@dimen/_5sdp"
 
                 android:scaleType="fitXY"
-                android:src="@drawable/bg_5"
+                android:src="@drawable/bg_1"
                 app:riv_oval="true" />
 
 
@@ -110,7 +107,7 @@
                 android:layout_gravity="center_horizontal"
                 android:layout_marginStart="@dimen/_30sdp"
                 android:padding="@dimen/_11sdp"
-                android:text="Love"
+                android:text="Magic"
                 android:textColor="@color/colorTextSecondary"
                 android:textSize="@dimen/_12ssp"
                 />
@@ -120,7 +117,7 @@
     </com.balysv.materialripple.MaterialRippleLayout>
 
     <com.balysv.materialripple.MaterialRippleLayout
-        android:id="@+id/Theme_sky"
+        android:id="@+id/Theme_2"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="@dimen/_5sdp">
@@ -130,13 +127,11 @@
             android:layout_height="wrap_content">
 
             <com.makeramen.roundedimageview.RoundedImageView
-                android:src="@drawable/bg_3"
-                android:id="@+id/themSkyImage"
+                android:src="@drawable/bg_2"
                 android:layout_width="@dimen/_30sdp"
                 android:layout_height="@dimen/_30sdp"
                 android:layout_marginStart="@dimen/_10sdp"
                 android:layout_marginTop="@dimen/_5sdp"
-
                 android:scaleType="fitXY"
                 app:riv_oval="true"
 
@@ -149,7 +144,7 @@
                 android:layout_gravity="center_horizontal"
                 android:layout_marginStart="@dimen/_30sdp"
                 android:padding="@dimen/_11sdp"
-                android:text="Sky"
+                android:text="Wash your Hard !"
 
                 android:textColor="@color/colorTextSecondary"
                 android:textSize="@dimen/_12ssp" />
@@ -159,11 +154,45 @@
     </com.balysv.materialripple.MaterialRippleLayout>
 
     <com.balysv.materialripple.MaterialRippleLayout
-        android:id="@+id/Theme_chill"
+        android:id="@+id/Theme_3"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="@dimen/_5sdp"
-        android:layout_marginBottom="@dimen/_30sdp"
+        >
+
+        <FrameLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <com.makeramen.roundedimageview.RoundedImageView
+                android:src="@drawable/bg_3"
+                android:layout_width="@dimen/_30sdp"
+                android:layout_height="@dimen/_30sdp"
+                android:layout_marginStart="@dimen/_10sdp"
+                android:layout_marginTop="@dimen/_5sdp"
+
+                android:scaleType="fitXY"
+                app:riv_oval="true" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginStart="@dimen/_30sdp"
+                android:padding="@dimen/_11sdp"
+                android:text="Simple"
+                android:textColor="@color/colorTextSecondary"
+                android:textSize="@dimen/_12ssp" />
+
+
+        </FrameLayout>
+    </com.balysv.materialripple.MaterialRippleLayout>
+
+    <com.balysv.materialripple.MaterialRippleLayout
+        android:id="@+id/Theme_4"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/_5sdp"
         >
 
         <FrameLayout
@@ -172,7 +201,6 @@
 
             <com.makeramen.roundedimageview.RoundedImageView
                 android:src="@drawable/bg_4"
-                android:id="@+id/themeLoveChill"
                 android:layout_width="@dimen/_30sdp"
                 android:layout_height="@dimen/_30sdp"
                 android:layout_marginStart="@dimen/_10sdp"
@@ -187,7 +215,7 @@
                 android:layout_gravity="center_horizontal"
                 android:layout_marginStart="@dimen/_30sdp"
                 android:padding="@dimen/_11sdp"
-                android:text="Chill"
+                android:text="Chill Morning"
                 android:textColor="@color/colorTextSecondary"
                 android:textSize="@dimen/_12ssp" />
 
@@ -195,6 +223,73 @@
         </FrameLayout>
     </com.balysv.materialripple.MaterialRippleLayout>
 
+    <com.balysv.materialripple.MaterialRippleLayout
+        android:id="@+id/Theme_5"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/_5sdp"
+        >
+
+        <FrameLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <com.makeramen.roundedimageview.RoundedImageView
+                android:src="@drawable/bg_5"
+                android:layout_width="@dimen/_30sdp"
+                android:layout_height="@dimen/_30sdp"
+                android:layout_marginStart="@dimen/_10sdp"
+                android:layout_marginTop="@dimen/_5sdp"
+                android:scaleType="fitXY"
+                app:riv_oval="true" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginStart="@dimen/_30sdp"
+                android:padding="@dimen/_11sdp"
+                android:text="Love"
+                android:textColor="@color/colorTextSecondary"
+                android:textSize="@dimen/_12ssp" />
+
+
+        </FrameLayout>
+    </com.balysv.materialripple.MaterialRippleLayout>
+    <com.balysv.materialripple.MaterialRippleLayout
+        android:id="@+id/Theme_6"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/_5sdp"
+        android:layout_marginBottom="@dimen/_30sdp"
+        >
+
+        <FrameLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <com.makeramen.roundedimageview.RoundedImageView
+                android:src="@drawable/bg_6"
+                android:layout_width="@dimen/_30sdp"
+                android:layout_height="@dimen/_30sdp"
+                android:layout_marginStart="@dimen/_10sdp"
+                android:layout_marginTop="@dimen/_5sdp"
+                android:scaleType="fitXY"
+                app:riv_oval="true" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginStart="@dimen/_30sdp"
+                android:padding="@dimen/_11sdp"
+                android:text="Talking To The Moon"
+                android:textColor="@color/colorTextSecondary"
+                android:textSize="@dimen/_12ssp" />
+
+
+        </FrameLayout>
+    </com.balysv.materialripple.MaterialRippleLayout>
 
 
 </LinearLayout>

@@ -41,6 +41,16 @@ public class Constants {
             R.drawable.ic_fb_angry
     };
 
+    public static int[] THEMES = new int[]{
+            0,
+            R.drawable.bg_1,
+            R.drawable.bg_2,
+            R.drawable.bg_3,
+            R.drawable.bg_4,
+            R.drawable.bg_5,
+            R.drawable.bg_6
+    };
+
     public static final String KEY_COLLECTION_CONVERSATIONS = "conversations";
     public static final String KEY_SENDER_NAME = "senderName";
     public static final String KEY_SENDER_IMAGE = "senderImage";
