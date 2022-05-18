@@ -350,15 +350,14 @@ public class ChatScreenActivity extends OnChatActivity {
 
                 } else if (documentChange.getType() == DocumentChange.Type.MODIFIED) {
                     String docID = documentChange.getDocument().getId();
-
                     chatMessages.get(findMessage(docID)).setFeeling(
                             Integer.parseInt(Objects.requireNonNull(documentChange.getDocument().getLong(Constants.KEY_FEELING)).toString()));
                     chatMessages.get(findMessage(docID)).setIsSeen(
                             Integer.parseInt(Objects.requireNonNull(documentChange.getDocument().getLong(Constants.KEY_IS_SEEN)).toString()));
-                    chatAdapter.notifyDataSetChanged();
+                    chatAdapter.notifyItemChanged(findMessage(docID));
                 } else if (documentChange.getType() == DocumentChange.Type.REMOVED) {
                     // remove
-//                    String docID = documentChange.getDocument().getId();
+                    String docID = documentChange.getDocument().getId();
                     chatMessages.remove(documentChange.getOldIndex());
                     chatAdapter.notifyItemRemoved(documentChange.getOldIndex());
                 }
