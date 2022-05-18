@@ -116,4 +116,39 @@ public class ChatMessage {
     public void setCountMessageSeen(String countMessageSeen) {
         CountMessageSeen = countMessageSeen;
     }
+
+    public int getTypeMessage() {
+        return typeMessage;
+    }
+
+    public void setTypeMessage(int typeMessage) {
+        this.typeMessage = typeMessage;
+    }
+
+    public String getImageBitmap() {
+        return imageBitmap;
+    }
+
+    public void setImageBitmap(String imageBitmap) {
+        this.imageBitmap = imageBitmap;
+    }
+
+    public String getUrlVideo() {
+        return urlVideo;
+    }
+
+    public void setUrlVideo(String urlVideo) {
+        this.urlVideo = urlVideo;
+    }
+
+    public String getUrlRecord() {
+        return urlRecord;
+    }
+
+    public void setUrlRecord(String urlRecord) {
+        this.urlRecord = urlRecord;
+    }
+
+    private int typeMessage;
+    private  String  imageBitmap, urlVideo, urlRecord;
 }

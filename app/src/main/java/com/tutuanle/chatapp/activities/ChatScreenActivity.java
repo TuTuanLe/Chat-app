@@ -82,6 +82,7 @@ public class ChatScreenActivity extends OnChatActivity {
     private Integer countMessage = 0;
     private CustomizeChat customizeChat;
     private String encodedImage;
+    private int TypeMessage = 0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -303,6 +304,7 @@ public class ChatScreenActivity extends OnChatActivity {
 //    };
 
 
+    @SuppressLint("NotifyDataSetChanged")
     private final EventListener<QuerySnapshot> eventListener = (value, error) -> {
         if (error != null) {
             return;
@@ -321,8 +323,18 @@ public class ChatScreenActivity extends OnChatActivity {
                     chatMessage.setMessage(documentChange.getDocument().getString(Constants.KEY_MESSAGE));
                     chatMessage.setFeeling(Integer.parseInt(Objects.requireNonNull(documentChange.getDocument().getLong(Constants.KEY_FEELING)).toString()));
                     chatMessage.setDateTime(getReadableDatetime(documentChange.getDocument().getDate(Constants.KEY_TIMESTAMP)));
+
                     chatMessage.dataObject = documentChange.getDocument().getDate(Constants.KEY_TIMESTAMP);
-                    chatMessage.setIsSeen(Integer.parseInt(Objects.requireNonNull(documentChange.getDocument().getLong(Constants.KEY_IS_SEEN)).toString()));
+                    chatMessage.setIsSeen(Integer.parseInt(String.valueOf(documentChange.getDocument().getLong(Constants.KEY_IS_SEEN))));
+                    chatMessage.setTypeMessage(Integer.parseInt(String.valueOf(documentChange.getDocument().getLong(Constants.KEY_TYPE_MESSAGE))));
+                    if (chatMessage.getTypeMessage() == 1) {
+                        chatMessage.setImageBitmap(documentChange.getDocument().getString(Constants.KEY_SEND_IMAGE));
+                    } else if (chatMessage.getTypeMessage() == 2) {
+                        chatMessage.setUrlVideo(documentChange.getDocument().getString(Constants.KEY_SEND_VIDEO));
+                    } else if (chatMessage.getTypeMessage() == 3) {
+                        chatMessage.setUrlRecord(documentChange.getDocument().getString(Constants.KEY_SEND_RECORD));
+                    }
+
                     chatMessages.add(chatMessage);
                 } else if (documentChange.getType() == DocumentChange.Type.MODIFIED) {
                     String docID = documentChange.getDocument().getId();
@@ -366,9 +378,9 @@ public class ChatScreenActivity extends OnChatActivity {
             for (DocumentChange documentChange : value.getDocumentChanges()) {
 //                if (documentChange.getType() == DocumentChange.Type.MODIFIED) {
 
-                    int KeyTheme = Integer.parseInt(String.valueOf(documentChange.getDocument().getLong(Constants.KEY_THEME)));
-                    Log.d("test_change_theme", String.valueOf(KeyTheme));
-                    binding.setImageScreen.setBackgroundResource(Constants.THEMES[KeyTheme]);
+                int KeyTheme = Integer.parseInt(String.valueOf(documentChange.getDocument().getLong(Constants.KEY_THEME)));
+                Log.d("test_change_theme", String.valueOf(KeyTheme));
+                binding.setImageScreen.setBackgroundResource(Constants.THEMES[KeyTheme]);
 
 
             }
@@ -380,12 +392,14 @@ public class ChatScreenActivity extends OnChatActivity {
         binding.layoutSend.setOnClickListener(v -> sendMessage());
 //        EmojiPopup popup =  EmojiPopup.Builder.fromRootView(binding.getRoot()).build(binding.inputMessage);
         binding.btnEmoji.setOnClickListener(v -> showEmoji());
-        binding.iconCloseImage.setOnClickListener( v->setCloseLayoutChoiseImage());
+        binding.iconCloseImage.setOnClickListener(v -> setCloseLayoutChoiseImage());
     }
 
-    private void setCloseLayoutChoiseImage(){
+    private void setCloseLayoutChoiseImage() {
         binding.ImageChoice.setBackgroundResource(0);
         binding.layoutChoiceImage.setVisibility(View.GONE);
+        binding.inputMessage.setText(null);
+        TypeMessage = 0;
     }
 
     private void showEmoji() {
@@ -399,6 +413,7 @@ public class ChatScreenActivity extends OnChatActivity {
 
     }
 
+    @SuppressLint("SetTextI18n")
     private final ActivityResultLauncher<Intent> pickImage = registerForActivityResult(
             new ActivityResultContracts.StartActivityForResult(),
             result -> {
@@ -411,8 +426,11 @@ public class ChatScreenActivity extends OnChatActivity {
                         encodedImage = encodeImage(bitmap);
                         binding.layoutChoiceImage.setVisibility(View.VISIBLE);
                         binding.ImageChoice.setImageBitmap(bitmap);
+                        TypeMessage = 1;
+                        binding.inputMessage.setText("\uD83D\uDD16" + " " + preferenceManager.getString(Constants.KEY_NAME) + "  sent a photo .");
                     } catch (FileNotFoundException e) {
                         e.printStackTrace();
+                        TypeMessage = 0;
                     }
                 }
             }
@@ -460,6 +478,27 @@ public class ChatScreenActivity extends OnChatActivity {
         message.put(Constants.KEY_TIMESTAMP, new Date());
         message.put(Constants.KEY_FEELING, -1);
         message.put(Constants.KEY_IS_SEEN, isOnChat ? 0 : 1);
+        message.put(Constants.KEY_TYPE_MESSAGE, TypeMessage);
+        //send image
+        if (TypeMessage == 1) {
+            message.put(Constants.KEY_SEND_IMAGE, encodedImage);
+            setCloseLayoutChoiseImage();
+        } else {
+            message.put(Constants.KEY_SEND_IMAGE, null);
+        }
+//        send video
+        if (TypeMessage == 2) {
+            message.put(Constants.KEY_SEND_VIDEO, "send video");
+        } else {
+            message.put(Constants.KEY_SEND_VIDEO, null);
+        }
+        // send record
+        if (TypeMessage == 3) {
+            message.put(Constants.KEY_SEND_RECORD, "send record");
+        } else {
+            message.put(Constants.KEY_SEND_RECORD, null);
+        }
+
         database.collection(Constants.KEY_COLLECTION_CHAT).add(message);
 
 
