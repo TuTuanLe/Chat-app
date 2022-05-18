@@ -349,6 +349,7 @@ public class ChatScreenActivity extends OnChatActivity {
 
 
                     chatMessages.add(chatMessage);
+
                 } else if (documentChange.getType() == DocumentChange.Type.MODIFIED) {
                     String docID = documentChange.getDocument().getId();
 

@@ -38,6 +38,7 @@
             android:cropToPadding="true"
             app:riv_corner_radius="10dip"
             android:visibility="gone"
+            android:paddingStart="@dimen/_5sdp"
             />
 
         <TextView
@@ -53,6 +54,7 @@
             android:textSize="@dimen/_11ssp"
             app:layout_constraintWidth_max="wrap"
             android:maxWidth="@dimen/_180sdp"
+
             android:textColor="@color/black"/>
     </LinearLayout>
 
@@ -73,7 +75,9 @@
 
     <TextView
         android:id="@+id/textDateTime"
+        android:layout_marginStart="@dimen/_5sdp"
         android:layout_width="0dp"
+        android:text="@string/app_name"
         android:layout_height="wrap_content"
         android:textColor="@color/secondary_text"
         android:textSize="@dimen/_7ssp"
