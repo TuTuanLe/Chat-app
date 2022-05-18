@@ -110,15 +110,13 @@ public class ChatAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
                 popup.onTouch(view, MotionEvent.obtain(SystemClock.uptimeMillis(), SystemClock.uptimeMillis(), MotionEvent.ACTION_DOWN, 0, 0, 0));
                 return false;
             });
-            if(chatMessages.size() != 0){
-                if (chatMessages.get(chatMessages.size() - 1).getIsSeen() == 1 && chatMessages.get(chatMessages.size() - 1) ==  message) {
-                    Log.d("TAG_MESSAGE_LIST", "onBindViewHolder: "+ chatMessages.size());
+            if (chatMessages.size() != 0) {
+                if (chatMessages.get(chatMessages.size() - 1).getIsSeen() == 1 && chatMessages.get(chatMessages.size() - 1) == message) {
                     viewHolder.binding.checkSeen.setVisibility(View.VISIBLE);
                 } else {
                     viewHolder.binding.checkSeen.setVisibility(View.GONE);
                 }
             }
-
 
 
         } else if (holder.getClass() == ReceiverMessageViewHolder.class) {
@@ -191,13 +189,14 @@ public class ChatAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
         public void setData(ChatMessage chatMessage) {
             binding.message.setText(chatMessage.getMessage());
             binding.textDateTime.setText(chatMessage.getDateTime());
-            if(chatMessage.getTypeMessage() == 1){
+            if (chatMessage.getTypeMessage() == 1) {
                 binding.messageImage.setVisibility(View.VISIBLE);
                 binding.message.setVisibility(View.GONE);
                 binding.messageImage.setImageBitmap(getBitmapFromEnCodedString(chatMessage.getImageBitmap()));
             }
 
         }
+
         private Bitmap getBitmapFromEnCodedString(String enCodedImage) {
             byte[] bytes = Base64.decode(enCodedImage, Base64.DEFAULT);
             return BitmapFactory.decodeByteArray(bytes, 0, bytes.length);
@@ -217,12 +216,17 @@ public class ChatAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
             binding.message.setText(chatMessage.getMessage());
             binding.textDateTime.setText(chatMessage.getDateTime());
             binding.roundedImageView.setImageBitmap(receiverProfileImage);
-            if(chatMessage.getTypeMessage() == 1){
+            if (chatMessage.getTypeMessage() == 0) {
+                binding.messageImage.setBackgroundResource(0);
+                binding.messageImage.setVisibility(View.GONE);
+                binding.message.setVisibility(View.VISIBLE);
+            } else if (chatMessage.getTypeMessage() == 1) {
                 binding.messageImage.setVisibility(View.VISIBLE);
                 binding.message.setVisibility(View.GONE);
                 binding.messageImage.setImageBitmap(getBitmapFromEnCodedString(chatMessage.getImageBitmap()));
             }
         }
+
         private Bitmap getBitmapFromEnCodedString(String enCodedImage) {
             byte[] bytes = Base64.decode(enCodedImage, Base64.DEFAULT);
             return BitmapFactory.decodeByteArray(bytes, 0, bytes.length);

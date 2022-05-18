@@ -255,8 +255,6 @@ public class ChatScreenActivity extends OnChatActivity {
                         customizeChat.setCustomizeUid(snapshot.getId());
                         customizeChat.setTheme(KeyTheme);
                         customizeChat.setGradient(snapshot.getString(Constants.KEY_GRADIENT));
-                        customizeChat.setUserUid_1(snapshot.getString(Constants.KEY_USER_UID_1));
-                        customizeChat.setUserUid_2(snapshot.getString(Constants.KEY_USER_UID_2));
                         binding.setImageScreen.setBackgroundResource(Constants.THEMES[KeyTheme]);
                     } else {
 
@@ -272,9 +270,8 @@ public class ChatScreenActivity extends OnChatActivity {
                                         customizeChat.setCustomizeUid(snapshot.getId());
                                         customizeChat.setTheme(KeyTheme);
                                         customizeChat.setGradient(snapshot.getString(Constants.KEY_GRADIENT));
-                                        customizeChat.setUserUid_1(snapshot.getString(Constants.KEY_USER_UID_1));
-                                        customizeChat.setUserUid_2(snapshot.getString(Constants.KEY_USER_UID_2));
                                         binding.setImageScreen.setBackgroundResource(Constants.THEMES[KeyTheme]);
+                                        ListenerTheme(KeyTheme);
                                     } else {
                                         HashMap<String, Object> cusChat = new HashMap<>();
                                         cusChat.put(Constants.KEY_USER_UID_1, preferenceManager.getString(Constants.KEY_USER_ID));
@@ -283,6 +280,7 @@ public class ChatScreenActivity extends OnChatActivity {
                                         cusChat.put(Constants.KEY_GRADIENT, "#fff");
                                         database.collection(Constants.KEY_COLLECTION_CUSTOM_CHAT)
                                                 .add(cusChat);
+                                        ListenerTheme(0);
                                     }
                                 });
                     }
