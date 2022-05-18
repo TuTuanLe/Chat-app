@@ -190,7 +190,11 @@ public class ChatAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
         public void setData(ChatMessage chatMessage) {
             binding.message.setText(chatMessage.getMessage());
             binding.textDateTime.setText(chatMessage.getDateTime());
-            if (chatMessage.getTypeMessage() == 1) {
+            if (chatMessage.getTypeMessage() == 0) {
+                binding.messageImage.setBackgroundResource(0);
+                binding.messageImage.setVisibility(View.GONE);
+                binding.message.setVisibility(View.VISIBLE);
+            } else if (chatMessage.getTypeMessage() == 1) {
                 binding.messageImage.setVisibility(View.VISIBLE);
                 binding.message.setVisibility(View.GONE);
                 binding.messageImage.setImageBitmap(getBitmapFromEnCodedString(chatMessage.getImageBitmap()));

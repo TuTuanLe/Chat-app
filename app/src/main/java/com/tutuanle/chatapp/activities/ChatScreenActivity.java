@@ -8,6 +8,7 @@ import android.graphics.BitmapFactory;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
 import android.provider.MediaStore;
 import android.text.Editable;
@@ -15,7 +16,6 @@ import android.text.TextWatcher;
 import android.util.Base64;
 import android.util.Log;
 import android.view.Gravity;
-import android.view.KeyEvent;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
@@ -25,10 +25,10 @@ import android.widget.Toast;
 import androidx.activity.result.ActivityResultLauncher;
 import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
+
+import androidx.annotation.RequiresApi;
 import androidx.core.content.ContextCompat;
 
-import com.balysv.materialripple.MaterialRippleLayout;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.firebase.firestore.DocumentChange;
 import com.google.firebase.firestore.DocumentReference;
@@ -36,18 +36,17 @@ import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.EventListener;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QuerySnapshot;
-import com.makeramen.roundedimageview.RoundedImageView;
 import com.tutuanle.chatapp.R;
 import com.tutuanle.chatapp.adapters.ChatAdapter;
 import com.tutuanle.chatapp.databinding.ActivityChatScreenBinding;
 import com.tutuanle.chatapp.models.ChatMessage;
 import com.tutuanle.chatapp.models.CustomizeChat;
+import com.tutuanle.chatapp.models.Message;
 import com.tutuanle.chatapp.models.User;
 import com.tutuanle.chatapp.network.ApiClient;
 import com.tutuanle.chatapp.network.ApiService;
 import com.tutuanle.chatapp.utilities.Constants;
 import com.tutuanle.chatapp.utilities.PreferenceManager;
-import com.vanniktech.emoji.EmojiPopup;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -59,6 +58,7 @@ import java.io.InputStream;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Comparator;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -69,6 +69,7 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
+@RequiresApi(api = Build.VERSION_CODES.N)
 public class ChatScreenActivity extends OnChatActivity {
     private ActivityChatScreenBinding binding;
     private User receiverUSer;
@@ -107,14 +108,10 @@ public class ChatScreenActivity extends OnChatActivity {
     }
 
     private void customizeYourChat() {
-        binding.imageInfo.setOnClickListener(v -> {
-            openDialog(Gravity.CENTER);
-
-
-        });
+        binding.imageInfo.setOnClickListener(v -> openDialog());
     }
 
-    private void openDialog(int gravity) {
+    private void openDialog() {
         final Dialog dialog = new Dialog(this);
         dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
         dialog.setContentView(R.layout.layout_dialog_theme);
@@ -127,13 +124,12 @@ public class ChatScreenActivity extends OnChatActivity {
         window.setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
 
         WindowManager.LayoutParams windowAttributes = window.getAttributes();
-        windowAttributes.gravity = gravity;
+        windowAttributes.gravity = Gravity.CENTER;
         window.setAttributes(windowAttributes);
 
-        dialog.setCancelable(Gravity.BOTTOM == gravity);
+        dialog.setCancelable(false);
 
         dialog.findViewById(R.id.Theme_0).setOnClickListener(v -> {
-
             ListenerTheme(0);
             dialog.dismiss();
         });
@@ -161,9 +157,7 @@ public class ChatScreenActivity extends OnChatActivity {
             ListenerTheme(6);
             dialog.dismiss();
         });
-        dialog.findViewById(R.id.icon_close).setOnClickListener(v -> {
-            dialog.dismiss();
-        });
+        dialog.findViewById(R.id.icon_close).setOnClickListener(v -> dialog.dismiss());
         dialog.show();
     }
 
@@ -289,17 +283,7 @@ public class ChatScreenActivity extends OnChatActivity {
 
     }
 
-//    @SuppressLint("NotifyDataSetChanged")
-//    private final EventListener<DocumentSnapshot> eventListenerTheme = (value, error) -> {
-//        if (error != null) {
-//            return;
-//        }
-//        if (value != null) {
-//            int KeyTheme= Integer.parseInt(String.valueOf(value.get(Constants.KEY_THEME))) ;
-//            binding.setImageScreen.setBackgroundResource(Constants.THEMES[KeyTheme]);
-//        }
-//
-//    };
+
 
 
     @SuppressLint("NotifyDataSetChanged")
@@ -309,10 +293,7 @@ public class ChatScreenActivity extends OnChatActivity {
         }
         if (value != null) {
             int count = chatMessages.size();
-
-
             for (DocumentChange documentChange : value.getDocumentChanges()) {
-
                 if (documentChange.getType() == DocumentChange.Type.ADDED) {
                     ChatMessage chatMessage = new ChatMessage();
                     chatMessage.setMessageId(documentChange.getDocument().getId());
@@ -321,7 +302,6 @@ public class ChatScreenActivity extends OnChatActivity {
                     chatMessage.setMessage(documentChange.getDocument().getString(Constants.KEY_MESSAGE));
                     chatMessage.setFeeling(Integer.parseInt(Objects.requireNonNull(documentChange.getDocument().getLong(Constants.KEY_FEELING)).toString()));
                     chatMessage.setDateTime(getReadableDatetime(documentChange.getDocument().getDate(Constants.KEY_TIMESTAMP)));
-
                     chatMessage.dataObject = documentChange.getDocument().getDate(Constants.KEY_TIMESTAMP);
                     try {
                         chatMessage.setIsSeen(Integer.parseInt(Objects.requireNonNull(documentChange.getDocument().getLong(Constants.KEY_IS_SEEN)).toString()));
@@ -345,25 +325,33 @@ public class ChatScreenActivity extends OnChatActivity {
                         e.printStackTrace();
                     }
 
-
                     chatMessages.add(chatMessage);
 
                 } else if (documentChange.getType() == DocumentChange.Type.MODIFIED) {
                     String docID = documentChange.getDocument().getId();
-                    chatMessages.get(findMessage(docID)).setFeeling(
+                    int index = findMessage(docID);
+                    chatMessages.get(index).setFeeling(
                             Integer.parseInt(Objects.requireNonNull(documentChange.getDocument().getLong(Constants.KEY_FEELING)).toString()));
-                    chatMessages.get(findMessage(docID)).setIsSeen(
-                            Integer.parseInt(Objects.requireNonNull(documentChange.getDocument().getLong(Constants.KEY_IS_SEEN)).toString()));
-                    chatAdapter.notifyItemChanged(findMessage(docID));
+
+                    if( chatMessages.get(index).getTypeMessage() == 1 ){
+                        chatMessages.get(index).setImageBitmap(documentChange.getDocument().getString(Constants.KEY_SEND_IMAGE));
+                    }else if( chatMessages.get(index).getTypeMessage() == 2 ){
+                        chatMessages.get(index).setImageBitmap(documentChange.getDocument().getString(Constants.KEY_SEND_VIDEO));
+                    }else if( chatMessages.get(index).getTypeMessage() == 3 ){
+                        chatMessages.get(index).setImageBitmap(documentChange.getDocument().getString(Constants.KEY_SEND_RECORD));
+                    }
+
+
+                    chatAdapter.notifyDataSetChanged();
                 } else if (documentChange.getType() == DocumentChange.Type.REMOVED) {
                     // remove
-                    String docID = documentChange.getDocument().getId();
+//                    String docID = documentChange.getDocument().getId();
                     chatMessages.remove(documentChange.getOldIndex());
                     chatAdapter.notifyItemRemoved(documentChange.getOldIndex());
                 }
 
             }
-            Collections.sort(chatMessages, (x, y) -> x.dataObject.compareTo(y.dataObject));
+            Collections.sort(chatMessages, Comparator.comparing(x -> x.dataObject));
 
             if (count == 0) {
                 chatAdapter.notifyDataSetChanged();
@@ -387,13 +375,9 @@ public class ChatScreenActivity extends OnChatActivity {
         }
         if (value != null) {
             for (DocumentChange documentChange : value.getDocumentChanges()) {
-//                if (documentChange.getType() == DocumentChange.Type.MODIFIED) {
-
                 int KeyTheme = Integer.parseInt(String.valueOf(documentChange.getDocument().getLong(Constants.KEY_THEME)));
                 Log.d("test_change_theme", String.valueOf(KeyTheme));
                 binding.setImageScreen.setBackgroundResource(Constants.THEMES[KeyTheme]);
-
-
             }
         }
     };
@@ -414,10 +398,6 @@ public class ChatScreenActivity extends OnChatActivity {
     }
 
     private void showEmoji() {
-//        Intent intent = new Intent();
-//        intent.setAction(Intent.ACTION_GET_CONTENT);
-//        intent.setType("image/*"); // video/*
-//        startActivityForResult(intent, 25);
         Intent intent = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
         intent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
         pickImage.launch(intent);
@@ -466,16 +446,16 @@ public class ChatScreenActivity extends OnChatActivity {
     }
 
 
-    private void updateConversation() {
-        if (isOnChat && chatMessages.size() != 0) {
-            FirebaseFirestore.getInstance()
-                    .collection(Constants.KEY_COLLECTION_CHAT)
-                    .document(chatMessages.get(chatMessages.size() - 1).getMessageId())
-                    .update(Constants.KEY_IS_SEEN, 0)
-                    .addOnSuccessListener(item -> Log.d("IS_SEEN", "update successfully"))
-                    .addOnFailureListener(item -> Log.d("IS_SEEN", "fail "));
-        }
-    }
+//    private void updateConversation() {
+//        if (isOnChat && chatMessages.size() != 0) {
+//            FirebaseFirestore.getInstance()
+//                    .collection(Constants.KEY_COLLECTION_CHAT)
+//                    .document(chatMessages.get(chatMessages.size() - 1).getMessageId())
+//                    .update(Constants.KEY_IS_SEEN, 0)
+//                    .addOnSuccessListener(item -> Log.d("IS_SEEN", "update successfully"))
+//                    .addOnFailureListener(item -> Log.d("IS_SEEN", "fail "));
+//        }
+//    }
 
 
     private void sendMessage() {
@@ -626,9 +606,8 @@ public class ChatScreenActivity extends OnChatActivity {
                         }
 
                         if (value.getLong(Constants.KEY_ON_CHAT) != null) {
-                            int onchat = Objects.requireNonNull(value.getLong(Constants.KEY_ON_CHAT)).intValue();
-                            isOnChat = onchat == 1;
-                            Log.d("TAG_CHAT", "listenAvailabilityOfReceiver: " + isOnChat);
+                            int onChat = Objects.requireNonNull(value.getLong(Constants.KEY_ON_CHAT)).intValue();
+                            isOnChat = onChat == 1;
                         }
 
                         receiverUSer.setToken(value.getString(Constants.KEY_FCM_TOKEN));
