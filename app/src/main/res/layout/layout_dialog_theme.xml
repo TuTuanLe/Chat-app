@@ -31,7 +31,7 @@
             android:contentDescription="@string/app_name"
             android:paddingEnd="@dimen/_10sdp"
             android:src="@drawable/ic_baseline_close_24"
-            tools:ignore="RtlSymmetry"
+            tools:ignore="RtlSymmetry,UseAppTint"
             android:tint="@color/white"
             />
     </FrameLayout>

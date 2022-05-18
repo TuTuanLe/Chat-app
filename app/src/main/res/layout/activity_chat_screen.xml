@@ -201,7 +201,7 @@
         app:layout_constraintStart_toStartOf="parent">
 
         <ImageView
-            android:id="@+id/icon_extend"
+            android:id="@+id/btn_extend"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_marginStart="@dimen/_5sdp"

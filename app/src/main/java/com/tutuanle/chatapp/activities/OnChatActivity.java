@@ -12,6 +12,11 @@ import com.tutuanle.chatapp.utilities.PreferenceManager;
 
 public class OnChatActivity  extends AppCompatActivity {
 
+
+    public  OnChatActivity(){
+
+    }
+
     private DocumentReference documentReference;
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
