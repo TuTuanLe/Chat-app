@@ -105,13 +105,57 @@ public class ChatScreenActivity extends OnChatActivity {
         receiverUSer = (User) getIntent().getSerializableExtra(Constants.KEY_USER);
         binding.textName.setText(receiverUSer.getName());
         binding.imageFriend.setImageBitmap(getBitmapFromEnCodedString(receiverUSer.getProfileImage()));
+
+
+    }
+
+    private void setListener() {
+        binding.imageBack.setOnClickListener(v -> onBackPressed());
+        binding.layoutSend.setOnClickListener(v -> sendMessage());
+        binding.iconCloseImage.setOnClickListener(v -> setCloseLayoutChoiseImage());
     }
 
     private void customizeYourChat() {
-        binding.imageInfo.setOnClickListener(v -> openDialog());
+        binding.imageInfo.setOnClickListener(v -> openDialogCenter());
+        binding.layoutExtend.setOnClickListener(v-> openDialogBottom());
     }
 
-    private void openDialog() {
+    private void openDialogBottom(){
+        setCloseLayoutChoiseImage();
+        final Dialog dialog = new Dialog(this);
+        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+        dialog.setContentView(R.layout.layout_dialog_bottom);
+
+        Window window = dialog.getWindow();
+        if (window == null) {
+            return;
+        }
+        window.setLayout(WindowManager.LayoutParams.MATCH_PARENT, WindowManager.LayoutParams.WRAP_CONTENT);
+        window.setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+
+        WindowManager.LayoutParams windowAttributes = window.getAttributes();
+        windowAttributes.gravity = Gravity.BOTTOM;
+        window.setAttributes(windowAttributes);
+        dialog.findViewById(R.id.addImageDialog).setOnClickListener(v -> {
+            showEmoji();
+            dialog.dismiss();
+        });
+
+        dialog.findViewById(R.id.addRecordeDialog).setOnClickListener(v -> {
+            dialog.dismiss();
+        });
+
+        dialog.findViewById(R.id.addVideoDialog).setOnClickListener(v -> {
+            dialog.dismiss();
+        });
+
+
+        dialog.setCancelable(true);
+
+        dialog.show();
+    }
+
+    private void openDialogCenter() {
         final Dialog dialog = new Dialog(this);
         dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
         dialog.setContentView(R.layout.layout_dialog_theme);
@@ -382,13 +426,7 @@ public class ChatScreenActivity extends OnChatActivity {
         }
     };
 
-    private void setListener() {
-        binding.imageBack.setOnClickListener(v -> onBackPressed());
-        binding.layoutSend.setOnClickListener(v -> sendMessage());
-//        EmojiPopup popup =  EmojiPopup.Builder.fromRootView(binding.getRoot()).build(binding.inputMessage);
-        binding.btnEmoji.setOnClickListener(v -> showEmoji());
-        binding.iconCloseImage.setOnClickListener(v -> setCloseLayoutChoiseImage());
-    }
+
 
     private void setCloseLayoutChoiseImage() {
         binding.ImageChoice.setBackgroundResource(0);
@@ -663,4 +701,6 @@ public class ChatScreenActivity extends OnChatActivity {
         super.onResume();
         listenAvailabilityOfReceiver();
     }
+
+
 }
