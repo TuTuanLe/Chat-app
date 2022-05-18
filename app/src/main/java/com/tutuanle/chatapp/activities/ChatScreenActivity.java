@@ -325,15 +325,28 @@ public class ChatScreenActivity extends OnChatActivity {
                     chatMessage.setDateTime(getReadableDatetime(documentChange.getDocument().getDate(Constants.KEY_TIMESTAMP)));
 
                     chatMessage.dataObject = documentChange.getDocument().getDate(Constants.KEY_TIMESTAMP);
-                    chatMessage.setIsSeen(Integer.parseInt(String.valueOf(documentChange.getDocument().getLong(Constants.KEY_IS_SEEN))));
-                    chatMessage.setTypeMessage(Integer.parseInt(String.valueOf(documentChange.getDocument().getLong(Constants.KEY_TYPE_MESSAGE))));
-                    if (chatMessage.getTypeMessage() == 1) {
-                        chatMessage.setImageBitmap(documentChange.getDocument().getString(Constants.KEY_SEND_IMAGE));
-                    } else if (chatMessage.getTypeMessage() == 2) {
-                        chatMessage.setUrlVideo(documentChange.getDocument().getString(Constants.KEY_SEND_VIDEO));
-                    } else if (chatMessage.getTypeMessage() == 3) {
-                        chatMessage.setUrlRecord(documentChange.getDocument().getString(Constants.KEY_SEND_RECORD));
+                    try {
+                        chatMessage.setIsSeen(Integer.parseInt(Objects.requireNonNull(documentChange.getDocument().getLong(Constants.KEY_IS_SEEN)).toString()));
+                    } catch (Exception e) {
+                        chatMessage.setIsSeen(0);
                     }
+                    try {
+                        chatMessage.setTypeMessage(Integer.parseInt(Objects.requireNonNull(documentChange.getDocument().getLong(Constants.KEY_TYPE_MESSAGE)).toString()));
+                    } catch (Exception e) {
+                        chatMessage.setTypeMessage(0);
+                    }
+                    try {
+                        if (chatMessage.getTypeMessage() == 1) {
+                            chatMessage.setImageBitmap(documentChange.getDocument().getString(Constants.KEY_SEND_IMAGE));
+                        } else if (chatMessage.getTypeMessage() == 2) {
+                            chatMessage.setUrlVideo(documentChange.getDocument().getString(Constants.KEY_SEND_VIDEO));
+                        } else if (chatMessage.getTypeMessage() == 3) {
+                            chatMessage.setUrlRecord(documentChange.getDocument().getString(Constants.KEY_SEND_RECORD));
+                        }
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
+
 
                     chatMessages.add(chatMessage);
                 } else if (documentChange.getType() == DocumentChange.Type.MODIFIED) {
