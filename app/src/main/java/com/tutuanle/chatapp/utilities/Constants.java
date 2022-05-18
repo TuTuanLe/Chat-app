@@ -30,6 +30,10 @@ public class Constants {
     public static final String KEY_USER_UID_2 = "userUid2";
     public static final String KEY_THEME = "theme";
     public static final String KEY_GRADIENT = "gradient";
+    public static final String KEY_TYPE_MESSAGE = "typeMessage";
+    public static final String KEY_SEND_IMAGE = "image_bitmap";
+    public static final String KEY_SEND_VIDEO = "url_video";
+    public static final String KEY_SEND_RECORD = "url_record";
 
 
     public static int[] REACTIONS = new int[]{

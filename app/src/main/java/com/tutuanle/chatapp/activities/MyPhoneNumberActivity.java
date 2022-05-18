@@ -28,9 +28,7 @@ public class MyPhoneNumberActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         binding = ActivityMyPhoneNumberBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
-
         setListener();
-
     }
 
 

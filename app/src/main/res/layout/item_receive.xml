@@ -13,29 +13,51 @@
 
         android:scaleType="center"
 
-        app:layout_constraintBottom_toBottomOf="@+id/message"
+        app:layout_constraintBottom_toBottomOf="@+id/layout_type_message"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/message"
+        app:layout_constraintTop_toBottomOf="@+id/layout_type_message"
         app:riv_oval="true" />
 
 
-
-    <TextView
-        android:id="@+id/message"
+    <LinearLayout
+        android:id="@+id/layout_type_message"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="@dimen/_6ssp"
-        android:background="@drawable/receive_drawable"
-        android:padding="@dimen/_8sdp"
-        android:paddingBottom="5dp"
-        android:text="@string/app_name"
-        android:textSize="@dimen/_11ssp"
         app:layout_constraintStart_toEndOf="@+id/roundedImageView"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintWidth_max="wrap"
-        android:maxWidth="@dimen/_180sdp"
         app:layout_constraintWidth_percent="0.75"
-        android:textColor="@color/black"/>
+        android:orientation="vertical"
+        >
+
+        <com.makeramen.roundedimageview.RoundedImageView
+            android:id="@+id/message_image"
+            android:layout_width="@dimen/_100sdp"
+            android:layout_height="@dimen/_100sdp"
+            android:src="@drawable/bg_4"
+            android:scaleType="centerCrop"
+            android:cropToPadding="true"
+            app:riv_corner_radius="10dip"
+            android:visibility="gone"
+            android:paddingStart="@dimen/_5sdp"
+            />
+
+        <TextView
+            android:id="@+id/message"
+            android:visibility="visible"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/_6ssp"
+            android:background="@drawable/receive_drawable"
+            android:padding="@dimen/_8sdp"
+            android:paddingBottom="5dp"
+            android:text="@string/app_name"
+            android:textSize="@dimen/_11ssp"
+            app:layout_constraintWidth_max="wrap"
+            android:maxWidth="@dimen/_180sdp"
+
+            android:textColor="@color/black"/>
+    </LinearLayout>
+
 
     <ImageView
         android:id="@+id/feeling"
@@ -43,21 +65,23 @@
         android:layout_height="16dp"
         android:contentDescription="@string/app_name"
         android:visibility="invisible"
-        app:layout_constraintBottom_toBottomOf="@+id/message"
-        app:layout_constraintEnd_toEndOf="@+id/message"
+        app:layout_constraintBottom_toBottomOf="@+id/layout_type_message"
+        app:layout_constraintEnd_toEndOf="@+id/layout_type_message"
         app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toEndOf="@+id/message"
+        app:layout_constraintStart_toEndOf="@+id/layout_type_message"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="1.0"
         app:srcCompat="@drawable/ic_fb_love" />
 
     <TextView
         android:id="@+id/textDateTime"
+        android:layout_marginStart="@dimen/_5sdp"
         android:layout_width="0dp"
+        android:text="@string/app_name"
         android:layout_height="wrap_content"
         android:textColor="@color/secondary_text"
         android:textSize="@dimen/_7ssp"
-        app:layout_constraintStart_toStartOf="@+id/message"
-        app:layout_constraintTop_toBottomOf="@+id/message" />
+        app:layout_constraintStart_toStartOf="@+id/layout_type_message"
+        app:layout_constraintTop_toBottomOf="@+id/layout_type_message" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

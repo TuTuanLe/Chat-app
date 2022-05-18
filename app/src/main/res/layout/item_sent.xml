@@ -1,37 +1,63 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:layout_marginTop="5dp">
 
-    <TextView
-        android:id="@+id/message"
+
+    <androidx.appcompat.widget.LinearLayoutCompat
+        android:id="@+id/layout_type_message"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginEnd="@dimen/_12ssp"
-        android:background="@drawable/sent_drawable"
-        android:maxWidth="@dimen/_200sdp"
-        android:padding="@dimen/_8sdp"
-        android:paddingTop="@dimen/_5sdp"
-        android:paddingBottom="@dimen/_5sdp"
-        android:text="@string/app_name"
-        android:textColor="@color/white"
-        android:textSize="@dimen/_11ssp"
+        android:orientation="vertical"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintWidth_max="wrap"
-        app:layout_constraintWidth_percent="0.8" />
+        app:layout_constraintWidth_percent="0.8"
+        android:background="@color/trans"
+        android:layout_marginEnd="@dimen/_12ssp"
+        >
+
+        <com.makeramen.roundedimageview.RoundedImageView
+            android:id="@+id/message_image"
+            android:layout_width="@dimen/_100sdp"
+            android:layout_height="@dimen/_100sdp"
+            android:src="@drawable/bg_4"
+            android:scaleType="centerCrop"
+            android:cropToPadding="true"
+            app:riv_corner_radius="10dip"
+            android:visibility="gone"
+            />
+
+        <TextView
+            android:id="@+id/message"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:visibility="visible"
+            android:background="@drawable/sent_drawable"
+            android:maxWidth="@dimen/_200sdp"
+            android:padding="@dimen/_8sdp"
+            android:paddingTop="@dimen/_5sdp"
+            android:paddingBottom="@dimen/_5sdp"
+            android:text="@string/app_name"
+            android:textColor="@color/white"
+            android:textSize="@dimen/_11ssp"
+        />
+    </androidx.appcompat.widget.LinearLayoutCompat>
+
+
 
     <ImageView
         android:id="@+id/feeling"
         android:layout_width="16dp"
         android:layout_height="16dp"
-        android:visibility="invisible"
-        app:layout_constraintBottom_toBottomOf="@+id/message"
-        app:layout_constraintEnd_toStartOf="@+id/message"
+        android:visibility="visible"
+        app:layout_constraintBottom_toBottomOf="@+id/layout_type_message"
+        app:layout_constraintEnd_toStartOf="@+id/layout_type_message"
         app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="@+id/message"
+        app:layout_constraintStart_toStartOf="@+id/layout_type_message"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.947"
         app:srcCompat="@drawable/ic_fb_love" />
@@ -46,25 +72,26 @@
         android:textColor="@color/secondary_text"
         android:textSize="@dimen/_7ssp"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/message" />
+        app:layout_constraintTop_toBottomOf="@+id/layout_type_message" />
 
 
     <com.makeramen.roundedimageview.RoundedImageView
         android:id="@+id/checkSeen"
         android:layout_width="@dimen/_10sdp"
         android:layout_height="@dimen/_10sdp"
-        android:visibility="gone"
-        android:src="@drawable/ic_baseline_check_circle_24"
-        android:scaleType="centerCrop"
         android:padding="@dimen/_1sdp"
         android:paddingStart="@dimen/_2sdp"
-        android:layout_marginTop="@dimen/_24sdp"
-        app:layout_constraintBottom_toBottomOf="@+id/message"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:riv_oval="true"
+        android:paddingBottom="@dimen/_6sdp"
+        android:scaleType="centerCrop"
+        android:src="@drawable/ic_baseline_check_circle_24"
         android:tint="@color/blue"
-        />
+        android:visibility="visible"
+
+        app:layout_constraintBottom_toTopOf="@+id/textDateTime"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/layout_type_message"
+
+        app:riv_oval="true" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>
