@@ -19,6 +19,12 @@
         android:background="@color/trans"
         android:layout_marginEnd="@dimen/_12ssp"
         >
+        <VideoView
+            android:id="@+id/messageVideo"
+            android:layout_width="@dimen/_150sdp"
+            android:layout_height="@dimen/_150sdp"
+            />
+
 
         <com.makeramen.roundedimageview.RoundedImageView
             android:id="@+id/message_image"
@@ -35,7 +41,7 @@
             android:id="@+id/message"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:visibility="visible"
+            android:visibility="gone"
             android:background="@drawable/sent_drawable"
             android:maxWidth="@dimen/_200sdp"
             android:padding="@dimen/_8sdp"

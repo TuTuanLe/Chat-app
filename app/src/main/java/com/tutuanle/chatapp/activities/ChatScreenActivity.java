@@ -564,7 +564,7 @@ public class ChatScreenActivity extends OnChatActivity {
                 sendNotification(body.toString());
 
             } catch (Exception e) {
-                showToast(e.getMessage());
+                showToast("Duoi phuong chua hoat dong"+ e.getMessage());
             }
         }
         binding.inputMessage.setText(null);
@@ -691,7 +691,7 @@ public class ChatScreenActivity extends OnChatActivity {
 
             @Override
             public void onFailure(@NonNull Call<String> call, @NonNull Throwable t) {
-                showToast(t.getMessage());
+                showToast("hello"+ t.getMessage());
             }
         });
     }
