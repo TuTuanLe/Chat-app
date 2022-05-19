@@ -5,15 +5,14 @@ import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Color;
+import android.net.Uri;
 import android.os.SystemClock;
 import android.util.Base64;
 import android.util.Log;
 import android.view.LayoutInflater;
-
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
@@ -21,19 +20,13 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.github.pgreze.reactions.ReactionPopup;
 import com.github.pgreze.reactions.ReactionsConfig;
 import com.github.pgreze.reactions.ReactionsConfigBuilder;
-
 import com.google.firebase.firestore.FirebaseFirestore;
-
 import com.tutuanle.chatapp.databinding.ItemReceiveBinding;
 import com.tutuanle.chatapp.databinding.ItemSentBinding;
 import com.tutuanle.chatapp.models.ChatMessage;
 import com.tutuanle.chatapp.utilities.Constants;
 
-
 import java.util.List;
-import java.util.Objects;
-import java.util.concurrent.Executor;
-import java.util.concurrent.atomic.AtomicReference;
 
 public class ChatAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
     private final List<ChatMessage> chatMessages;
@@ -110,6 +103,10 @@ public class ChatAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
                 popup.onTouch(view, MotionEvent.obtain(SystemClock.uptimeMillis(), SystemClock.uptimeMillis(), MotionEvent.ACTION_DOWN, 0, 0, 0));
                 return false;
             });
+            viewHolder.binding.messageVideo.setOnClickListener(v ->
+                    viewHolder.binding.messageVideo.start()
+            );
+
 
             if (chatMessages.size() != 0) {
                 if (chatMessages.get(chatMessages.size() - 1).getIsSeen() == 1 && chatMessages.get(chatMessages.size() - 1) == message) {
@@ -193,11 +190,23 @@ public class ChatAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
             if (chatMessage.getTypeMessage() == 0) {
                 binding.messageImage.setBackgroundResource(0);
                 binding.messageImage.setVisibility(View.GONE);
+                binding.messageVideo.setVisibility(View.GONE);
                 binding.message.setVisibility(View.VISIBLE);
+
             } else if (chatMessage.getTypeMessage() == 1) {
-                binding.messageImage.setVisibility(View.VISIBLE);
                 binding.message.setVisibility(View.GONE);
+                binding.messageVideo.setVisibility(View.GONE);
+                binding.messageImage.setVisibility(View.VISIBLE);
                 binding.messageImage.setImageBitmap(getBitmapFromEnCodedString(chatMessage.getImageBitmap()));
+            } else if (chatMessage.getTypeMessage() == 2) {
+                binding.messageImage.setBackgroundResource(0);
+                binding.messageImage.setVisibility(View.GONE);
+                binding.message.setVisibility(View.GONE);
+                binding.messageVideo.setVisibility(View.VISIBLE);
+                binding.messageVideo.setVideoURI(Uri.parse("https://videocdn.bodybuilding.com/video/mp4/62000/62792m.mp4"));
+                binding.messageVideo.requestFocus();
+
+
             }
 
         }

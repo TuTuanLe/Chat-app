@@ -9,6 +9,7 @@ import android.os.Build;
 import android.widget.RemoteViews;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.RequiresApi;
 import androidx.core.app.NotificationCompat;
 import androidx.core.app.NotificationManagerCompat;
 
@@ -26,6 +27,7 @@ public class MessagingService extends FirebaseMessagingService {
     public void onNewToken(@NonNull String token) {
         super.onNewToken(token);
     }
+    @RequiresApi(api = Build.VERSION_CODES.N)
     public void onMessageReceived(@NonNull RemoteMessage message) {
         super.onMessageReceived(message);
 
