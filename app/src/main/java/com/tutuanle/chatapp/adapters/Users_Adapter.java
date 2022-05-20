@@ -20,9 +20,10 @@ public class Users_Adapter extends RecyclerView.Adapter<Users_Adapter.UserViewHo
 
     private final List<User> users;
     private final UserListener userListener;
+
     public Users_Adapter(List<User> users, UserListener userListener) {
         this.users = users;
-        this.userListener= userListener;
+        this.userListener = userListener;
     }
 
     @NonNull
@@ -56,9 +57,7 @@ public class Users_Adapter extends RecyclerView.Adapter<Users_Adapter.UserViewHo
         void setUserData(User user) {
             binding.username.setText(user.getName());
             binding.profile.setImageBitmap(getUserImage(user.getProfileImage()));
-            binding.getRoot().setOnClickListener(v ->{ userListener.onUserClicked(user);
-
-            });
+            binding.getRoot().setOnClickListener(v -> userListener.initialVideoMeeting(user));
         }
     }
 

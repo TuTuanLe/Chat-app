@@ -117,10 +117,10 @@ public class ChatScreenActivity extends OnChatActivity {
 
     private void customizeYourChat() {
         binding.imageInfo.setOnClickListener(v -> openDialogCenter());
-        binding.layoutExtend.setOnClickListener(v-> openDialogBottom());
+        binding.layoutExtend.setOnClickListener(v -> openDialogBottom());
     }
 
-    private void openDialogBottom(){
+    private void openDialogBottom() {
         setCloseLayoutChoiseImage();
         final Dialog dialog = new Dialog(this);
         dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
@@ -141,13 +141,13 @@ public class ChatScreenActivity extends OnChatActivity {
             dialog.dismiss();
         });
 
-        dialog.findViewById(R.id.addRecordeDialog).setOnClickListener(v -> {
-            dialog.dismiss();
-        });
+        dialog.findViewById(R.id.addRecordeDialog).setOnClickListener(v ->
+                dialog.dismiss()
+        );
 
-        dialog.findViewById(R.id.addVideoDialog).setOnClickListener(v -> {
-            dialog.dismiss();
-        });
+        dialog.findViewById(R.id.addVideoDialog).setOnClickListener(v ->
+                dialog.dismiss()
+        );
 
 
         dialog.setCancelable(true);
@@ -328,8 +328,6 @@ public class ChatScreenActivity extends OnChatActivity {
     }
 
 
-
-
     @SuppressLint("NotifyDataSetChanged")
     private final EventListener<QuerySnapshot> eventListener = (value, error) -> {
         if (error != null) {
@@ -377,11 +375,11 @@ public class ChatScreenActivity extends OnChatActivity {
                     chatMessages.get(index).setFeeling(
                             Integer.parseInt(Objects.requireNonNull(documentChange.getDocument().getLong(Constants.KEY_FEELING)).toString()));
 
-                    if( chatMessages.get(index).getTypeMessage() == 1 ){
+                    if (chatMessages.get(index).getTypeMessage() == 1) {
                         chatMessages.get(index).setImageBitmap(documentChange.getDocument().getString(Constants.KEY_SEND_IMAGE));
-                    }else if( chatMessages.get(index).getTypeMessage() == 2 ){
+                    } else if (chatMessages.get(index).getTypeMessage() == 2) {
                         chatMessages.get(index).setImageBitmap(documentChange.getDocument().getString(Constants.KEY_SEND_VIDEO));
-                    }else if( chatMessages.get(index).getTypeMessage() == 3 ){
+                    } else if (chatMessages.get(index).getTypeMessage() == 3) {
                         chatMessages.get(index).setImageBitmap(documentChange.getDocument().getString(Constants.KEY_SEND_RECORD));
                     }
 
@@ -425,7 +423,6 @@ public class ChatScreenActivity extends OnChatActivity {
             }
         }
     };
-
 
 
     private void setCloseLayoutChoiseImage() {
@@ -564,7 +561,7 @@ public class ChatScreenActivity extends OnChatActivity {
                 sendNotification(body.toString());
 
             } catch (Exception e) {
-                showToast("Duoi phuong chua hoat dong"+ e.getMessage());
+                showToast("Duoi phuong chua hoat dong" + e.getMessage());
             }
         }
         binding.inputMessage.setText(null);
@@ -691,7 +688,7 @@ public class ChatScreenActivity extends OnChatActivity {
 
             @Override
             public void onFailure(@NonNull Call<String> call, @NonNull Throwable t) {
-                showToast("hello"+ t.getMessage());
+                showToast("hello" + t.getMessage());
             }
         });
     }

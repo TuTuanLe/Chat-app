@@ -1,5 +1,6 @@
 package com.tutuanle.chatapp.activities;
 
+import androidx.annotation.RequiresApi;
 import androidx.fragment.app.Fragment;
 
 import android.content.Intent;
@@ -155,6 +156,7 @@ public class MainScreenActivity extends BaseActivity  implements UserListener , 
 
     }
 
+    @RequiresApi(api = Build.VERSION_CODES.N)
     @Override
     public void onUserClicked(User user) {
         Intent intent = new Intent(getApplicationContext(), ChatScreenActivity.class);
@@ -163,6 +165,33 @@ public class MainScreenActivity extends BaseActivity  implements UserListener , 
 //        finish();
     }
 
+    @Override
+    public void initialVideoMeeting(User user) {
+        if(user.getToken() == null || user.getToken().trim().isEmpty()){
+            showToast(user.getName() + " is not available for meeting ...");
+
+        }
+        else{
+            showToast(user.getName() + " video call ...");
+            Intent intent = new Intent(getApplicationContext(), OutgoingActivity.class);
+            intent.putExtra(Constants.KEY_USER, user);
+            intent.putExtra("type_call", "video");
+            startActivity(intent);
+        }
+
+    }
+
+    @Override
+    public void initialAudioMeeting(User user) {
+        if(user.getToken() == null || user.getToken().trim().isEmpty()){
+            showToast(user.getName() + " is not available for calling ...");
+        }
+        else{
+            showToast(user.getName() + " call ...");
+        }
+    }
+
+    @RequiresApi(api = Build.VERSION_CODES.N)
     @Override
     public void onFriendClicked(User user) {
         Intent intent = new Intent(getApplicationContext(), ChatScreenActivity.class);
