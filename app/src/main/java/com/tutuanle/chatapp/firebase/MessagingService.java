@@ -17,6 +17,7 @@ import com.google.firebase.messaging.FirebaseMessagingService;
 import com.google.firebase.messaging.RemoteMessage;
 import com.tutuanle.chatapp.R;
 import com.tutuanle.chatapp.activities.ChatScreenActivity;
+import com.tutuanle.chatapp.activities.IncomingActivity;
 import com.tutuanle.chatapp.models.User;
 import com.tutuanle.chatapp.utilities.Constants;
 
@@ -30,7 +31,7 @@ public class MessagingService extends FirebaseMessagingService {
     @RequiresApi(api = Build.VERSION_CODES.N)
     public void onMessageReceived(@NonNull RemoteMessage message) {
         super.onMessageReceived(message);
-
+        setUpVideoCall(message);
         User user = new User();
         user.setUid(message.getData().get(Constants.KEY_USER_ID));
         user.setName(message.getData().get(Constants.KEY_NAME));
@@ -80,5 +81,20 @@ public class MessagingService extends FirebaseMessagingService {
         }
         NotificationManagerCompat notificationManagerCompat = NotificationManagerCompat.from(this);
         notificationManagerCompat.notify(notificationID, builder.build());
+
+
+    }
+    private void setUpVideoCall(RemoteMessage remoteMessage ){
+        String type = remoteMessage.getData().get(Constants.REMOTE_MSG_TYPE);
+        if(type != null){
+            if(type.equals(Constants.REMOTE_MSG_INVITATION)){
+                Intent intent = new Intent(getApplicationContext(), IncomingActivity.class);
+                intent.putExtra(Constants.REMOTE_MSG_INVITATION,remoteMessage.getData().get(Constants.REMOTE_MSG_MEETING_TYPE) );
+                intent.putExtra(Constants.KEY_NAME,remoteMessage.getData().get(Constants.KEY_NAME) );
+                intent.putExtra(Constants.KEY_EMAIL,remoteMessage.getData().get(Constants.KEY_EMAIL) );
+                intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                startActivity(intent);
+            }
+        }
     }
 }

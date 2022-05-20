@@ -69,8 +69,14 @@ public class Constants {
     public static final String REMOTE_MSG_AUTHORIZATION = "Authorization";
     public static final String REMOTE_MSG_DATA = "data";
     public static final String REMOTE_MSG_REGISTRATION_IDS = "registration_ids";
+    public static final String REMOTE_MSG_TYPE = "type";
+    public static final String REMOTE_MSG_INVITATION = "invitation";
+    public static final String REMOTE_MSG_MEETING_TYPE = "meetingType";
+    public static final String REMOTE_MSG_INVITER_TOKEN = "inviterToken";
 
 
+
+    private static final String KEY_REMOTE_MSG =  "key=AAAASl2bJrA:APA91bFjjqi92_OnCyBkr-ddg1iOkp-8eex5bDCy2pPMWAe-pJmArxHhKoJjT87ruqSj8k0nNlYI6XJ5mhYVs4V6gWTBbdp_6JC573Wq8A9n-dC59Ra2SiKziER1tyl9Gb-XMLv-AlVr";
     public static HashMap<String, String> remoteMsgHeaders = null;
 
     public static HashMap<String, String> getRemoteMsgHeaders() {
