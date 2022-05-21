@@ -4,6 +4,8 @@
     package="com.tutuanle.chatapp">
 
     <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
 
     <application
         android:allowBackup="true"
@@ -15,9 +17,30 @@
         android:usesCleartextTraffic="true"
         tools:targetApi="m">
         <activity
-            android:name=".activities.ChatScreenActivity"
-            android:windowSoftInputMode="adjustResize"
+            android:name=".activities.OutgoingActivity"
             android:exported="false" />
+        <activity
+            android:name=".activities.IncomingActivity"
+            android:exported="false" />
+        <activity
+            android:name=".activities.CreateGroupActivity"
+            android:exported="false" />
+        <activity
+            android:name=".activities.InformationActivity"
+            android:exported="false" />
+        <activity
+            android:name=".activities.OTPScreenActivity"
+            android:exported="false" />
+        <activity
+            android:name=".activities.MyPhoneNumberActivity"
+            android:exported="false" />
+        <activity
+            android:name=".activities.infoGoogleAcc"
+            android:exported="false" />
+        <activity
+            android:name=".activities.ChatScreenActivity"
+            android:exported="false"
+            android:windowSoftInputMode="adjustResize" />
         <activity
             android:name=".activities.ProfileActivity"
             android:exported="false" />
@@ -30,7 +53,12 @@
             android:windowSoftInputMode="adjustResize" />
         <activity
             android:name=".activities.SignInActivity"
+            android:exported="false"
+            android:windowSoftInputMode="adjustResize" />
+        <activity
+            android:name=".activities.SplashScreen"
             android:exported="true"
+            android:theme="@style/SplashScreen"
             android:windowSoftInputMode="adjustResize">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

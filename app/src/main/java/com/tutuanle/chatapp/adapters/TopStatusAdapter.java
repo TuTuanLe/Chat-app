@@ -10,7 +10,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
 import com.tutuanle.chatapp.R;
-import com.tutuanle.chatapp.activities.MainActivity;
+import com.tutuanle.chatapp.activities.MainScreenActivity;
 import com.tutuanle.chatapp.databinding.ItemStatusBinding;
 import com.tutuanle.chatapp.models.Status;
 import com.tutuanle.chatapp.models.UserStatus;
@@ -46,36 +46,34 @@ public class TopStatusAdapter extends RecyclerView.Adapter<TopStatusAdapter.TopS
         Status lastStatus = userStatus.getStatuses().get(userStatus.getStatuses().size() -1);
 
         Glide.with(context).load(lastStatus.getImageUrl()).into(holder.binding.image);
+        Glide.with(context).load(lastStatus.getImageUrl()).into(holder.binding.imageUserStatus);
         holder.binding.circularStatusView.setPortionsCount(userStatus.getStatuses().size());
 
-        holder.binding.circularStatusView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                ArrayList<MyStory> myStories = new ArrayList<>();
-                for (Status status : userStatus.getStatuses()) {
-                    myStories.add(new MyStory(status.getImageUrl()));
-                }
-                new StoryView.Builder(((MainActivity)context).getSupportFragmentManager())
-                        .setStoriesList(myStories) // Required
-                        .setStoryDuration(5000) // Default is 2000 Millis (2 Seconds)
-                        .setTitleText(userStatus.getName()) // Default is Hidden
-                        .setSubtitleText("") // Default is Hidden
-                        .setTitleLogoUrl(userStatus.getProfileImage()) // Default is Hidden
-                        .setStoryClickListeners(new StoryClickListeners() {
-                            @Override
-                            public void onDescriptionClickListener(int position) {
-                                //your action
-                            }
-
-                            @Override
-                            public void onTitleIconClickListener(int position) {
-                                //your action
-                            }
-                        }) // Optional Listeners
-                        .build() // Must be called before calling show method
-                        .show();
-
+        holder.binding.circularStatusView.setOnClickListener(view -> {
+            ArrayList<MyStory> myStories = new ArrayList<>();
+            for (Status status : userStatus.getStatuses()) {
+                myStories.add(new MyStory(status.getImageUrl()));
             }
+            new StoryView.Builder(((MainScreenActivity)context).getSupportFragmentManager())
+                    .setStoriesList(myStories) // Required
+                    .setStoryDuration(5000) // Default is 2000 Millis (2 Seconds)
+                    .setTitleText(userStatus.getName()) // Default is Hidden
+                    .setSubtitleText("") // Default is Hidden
+                    .setTitleLogoUrl(userStatus.getProfileImage()) // Default is Hidden
+                    .setStoryClickListeners(new StoryClickListeners() {
+                        @Override
+                        public void onDescriptionClickListener(int position1) {
+                            //your action
+                        }
+
+                        @Override
+                        public void onTitleIconClickListener(int position1) {
+                            //your action
+                        }
+                    }) // Optional Listeners
+                    .build() // Must be called before calling show method
+                    .show();
+
         });
 
     }
@@ -85,7 +83,7 @@ public class TopStatusAdapter extends RecyclerView.Adapter<TopStatusAdapter.TopS
         return userStatuses.size();
     }
 
-    public class TopStatusViewHolder extends RecyclerView.ViewHolder {
+    public static class TopStatusViewHolder extends RecyclerView.ViewHolder {
         ItemStatusBinding binding;
 
         public TopStatusViewHolder(@NonNull View itemView) {

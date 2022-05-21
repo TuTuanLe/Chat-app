@@ -16,7 +16,6 @@ public class Status {
         return imageUrl;
     }
 
-
     public void setImageUrl(String imageUrl) {
         this.imageUrl = imageUrl;
     }

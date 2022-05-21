@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/trans"
+    android:orientation="vertical">
+
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/layout_dialog_bottom"
+
+        >
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingTop="@dimen/_15sdp"
+            android:paddingBottom="@dimen/_15sdp"
+            android:gravity="center"
+            >
+            <com.makeramen.roundedimageview.RoundedImageView
+                android:id="@+id/addImageDialog"
+                android:layout_width="@dimen/_50sdp"
+                android:layout_height="@dimen/_50sdp"
+                android:cropToPadding="true"
+                android:scaleType="fitXY"
+                android:src="@drawable/ic_baseline_image_50"
+                android:visibility="visible"
+                app:riv_corner_radius="10dip"
+                android:background="@drawable/text_box_outline"
+                android:layout_margin="@dimen/_5sdp"
+                android:padding="@dimen/_8sdp"
+                android:tint="@color/blue"
+                />
+
+            <com.makeramen.roundedimageview.RoundedImageView
+                android:id="@+id/addRecordeDialog"
+                android:layout_width="@dimen/_50sdp"
+                android:layout_height="@dimen/_50sdp"
+                android:cropToPadding="true"
+                android:scaleType="fitXY"
+                android:src="@drawable/ic_baseline_emergency_recording_50"
+                android:visibility="visible"
+                app:riv_corner_radius="10dip"
+                android:background="@drawable/text_box_outline"
+                android:padding="@dimen/_8sdp"
+                android:layout_margin="@dimen/_5sdp"
+
+                />
+
+            <com.makeramen.roundedimageview.RoundedImageView
+                android:id="@+id/addVideoDialog"
+                android:layout_width="@dimen/_50sdp"
+                android:layout_height="@dimen/_50sdp"
+                android:cropToPadding="true"
+                android:scaleType="fitXY"
+                android:src="@drawable/ic_baseline_ondemand_video_50"
+                android:visibility="visible"
+                app:riv_corner_radius="10dip"
+                android:background="@drawable/text_box_outline"
+                android:padding="@dimen/_8sdp"
+                android:layout_margin="@dimen/_5sdp"
+                />
+        </LinearLayout>
+
+    </FrameLayout>
+</LinearLayout>

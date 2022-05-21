@@ -1,36 +1,38 @@
 package com.tutuanle.chatapp.activities;
 
-import androidx.appcompat.app.AppCompatActivity;
+import androidx.annotation.RequiresApi;
 import androidx.fragment.app.Fragment;
 
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.Color;
+import android.os.Build;
 import android.os.Bundle;
 import android.util.Base64;
+import android.view.View;
+import android.view.WindowManager;
 import android.widget.Toast;
-
-
 import com.etebarian.meowbottomnavigation.MeowBottomNavigation;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.FieldValue;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.messaging.FirebaseMessaging;
 import com.tutuanle.chatapp.R;
-import com.tutuanle.chatapp.databinding.ActivityMainBinding;
 import com.tutuanle.chatapp.databinding.ActivityMainScreenBinding;
 import com.tutuanle.chatapp.fragment.ChatFragment;
 import com.tutuanle.chatapp.fragment.HomeFragment;
 import com.tutuanle.chatapp.fragment.SettingFragment;
 import com.tutuanle.chatapp.fragment.StoryFragment;
+import com.tutuanle.chatapp.interfaces.FriendListener;
 import com.tutuanle.chatapp.interfaces.UserListener;
 import com.tutuanle.chatapp.models.User;
 import com.tutuanle.chatapp.utilities.Constants;
 import com.tutuanle.chatapp.utilities.PreferenceManager;
-
 import java.util.HashMap;
 
-public class MainScreenActivity extends AppCompatActivity  implements UserListener {
+
+public class MainScreenActivity extends BaseActivity  implements UserListener , FriendListener {
     private ActivityMainScreenBinding binding;
     public PreferenceManager preferenceManager;
 
@@ -40,6 +42,8 @@ public class MainScreenActivity extends AppCompatActivity  implements UserListen
     private final int ID_ACCOUNT = 4;
     private String textName ;
     private Bitmap bitmap;
+
+
 
     public String getTextName() {
         return textName;
@@ -58,14 +62,21 @@ public class MainScreenActivity extends AppCompatActivity  implements UserListen
         setBottomNavigation();
         loadUserDetail();
         getToken();
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
+            getWindow().setFlags(WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS, WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS);
+        }
+//        getWindow().setFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS,
+//                WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
+
     }
+
 
     private void loadUserDetail(){
         textName = preferenceManager.getString(Constants.KEY_NAME);
         byte[] bytes = Base64.decode(preferenceManager.getString(Constants.KEY_IMAGE),Base64.DEFAULT);
         bitmap = BitmapFactory.decodeByteArray(bytes, 0,bytes.length);
-
     }
+
 
 
 
@@ -97,7 +108,7 @@ public class MainScreenActivity extends AppCompatActivity  implements UserListen
             loadFragment(fragment);
 
         });
-        binding.BottomNavigation.setCount(ID_NOTIFICATION, "4");
+        binding.BottomNavigation.setCount(ID_HOME, "4");
         binding.BottomNavigation.show(ID_HOME, true);
     }
 
@@ -122,16 +133,13 @@ public class MainScreenActivity extends AppCompatActivity  implements UserListen
         DocumentReference documentReference = database.collection(Constants.KEY_COLLECTION_USERS)
                 .document(preferenceManager.getString(Constants.KEY_USER_ID));
         documentReference.update(Constants.KEY_FCM_TOKEN, token)
-                .addOnSuccessListener( item->{
-                    showToast("Token update successfully");
-                })
-                .addOnFailureListener(item->{
-                    showToast("Unable to update token");
-                });
+                .addOnSuccessListener( item-> {})
+                .addOnFailureListener(item->showToast("Unable to update token"));
+        preferenceManager.putString(Constants.KEY_FCM_TOKEN, token);
     }
 
     public void  signOut(){
-        showToast("sign out ....");
+        showToast("Sign out ");
         FirebaseFirestore database = FirebaseFirestore.getInstance();
         DocumentReference documentReference = database.collection(Constants.KEY_COLLECTION_USERS)
                 .document(preferenceManager.getString(Constants.KEY_USER_ID));
@@ -145,13 +153,49 @@ public class MainScreenActivity extends AppCompatActivity  implements UserListen
                 }
                 )
                 .addOnFailureListener(e ->showToast("Unable to sign out"));
+
     }
 
+    @RequiresApi(api = Build.VERSION_CODES.N)
     @Override
     public void onUserClicked(User user) {
         Intent intent = new Intent(getApplicationContext(), ChatScreenActivity.class);
         intent.putExtra(Constants.KEY_USER, user);
         startActivity(intent);
 //        finish();
+    }
+
+    @Override
+    public void initialVideoMeeting(User user) {
+        if(user.getToken() == null || user.getToken().trim().isEmpty()){
+            showToast(user.getName() + " is not available for meeting ...");
+
+        }
+        else{
+            showToast(user.getName() + " video call ...");
+            Intent intent = new Intent(getApplicationContext(), OutgoingActivity.class);
+            intent.putExtra(Constants.KEY_USER, user);
+            intent.putExtra("type_call", "video");
+            startActivity(intent);
+        }
+
+    }
+
+    @Override
+    public void initialAudioMeeting(User user) {
+        if(user.getToken() == null || user.getToken().trim().isEmpty()){
+            showToast(user.getName() + " is not available for calling ...");
+        }
+        else{
+            showToast(user.getName() + " call ...");
+        }
+    }
+
+    @RequiresApi(api = Build.VERSION_CODES.N)
+    @Override
+    public void onFriendClicked(User user) {
+        Intent intent = new Intent(getApplicationContext(), ChatScreenActivity.class);
+        intent.putExtra(Constants.KEY_USER, user);
+        startActivity(intent);
     }
 }

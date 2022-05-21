@@ -79,6 +79,7 @@
             tools:ignore="LabelFor" />
 
         <TextView
+            android:id="@+id/forgetPassword"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/_10sdp"
@@ -178,9 +179,7 @@
             android:backgroundTint="#E94134"
             android:text="@string/login_width_google"
             android:textColor="@color/white"
-            android:textStyle="normal"
-
-            />
+            android:textStyle="normal" />
 
     </LinearLayout>
 </ScrollView>

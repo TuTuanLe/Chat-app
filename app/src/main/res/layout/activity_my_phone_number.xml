@@ -1,0 +1,153 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:clipToPadding="false"
+    android:overScrollMode="never"
+    android:paddingHorizontal="@dimen/_24sdp"
+    android:scrollbars="none"
+    tools:context=".activities.MyPhoneNumberActivity">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center_horizontal"
+        android:orientation="vertical">
+
+        <ImageButton
+            android:id="@+id/goBack"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="start"
+            android:layout_marginTop="@dimen/_12sdp"
+            android:layout_marginStart="-17dp"
+            android:background="@color/trans"
+            android:contentDescription="@string/app_name"
+            android:src="@drawable/ic_baseline_chevron_left_24"
+            app:tint="@color/blue" />
+
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="@dimen/_10sdp"
+            android:text="@string/my_mobile_number_is"
+            android:textAlignment="center"
+            android:textColor="@color/colorTextPrimary"
+            android:textSize="@dimen/_18ssp"
+            android:textStyle="bold" />
+
+        <ImageView
+            android:layout_width="@dimen/_100sdp"
+            android:layout_height="@dimen/_100sdp"
+            android:src="@drawable/uit" />
+
+        <FrameLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/_35sdp"
+            android:background="@drawable/text_box_outline">
+
+            <FrameLayout
+                android:layout_width="@dimen/_55sdp"
+                android:layout_height="match_parent"
+                android:layout_gravity="center_vertical"
+                android:background="@drawable/text_box_area"
+
+                >
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:gravity="center"
+                    android:paddingStart="@dimen/_10sdp"
+                    android:text="+84"
+                    android:textColor="@color/colorTextPrimary"
+                    android:textSize="@dimen/_13ssp"
+                    android:textStyle="bold" />
+
+                <ImageButton
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_gravity="end"
+                    android:background="@color/trans"
+                    android:contentDescription="@string/app_name"
+                    android:paddingEnd="@dimen/_5sdp"
+                    android:src="@drawable/ic_baseline_expand_more_24"
+                    app:tint="@color/colorTextPrimary" />
+            </FrameLayout>
+
+            <EditText
+                android:id="@+id/phoneBox"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/_40sdp"
+                android:layout_marginStart="@dimen/_60sdp"
+                android:background="@color/trans"
+                android:hint="@string/mobile_number"
+                android:inputType="number"
+                android:letterSpacing="0.3"
+                android:textStyle="bold"
+                tools:ignore="TextFields" />
+        </FrameLayout>
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/_13sdp"
+            android:paddingHorizontal="@dimen/_40sdp"
+            android:text="@string/we_need_your_mobile_number_to_verify_your_account_and_to_be_able_to_get_in_touch"
+            android:textAlignment="center" />
+
+        <FrameLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/_20sdp"
+            android:animateLayoutChanges="true"
+            android:background="@drawable/button_bg"
+            android:elevation="@dimen/_2sdp"
+            >
+
+
+            <com.balysv.materialripple.MaterialRippleLayout
+                android:id="@+id/buttonGetNumber"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/_40sdp"
+                >
+
+                <TextView
+
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:gravity="center"
+                    android:text="CONTINUE"
+                    android:textColor="@color/white"
+                    android:textStyle="bold" />
+            </com.balysv.materialripple.MaterialRippleLayout>
+
+
+
+            <com.agrawalsuneet.dotsloader.loaders.LinearDotsLoader
+                android:id="@+id/progressBar"
+                android:layout_gravity="center"
+                android:visibility="invisible"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:loader_animDur="400"
+                app:loader_noOfDots="5"
+                app:loader_circleRadius="6dp"
+                app:loader_defaultColor="@color/gray_scale"
+                app:loader_selectedColor="@color/gray_scale"
+                app:loader_dotsDist="3dp"
+                app:loader_expandOnSelect="false"
+                app:loader_isSingleDir="false"
+                app:loader_selectedRadius="10dp"
+                app:loader_showRunningShadow="true"
+                app:loader_firstShadowColor="@color/white"
+                app:loader_secondShadowColor="@color/gray_scale"/>
+        </FrameLayout>
+
+
+    </LinearLayout>
+</ScrollView>

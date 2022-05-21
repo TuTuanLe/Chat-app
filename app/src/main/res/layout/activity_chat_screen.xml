@@ -2,11 +2,11 @@
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/setImageScreen"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/bg"
     tools:context=".activities.ChatScreenActivity">
-
+    <!--    android:background="@drawable/bg_5"-->
     <androidx.cardview.widget.CardView
         android:id="@+id/cardView3"
         android:layout_width="match_parent"
@@ -28,15 +28,35 @@
                 android:layout_height="@dimen/_40sdp"
                 android:layout_weight="1"
                 android:padding="@dimen/_10sdp"
-                android:src="@drawable/ic_baseline_arrow_back_24" />
+                android:src="@drawable/ic_baseline_arrow_back_24"
+                android:tint="@color/black" />
 
-            <com.makeramen.roundedimageview.RoundedImageView
-                android:id="@+id/imageFriend"
-                android:layout_width="@dimen/_30sdp"
-                android:layout_height="@dimen/_30sdp"
-                android:background="@drawable/circle_bg"
-                android:scaleType="center"
-                app:riv_oval="true" />
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="@dimen/_34sdp"
+                android:layout_height="@dimen/_34sdp">
+
+                <com.makeramen.roundedimageview.RoundedImageView
+                    android:id="@+id/imageFriend"
+                    android:layout_width="@dimen/_30sdp"
+                    android:layout_height="@dimen/_30sdp"
+                    android:background="@drawable/circle_bg"
+                    android:scaleType="center"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:riv_oval="true" />
+
+                <FrameLayout
+                    android:id="@+id/statusAvailability"
+                    android:layout_width="@dimen/_10sdp"
+                    android:layout_height="@dimen/_10sdp"
+                    android:background="@drawable/item_status_active"
+                    app:layout_constraintBottom_toBottomOf="@+id/imageFriend"
+                    app:layout_constraintEnd_toEndOf="@+id/imageFriend" />
+
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
 
             <TextView
                 android:id="@+id/textName"
@@ -54,7 +74,8 @@
                 android:layout_height="@dimen/_30sdp"
                 android:layout_weight="1"
                 android:padding="@dimen/_6sdp"
-                android:src="@drawable/ic_baseline_call_24" />
+                android:src="@drawable/ic_baseline_call_24"
+                android:tint="@color/blue" />
 
             <androidx.appcompat.widget.AppCompatImageView
                 android:id="@+id/imageVideoCall"
@@ -62,7 +83,8 @@
                 android:layout_height="@dimen/_30sdp"
                 android:layout_weight="1"
                 android:padding="@dimen/_6sdp"
-                android:src="@drawable/ic_baseline_videocam_24" />
+                android:src="@drawable/ic_baseline_videocam_24"
+                android:tint="@color/blue" />
 
             <androidx.appcompat.widget.AppCompatImageView
                 android:id="@+id/imageInfo"
@@ -71,8 +93,7 @@
                 android:layout_weight="1"
                 android:padding="@dimen/_6sdp"
                 android:src="@drawable/ic_baseline_info_24"
-
-                />
+                android:tint="@color/blue" />
 
 
         </LinearLayout>
@@ -85,7 +106,9 @@
         android:clipToPadding="false"
         android:orientation="vertical"
         android:overScrollMode="never"
-        android:padding="@dimen/_10sdp"
+        android:padding="@dimen/_5sdp"
+        android:paddingTop="@dimen/_10sdp"
+        android:paddingBottom="@dimen/_10sdp"
         android:visibility="gone"
         app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
         app:layout_constraintBottom_toTopOf="@+id/cardView2"
@@ -105,21 +128,87 @@
 
 
     <FrameLayout
+        android:id="@+id/layoutChoiceImage"
+        android:visibility="gone"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintBottom_toTopOf="@+id/cardView2"
+        app:layout_constraintEnd_toEndOf="@+id/cardView2"
+        app:layout_constraintStart_toEndOf="@+id/layoutExtend"
+        android:background="@drawable/button_bg"
+        android:padding="@dimen/_5sdp"
+        android:layout_margin="@dimen/_7sdp"
+        >
+        <com.makeramen.roundedimageview.RoundedImageView
+            android:id="@+id/ImageChoice"
+            android:layout_width="@dimen/_100sdp"
+            android:layout_height="@dimen/_100sdp"
+            android:cropToPadding="true"
+            android:scaleType="centerCrop"
+            android:src="@drawable/bg_4"
+            android:visibility="visible"
+
+            app:riv_corner_radius="10dip" />
+
+        <ImageButton
+            android:id="@+id/iconCloseImage"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="end"
+            android:background="@color/trans"
+            android:contentDescription="@string/app_name"
+            android:layout_marginEnd="@dimen/_5sdp"
+            android:layout_marginTop="@dimen/_5sdp"
+            android:src="@drawable/ic_baseline_close_24"
+            tools:ignore="RtlSymmetry,UseAppTint"
+            android:tint="@color/white"
+            />
+
+    </FrameLayout>
+
+    <FrameLayout
         android:id="@+id/layoutSend"
-        android:layout_width="@dimen/_45sdp"
-        android:layout_height="@dimen/_45sdp"
-        android:layout_marginEnd="@dimen/_16ssp"
+        android:layout_width="@dimen/_33sdp"
+        android:layout_height="@dimen/_36sdp"
+        android:layout_marginEnd="@dimen/_2ssp"
         android:layout_marginBottom="@dimen/_10sdp"
-        android:background="@drawable/circle_green"
+        android:background="@color/trans"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent">
 
         <ImageView
+            android:id="@+id/icon_send"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:padding="@dimen/_12sdp"
-            android:src="@drawable/ic_send"
-            app:tint="@color/white" />
+            android:contentDescription="@string/app_name"
+            android:padding="@dimen/_8sdp"
+            android:src="@drawable/ic_baseline_send_24"
+            app:tint="@color/colorGray"
+
+            />
+
+
+    </FrameLayout>
+
+    <FrameLayout
+        android:id="@+id/layoutExtend"
+        android:layout_width="@dimen/_33sdp"
+        android:layout_height="@dimen/_36sdp"
+        android:layout_marginEnd="@dimen/_2ssp"
+        android:layout_marginBottom="@dimen/_10sdp"
+        android:background="@color/trans"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent">
+
+        <ImageView
+            android:id="@+id/btn_extend"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginStart="@dimen/_5sdp"
+            android:contentDescription="@string/app_name"
+            android:padding="@dimen/_5sdp"
+            android:src="@drawable/ic_baseline_add_circle_outline_24"
+            app:tint="@color/blue" />
 
 
     </FrameLayout>
@@ -127,18 +216,23 @@
     <androidx.cardview.widget.CardView
         android:id="@+id/cardView2"
         android:layout_width="match_parent"
-        android:layout_height="@dimen/_40sdp"
-        android:layout_marginStart="@dimen/_10sdp"
-        android:layout_marginEnd="@dimen/_70sdp"
+        android:layout_height="@dimen/_33sdp"
+        android:layout_marginStart="@dimen/_34sdp"
+        android:layout_marginEnd="@dimen/_40sdp"
         android:layout_marginBottom="@dimen/_12sdp"
+        app:cardBackgroundColor="@color/transparent"
         app:cardCornerRadius="30dp"
+        app:cardElevation="0dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent">
+        app:layout_constraintStart_toStartOf="parent"
+
+        >
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
+            android:background="@drawable/input_send"
             android:orientation="horizontal">
 
             <EditText
@@ -149,27 +243,18 @@
                 android:background="@android:color/transparent"
                 android:hint="@string/type_a_message"
                 android:paddingStart="@dimen/_10sdp"
+                android:textColor="@color/colorTextPrimary"
                 tools:ignore="RtlSymmetry" />
 
             <ImageView
-                android:id="@+id/btnAttachment"
-                android:layout_width="@dimen/_30sdp"
+                android:id="@+id/btnEmoji"
+                android:layout_width="@dimen/_37sdp"
                 android:layout_height="match_parent"
-
+                android:background="@color/trans"
                 android:contentDescription="@string/app_name"
-                android:padding="@dimen/_10sdp"
-                android:src="@drawable/ic_attachment"
-                app:tint="#B1ADAD" />
-
-            <ImageView
-                android:id="@+id/btnCamera"
-                android:layout_width="@dimen/_30sdp"
-                android:layout_height="match_parent"
-
-                android:contentDescription="@string/app_name"
-                android:padding="@dimen/_10sdp"
-                android:src="@drawable/ic_camera"
-                app:tint="#B1ADAD" />
+                android:padding="@dimen/_8sdp"
+                android:src="@drawable/ic_baseline_insert_emoticon_24"
+                app:tint="@color/blue" />
 
         </LinearLayout>
     </androidx.cardview.widget.CardView>

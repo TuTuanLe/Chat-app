@@ -1,34 +1,30 @@
 package com.tutuanle.chatapp.adapters;
 
-import android.animation.ValueAnimator;
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.graphics.Color;
+import android.net.Uri;
+import android.os.SystemClock;
+import android.util.Base64;
 import android.util.Log;
 import android.view.LayoutInflater;
-
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.github.pgreze.reactions.ReactionPopup;
 import com.github.pgreze.reactions.ReactionsConfig;
 import com.github.pgreze.reactions.ReactionsConfigBuilder;
-
-import com.google.firebase.firestore.EventListener;
 import com.google.firebase.firestore.FirebaseFirestore;
-
-import com.google.firebase.firestore.FirebaseFirestoreException;
-import com.google.firebase.firestore.QueryDocumentSnapshot;
-import com.google.firebase.firestore.QuerySnapshot;
 import com.tutuanle.chatapp.databinding.ItemReceiveBinding;
 import com.tutuanle.chatapp.databinding.ItemSentBinding;
 import com.tutuanle.chatapp.models.ChatMessage;
 import com.tutuanle.chatapp.utilities.Constants;
-
 
 import java.util.List;
 
@@ -73,19 +69,21 @@ public class ChatAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
         ReactionsConfig config = new ReactionsConfigBuilder(context)
                 .withReactions(Constants.REACTIONS)
+                .withPopupColor(Color.LTGRAY)
                 .build();
 
         ReactionPopup popup = new ReactionPopup(context, config, (pos) -> {
+            if (pos < 0) return false;
             if (holder.getClass() == SentMessageViewHolder.class) {
                 SentMessageViewHolder viewHolder = (SentMessageViewHolder) holder;
                 viewHolder.binding.feeling.setImageResource(Constants.REACTIONS[pos]);
                 viewHolder.binding.feeling.setVisibility(View.VISIBLE);
-                viewHolder.binding.message.setText("ltt");
+
             } else {
                 ReceiverMessageViewHolder viewHolder = (ReceiverMessageViewHolder) holder;
                 viewHolder.binding.feeling.setImageResource(Constants.REACTIONS[pos]);
                 viewHolder.binding.feeling.setVisibility(View.VISIBLE);
-                viewHolder.binding.message.setText("ltt");
+
             }
             message.setFeeling(pos);
             updateFeeling(message.getFeeling(), message.getMessageId());
@@ -101,10 +99,24 @@ public class ChatAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
             } else {
                 viewHolder.binding.feeling.setVisibility(View.GONE);
             }
-            viewHolder.binding.message.setOnTouchListener((view, motionEvent) -> {
-                popup.onTouch(view, motionEvent);
+            viewHolder.binding.layoutTypeMessage.setOnLongClickListener((view) -> {
+                popup.onTouch(view, MotionEvent.obtain(SystemClock.uptimeMillis(), SystemClock.uptimeMillis(), MotionEvent.ACTION_DOWN, 0, 0, 0));
                 return false;
             });
+            viewHolder.binding.messageVideo.setOnClickListener(v ->
+                    viewHolder.binding.messageVideo.start()
+            );
+
+
+            if (chatMessages.size() != 0) {
+                if (chatMessages.get(chatMessages.size() - 1).getIsSeen() == 1 && chatMessages.get(chatMessages.size() - 1) == message) {
+                    viewHolder.binding.checkSeen.setVisibility(View.VISIBLE);
+                } else {
+                    viewHolder.binding.checkSeen.setVisibility(View.GONE);
+                }
+            }
+
+
         } else if (holder.getClass() == ReceiverMessageViewHolder.class) {
             ReceiverMessageViewHolder viewHolder = (ReceiverMessageViewHolder) holder;
             if (message.getFeeling() >= 0) {
@@ -114,10 +126,12 @@ public class ChatAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
                 viewHolder.binding.feeling.setVisibility(View.GONE);
             }
 
-            viewHolder.binding.message.setOnTouchListener((view, motionEvent) -> {
-                popup.onTouch(view, motionEvent);
+            viewHolder.binding.layoutTypeMessage.setOnLongClickListener((view) -> {
+                popup.onTouch(view, MotionEvent.obtain(SystemClock.uptimeMillis(), SystemClock.uptimeMillis(), MotionEvent.ACTION_DOWN, 0, 0, 0));
                 return false;
             });
+
+
         }
 
         if (getItemViewType(position) == VIEW_TYPE_SENT) {
@@ -173,8 +187,35 @@ public class ChatAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
         public void setData(ChatMessage chatMessage) {
             binding.message.setText(chatMessage.getMessage());
             binding.textDateTime.setText(chatMessage.getDateTime());
+            if (chatMessage.getTypeMessage() == 0) {
+                binding.messageImage.setBackgroundResource(0);
+                binding.messageImage.setVisibility(View.GONE);
+                binding.messageVideo.setVisibility(View.GONE);
+                binding.message.setVisibility(View.VISIBLE);
+
+            } else if (chatMessage.getTypeMessage() == 1) {
+                binding.message.setVisibility(View.GONE);
+                binding.messageVideo.setVisibility(View.GONE);
+                binding.messageImage.setVisibility(View.VISIBLE);
+                binding.messageImage.setImageBitmap(getBitmapFromEnCodedString(chatMessage.getImageBitmap()));
+            } else if (chatMessage.getTypeMessage() == 2) {
+                binding.messageImage.setBackgroundResource(0);
+                binding.messageImage.setVisibility(View.GONE);
+                binding.message.setVisibility(View.GONE);
+                binding.messageVideo.setVisibility(View.VISIBLE);
+                binding.messageVideo.setVideoURI(Uri.parse("https://videocdn.bodybuilding.com/video/mp4/62000/62792m.mp4"));
+                binding.messageVideo.requestFocus();
+
+
+            }
 
         }
+
+        private Bitmap getBitmapFromEnCodedString(String enCodedImage) {
+            byte[] bytes = Base64.decode(enCodedImage, Base64.DEFAULT);
+            return BitmapFactory.decodeByteArray(bytes, 0, bytes.length);
+        }
+
     }
 
     static class ReceiverMessageViewHolder extends RecyclerView.ViewHolder {
@@ -189,6 +230,21 @@ public class ChatAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
             binding.message.setText(chatMessage.getMessage());
             binding.textDateTime.setText(chatMessage.getDateTime());
             binding.roundedImageView.setImageBitmap(receiverProfileImage);
+            if (chatMessage.getTypeMessage() == 0) {
+                binding.messageImage.setBackgroundResource(0);
+                binding.messageImage.setVisibility(View.GONE);
+                binding.message.setVisibility(View.VISIBLE);
+            } else if (chatMessage.getTypeMessage() == 1) {
+                binding.messageImage.setVisibility(View.VISIBLE);
+                binding.message.setVisibility(View.GONE);
+                binding.messageImage.setImageBitmap(getBitmapFromEnCodedString(chatMessage.getImageBitmap()));
+            }
         }
+
+        private Bitmap getBitmapFromEnCodedString(String enCodedImage) {
+            byte[] bytes = Base64.decode(enCodedImage, Base64.DEFAULT);
+            return BitmapFactory.decodeByteArray(bytes, 0, bytes.length);
+        }
+
     }
 }

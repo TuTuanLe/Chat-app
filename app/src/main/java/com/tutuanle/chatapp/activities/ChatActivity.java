@@ -4,6 +4,7 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 
+import android.annotation.SuppressLint;
 import android.os.Bundle;
 import android.provider.ContactsContract;
 import android.util.Log;
@@ -56,11 +57,13 @@ public class ChatActivity extends AppCompatActivity {
                 .child(senderRoom)
                 .child("messages")
                 .addValueEventListener(new ValueEventListener() {
+                    @SuppressLint("NotifyDataSetChanged")
                     @Override
                     public void onDataChange(@NonNull DataSnapshot snapshot) {
                         messages.clear();
                         for(DataSnapshot snapshot1: snapshot.getChildren()){
                             Message message = snapshot1.getValue(Message.class);
+                            assert message != null;
                             message.setMessageId(snapshot1.getKey());
                             messages.add(message);
                             Log.d("onDataChange: ", message.toString());

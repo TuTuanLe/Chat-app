@@ -8,6 +8,7 @@
     tools:context=".activities.MainScreenActivity"
     android:orientation="vertical"
     android:backgroundTint="@color/white"
+
     >
 
     <FrameLayout
@@ -23,10 +24,10 @@
         app:mbn_shadowColor="@color/white"
         app:mbn_backgroundBottomColor="@color/circleColor"
         app:mbn_circleColor="@color/circleColor"
-        app:mbn_countBackgroundColor="@color/countBackgroundColor"
+        app:mbn_countBackgroundColor="@color/icon_background"
         app:mbn_countTextColor="@color/countTextColor"
         app:mbn_defaultIconColor="@color/defaultIconColor"
-        app:mbn_selectedIconColor="@color/selectedIconColor"
+        app:mbn_selectedIconColor="@color/colorPrimary"
 
        />
 </LinearLayout>
