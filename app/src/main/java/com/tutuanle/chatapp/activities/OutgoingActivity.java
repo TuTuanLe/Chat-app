@@ -19,8 +19,14 @@ import com.tutuanle.chatapp.network.ApiService;
 import com.tutuanle.chatapp.utilities.Constants;
 import com.tutuanle.chatapp.utilities.PreferenceManager;
 
+import org.jitsi.meet.sdk.JitsiMeetActivity;
+import org.jitsi.meet.sdk.JitsiMeetConferenceOptions;
 import org.json.JSONArray;
 import org.json.JSONObject;
+
+import java.net.MalformedURLException;
+import java.net.URL;
+import java.util.UUID;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -32,6 +38,7 @@ public class OutgoingActivity extends AppCompatActivity {
     private PreferenceManager preferenceManager;
     private String inviterToken = null;
     private String meetingType = null;
+    private String meetingRoom  = null;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -49,15 +56,13 @@ public class OutgoingActivity extends AppCompatActivity {
                 cancelInvitation(receiverUSer.getToken());
             }
         });
-        binding.info.setText(receiverUSer.getName() + "call video");
+        binding.info.setText(receiverUSer.getName() + " call video");
     }
 
     private void initialData() {
         receiverUSer = (User) getIntent().getSerializableExtra(Constants.KEY_USER);
         meetingType = getIntent().getStringExtra("type_call");
         preferenceManager = new PreferenceManager(getApplicationContext());
-
-
     }
 
 
@@ -85,6 +90,11 @@ public class OutgoingActivity extends AppCompatActivity {
             data.put(Constants.KEY_NAME, preferenceManager.getString(Constants.KEY_NAME));
             data.put(Constants.KEY_EMAIL, preferenceManager.getString(Constants.KEY_EMAIL));
             data.put(Constants.REMOTE_MSG_INVITER_TOKEN, inviterToken);
+
+            meetingRoom = preferenceManager.getString(Constants.KEY_USER_ID)+ "_"+
+                    UUID.randomUUID().toString().substring(0,5);
+            data.put(Constants.REMOTE_MSG_MEETING_ROM, meetingRoom);
+
             body.put(Constants.REMOTE_MSG_DATA, data);
             body.put(Constants.REMOTE_MSG_REGISTRATION_IDS, tokens);
 
@@ -151,7 +161,20 @@ public class OutgoingActivity extends AppCompatActivity {
             String type = intent.getStringExtra(Constants.REMOTE_MSG_INVITATION_RESPONSE);
             if (type != null) {
                 if (type.equals(Constants.REMOTE_MSG_INVITATION_ACCEPTED)) {
-                    showToast("Invitation Accepted");
+                    //                    invitation accepted
+
+                    try {
+                        JitsiMeetConferenceOptions  options = new JitsiMeetConferenceOptions.Builder()
+                                .setServerURL(new URL("https://meet.jit.si"))
+                                .setRoom(meetingRoom)
+                                .setWelcomePageEnabled(false)
+                                .build();
+                        JitsiMeetActivity.launch(context, options);
+                        finish();
+                    } catch (MalformedURLException e) {
+                        e.printStackTrace();
+                    }
+
                 } else if (type.equals(Constants.REMOTE_MSG_INVITATION_REJECTED)) {
                     showToast("Invitation Reject");
                     finish();

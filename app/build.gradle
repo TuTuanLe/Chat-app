@@ -10,7 +10,7 @@ android {
     }
     defaultConfig {
         applicationId "com.tutuanle.chatapp"
-        minSdk 21
+        minSdk 23
         targetSdk 32
         versionCode 1
         versionName "1.0"
@@ -91,4 +91,7 @@ dependencies {
     implementation 'com.balysv:material-ripple:1.0.2'
 
     implementation 'com.vanniktech:emoji-google:0.7.0'
+
+    // video call
+    implementation ('org.jitsi.react:jitsi-meet-sdk:3.10.2') { transitive = true }
 }
