@@ -41,7 +41,6 @@ import com.tutuanle.chatapp.adapters.ChatAdapter;
 import com.tutuanle.chatapp.databinding.ActivityChatScreenBinding;
 import com.tutuanle.chatapp.models.ChatMessage;
 import com.tutuanle.chatapp.models.CustomizeChat;
-import com.tutuanle.chatapp.models.Message;
 import com.tutuanle.chatapp.models.User;
 import com.tutuanle.chatapp.network.ApiClient;
 import com.tutuanle.chatapp.network.ApiService;
@@ -136,12 +135,12 @@ public class ChatScreenActivity extends OnChatActivity {
         WindowManager.LayoutParams windowAttributes = window.getAttributes();
         windowAttributes.gravity = Gravity.BOTTOM;
         window.setAttributes(windowAttributes);
-        dialog.findViewById(R.id.addImageDialog).setOnClickListener(v -> {
+        dialog.findViewById(R.id.addImageStory).setOnClickListener(v -> {
             showEmoji();
             dialog.dismiss();
         });
 
-        dialog.findViewById(R.id.addRecordeDialog).setOnClickListener(v ->
+        dialog.findViewById(R.id.openCamera).setOnClickListener(v ->
                 dialog.dismiss()
         );
 

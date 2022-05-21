@@ -17,6 +17,9 @@
         android:usesCleartextTraffic="true"
         tools:targetApi="m">
         <activity
+            android:name=".activities.ShowImgStory"
+            android:exported="false" />
+        <activity
             android:name=".activities.OutgoingActivity"
             android:exported="false" />
         <activity

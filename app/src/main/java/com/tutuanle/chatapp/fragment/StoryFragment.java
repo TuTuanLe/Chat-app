@@ -1,34 +1,66 @@
 package com.tutuanle.chatapp.fragment;
 
+import static org.webrtc.ContextUtils.getApplicationContext;
+
 import android.annotation.SuppressLint;
+import android.app.Dialog;
+import android.content.Context;
+import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
+import android.net.Uri;
 import android.os.Bundle;
 
+import androidx.activity.result.ActivityResultLauncher;
+import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.provider.MediaStore;
+import android.util.Base64;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.Window;
+import android.view.WindowManager;
+import android.widget.FrameLayout;
+import android.widget.ImageButton;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.makeramen.roundedimageview.RoundedImageView;
 import com.tutuanle.chatapp.R;
 import com.tutuanle.chatapp.activities.MainScreenActivity;
+import com.tutuanle.chatapp.activities.ShowImgStory;
 import com.tutuanle.chatapp.adapters.StoryAdapter;
 import com.tutuanle.chatapp.models.Status;
 import com.tutuanle.chatapp.models.UserStatus;
+import com.tutuanle.chatapp.utilities.Constants;
 import com.tutuanle.chatapp.utilities.GridSpacingItemDecoration;
 import com.tutuanle.chatapp.utilities.PreferenceManager;
 
+import java.io.ByteArrayOutputStream;
+import java.io.FileNotFoundException;
+import java.io.InputStream;
 import java.util.ArrayList;
 
 
 public class StoryFragment extends Fragment {
 
+    public static final int RESULT_CANCELED = 0;
+    public static final int RESULT_FIRST_USER = 1;
+    public static final int RESULT_OK = -1;
+    private String encodedImage ="";
+
+    private FrameLayout layoutChoiceImageStory;
+    private RoundedImageView ImageStoryChoice;
     private View view;
     private MainScreenActivity mainScreenActivity;
-
+    private ImageButton imageButtonAddStory;
     private StoryAdapter storyAdapter;
     private PreferenceManager preferenceManager;
     private ArrayList<UserStatus> userStatuses;
@@ -52,10 +84,96 @@ public class StoryFragment extends Fragment {
         mainScreenActivity = (MainScreenActivity) getActivity();
         assert mainScreenActivity != null;
         preferenceManager = mainScreenActivity.preferenceManager;
+//        layoutChoiceImageStory = view.findViewById(R.id.layoutChoiceImage);
+//        ImageStoryChoice = view.findViewById(R.id.ImageChoice);
+//        imageButtonAddStory = view.findViewById(R.id.addStoryBook);
+
+        imageButtonAddStory = view.findViewById(R.id.addStoryBook);
+        imageButtonAddStory.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                showDialogOption();
+            }
+        });
+
         getUserStatus();
         initialData();
         return view;
     }
+
+
+    private String encodeImage(Bitmap bitmap) {
+        int previewWidth = 150;
+        int previewHeight = bitmap.getHeight() * previewWidth / bitmap.getWidth();
+        Bitmap previewBitmap = Bitmap.createScaledBitmap(bitmap, previewWidth, previewHeight, false);
+        ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
+        previewBitmap.compress(Bitmap.CompressFormat.JPEG, 50, byteArrayOutputStream);
+        byte[] bytes = byteArrayOutputStream.toByteArray();
+        return Base64.encodeToString(bytes, Base64.DEFAULT);
+    }
+
+    private void chooseImg() {
+        Intent intent = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
+        intent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
+        pickImage.launch(intent);
+
+    }
+
+    public static Context contextOfApplication;
+    public static Context getContextOfApplication()
+    {
+        return contextOfApplication;
+    }
+
+
+    private void showDialogOption(){
+        final Dialog dialog = new Dialog(getContext());
+        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+        dialog.setContentView(R.layout.dialog_story_option);
+
+        Window window = dialog.getWindow();
+        if (window == null) {
+            return;
+        }
+        window.setLayout(WindowManager.LayoutParams.MATCH_PARENT, WindowManager.LayoutParams.WRAP_CONTENT);
+        window.setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+
+        WindowManager.LayoutParams windowAttributes = window.getAttributes();
+        windowAttributes.gravity = Gravity.BOTTOM;
+        window.setAttributes(windowAttributes);
+        dialog.show();
+        dialog.findViewById(R.id.addImageStory).setOnClickListener(v -> {
+            chooseImg();
+            dialog.dismiss();
+        });
+        dialog.findViewById(R.id.openCamera).setOnClickListener(v -> {
+            //opencamera function
+            dialog.dismiss();
+        });
+
+    }
+
+    @SuppressLint("SetTextI18n")
+    private final ActivityResultLauncher<Intent> pickImage = registerForActivityResult(
+            new ActivityResultContracts.StartActivityForResult(),
+            result -> {
+                if (result.getResultCode() == RESULT_OK) {
+                    assert result.getData() != null;
+                    Uri imageUri = result.getData().getData();
+                    try {
+                        InputStream inputStream = getActivity().getApplicationContext().getContentResolver().openInputStream(imageUri);
+                        Bitmap bitmap = BitmapFactory.decodeStream(inputStream);
+                        encodedImage = encodeImage(bitmap);
+                        Intent intentShowImgStory = new Intent(getContext(), ShowImgStory.class);
+                        startActivity(intentShowImgStory);
+                    }
+                    catch (FileNotFoundException e) {
+                        e.printStackTrace();
+                    }
+
+                }
+            }
+    );
 
     @SuppressLint("NotifyDataSetChanged")
     private void getUserStatus() {

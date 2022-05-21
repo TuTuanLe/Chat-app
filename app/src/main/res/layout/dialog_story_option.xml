@@ -49,19 +49,6 @@
 
                 />
 
-            <com.makeramen.roundedimageview.RoundedImageView
-                android:id="@+id/addVideoDialog"
-                android:layout_width="@dimen/_50sdp"
-                android:layout_height="@dimen/_50sdp"
-                android:cropToPadding="true"
-                android:scaleType="fitXY"
-                android:src="@drawable/ic_baseline_ondemand_video_50"
-                android:visibility="visible"
-                app:riv_corner_radius="10dip"
-                android:background="@drawable/text_box_outline"
-                android:padding="@dimen/_8sdp"
-                android:layout_margin="@dimen/_5sdp"
-                />
         </LinearLayout>
 
     </FrameLayout>
