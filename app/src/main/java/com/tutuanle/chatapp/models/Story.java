@@ -2,36 +2,36 @@ package com.tutuanle.chatapp.models;
 
 //create model Story to store Story
 public class Story {
-    public int storyId;
-    public int uid;
+    public String storyId;
+    public String uid;
     public String timeCreate;
     public String img;
     public boolean available;
 
     public Story(){
-    }
 
-    public Story(int uid, String time, String img){
+    }
+    public Story(String storyId,String uid, String img, String time){
+        this.storyId = storyId;
         this.uid = uid;
-        this.timeCreate = time;
         this.img = img;
+        this.timeCreate = time;
         this.available = true;
     }
 
-
-    public int getStoryId() {
+    public String getStoryId() {
         return storyId;
     }
 
-    public void setStoryId(int storyId) {
+    public void setStoryId(String storyId) {
         this.storyId = storyId;
     }
 
-    public int getUid() {
+    public String getUid() {
         return uid;
     }
 
-    public void setUid(int uid) {
+    public void setUid(String uid) {
         this.uid = uid;
     }
 
@@ -39,8 +39,8 @@ public class Story {
         return timeCreate;
     }
 
-    public void setTimeCreate(String timeUpdate) {
-        this.timeCreate = timeUpdate;
+    public void setTimeCreate(String timeCreate) {
+        this.timeCreate = timeCreate;
     }
 
     public String getImg() {
@@ -58,6 +58,8 @@ public class Story {
     public void setAvailable(boolean available) {
         this.available = available;
     }
+
+
 
     /*
         Workflow create story:

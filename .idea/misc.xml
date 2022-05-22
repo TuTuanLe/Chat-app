@@ -20,11 +20,13 @@
         <entry key="..\:/Android/ChatApp/app/src/main/res/layout/sent_drawable.xml" value="0.313585291113381" />
         <entry key="..\:/Android/ChatApp/app/src/main/res/menu/menu.xml" value="0.31979166666666664" />
         <entry key="..\:/Android/ChatApp/app/src/main/res/menu/topmenu.xml" value="0.31979166666666664" />
+        <entry key="..\:/Lab Andorid/DoAn/ChatsApp/app/src/main/res/drawable/ic_camera.xml" value="0.176" />
         <entry key="..\:/Lab Andorid/DoAn/ChatsApp/app/src/main/res/layout/activity_chat_screen.xml" value="0.33" />
         <entry key="..\:/Lab Andorid/DoAn/ChatsApp/app/src/main/res/layout/activity_main_screen.xml" value="0.23020833333333332" />
         <entry key="..\:/Lab Andorid/DoAn/ChatsApp/app/src/main/res/layout/activity_show_img_story.xml" value="0.22" />
         <entry key="..\:/Lab Andorid/DoAn/ChatsApp/app/src/main/res/layout/activity_show_imgsotry.xml" value="0.146875" />
         <entry key="..\:/Lab Andorid/DoAn/ChatsApp/app/src/main/res/layout/dialog_story_option.xml" value="0.3625" />
+        <entry key="..\:/Lab Andorid/DoAn/ChatsApp/app/src/main/res/layout/fragment_home.xml" value="0.3625" />
         <entry key="..\:/Lab Andorid/DoAn/ChatsApp/app/src/main/res/layout/fragment_story.xml" value="0.33" />
         <entry key="..\:/Lab Andorid/DoAn/ChatsApp/app/src/main/res/layout/item_receive.xml" value="0.18541666666666667" />
         <entry key="..\:/Lab Andorid/DoAn/ChatsApp/app/src/main/res/layout/layout_dialog_bottom.xml" value="0.3625" />

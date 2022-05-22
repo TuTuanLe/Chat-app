@@ -1,5 +1,6 @@
 package com.tutuanle.chatapp.fragment;
 
+import static com.google.firebase.messaging.Constants.TAG;
 import static org.webrtc.ContextUtils.getApplicationContext;
 
 import android.annotation.SuppressLint;
@@ -15,12 +16,15 @@ import android.os.Bundle;
 
 import androidx.activity.result.ActivityResultLauncher;
 import androidx.activity.result.contract.ActivityResultContracts;
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.provider.MediaStore;
 import android.util.Base64;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -32,21 +36,36 @@ import android.widget.ImageButton;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.firestore.DocumentChange;
+import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.EventListener;
+import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.FirebaseFirestoreException;
+import com.google.firebase.firestore.QueryDocumentSnapshot;
+import com.google.firebase.firestore.QuerySnapshot;
 import com.makeramen.roundedimageview.RoundedImageView;
 import com.tutuanle.chatapp.R;
 import com.tutuanle.chatapp.activities.MainScreenActivity;
 import com.tutuanle.chatapp.activities.ShowImgStory;
 import com.tutuanle.chatapp.adapters.StoryAdapter;
 import com.tutuanle.chatapp.models.Status;
+import com.tutuanle.chatapp.models.Story;
 import com.tutuanle.chatapp.models.UserStatus;
 import com.tutuanle.chatapp.utilities.Constants;
 import com.tutuanle.chatapp.utilities.GridSpacingItemDecoration;
 import com.tutuanle.chatapp.utilities.PreferenceManager;
 
+import org.w3c.dom.Document;
+
 import java.io.ByteArrayOutputStream;
 import java.io.FileNotFoundException;
 import java.io.InputStream;
 import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
 
 
 public class StoryFragment extends Fragment {
@@ -55,10 +74,11 @@ public class StoryFragment extends Fragment {
     public static final int RESULT_FIRST_USER = 1;
     public static final int RESULT_OK = -1;
     private String encodedImage ="";
-
+    private String currentUserId;
     private FrameLayout layoutChoiceImageStory;
     private RoundedImageView ImageStoryChoice;
     private View view;
+    public ArrayList<Story> listStory ;
     private MainScreenActivity mainScreenActivity;
     private ImageButton imageButtonAddStory;
     private StoryAdapter storyAdapter;
@@ -84,9 +104,7 @@ public class StoryFragment extends Fragment {
         mainScreenActivity = (MainScreenActivity) getActivity();
         assert mainScreenActivity != null;
         preferenceManager = mainScreenActivity.preferenceManager;
-//        layoutChoiceImageStory = view.findViewById(R.id.layoutChoiceImage);
-//        ImageStoryChoice = view.findViewById(R.id.ImageChoice);
-//        imageButtonAddStory = view.findViewById(R.id.addStoryBook);
+        currentUserId = preferenceManager.getString(Constants.KEY_USER_ID);
 
         imageButtonAddStory = view.findViewById(R.id.addStoryBook);
         imageButtonAddStory.setOnClickListener(new View.OnClickListener() {
@@ -165,6 +183,8 @@ public class StoryFragment extends Fragment {
                         Bitmap bitmap = BitmapFactory.decodeStream(inputStream);
                         encodedImage = encodeImage(bitmap);
                         Intent intentShowImgStory = new Intent(getContext(), ShowImgStory.class);
+                        intentShowImgStory.putExtra("img",imageUri.toString());
+                        intentShowImgStory.putExtra("userId",currentUserId);
                         startActivity(intentShowImgStory);
                     }
                     catch (FileNotFoundException e) {
@@ -175,10 +195,24 @@ public class StoryFragment extends Fragment {
             }
     );
 
+    private void getStoryFromDB(){
+
+       FirebaseFirestore.getInstance().collection(Constants.KEY_COLLECTION_SOTRY).get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+           @Override
+           public void onComplete(@NonNull Task<QuerySnapshot> task) {
+               if (task.isSuccessful()){
+                  List<Story> ls2 = task.getResult().toObjects(Story.class);
+                  listStory.addAll(ls2);
+               }
+           }
+       });
+    }
+
     @SuppressLint("NotifyDataSetChanged")
     private void getUserStatus() {
         userStatuses = new ArrayList<>();
-
+        listStory = new ArrayList<>();
+        getStoryFromDB();
         storyAdapter = new StoryAdapter(mainScreenActivity, userStatuses);
         RecyclerView temp = view.findViewById(R.id.statusList);
         temp.setLayoutManager(new GridLayoutManager(mainScreenActivity, 2));
@@ -187,80 +221,9 @@ public class StoryFragment extends Fragment {
 
         ArrayList<Status> statuses = new ArrayList<>();
 
-
-        statuses.add(new Status(
-                "https://firebasestorage.googleapis.com/v0/b/chatsapp-4b8d6.appspot.com/o/status%2F1648451488181?alt=media&token=9e1f4eb7-8825-43c2-8220-106c92409620",
-                164845148
-        ));
-        statuses.add(new Status(
-                "https://firebasestorage.googleapis.com/v0/b/chatsapp-4b8d6.appspot.com/o/status%2F1648451488181?alt=media&token=9e1f4eb7-8825-43c2-8220-106c92409620",
-                164853774
-        ));
-
-
-        ArrayList<Status> statuses1 = new ArrayList<>();
-
-
-        statuses1.add(new Status(
-                "hhttps://images.unsplash.com/photo-1453728013993-6d66e9c9123a?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxzZWFyY2h8Mnx8dmlld3xlbnwwfHwwfHw%3D&w=1000&q=80",
-                164845148
-        ));
-        statuses1.add(new Status(
-                "https://www.w3schools.com/w3images/fjords.jpg",
-                164853774
-        ));
-        statuses1.add(new Status(
-                "https://st.depositphotos.com/1006706/2671/i/600/depositphotos_26715369-stock-photo-which-way-to-choose-3d.jpg",
-                164853774
-        ));
-
-        ArrayList<Status> statuses2 = new ArrayList<>();
-
-
-        statuses2.add(new Status(
-                "https://www.perma-horti.com/wp-content/uploads/2019/02/image-2.jpg",
-                164845148
-        ));
-
-
-        userStatuses.add(new UserStatus(
-                "Tuan Anh",
-                "https://firebasestorage.googleapis.com/v0/b/chatsapp-4b8d6.appspot.com/o/status%2F1648537741702?alt=media&token=685fb7d8-a05d-429d-9834-1db74b41ff0e",
-                164853810,
-                statuses
-        ));
-        userStatuses.add(new UserStatus(
-                "TuTuanLe",
-                "https://www.w3schools.com/w3images/fjords.jpg",
-                174853810,
-                statuses1
-        ));
-        userStatuses.add(new UserStatus(
-                "TAnh",
-                "https://images.unsplash.com/photo-1453728013993-6d66e9c9123a?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxzZWFyY2h8Mnx8dmlld3xlbnwwfHwwfHw%3D&w=1000&q=80",
-                184853810,
-                statuses2
-        ));
-
-        userStatuses.add(new UserStatus(
-                "Tram Huynh",
-                "https://images.unsplash.com/photo-1453728013993-6d66e9c9123a?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxzZWFyY2h8Mnx8dmlld3xlbnwwfHwwfHw%3D&w=1000&q=80",
-                9,
-                statuses2
-        ));
-        userStatuses.add(new UserStatus(
-                "Phuong",
-                "https://images.unsplash.com/photo-1453728013993-6d66e9c9123a?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxzZWFyY2h8Mnx8dmlld3xlbnwwfHwwfHw%3D&w=1000&q=80",
-                9,
-                statuses2
-        ));
-        userStatuses.add(new UserStatus(
-                "Nhon",
-                "https://images.unsplash.com/photo-1453728013993-6d66e9c9123a?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxzZWFyY2h8Mnx8dmlld3xlbnwwfHwwfHw%3D&w=1000&q=80",
-                9,
-                statuses2
-        ));
-
+        for (int i = 0; i < listStory.size(); i++){
+            Log.d("============", listStory.get(i).getStoryId());
+        }
 
 
         storyAdapter.notifyDataSetChanged();
