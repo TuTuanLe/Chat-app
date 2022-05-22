@@ -4,7 +4,7 @@
     android:layout_width="wrap_content"
     android:layout_height="wrap_content">
     <FrameLayout
-        android:layout_width="@dimen/_100sdp"
+        android:layout_width="match_parent"
         android:layout_height="@dimen/_150sdp"
         android:layout_marginStart="8dp"
         android:layout_marginTop="8dp"
@@ -15,21 +15,21 @@
 
         <com.makeramen.roundedimageview.RoundedImageView
             android:id="@+id/imageUserStatus"
-            android:layout_width="match_parent"
+            android:layout_width="130dp"
             android:layout_height="match_parent"
             android:scaleType="centerCrop"
             android:src="@drawable/bg"
-            app:riv_corner_radius="@dimen/_10sdp"
-            />
+            app:riv_corner_radius="@dimen/_10sdp" />
 
         <RelativeLayout
-            android:gravity="center"
+            android:layout_marginTop="@dimen/_110sdp"
             android:id="@+id/image_layout"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:layout_marginTop="@dimen/_40sdp"
-          >
+            android:layout_gravity="center_horizontal"
+            android:gravity="center"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
 
 
             <de.hdodenhof.circleimageview.CircleImageView
@@ -53,6 +53,8 @@
 
         </RelativeLayout>
     </FrameLayout>
+
+
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

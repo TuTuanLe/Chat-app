@@ -47,8 +47,6 @@ public class StoryAdapter extends RecyclerView.Adapter<StoryAdapter.StoryViewHol
         Glide.with(context).load(lastStatus.getImageUrl()).into(holder.binding.image);
         Glide.with(context).load(lastStatus.getImageUrl()).into(holder.binding.imageUserStatus);
         holder.binding.circularStatusView.setPortionsCount(userStatus.getStatuses().size());
-
-
         int width= context.getResources().getDisplayMetrics().widthPixels;
 
 //        holder.binding.frameStatus.setLayoutParams(new FrameLayout.LayoutParams(width/2-30, 400));
