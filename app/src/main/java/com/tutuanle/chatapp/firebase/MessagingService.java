@@ -6,6 +6,7 @@ import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.content.Intent;
 import android.os.Build;
+import android.util.Log;
 import android.widget.RemoteViews;
 
 import androidx.annotation.NonNull;
@@ -32,6 +33,8 @@ public class MessagingService extends FirebaseMessagingService {
     @SuppressLint("UnspecifiedImmutableFlag")
     @RequiresApi(api = Build.VERSION_CODES.N)
     public void onMessageReceived(@NonNull RemoteMessage message) {
+        String type = message.getData().get(Constants.REMOTE_MSG_TYPE);
+        Log.d("TAG_TYPE", "setUpVideoCall: ");
         super.onMessageReceived(message);
         setUpVideoCall(message);
         User user = new User();
@@ -96,6 +99,7 @@ public class MessagingService extends FirebaseMessagingService {
     }
     private void setUpVideoCall(@NonNull RemoteMessage remoteMessage ){
         String type = remoteMessage.getData().get(Constants.REMOTE_MSG_TYPE);
+        Log.d("TAG_type", "setUpVideoCall: "+ type);
         if(type != null){
             if(type.equals(Constants.REMOTE_MSG_INVITATION)){
                 Intent intent = new Intent(getApplicationContext(), IncomingActivity.class);

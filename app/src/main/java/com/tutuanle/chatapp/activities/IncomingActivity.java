@@ -51,20 +51,15 @@ public class IncomingActivity extends AppCompatActivity {
 
     private void setupCall() {
         receiverUSer = (User) getIntent().getSerializableExtra(Constants.KEY_USER);
-        meetingType = getIntent().getStringExtra("type_call");
+//        meetingType = getIntent().getStringExtra("type_call");
 
         preferenceManager = new PreferenceManager(getApplicationContext());
 
-        String meetingType = getIntent().getStringExtra(Constants.REMOTE_MSG_MEETING_TYPE);
+        meetingType = getIntent().getStringExtra(Constants.REMOTE_MSG_MEETING_TYPE);
 
         binding.info.setText(getIntent().getStringExtra(Constants.KEY_NAME));
-        binding.imgAvatar.setImageBitmap(getConversionImage(getIntent().getStringExtra(Constants.KEY_IMAGE)));
+//        binding.imgAvatar.setImageBitmap(getConversionImage(getIntent().getStringExtra(Constants.KEY_IMAGE)));
 
-        if(meetingType != null){
-            if(meetingType.equals("video")){
-                // set up sent info
-            }
-        }
     }
 
 
