@@ -4,11 +4,17 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.localbroadcastmanager.content.LocalBroadcastManager;
 
+import android.annotation.SuppressLint;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.os.Build;
 import android.os.Bundle;
+import android.util.Base64;
+import android.view.WindowManager;
 import android.widget.Toast;
 
 import com.google.firebase.iid.FirebaseInstanceId;
@@ -50,18 +56,29 @@ public class OutgoingActivity extends AppCompatActivity {
         setOnclickListener();
     }
 
+    @SuppressLint("SetTextI18n")
     private void setOnclickListener() {
         binding.imageStop.setOnClickListener(v -> {
             if (receiverUSer != null) {
                 cancelInvitation(receiverUSer.getToken());
             }
         });
-        binding.info.setText(receiverUSer.getName() + " call video");
+        binding.info.setText(receiverUSer.getName());
+        binding.imgAvatar.setImageBitmap(getConversionImage(receiverUSer.getProfileImage()));
+        getWindow().setFlags(WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS, WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS);
+    }
+
+    private Bitmap getConversionImage(String encodedImage)
+    {
+        byte[] bytes = Base64.decode(encodedImage, Base64.DEFAULT);
+        return BitmapFactory.decodeByteArray(bytes, 0, bytes.length);
     }
 
     private void initialData() {
         receiverUSer = (User) getIntent().getSerializableExtra(Constants.KEY_USER);
         meetingType = getIntent().getStringExtra("type_call");
+
+
         preferenceManager = new PreferenceManager(getApplicationContext());
     }
 
@@ -88,7 +105,7 @@ public class OutgoingActivity extends AppCompatActivity {
             data.put(Constants.REMOTE_MSG_TYPE, Constants.REMOTE_MSG_INVITATION);
             data.put(Constants.REMOTE_MSG_MEETING_TYPE, meetingType);
             data.put(Constants.KEY_NAME, preferenceManager.getString(Constants.KEY_NAME));
-            data.put(Constants.KEY_EMAIL, preferenceManager.getString(Constants.KEY_EMAIL));
+            data.put(Constants.KEY_IMAGE, preferenceManager.getString(Constants.KEY_IMAGE));
             data.put(Constants.REMOTE_MSG_INVITER_TOKEN, inviterToken);
 
             meetingRoom = preferenceManager.getString(Constants.KEY_USER_ID)+ "_"+

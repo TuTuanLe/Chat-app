@@ -8,36 +8,83 @@
     android:background="@drawable/button_bg"
     >
 
+    <com.makeramen.roundedimageview.RoundedImageView
+        android:id="@+id/imgAvatar"
+        android:layout_width="100dp"
+        android:layout_height="100dp"
+        android:layout_marginTop="164dp"
+        android:background="@drawable/circle_bg"
+        android:elevation="2dp"
+        android:scaleType="fitXY"
+        android:src="@drawable/bg_1"
+        app:riv_oval="true"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:ignore="UseAppTint" />
+
     <ImageView
         android:id="@+id/imageAccept"
-        android:layout_width="69dp"
-        android:layout_height="63dp"
-        android:layout_marginStart="92dp"
-        android:layout_marginBottom="48dp"
+        android:layout_width="64dp"
+        android:layout_height="64dp"
+        android:layout_marginBottom="40dp"
+        android:background="@drawable/circle_green"
+        android:elevation="2dp"
+        android:padding="@dimen/_13sdp"
+        android:src="@drawable/ic_baseline_call_24"
+        android:tint="@color/white"
         app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.319"
         app:layout_constraintStart_toStartOf="parent"
-        app:srcCompat="@drawable/ic_camera" />
+        tools:ignore="UseAppTint" />
+
+
+    <com.agrawalsuneet.dotsloader.loaders.LinearDotsLoader
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="356dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:loader_animDur="1000"
+        app:loader_circleRadius="6dp"
+        app:loader_defaultColor="@color/trans"
+        app:loader_dotsDist="3dp"
+        app:loader_expandOnSelect="false"
+        app:loader_firstShadowColor="@color/blue"
+        app:loader_isSingleDir="false"
+        app:loader_noOfDots="8"
+        app:loader_secondShadowColor="@color/blue"
+        app:loader_selectedColor="@color/white"
+        app:loader_selectedRadius="10dp"
+        app:loader_showRunningShadow="true" />
 
     <ImageView
         android:id="@+id/imageStop"
         android:layout_width="64dp"
-        android:layout_height="68dp"
-        android:layout_marginEnd="120dp"
-        android:layout_marginBottom="44dp"
+        android:layout_height="64dp"
+        android:layout_marginBottom="40dp"
+        android:background="@drawable/circle_cancel"
+        android:elevation="2dp"
+        android:padding="@dimen/_13sdp"
+        android:src="@drawable/ic_baseline_call_end_24"
+        android:tint="@color/white"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        android:src="@drawable/ic_baseline_close_24"/>
+        app:layout_constraintHorizontal_bias="0.648"
+        app:layout_constraintStart_toStartOf="parent"
+        tools:ignore="UseAppTint" />
 
     <TextView
         android:id="@+id/info"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="144dp"
+        android:layout_marginTop="284dp"
         android:text="Incomming"
         android:textSize="@dimen/_20ssp"
         android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.481"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 </androidx.constraintlayout.widget.ConstraintLayout>

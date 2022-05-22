@@ -31,6 +31,7 @@
         <entry key="..\:/study/Mobile-App-Development/ChatsApp/app/src/main/res/drawable/border_image.xml" value="0.2515" />
         <entry key="..\:/study/Mobile-App-Development/ChatsApp/app/src/main/res/drawable/button_bg.xml" value="0.25" />
         <entry key="..\:/study/Mobile-App-Development/ChatsApp/app/src/main/res/drawable/circle_bg.xml" value="0.2425" />
+        <entry key="..\:/study/Mobile-App-Development/ChatsApp/app/src/main/res/drawable/circle_cancel.xml" value="0.335" />
         <entry key="..\:/study/Mobile-App-Development/ChatsApp/app/src/main/res/drawable/circle_green.xml" value="0.218" />
         <entry key="..\:/study/Mobile-App-Development/ChatsApp/app/src/main/res/drawable/custom_header.xml" value="0.2495" />
         <entry key="..\:/study/Mobile-App-Development/ChatsApp/app/src/main/res/drawable/gradient.xml" value="0.28" />
@@ -85,14 +86,14 @@
         <entry key="..\:/study/Mobile-App-Development/ChatsApp/app/src/main/res/layout/activity_chat.xml" value="0.3703125" />
         <entry key="..\:/study/Mobile-App-Development/ChatsApp/app/src/main/res/layout/activity_chat_screen.xml" value="0.33" />
         <entry key="..\:/study/Mobile-App-Development/ChatsApp/app/src/main/res/layout/activity_create_group.xml" value="0.5" />
-        <entry key="..\:/study/Mobile-App-Development/ChatsApp/app/src/main/res/layout/activity_incoming.xml" value="0.23854166666666668" />
+        <entry key="..\:/study/Mobile-App-Development/ChatsApp/app/src/main/res/layout/activity_incoming.xml" value="0.5" />
         <entry key="..\:/study/Mobile-App-Development/ChatsApp/app/src/main/res/layout/activity_infomation.xml" value="0.75" />
         <entry key="..\:/study/Mobile-App-Development/ChatsApp/app/src/main/res/layout/activity_main.xml" value="0.5" />
         <entry key="..\:/study/Mobile-App-Development/ChatsApp/app/src/main/res/layout/activity_main_screen.xml" value="0.33" />
         <entry key="..\:/study/Mobile-App-Development/ChatsApp/app/src/main/res/layout/activity_my_phone_number.xml" value="0.5" />
         <entry key="..\:/study/Mobile-App-Development/ChatsApp/app/src/main/res/layout/activity_otpactivity.xml" value="0.5" />
         <entry key="..\:/study/Mobile-App-Development/ChatsApp/app/src/main/res/layout/activity_otpscreen.xml" value="0.6011299435028249" />
-        <entry key="..\:/study/Mobile-App-Development/ChatsApp/app/src/main/res/layout/activity_outgoing.xml" value="0.25" />
+        <entry key="..\:/study/Mobile-App-Development/ChatsApp/app/src/main/res/layout/activity_outgoing.xml" value="0.33" />
         <entry key="..\:/study/Mobile-App-Development/ChatsApp/app/src/main/res/layout/activity_phone_number.xml" value="0.371875" />
         <entry key="..\:/study/Mobile-App-Development/ChatsApp/app/src/main/res/layout/activity_profile.xml" value="0.33" />
         <entry key="..\:/study/Mobile-App-Development/ChatsApp/app/src/main/res/layout/activity_setup_profile.xml" value="0.19166666666666668" />
