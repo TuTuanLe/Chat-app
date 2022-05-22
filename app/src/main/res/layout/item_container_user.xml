@@ -24,7 +24,7 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
         android:layout_marginTop="@dimen/_4sdp"
-        android:fontFamily="@font/roboto_light"
+        android:fontFamily="@font/tajawal_regular"
         android:text="Sample Name"
         android:textSize="@dimen/_13ssp"
         android:textStyle="bold"
@@ -42,6 +42,7 @@
         android:textSize="@dimen/_10sdp"
         app:layout_constraintStart_toStartOf="@+id/username"
         app:layout_constraintTop_toBottomOf="@+id/username"
+
 
         />
 

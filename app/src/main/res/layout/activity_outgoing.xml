@@ -4,31 +4,109 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".activities.OutgoingActivity"
     android:background="@drawable/button_bg"
-    >
+    tools:context=".activities.OutgoingActivity">
 
+
+
+
+    <com.makeramen.roundedimageview.RoundedImageView
+        android:id="@+id/imgAvatar"
+        android:layout_width="100dp"
+        android:layout_height="100dp"
+        android:layout_marginTop="164dp"
+        android:background="@drawable/circle_bg"
+        android:elevation="2dp"
+        android:scaleType="fitXY"
+        android:src="@drawable/bg_1"
+        app:riv_oval="true"
+
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:ignore="UseAppTint" />
+
+
+    <com.agrawalsuneet.dotsloader.loaders.AllianceLoader
+        android:id="@+id/progress_call"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="332dp"
+        app:alliance_animDuration="500"
+        app:alliance_distanceMultiplier="4"
+        app:alliance_dotsRadius="20dp"
+        app:alliance_drawOnlyStroke="true"
+        app:alliance_firstDotsColor="@color/catalyst_redbox_background"
+        app:alliance_secondDotsColor="@color/white"
+        app:alliance_strokeWidth="8dp"
+        app:alliance_thirdDotsColor="@color/green"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
     <ImageView
         android:id="@+id/imageStop"
         android:layout_width="64dp"
-        android:layout_height="68dp"
-        android:layout_marginBottom="44dp"
-        android:src="@drawable/ic_baseline_close_24"
+        android:layout_height="64dp"
+        android:layout_marginBottom="40dp"
+        android:background="@drawable/circle_cancel"
+        android:elevation="2dp"
+        android:padding="@dimen/_13sdp"
+        android:src="@drawable/ic_baseline_call_end_24"
+        android:tint="@color/white"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent" />
+        app:layout_constraintHorizontal_bias="0.752"
+        app:layout_constraintStart_toStartOf="parent"
+        tools:ignore="UseAppTint" />
+
+    <ImageView
+        android:id="@+id/setupCamera"
+        android:layout_width="64dp"
+        android:layout_height="64dp"
+        android:layout_marginBottom="40dp"
+        android:background="@drawable/circle_bg"
+        android:elevation="2dp"
+        android:padding="@dimen/_15sdp"
+        android:src="@drawable/ic_camera"
+        android:tint="@color/white"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.239"
+        app:layout_constraintStart_toStartOf="parent"
+        tools:ignore="UseAppTint" />
+
+    <ImageView
+        android:id="@+id/setupMicro"
+        android:layout_width="64dp"
+        android:layout_height="64dp"
+        android:layout_marginBottom="40dp"
+        android:background="@drawable/circle_bg"
+        android:elevation="2dp"
+        android:padding="@dimen/_13sdp"
+        android:src="@drawable/ic_baseline_mic_none_24"
+        android:tint="@color/white"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.498"
+        app:layout_constraintStart_toStartOf="parent"
+        tools:ignore="UseAppTint" />
 
     <TextView
         android:id="@+id/info"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="144dp"
+        android:layout_marginTop="280dp"
         android:text="Outgoing"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.481"
-        app:layout_constraintStart_toStartOf="parent"
         android:textSize="@dimen/_20ssp"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        android:textStyle="bold"/>
+        android:textColor="@color/white"
+        android:fontFamily="@font/tajawal_regular"
+        android:elevation="@dimen/_20ssp"
+        />
+
+
 </androidx.constraintlayout.widget.ConstraintLayout>

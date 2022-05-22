@@ -21,7 +21,9 @@
             android:text="@string/settings"
             android:textColor="@color/colorTextPrimary"
             android:textSize="@dimen/_18ssp"
-            android:textStyle="bold" />
+            android:textStyle="bold"
+
+            />
 
         <ImageButton
             android:layout_marginTop="@dimen/_15sdp"
@@ -70,6 +72,7 @@
             android:textAlignment="textStart"
             android:textColor="@color/colorTextSecondary"
             android:textSize="@dimen/_12sdp"
+            android:fontFamily="@font/tajawal_regular"
             android:textStyle="normal" />
 
 
@@ -101,7 +104,9 @@
             android:padding="@dimen/_11sdp"
             android:text="@string/dark_mode"
             android:textColor="@color/colorTextSecondary"
-            android:textSize="@dimen/_14ssp" />
+            android:textSize="@dimen/_14ssp"
+            android:fontFamily="@font/tajawal_regular"
+            />
 
         <androidx.appcompat.widget.SwitchCompat
             android:id="@+id/switch_id"
@@ -144,6 +149,7 @@
                 android:padding="@dimen/_11sdp"
                 android:text="@string/log_out"
                 android:textColor="@color/colorTextSecondary"
+                android:fontFamily="@font/tajawal_regular"
                 android:textSize="@dimen/_14ssp" />
 
             <ImageButton
@@ -189,6 +195,7 @@
                 android:padding="@dimen/_11sdp"
                 android:text="@string/account"
                 android:textColor="@color/colorTextSecondary"
+                android:fontFamily="@font/tajawal_regular"
                 android:textSize="@dimen/_14ssp" />
 
             <ImageButton
@@ -235,6 +242,7 @@
                 android:padding="@dimen/_11sdp"
                 android:text="@string/chat_settings"
                 android:textColor="@color/colorTextSecondary"
+                android:fontFamily="@font/tajawal_regular"
                 android:textSize="@dimen/_14ssp" />
 
             <ImageButton
@@ -281,6 +289,7 @@
                 android:padding="@dimen/_11sdp"
                 android:text="@string/privacy_and_security"
                 android:textColor="@color/colorTextSecondary"
+                android:fontFamily="@font/tajawal_regular"
                 android:textSize="@dimen/_14ssp" />
 
             <ImageButton
@@ -328,6 +337,7 @@
                 android:padding="@dimen/_11sdp"
                 android:text="@string/about"
                 android:textColor="@color/colorTextSecondary"
+                android:fontFamily="@font/tajawal_regular"
                 android:textSize="@dimen/_14ssp" />
 
             <ImageButton

@@ -63,7 +63,7 @@ public class StoryFragment extends Fragment {
 
         storyAdapter = new StoryAdapter(mainScreenActivity, userStatuses);
         RecyclerView temp = view.findViewById(R.id.statusList);
-        temp.setLayoutManager(new GridLayoutManager(mainScreenActivity, 2));
+//        temp.setLayoutManager(new GridLayoutManager(mainScreenActivity, 1));
 
         temp.setAdapter(storyAdapter);
 

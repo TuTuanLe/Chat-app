@@ -101,7 +101,7 @@ public class MessagingService extends FirebaseMessagingService {
                 Intent intent = new Intent(getApplicationContext(), IncomingActivity.class);
                 intent.putExtra(Constants.REMOTE_MSG_INVITATION,remoteMessage.getData().get(Constants.REMOTE_MSG_MEETING_TYPE) );
                 intent.putExtra(Constants.KEY_NAME,remoteMessage.getData().get(Constants.KEY_NAME) );
-                intent.putExtra(Constants.KEY_EMAIL,remoteMessage.getData().get(Constants.KEY_EMAIL) );
+                intent.putExtra(Constants.KEY_IMAGE,remoteMessage.getData().get(Constants.KEY_IMAGE) );
                 intent.putExtra(Constants.REMOTE_MSG_INVITER_TOKEN, remoteMessage.getData().get(Constants.REMOTE_MSG_INVITER_TOKEN));
                 intent.putExtra(Constants.REMOTE_MSG_MEETING_ROM, remoteMessage.getData().get(Constants.REMOTE_MSG_MEETING_ROM));
                 intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);

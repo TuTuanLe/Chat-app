@@ -8,7 +8,11 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.os.Bundle;
+import android.util.Base64;
+import android.util.Log;
 import android.widget.Toast;
 
 import com.tutuanle.chatapp.databinding.ActivityIncomingBinding;
@@ -53,6 +57,9 @@ public class IncomingActivity extends AppCompatActivity {
 
         String meetingType = getIntent().getStringExtra(Constants.REMOTE_MSG_MEETING_TYPE);
 
+        binding.info.setText(getIntent().getStringExtra(Constants.KEY_NAME));
+        binding.imgAvatar.setImageBitmap(getConversionImage(getIntent().getStringExtra(Constants.KEY_IMAGE)));
+
         if(meetingType != null){
             if(meetingType.equals("video")){
                 // set up sent info
@@ -60,6 +67,12 @@ public class IncomingActivity extends AppCompatActivity {
         }
     }
 
+
+    private Bitmap getConversionImage(String encodedImage)
+    {
+        byte[] bytes = Base64.decode(encodedImage, Base64.DEFAULT);
+        return BitmapFactory.decodeByteArray(bytes, 0, bytes.length);
+    }
     private void setBindingListener(){
         binding.imageAccept.setOnClickListener(v ->AcceptVideoCall());
         binding.imageStop.setOnClickListener(v->StopVideoCall());
@@ -67,12 +80,10 @@ public class IncomingActivity extends AppCompatActivity {
 
     private void AcceptVideoCall(){
         sendInvitationResponse(Constants.REMOTE_MSG_INVITATION_ACCEPTED,getIntent().getStringExtra(Constants.REMOTE_MSG_INVITER_TOKEN) );
-
     }
 
     private  void StopVideoCall(){
         sendInvitationResponse(Constants.REMOTE_MSG_INVITATION_REJECTED,getIntent().getStringExtra(Constants.REMOTE_MSG_INVITER_TOKEN) );
-
     }
 
     private void sendInvitationResponse(String type, String receiverToken){
