@@ -77,6 +77,5 @@ public class SettingFragment extends Fragment {
             mainScreenActivity.signOut();
             mGoogleSignInClient.signOut();
         });
-
     }
 }
