@@ -1,20 +1,34 @@
 package com.tutuanle.chatapp.activities;
 
+import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.annotation.SuppressLint;
+import android.app.Dialog;
+import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
+import android.os.Build;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.util.Base64;
 import android.util.Log;
+import android.view.Gravity;
 import android.view.View;
+import android.view.Window;
+import android.view.WindowManager;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.agrawalsuneet.dotsloader.loaders.TashieLoader;
 import com.google.android.material.internal.TextWatcherAdapter;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
+import com.makeramen.roundedimageview.RoundedImageView;
 import com.tutuanle.chatapp.R;
 import com.tutuanle.chatapp.adapters.SearchAdapter;
 import com.tutuanle.chatapp.adapters.Users_Adapter;
@@ -151,9 +165,45 @@ public class SearchActivity extends AppCompatActivity implements UserListener {
         Toast.makeText(getApplicationContext(), message, Toast.LENGTH_SHORT).show();
     }
 
+    @RequiresApi(api = Build.VERSION_CODES.N)
+    private void openDialogCenter(User user) {
+        final Dialog dialog = new Dialog(this);
+        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+        dialog.setContentView(R.layout.layout_dialog_info);
+        Window window = dialog.getWindow();
+        if (window == null) {
+            return;
+        }
+        window.setLayout(WindowManager.LayoutParams.MATCH_PARENT, WindowManager.LayoutParams.WRAP_CONTENT);
+        window.setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+        WindowManager.LayoutParams windowAttributes = window.getAttributes();
+        windowAttributes.gravity = Gravity.CENTER;
+        window.setAttributes(windowAttributes);
+        dialog.findViewById(R.id.icon_close).setOnClickListener(v -> dialog.dismiss());
+        dialog.setCancelable(true);
+        RoundedImageView roundedImageView = (RoundedImageView) dialog.findViewById(R.id.imgAvatar);
+        roundedImageView.setImageBitmap(getBitmapFromEnCodedString(user.getProfileImage()));
+        TextView username =  dialog.findViewById(R.id.username);
+        username.setText(user.getName());
+        dialog.findViewById(R.id.imageChat).setOnClickListener(v->{
+            Intent intent = new Intent(getApplicationContext(), ChatScreenActivity.class);
+            intent.putExtra(Constants.KEY_USER, user);
+            startActivity(intent);
+            dialog.dismiss();
+        });
+        dialog.show();
+    }
+
+
+
+    private Bitmap getBitmapFromEnCodedString(String enCodedImage) {
+        byte[] bytes = Base64.decode(enCodedImage, Base64.DEFAULT);
+        return BitmapFactory.decodeByteArray(bytes, 0, bytes.length);
+    }
+    @RequiresApi(api = Build.VERSION_CODES.N)
     @Override
     public void onUserClicked(User user) {
-
+        openDialogCenter(user);
     }
 
     @Override

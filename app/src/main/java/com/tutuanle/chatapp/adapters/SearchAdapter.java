@@ -66,7 +66,7 @@ public class SearchAdapter extends RecyclerView.Adapter<SearchAdapter.SearchView
             }else {
                 binding.statusAvailability.setVisibility(View.GONE);
             }
-//            binding.getRoot().setOnClickListener(v -> userListener.initialVideoMeeting(user));
+            binding.getRoot().setOnClickListener(v -> userListener.onUserClicked(user));
         }
     }
 

@@ -4,8 +4,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:layout_margin="@dimen/_16sdp"
-    android:background="@color/black"
+    android:layout_margin="@dimen/_13sdp"
+    android:background="@color/trans"
     android:orientation="vertical">
 
     <LinearLayout
@@ -15,7 +15,7 @@
         android:orientation="vertical">
 
         <androidx.cardview.widget.CardView
-            android:id="@+id/icon_close"
+
             android:layout_width="@dimen/_20sdp"
             android:layout_height="@dimen/_20sdp"
             android:layout_gravity="end"
@@ -24,7 +24,7 @@
             app:cardCornerRadius="@dimen/_20ssp">
 
             <ImageButton
-
+                android:id="@+id/icon_close"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_margin="@dimen/_5sdp"
@@ -49,6 +49,7 @@
             tools:ignore="UseAppTint" />
 
         <TextView
+            android:id="@+id/username"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/_15sdp"
@@ -82,6 +83,7 @@
                     app:cardCornerRadius="@dimen/_30ssp">
 
                     <ImageView
+                        android:id="@+id/imageChat"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:layout_margin="@dimen/_9sdp"
@@ -94,11 +96,11 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/_5sdp"
                     android:fontFamily="@font/roboto_light"
                     android:text="@string/message"
                     android:textColor="@color/black"
-                    android:textSize="@dimen/_8sdp"
-                    android:layout_marginTop="@dimen/_5sdp"/>
+                    android:textSize="@dimen/_8sdp" />
             </LinearLayout>
 
             <LinearLayout
@@ -118,6 +120,7 @@
                     app:cardCornerRadius="@dimen/_30ssp">
 
                     <ImageView
+                        android:id="@+id/imageCall"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:layout_margin="@dimen/_9sdp"
@@ -130,11 +133,11 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/_5sdp"
                     android:fontFamily="@font/roboto_light"
                     android:text="@string/audio"
                     android:textColor="@color/black"
-                    android:textSize="@dimen/_8sdp"
-                    android:layout_marginTop="@dimen/_5sdp"/>
+                    android:textSize="@dimen/_8sdp" />
             </LinearLayout>
 
             <LinearLayout
@@ -154,6 +157,7 @@
                     app:cardCornerRadius="@dimen/_30ssp">
 
                     <ImageView
+                        android:id="@+id/imageVideo"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:layout_margin="@dimen/_9sdp"
@@ -166,11 +170,11 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/_5sdp"
                     android:fontFamily="@font/roboto_light"
                     android:text="@string/video"
                     android:textColor="@color/black"
-                    android:textSize="@dimen/_8sdp"
-                    android:layout_marginTop="@dimen/_5sdp"/>
+                    android:textSize="@dimen/_8sdp" />
             </LinearLayout>
         </LinearLayout>
 
@@ -197,19 +201,18 @@
     <FrameLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="@dimen/_5sdp"
+        android:layout_marginTop="@dimen/_8sdp"
         android:background="@drawable/layout_dialog_info"
         android:padding="@dimen/_10sdp"
 
         >
 
         <LinearLayout
-            android:layout_marginTop="@dimen/_5sdp"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
+            android:layout_marginTop="@dimen/_5sdp"
 
-            android:orientation="vertical"
-            >
+            android:orientation="vertical">
 
             <FrameLayout
                 android:layout_width="match_parent"
@@ -217,29 +220,29 @@
                 android:orientation="horizontal"
 
                 >
+
                 <LinearLayout
                     android:layout_width="@dimen/_50sdp"
                     android:layout_height="@dimen/_20ssp"
-                    android:orientation="horizontal"
-                    android:gravity="center_vertical"
-                    android:paddingLeft="@dimen/_5sdp"
                     android:background="@drawable/border_color_like"
+                    android:gravity="center_vertical"
+                    android:orientation="horizontal"
+                    android:paddingLeft="@dimen/_5sdp"
 
                     >
+
                     <ImageView
                         android:layout_width="10sp"
                         android:layout_height="wrap_content"
-                        android:src="@drawable/ic_baseline_location_searching_24"
                         android:layout_marginEnd="@dimen/_3sdp"
-                        />
+                        android:src="@drawable/ic_baseline_location_searching_24" />
 
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="Request"
                         android:textColor="@color/blue"
-                        android:textSize="@dimen/_8ssp"
-                        />
+                        android:textSize="@dimen/_8ssp" />
 
                 </LinearLayout>
 
@@ -255,31 +258,29 @@
                 android:textColor="@color/black"
                 android:textSize="@dimen/_12ssp"
                 android:textStyle="bold" />
+
             <LinearLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:orientation="horizontal"
                 android:layout_gravity="center_vertical"
-                >
+                android:orientation="horizontal">
+
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
                     android:layout_marginTop="@dimen/_1sdp"
                     android:fontFamily="@font/tajawal_regular"
+                    android:gravity="center"
                     android:text="CONNECTED"
                     android:textColor="@color/black"
                     android:textSize="@dimen/_10ssp"
-                    android:textStyle="normal"
-                    android:gravity="center"
-                    />
+                    android:textStyle="normal" />
 
                 <ImageView
                     android:layout_width="15sp"
                     android:layout_height="wrap_content"
-                    android:src="@drawable/ic_baseline_check_circle_outline_24"
                     android:layout_marginStart="@dimen/_4sdp"
-                    />
-
+                    android:src="@drawable/ic_baseline_check_circle_outline_24" />
 
 
             </LinearLayout>
@@ -287,65 +288,61 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:gravity="center"
-                >
+                android:gravity="center">
 
                 <androidx.appcompat.widget.LinearLayoutCompat
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
-                    android:orientation="vertical"
-                    >
+                    android:orientation="vertical">
+
                     <TextView
                         android:layout_width="@dimen/_100sdp"
                         android:layout_height="wrap_content"
+                        android:fontFamily="@font/tajawal_regular"
                         android:text="Total friends"
-                        android:textColor="@color/black"
-                        android:fontFamily="@font/tajawal_regular"
                         android:textAlignment="center"
-                        android:textStyle="bold"
-                        />
+                        android:textColor="@color/black"
+                        android:textStyle="bold" />
+
                     <TextView
                         android:layout_width="@dimen/_100sdp"
                         android:layout_height="wrap_content"
-                        android:text="10"
-                        android:textColor="@color/black"
                         android:fontFamily="@font/tajawal_regular"
+                        android:text="10"
                         android:textAlignment="center"
-                        android:textStyle="normal"
+                        android:textColor="@color/black"
                         android:textSize="@dimen/_10sdp"
-                        />
+                        android:textStyle="normal" />
                 </androidx.appcompat.widget.LinearLayoutCompat>
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
-                    android:text="|"
-                    />
+                    android:text="|" />
 
                 <androidx.appcompat.widget.LinearLayoutCompat
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
-                    android:orientation="vertical"
-                    >
+                    android:orientation="vertical">
+
                     <TextView
                         android:layout_width="@dimen/_100sdp"
                         android:layout_height="wrap_content"
+                        android:fontFamily="@font/tajawal_regular"
                         android:text="Follow"
-                        android:textColor="@color/black"
-                        android:fontFamily="@font/tajawal_regular"
                         android:textAlignment="center"
-                        android:textStyle="bold"
-                        />
+                        android:textColor="@color/black"
+                        android:textStyle="bold" />
+
                     <TextView
                         android:layout_width="@dimen/_100sdp"
                         android:layout_height="wrap_content"
-                        android:text="10"
-                        android:textColor="@color/black"
                         android:fontFamily="@font/tajawal_regular"
+                        android:text="10"
                         android:textAlignment="center"
-                        android:textStyle="normal"
+                        android:textColor="@color/black"
                         android:textSize="@dimen/_10sdp"
-                        />
+                        android:textStyle="normal" />
                 </androidx.appcompat.widget.LinearLayoutCompat>
             </LinearLayout>
         </LinearLayout>
