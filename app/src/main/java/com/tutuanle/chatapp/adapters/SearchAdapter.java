@@ -11,33 +11,36 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.tutuanle.chatapp.databinding.ItemContainerUserBinding;
+import com.tutuanle.chatapp.databinding.ItemUserBinding;
 import com.tutuanle.chatapp.interfaces.UserListener;
 import com.tutuanle.chatapp.models.User;
+import com.tutuanle.chatapp.utilities.PreferenceManager;
 
 import java.util.List;
 
 
-public class Users_Adapter extends RecyclerView.Adapter<Users_Adapter.UserViewHolder> {
+public class SearchAdapter extends RecyclerView.Adapter<SearchAdapter.SearchViewHolder> {
 
     private final List<User> users;
     private final UserListener userListener;
+    private PreferenceManager preferenceManager;;
 
-    public Users_Adapter(List<User> users, UserListener userListener) {
+    public SearchAdapter(List<User> users, UserListener userListener) {
         this.users = users;
         this.userListener = userListener;
     }
 
     @NonNull
     @Override
-    public UserViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        ItemContainerUserBinding itemContainerUserBinding = ItemContainerUserBinding.inflate(
+    public SearchViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+        ItemUserBinding itemUserBinding = ItemUserBinding.inflate(
                 LayoutInflater.from(parent.getContext()), parent, false
         );
-        return new UserViewHolder(itemContainerUserBinding);
+        return new SearchViewHolder(itemUserBinding);
     }
 
     @Override
-    public void onBindViewHolder(@NonNull UserViewHolder holder, int position) {
+    public void onBindViewHolder(@NonNull SearchViewHolder holder, int position) {
         holder.setUserData(users.get(position));
     }
 
@@ -46,13 +49,13 @@ public class Users_Adapter extends RecyclerView.Adapter<Users_Adapter.UserViewHo
         return users.size();
     }
 
-    class UserViewHolder extends RecyclerView.ViewHolder {
+    class SearchViewHolder extends RecyclerView.ViewHolder {
 
-        ItemContainerUserBinding binding;
+        ItemUserBinding binding;
 
-        public UserViewHolder(ItemContainerUserBinding itemContainerUserBinding) {
-            super(itemContainerUserBinding.getRoot());
-            binding = itemContainerUserBinding;
+        public SearchViewHolder(ItemUserBinding itemUserBinding) {
+            super(itemUserBinding.getRoot());
+            binding = itemUserBinding;
         }
 
         void setUserData(User user) {
@@ -63,8 +66,7 @@ public class Users_Adapter extends RecyclerView.Adapter<Users_Adapter.UserViewHo
             }else {
                 binding.statusAvailability.setVisibility(View.GONE);
             }
-
-            binding.getRoot().setOnClickListener(v -> userListener.initialVideoMeeting(user));
+//            binding.getRoot().setOnClickListener(v -> userListener.initialVideoMeeting(user));
         }
     }
 

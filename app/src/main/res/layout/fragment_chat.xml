@@ -104,6 +104,7 @@
         >
 
         <com.balysv.materialripple.MaterialRippleLayout
+            android:id="@+id/search_friend"
             android:layout_width="match_parent"
             android:layout_height="@dimen/_30sdp"
 

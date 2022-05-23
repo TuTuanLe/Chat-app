@@ -44,4 +44,11 @@
     <string name="group_name">Group name</string>
     <string name="participants_2">Participants: 2</string>
     <string name="search">Search</string>
+    <string name="tu_tuan_le">Tu Tuan Le</string>
+    <string name="message">Message</string>
+    <string name="audio">Audio</string>
+    <string name="video">Video</string>
+    <string name="send_request">SEND REQUEST</string>
+    <string name="view_profile">VIEW PROFILE</string>
+
 </resources>

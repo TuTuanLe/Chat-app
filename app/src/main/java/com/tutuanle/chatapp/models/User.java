@@ -9,11 +9,18 @@ public class User implements Serializable {
     private String profileImage;
     private String token;
     private String email;
-
-
-    private  String password;
+    private long availability;
+    private String password;
 
     public User() {
+    }
+
+    public long getAvailability() {
+        return availability;
+    }
+
+    public void setAvailability(long availability) {
+        this.availability = availability;
     }
 
 

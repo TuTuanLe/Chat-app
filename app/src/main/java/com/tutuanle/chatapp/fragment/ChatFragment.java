@@ -1,5 +1,6 @@
 package com.tutuanle.chatapp.fragment;
 
+import android.content.Intent;
 import android.os.Bundle;
 
 import androidx.core.content.ContextCompat;
@@ -21,6 +22,7 @@ import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.makeramen.roundedimageview.RoundedImageView;
 import com.tutuanle.chatapp.R;
 import com.tutuanle.chatapp.activities.MainScreenActivity;
+import com.tutuanle.chatapp.activities.SearchActivity;
 import com.tutuanle.chatapp.adapters.Users_Adapter;
 import com.tutuanle.chatapp.models.User;
 import com.tutuanle.chatapp.utilities.Constants;
@@ -36,6 +38,7 @@ public class ChatFragment extends Fragment {
 
     private MainScreenActivity mainScreenActivity;
     private PreferenceManager preferenceManager;
+
     public ChatFragment() {
     }
 
@@ -55,7 +58,13 @@ public class ChatFragment extends Fragment {
 
         initialData();
         getUSer();
+        setListener();
         return view;
+    }
+
+    private void setListener() {
+        view.findViewById(R.id.search_friend).setOnClickListener(v ->
+                startActivity(new Intent(mainScreenActivity, SearchActivity.class)));
     }
 
     private void getUSer() {
@@ -78,6 +87,7 @@ public class ChatFragment extends Fragment {
                             user.setProfileImage(queryDocumentSnapshot.getString(Constants.KEY_IMAGE));
                             user.setToken(queryDocumentSnapshot.getString(Constants.KEY_FCM_TOKEN));
                             user.setUid(queryDocumentSnapshot.getId());
+                            user.setAvailability(queryDocumentSnapshot.getLong(Constants.KEY_AVAILABILITY));
                             users.add(user);
 
                         }
@@ -92,8 +102,6 @@ public class ChatFragment extends Fragment {
                         }
                     }
                 });
-
-
 
 
     }
@@ -114,6 +122,7 @@ public class ChatFragment extends Fragment {
             temp.setVisibility(View.INVISIBLE);
         }
     }
+
     private void showErrorMessage() {
         TextView temp = view.findViewById(R.id.textErrorMessage);
         temp.setText("Not exist");
