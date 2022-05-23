@@ -77,8 +77,6 @@ public class OutgoingActivity extends AppCompatActivity {
     private void initialData() {
         receiverUSer = (User) getIntent().getSerializableExtra(Constants.KEY_USER);
         meetingType = getIntent().getStringExtra("type_call");
-
-
         preferenceManager = new PreferenceManager(getApplicationContext());
     }
 
@@ -105,7 +103,7 @@ public class OutgoingActivity extends AppCompatActivity {
             data.put(Constants.REMOTE_MSG_TYPE, Constants.REMOTE_MSG_INVITATION);
             data.put(Constants.REMOTE_MSG_MEETING_TYPE, meetingType);
             data.put(Constants.KEY_NAME, preferenceManager.getString(Constants.KEY_NAME));
-            data.put(Constants.KEY_IMAGE, preferenceManager.getString(Constants.KEY_IMAGE));
+//            data.put(Constants.KEY_IMAGE, preferenceManager.getString(Constants.KEY_IMAGE));
             data.put(Constants.REMOTE_MSG_INVITER_TOKEN, inviterToken);
 
             meetingRoom = preferenceManager.getString(Constants.KEY_USER_ID)+ "_"+
@@ -133,7 +131,7 @@ public class OutgoingActivity extends AppCompatActivity {
             public void onResponse(@NonNull Call<String> call, @NonNull Response<String> response) {
                 if (response.isSuccessful()) {
                     if (type.equals(Constants.REMOTE_MSG_INVITATION)) {
-                        showToast("Invitation sent successfully");
+                        showToast("Invitation sent successfully" + type);
                     } else if (type.equals(Constants.REMOTE_MSG_INVITATION_RESPONSE)) {
                         showToast("Invitation cancelled");
                         finish();
@@ -178,7 +176,7 @@ public class OutgoingActivity extends AppCompatActivity {
             String type = intent.getStringExtra(Constants.REMOTE_MSG_INVITATION_RESPONSE);
             if (type != null) {
                 if (type.equals(Constants.REMOTE_MSG_INVITATION_ACCEPTED)) {
-                    //                    invitation accepted
+                    //  invitation accepted
 
                     try {
                         JitsiMeetConferenceOptions  options = new JitsiMeetConferenceOptions.Builder()
