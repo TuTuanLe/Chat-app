@@ -113,6 +113,9 @@ public class ChatScreenActivity extends OnChatActivity {
         binding.imageBack.setOnClickListener(v -> onBackPressed());
         binding.layoutSend.setOnClickListener(v -> sendMessage());
         binding.iconCloseImage.setOnClickListener(v -> setCloseLayoutChoiseImage());
+        binding.imageCall.setOnClickListener(v->initialAudioMeeting(receiverUSer));
+        binding.imageVideoCall.setOnClickListener(v->initialVideoMeeting(receiverUSer));
+
     }
 
     private void customizeYourChat() {
@@ -692,6 +695,32 @@ public class ChatScreenActivity extends OnChatActivity {
             }
         });
     }
+
+    @Override
+    public void initialVideoMeeting(User user) {
+        if(user.getToken() == null || user.getToken().trim().isEmpty()){
+            showToast(user.getName() + " is not available for meeting ...");
+
+        }
+        else{
+            showToast(user.getName() + " video call ...");
+            Intent intent = new Intent(getApplicationContext(), OutgoingActivity.class);
+            intent.putExtra(Constants.KEY_USER, user);
+            intent.putExtra("type_call", "video");
+            startActivity(intent);
+        }
+    }
+
+    @Override
+    public void initialAudioMeeting(User user) {
+        if(user.getToken() == null || user.getToken().trim().isEmpty()){
+            showToast(user.getName() + " is not available for calling ...");
+        }
+        else{
+            showToast(user.getName() + " call ...");
+        }
+    }
+
 
     @Override
     protected void onResume() {

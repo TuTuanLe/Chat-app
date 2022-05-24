@@ -114,7 +114,6 @@ public class SearchActivity extends AppCompatActivity implements UserListener {
         binding.userRecyclerView.setAdapter(searchAdapter);
         binding.userRecyclerView.setVisibility(View.VISIBLE);
 
-
     }
 
 
@@ -191,6 +190,17 @@ public class SearchActivity extends AppCompatActivity implements UserListener {
             startActivity(intent);
             dialog.dismiss();
         });
+
+        dialog.findViewById(R.id.imageCall).setOnClickListener(v->{
+            initialAudioMeeting(user);
+            dialog.dismiss();
+        });
+
+        dialog.findViewById(R.id.imageVideo).setOnClickListener(v->{
+            initialVideoMeeting(user);
+            dialog.dismiss();
+        });
+
         dialog.show();
     }
 
@@ -200,6 +210,12 @@ public class SearchActivity extends AppCompatActivity implements UserListener {
         byte[] bytes = Base64.decode(enCodedImage, Base64.DEFAULT);
         return BitmapFactory.decodeByteArray(bytes, 0, bytes.length);
     }
+
+
+
+
+
+
     @RequiresApi(api = Build.VERSION_CODES.N)
     @Override
     public void onUserClicked(User user) {
@@ -208,11 +224,26 @@ public class SearchActivity extends AppCompatActivity implements UserListener {
 
     @Override
     public void initialVideoMeeting(User user) {
+        if(user.getToken() == null || user.getToken().trim().isEmpty()){
+            showToast(user.getName() + " is not available for meeting ...");
 
+        }
+        else{
+            showToast(user.getName() + " video call ...");
+            Intent intent = new Intent(getApplicationContext(), OutgoingActivity.class);
+            intent.putExtra(Constants.KEY_USER, user);
+            intent.putExtra("type_call", "video");
+            startActivity(intent);
+        }
     }
 
     @Override
     public void initialAudioMeeting(User user) {
-
+        if(user.getToken() == null || user.getToken().trim().isEmpty()){
+            showToast(user.getName() + " is not available for calling ...");
+        }
+        else{
+            showToast(user.getName() + " call ...");
+        }
     }
 }
