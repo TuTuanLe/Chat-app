@@ -215,6 +215,7 @@
             android:orientation="vertical">
 
             <FrameLayout
+                android:id="@+id/sendRequest"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal"
@@ -238,6 +239,7 @@
                         android:src="@drawable/ic_baseline_location_searching_24" />
 
                     <TextView
+                        android:id="@+id/textRequest"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="Request"

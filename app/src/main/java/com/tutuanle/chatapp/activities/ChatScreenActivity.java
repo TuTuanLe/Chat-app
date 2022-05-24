@@ -421,7 +421,6 @@ public class ChatScreenActivity extends OnChatActivity {
         if (value != null) {
             for (DocumentChange documentChange : value.getDocumentChanges()) {
                 int KeyTheme = Integer.parseInt(String.valueOf(documentChange.getDocument().getLong(Constants.KEY_THEME)));
-                Log.d("test_change_theme", String.valueOf(KeyTheme));
                 binding.setImageScreen.setBackgroundResource(Constants.THEMES[KeyTheme]);
             }
         }
