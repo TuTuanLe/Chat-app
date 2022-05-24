@@ -1,5 +1,6 @@
 package com.tutuanle.chatapp.adapters;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.util.DisplayMetrics;
 import android.view.LayoutInflater;
@@ -24,10 +25,12 @@ public class StoryAdapter extends RecyclerView.Adapter<StoryAdapter.StoryViewHol
 
     Context context;
     ArrayList<UserStatus> userStatuses;
+    private int selectedItem;
 
     public StoryAdapter(Context context, ArrayList<UserStatus> userStatuses) {
         this.context = context;
         this.userStatuses = userStatuses;
+        selectedItem = -1;
     }
 
     @NonNull
@@ -39,7 +42,7 @@ public class StoryAdapter extends RecyclerView.Adapter<StoryAdapter.StoryViewHol
     }
 
     @Override
-    public void onBindViewHolder(@NonNull StoryViewHolder holder, int position) {
+    public void onBindViewHolder(@NonNull StoryViewHolder holder, @SuppressLint("RecyclerView") int position) {
         UserStatus userStatus = userStatuses.get(position);
 
         Status lastStatus = userStatus.getStatuses().get(userStatus.getStatuses().size() -1);
@@ -47,10 +50,19 @@ public class StoryAdapter extends RecyclerView.Adapter<StoryAdapter.StoryViewHol
         Glide.with(context).load(lastStatus.getImageUrl()).into(holder.binding.image);
         Glide.with(context).load(lastStatus.getImageUrl()).into(holder.binding.imageUserStatus);
         holder.binding.circularStatusView.setPortionsCount(userStatus.getStatuses().size());
-        int width= context.getResources().getDisplayMetrics().widthPixels;
 
-//        holder.binding.frameStatus.setLayoutParams(new FrameLayout.LayoutParams(width/2-30, 400));
+        if(selectedItem == position){
+            holder.binding.frameLayout.setBackgroundResource(R.drawable.button_bg);
+        }else{
+            holder.binding.frameLayout.setBackgroundColor(0);
+        }
+        holder.binding.frameLayout.setOnClickListener(v-> {
+            int previousItem = selectedItem;
+            selectedItem = position;
 
+            notifyItemChanged(previousItem);
+            notifyItemChanged(position);
+        });
 
         holder.binding.circularStatusView.setOnClickListener(view -> {
             ArrayList<MyStory> myStories = new ArrayList<>();

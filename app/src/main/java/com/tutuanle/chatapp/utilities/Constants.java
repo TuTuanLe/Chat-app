@@ -78,6 +78,7 @@ public class Constants {
     public static final String REMOTE_MSG_INVITATION_REJECTED = "rejected";
     public static final String REMOTE_MSG_INVITATION_CANCELLED = "cancelled";
     public static final String REMOTE_MSG_MEETING_ROM = "meetingRoom";
+    public static final String KEY_STATUS = "status";
 
 
     private static final String KEY_REMOTE_MSG = "key=AAAASl2bJrA:APA91bFjjqi92_OnCyBkr-ddg1iOkp-8eex5bDCy2pPMWAe-pJmArxHhKoJjT87ruqSj8k0nNlYI6XJ5mhYVs4V6gWTBbdp_6JC573Wq8A9n-dC59Ra2SiKziER1tyl9Gb-XMLv-AlVr";

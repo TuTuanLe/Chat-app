@@ -93,13 +93,14 @@
         </FrameLayout>
     </androidx.cardview.widget.CardView>
 
-    <FrameLayout
+    <androidx.cardview.widget.CardView
 
         android:layout_marginStart="@dimen/_15sdp"
         android:layout_marginEnd="@dimen/_15sdp"
         android:layout_marginBottom="@dimen/_15sdp"
         android:layout_width="match_parent"
         android:layout_height="@dimen/_30sdp"
+        app:cardCornerRadius="@dimen/_20sdp"
         android:background="@drawable/text_box_search"
         >
 
@@ -124,7 +125,7 @@
                     android:contentDescription="@string/app_name"
                     android:src="@drawable/ic_baseline_search_24"
                     android:scaleType="center"
-                />
+                    app:tint="@color/black" />
                 <TextView
                     android:layout_marginStart="@dimen/_10sdp"
                     android:layout_width="match_parent"
@@ -135,7 +136,7 @@
                     />
             </LinearLayout>
         </com.balysv.materialripple.MaterialRippleLayout>
-    </FrameLayout>
+    </androidx.cardview.widget.CardView>
 
 
 

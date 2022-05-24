@@ -7,10 +7,11 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.tutuanle.chatapp.models.User;
 import com.tutuanle.chatapp.utilities.Constants;
 import com.tutuanle.chatapp.utilities.PreferenceManager;
 
-public class OnChatActivity  extends AppCompatActivity {
+public abstract class OnChatActivity  extends AppCompatActivity {
 
 
     public  OnChatActivity(){
@@ -33,6 +34,10 @@ public class OnChatActivity  extends AppCompatActivity {
         documentReference.update(Constants.KEY_ON_CHAT, 0);
         documentReference.update(Constants.KEY_AVAILABILITY, 0);
     }
+
+    public abstract void initialVideoMeeting(User user);
+
+    public abstract void initialAudioMeeting(User user);
 
     @Override
     protected void onResume() {
