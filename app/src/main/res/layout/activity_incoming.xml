@@ -8,19 +8,33 @@
     android:background="@drawable/button_bg"
     >
 
+
+    <com.airbnb.lottie.LottieAnimationView
+        android:id="@+id/animationView"
+        android:layout_width="300dp"
+        android:layout_height="300dp"
+        android:layout_marginTop="84dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:lottie_autoPlay="true"
+        app:lottie_loop="true"
+        app:lottie_url="https://assets7.lottiefiles.com/packages/lf20_na4lb3yr.json" />
+
+
     <com.makeramen.roundedimageview.RoundedImageView
         android:id="@+id/imgAvatar"
         android:layout_width="100dp"
         android:layout_height="100dp"
-        android:layout_marginTop="164dp"
+        android:layout_marginTop="184dp"
         android:background="@drawable/circle_bg"
         android:elevation="2dp"
         android:scaleType="fitXY"
         android:src="@drawable/bg_1"
-        app:riv_oval="true"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
+        app:riv_oval="true"
         tools:ignore="UseAppTint" />
 
     <ImageView
@@ -39,26 +53,6 @@
         app:layout_constraintStart_toStartOf="parent"
         tools:ignore="UseAppTint" />
 
-
-    <com.agrawalsuneet.dotsloader.loaders.LinearDotsLoader
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="356dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:loader_animDur="1000"
-        app:loader_circleRadius="6dp"
-        app:loader_defaultColor="@color/trans"
-        app:loader_dotsDist="3dp"
-        app:loader_expandOnSelect="false"
-        app:loader_firstShadowColor="@color/blue"
-        app:loader_isSingleDir="false"
-        app:loader_noOfDots="8"
-        app:loader_secondShadowColor="@color/blue"
-        app:loader_selectedColor="@color/white"
-        app:loader_selectedRadius="10dp"
-        app:loader_showRunningShadow="true" />
 
     <ImageView
         android:id="@+id/imageStop"
@@ -80,11 +74,12 @@
         android:id="@+id/info"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="284dp"
+        android:layout_marginTop="388dp"
         android:text="Incomming"
         android:textSize="@dimen/_20ssp"
         android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.557"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 </androidx.constraintlayout.widget.ConstraintLayout>
