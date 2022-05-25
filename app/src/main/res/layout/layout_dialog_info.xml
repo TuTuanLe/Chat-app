@@ -223,8 +223,8 @@
                 >
 
                 <LinearLayout
-                    android:layout_width="@dimen/_50sdp"
-                    android:layout_height="@dimen/_20ssp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="@dimen/_30ssp"
                     android:background="@drawable/border_color_like"
                     android:gravity="center_vertical"
                     android:orientation="horizontal"
@@ -233,18 +233,23 @@
                     >
 
                     <ImageView
-                        android:layout_width="10sp"
+                        android:layout_width="20sp"
                         android:layout_height="wrap_content"
                         android:layout_marginEnd="@dimen/_3sdp"
-                        android:src="@drawable/ic_baseline_location_searching_24" />
+                        android:layout_marginStart="@dimen/_5sdp"
+                        android:src="@drawable/ic_baseline_autorenew_24" />
 
                     <TextView
                         android:id="@+id/textRequest"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="Request"
+                        android:text="REQUEST"
+                        android:layout_marginStart="@dimen/_5sdp"
+                        android:layout_marginEnd="@dimen/_10sdp"
                         android:textColor="@color/blue"
-                        android:textSize="@dimen/_8ssp" />
+                        android:textSize="@dimen/_10ssp"
+                        android:textStyle="bold"
+                        />
 
                 </LinearLayout>
 
