@@ -97,4 +97,8 @@ dependencies {
 
     //re capcha
     implementation 'androidx.browser:browser:1.4.0'
+
+    //Record Audio
+    implementation 'com.devlomi.record-view:record-view:2.0.1'
+
 }

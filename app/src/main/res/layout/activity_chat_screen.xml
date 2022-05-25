@@ -190,6 +190,7 @@
 
     </FrameLayout>
 
+
     <FrameLayout
         android:id="@+id/layoutExtend"
         android:layout_width="@dimen/_33sdp"
@@ -199,6 +200,7 @@
         android:background="@color/trans"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent">
+
 
         <ImageView
             android:id="@+id/btn_extend"
@@ -210,15 +212,27 @@
             android:src="@drawable/ic_baseline_add_circle_outline_24"
             app:tint="@color/blue" />
 
+    </FrameLayout>
+
+    <FrameLayout
+        android:id="@+id/layoutExtend3"
+        android:layout_width="@dimen/_33sdp"
+        android:layout_height="@dimen/_36sdp"
+        android:layout_marginEnd="@dimen/_3sdp"
+        android:layout_marginBottom="@dimen/_10sdp"
+        android:background="@color/trans"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent">
 
     </FrameLayout>
 
+
     <androidx.cardview.widget.CardView
         android:id="@+id/cardView2"
-        android:layout_width="match_parent"
+        android:layout_width="@dimen/_220sdp"
         android:layout_height="@dimen/_33sdp"
         android:layout_marginStart="@dimen/_34sdp"
-        android:layout_marginEnd="@dimen/_40sdp"
+        android:layout_marginEnd="@dimen/_5sdp"
         android:layout_marginBottom="@dimen/_12sdp"
         app:cardBackgroundColor="@color/transparent"
         app:cardCornerRadius="30dp"
@@ -229,15 +243,26 @@
 
         >
 
+
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:background="@drawable/input_send"
             android:orientation="horizontal">
 
+
+            <FrameLayout
+                android:id="@+id/layoutExtend2"
+                android:layout_width="wrap_content"
+                android:layout_height="@dimen/_36sdp"
+                android:layout_marginBottom="@dimen/_10sdp"
+                android:background="@color/trans">
+
+            </FrameLayout>
+
             <EditText
                 android:id="@+id/inputMessage"
-                android:layout_width="0dp"
+                android:layout_width="180dp"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
                 android:background="@android:color/transparent"
@@ -256,7 +281,39 @@
                 android:src="@drawable/ic_baseline_insert_emoticon_24"
                 app:tint="@color/blue" />
 
+
         </LinearLayout>
     </androidx.cardview.widget.CardView>
+
+    <com.devlomi.record_view.RecordButton
+        android:id="@+id/record_button"
+        android:layout_width="@dimen/_25sdp"
+        android:layout_height="@dimen/_30sdp"
+        android:scaleType="centerInside"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.113"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/cardView3"
+        app:layout_constraintVertical_bias="0.977"
+        app:srcCompat="@drawable/ic_baseline_mic_none_24" />
+
+    <com.devlomi.record_view.RecordView
+        android:id="@+id/record_view"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_toLeftOf="@id/record_button"
+        app:counter_time_color="#ff0000"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/progressBar"
+        app:layout_constraintVertical_bias="0.789"
+        app:slide_to_cancel_arrow="@drawable/recv_ic_arrow"
+        app:slide_to_cancel_arrow_color="#000000"
+        app:slide_to_cancel_bounds="8dp"
+        app:slide_to_cancel_margin_right="10dp"
+        app:slide_to_cancel_text="Slide To Cancel"
+        tools:ignore="MissingConstraints"
+        tools:layout_editor_absoluteX="-16dp" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

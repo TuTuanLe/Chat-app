@@ -1,15 +1,21 @@
 package com.tutuanle.chatapp.activities;
 
+import android.Manifest;
 import android.annotation.SuppressLint;
+import android.app.Activity;
 import android.app.Dialog;
+import android.content.Context;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
+import android.media.MediaRecorder;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.Environment;
 import android.provider.MediaStore;
 import android.text.Editable;
 import android.text.TextWatcher;
@@ -20,6 +26,7 @@ import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
 import android.view.inputmethod.EditorInfo;
+import android.widget.ImageView;
 import android.widget.Toast;
 
 import androidx.activity.result.ActivityResultLauncher;
@@ -27,15 +34,26 @@ import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.annotation.NonNull;
 
 import androidx.annotation.RequiresApi;
+import androidx.cardview.widget.CardView;
+import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
+import androidx.core.content.PackageManagerCompat;
 
+import com.devlomi.record_view.OnRecordListener;
+import com.devlomi.record_view.RecordButton;
+import com.devlomi.record_view.RecordView;
 import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.firestore.DocumentChange;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.EventListener;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QuerySnapshot;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
 import com.tutuanle.chatapp.R;
 import com.tutuanle.chatapp.adapters.ChatAdapter;
 import com.tutuanle.chatapp.databinding.ActivityChatScreenBinding;
@@ -53,7 +71,9 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.ByteArrayOutputStream;
+import java.io.File;
 import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.io.InputStream;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -84,6 +104,8 @@ public class ChatScreenActivity extends OnChatActivity {
     private CustomizeChat customizeChat;
     private String encodedImage;
     private int TypeMessage = 0;
+    private MediaRecorder recorder = null;
+    private String audioPath = "";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -97,6 +119,7 @@ public class ChatScreenActivity extends OnChatActivity {
         listenMessages();
         setIconSend();
         customizeYourChat();
+        initView();
 //        updateConversation();
 
     }
@@ -699,5 +722,98 @@ public class ChatScreenActivity extends OnChatActivity {
         listenAvailabilityOfReceiver();
     }
 
+    private boolean isRecordOk(Context context){
+        return ContextCompat.checkSelfPermission(context, Manifest.permission.RECORD_AUDIO) == PackageManager.PERMISSION_GRANTED;
+    }
+    private void requestRecording(Activity activity){
+        ActivityCompat.requestPermissions(activity,new String[]{Manifest.permission.RECORD_AUDIO},1);
+    }
+    private void SetupRecord() {
+        recorder = new MediaRecorder();
+        recorder.setAudioSource(MediaRecorder.AudioSource.MIC);
+        recorder.setOutputFormat(MediaRecorder.OutputFormat.THREE_GPP);
+        recorder.setAudioEncoder(MediaRecorder.AudioEncoder.AMR_NB);
+
+//        File file = new File(Environment.getExternalStorageDirectory().getAbsolutePath(),'MessageApp');
+//        if(!file.exists())
+//        file.mkdirs();
+//        String audioPath = file.getAbsolutePath() + File.separator + System.currentTimeMillis() + ".3gp";
+        recorder.setOutputFile(audioPath);
+    }
+
+    private void pushRecordToFirebase(String audioPath){
+        StorageReference storageReference = FirebaseStorage.getInstance().getReference("/Media/Recording/" + System.currentTimeMillis());
+        Uri audioFile = Uri.fromFile(new File(audioPath));
+        storageReference.putFile(audioFile).addOnSuccessListener(sucess -> {
+            Task<Uri> audioUrl = sucess.getStorage().getDownloadUrl();
+            audioUrl.addOnCompleteListener(path -> {
+                if(path.isSuccessful()){
+                    String url = path.getResult().toString();
+//                    DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference('Chat').child();
+
+                }
+            });
+        });
+    }
+
+    protected void initView() {
+        RecordView recordView = (RecordView) findViewById(R.id.record_view);
+        RecordButton recordButton = (RecordButton) findViewById(R.id.record_button);
+        CardView cardView = (CardView) findViewById(R.id.cardView2);
+        recordButton.setListenForRecord(false);
+        recordButton.setRecordView(recordView);
+        recordButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if(isRecordOk(ChatScreenActivity.this)){
+                    recordButton.setListenForRecord(true);
+                }else {
+                    requestRecording(ChatScreenActivity.this);
+                }
+            }
+        });
+        recordView.setOnRecordListener(new OnRecordListener() {
+            @Override
+            public void onStart() {
+                SetupRecord();
+               try {
+                   recorder.prepare();
+                   recorder.start();
+               }catch (IOException e){
+                    e.printStackTrace();
+               }
+               recordView.setVisibility(View.VISIBLE);
+            }
+
+            @Override
+            public void onCancel() {
+                //On Swipe To Cancel
+                recorder.reset();
+                recorder.release();
+                File file = new File(audioPath);
+                if(!file.exists())
+                    file.delete();
+                recordView.setVisibility(View.GONE);
+
+            }
+
+            @Override
+            public void onFinish(long recordTime) {
+                recorder.stop();
+                recorder.release();
+
+                recordView.setVisibility(View.GONE);
+                pushRecordToFirebase(audioPath);
+            }
+
+            @Override
+            public void onLessThanSecond() {
+                //When the record time is less than One Second
+                recorder.reset();
+                recorder.release();
+                recordView.setVisibility(View.GONE);
+            }
+        });
+    }
 
 }
