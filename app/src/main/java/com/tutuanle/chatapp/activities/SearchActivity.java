@@ -15,6 +15,7 @@ import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.Base64;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.View;
 import android.view.Window;
@@ -23,7 +24,9 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.firebase.firestore.DocumentChange;
 import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.EventListener;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
@@ -47,8 +50,13 @@ public class SearchActivity extends AppCompatActivity implements UserListener {
     PreferenceManager preferenceManager;
     SearchAdapter searchAdapter;
     private List<User> users;
-    private Long status;
+    private int status = -1;
     private FirebaseFirestore firebaseFirestore;
+    private TextView temp;
+    private String uidFriend;
+    private int checkFriends = 0;
+    private int checkReceiverFriends = 0;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -105,10 +113,10 @@ public class SearchActivity extends AppCompatActivity implements UserListener {
             }
         }
 
-        if(temp.size() == 0){
+        if (temp.size() == 0) {
             binding.layoutNotFound.setVisibility(View.VISIBLE);
             binding.txtNotFound.setText("No matches were found for " + name + " .Try checking for typos or using complete words. ");
-        }else{
+        } else {
             binding.layoutNotFound.setVisibility(View.GONE);
         }
         searchAdapter = new SearchAdapter(temp, SearchActivity.this);
@@ -168,6 +176,7 @@ public class SearchActivity extends AppCompatActivity implements UserListener {
     @SuppressLint({"ResourceAsColor", "SetTextI18n"})
     @RequiresApi(api = Build.VERSION_CODES.N)
     private void openDialogCenter(User user) {
+
         final Dialog dialog = new Dialog(this);
         dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
         dialog.setContentView(R.layout.layout_dialog_info);
@@ -184,41 +193,54 @@ public class SearchActivity extends AppCompatActivity implements UserListener {
         dialog.setCancelable(true);
         RoundedImageView roundedImageView = (RoundedImageView) dialog.findViewById(R.id.imgAvatar);
         roundedImageView.setImageBitmap(getBitmapFromEnCodedString(user.getProfileImage()));
-        TextView username =  dialog.findViewById(R.id.username);
+        TextView username = dialog.findViewById(R.id.username);
         username.setText(user.getName());
 
+        temp = (TextView) dialog.findViewById(R.id.textRequest);
+        initFriend(preferenceManager.getString(Constants.KEY_USER_ID), user.getUid());
 
-        initFriend(preferenceManager.getString(Constants.KEY_SENDER_ID), user.getUid() );
-
-        dialog.findViewById(R.id.imageChat).setOnClickListener(v->{
+        dialog.findViewById(R.id.imageChat).setOnClickListener(v -> {
             Intent intent = new Intent(getApplicationContext(), ChatScreenActivity.class);
             intent.putExtra(Constants.KEY_USER, user);
             startActivity(intent);
             dialog.dismiss();
         });
 
-        dialog.findViewById(R.id.imageCall).setOnClickListener(v->{
+        dialog.findViewById(R.id.imageCall).setOnClickListener(v -> {
             initialAudioMeeting(user);
             dialog.dismiss();
         });
 
-        dialog.findViewById(R.id.imageVideo).setOnClickListener(v->{
+        dialog.findViewById(R.id.imageVideo).setOnClickListener(v -> {
             initialVideoMeeting(user);
             dialog.dismiss();
         });
 
-        dialog.findViewById(R.id.sendRequest).setOnClickListener(v->{
-            createRequestFriend(preferenceManager.getString(Constants.KEY_USER_ID), user.getUid());
-            TextView temp = (TextView) dialog.findViewById(R.id.textRequest);
-            temp.setText("Cancel");
-            temp.setTextColor(getResources().getColor(R.color.icon_background));
-        });
+        dialog.findViewById(R.id.sendRequest).setOnClickListener(v -> {
+            if (temp.getText().equals("REQUEST")) {
+                createRequestFriend(preferenceManager.getString(Constants.KEY_USER_ID), user.getUid());
+                temp.setText("CANCEL");
+                temp.setTextColor(getResources().getColor(R.color.icon_background));
+            } else if (temp.getText().equals("CANCEL")) {
+                deleteRequestFriend(uidFriend);
+                temp.setText("REQUEST");
+                temp.setTextColor(getResources().getColor(R.color.blue));
+            } else if (temp.getText().equals("ACCEPT")) {
+                createRequestFriend(preferenceManager.getString(Constants.KEY_USER_ID), user.getUid());
+                temp.setText("UNFRIEND");
+                temp.setTextColor(getResources().getColor(R.color.icon_background));
+            } else if (temp.getText().equals("UNFRIEND")) {
+                deleteRequestFriend(uidFriend);
+                temp.setText("ACCEPT");
+                temp.setTextColor(getResources().getColor(R.color.blue));
+            }
 
+
+        });
 
 
         dialog.show();
     }
-
 
 
     private Bitmap getBitmapFromEnCodedString(String enCodedImage) {
@@ -227,8 +249,7 @@ public class SearchActivity extends AppCompatActivity implements UserListener {
     }
 
 
-
-    private void createRequestFriend(String sender, String receiver){
+    private void createRequestFriend(String sender, String receiver) {
         HashMap<String, Object> request = new HashMap<>();
         request.put(Constants.KEY_SENDER_ID, sender);
         request.put(Constants.KEY_RECEIVER_ID, receiver);
@@ -236,29 +257,107 @@ public class SearchActivity extends AppCompatActivity implements UserListener {
 
         FirebaseFirestore.getInstance().collection(Constants.KEY_COLLECTION_FRIENDS)
                 .add(request)
-                .addOnSuccessListener(value -> showToast("sending request ..."));
+                .addOnSuccessListener(value -> {
+                    uidFriend = value.getId();
+                    showToast("sending request ...");
+                });
     }
 
-    private void initFriend(String sender, String receiver ){
-       firebaseFirestore
+    private void initFriend(String sender, String receiver) {
+
+        firebaseFirestore
                 .collection(Constants.KEY_COLLECTION_FRIENDS)
                 .whereEqualTo(Constants.KEY_SENDER_ID, sender)
                 .whereEqualTo(Constants.KEY_RECEIVER_ID, receiver)
-                .get()
-                .addOnCompleteListener(friendOnCompleteListener);
+                .addSnapshotListener(eventListener);
+        firebaseFirestore
+                .collection(Constants.KEY_COLLECTION_FRIENDS)
+                .whereEqualTo(Constants.KEY_SENDER_ID, receiver)
+                .whereEqualTo(Constants.KEY_RECEIVER_ID, sender)
+                .addSnapshotListener(eventListener);
 
     }
 
+    private void deleteRequestFriend(String Uid) {
+        firebaseFirestore.collection(Constants.KEY_COLLECTION_FRIENDS).document(Uid).delete();
+    }
 
 
-    private final OnCompleteListener<QuerySnapshot> friendOnCompleteListener = task -> {
-        if (task.isSuccessful() && task.getResult() != null && task.getResult().getDocuments().size() > 0) {
-            DocumentSnapshot documentSnapshot = task.getResult().getDocuments().get(0);
-            status = Objects.requireNonNull(documentSnapshot.getLong(Constants.KEY_STATUS));
-            showToast("status: "+ status );
+    @SuppressLint({"NotifyDataSetChanged", "SetTextI18n"})
+    private final EventListener<QuerySnapshot> eventListener = (value, error) -> {
+
+        if (error != null) {
+            return;
         }
+        if (value != null) {
 
+            for (DocumentChange documentChange : value.getDocumentChanges()) {
+                if (documentChange.getDocument().getString(Constants.KEY_SENDER_ID).equals(preferenceManager.getString(Constants.KEY_USER_ID))) {
+                    uidFriend = documentChange.getDocument().getId();
+                    if (documentChange.getType() == DocumentChange.Type.ADDED) {
+                        if (checkReceiverFriends != 0) {
+                            temp.setText("UNFRIEND");
+                            temp.setTextColor(getResources().getColor(R.color.icon_background));
+                            checkFriends = 1;
+                        } else {
+                            temp.setText("CANCEL");
+                            temp.setTextColor(getResources().getColor(R.color.icon_background));
+                            checkFriends = 1;
+                        }
+
+                    }
+                    if (documentChange.getType() == DocumentChange.Type.REMOVED) {
+
+                        if (checkReceiverFriends != 0) {
+                            temp.setText("ACCEPT");
+                            temp.setTextColor(getResources().getColor(R.color.blue));
+                            checkFriends = 0;
+                            checkReceiverFriends = 1;
+                        } else {
+                            temp.setText("REQUEST");
+                            temp.setTextColor(getResources().getColor(R.color.blue));
+                            checkFriends = 0;
+                            checkReceiverFriends=0;
+                        }
+
+                    }
+
+
+                } else {
+                    if (documentChange.getType() == DocumentChange.Type.ADDED) {
+                        if (checkFriends != 0) {
+                            temp.setText("UNFRIEND");
+                            temp.setTextColor(getResources().getColor(R.color.icon_background));
+                            checkReceiverFriends = 1;
+                            checkFriends = 1;
+                        } else {
+                            temp.setText("ACCEPT");
+                            temp.setTextColor(getResources().getColor(R.color.blue));
+                            checkReceiverFriends = 1;
+                        }
+                    }
+                    if (documentChange.getType() == DocumentChange.Type.REMOVED) {
+                        if (checkFriends != 0) {
+                            temp.setText("CANCEL");
+                            temp.setTextColor(getResources().getColor(R.color.icon_background));
+                            checkFriends= 1;
+                            checkReceiverFriends = 0;
+                        } else {
+                            temp.setText("REQUEST");
+                            temp.setTextColor(getResources().getColor(R.color.blue));
+                            checkFriends= 0;
+                            checkReceiverFriends = 0;
+                        }
+
+                    }
+                }
+                Log.d("TAG_TEST_FRIEND", "check sender: "+ checkFriends + "  | check recevier: "+ checkReceiverFriends);
+            }
+
+
+        }
     };
+
 
     @RequiresApi(api = Build.VERSION_CODES.N)
     @Override
@@ -268,11 +367,9 @@ public class SearchActivity extends AppCompatActivity implements UserListener {
 
     @Override
     public void initialVideoMeeting(User user) {
-        if(user.getToken() == null || user.getToken().trim().isEmpty()){
+        if (user.getToken() == null || user.getToken().trim().isEmpty()) {
             showToast(user.getName() + " is not available for meeting ...");
-
-        }
-        else{
+        } else {
             showToast(user.getName() + " video call ...");
             Intent intent = new Intent(getApplicationContext(), OutgoingActivity.class);
             intent.putExtra(Constants.KEY_USER, user);
@@ -283,10 +380,9 @@ public class SearchActivity extends AppCompatActivity implements UserListener {
 
     @Override
     public void initialAudioMeeting(User user) {
-        if(user.getToken() == null || user.getToken().trim().isEmpty()){
+        if (user.getToken() == null || user.getToken().trim().isEmpty()) {
             showToast(user.getName() + " is not available for calling ...");
-        }
-        else{
+        } else {
             showToast(user.getName() + " call ...");
         }
     }

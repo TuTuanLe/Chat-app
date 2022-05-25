@@ -97,4 +97,7 @@ dependencies {
 
     //re capcha
     implementation 'androidx.browser:browser:1.4.0'
+
+    // animation call
+    implementation "com.airbnb.android:lottie:3.4.0"
 }
