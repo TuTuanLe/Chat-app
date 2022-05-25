@@ -3,6 +3,15 @@ package com.tutuanle.chatapp.models;
 import java.util.ArrayList;
 
 public class UserStatus {
+    public String getStatusUid() {
+        return StatusUid;
+    }
+
+    public void setStatusUid(String statusUid) {
+        StatusUid = statusUid;
+    }
+
+    private String StatusUid;
     private String name, profileImage;
     private long lastUpdated;
     private ArrayList<Status> statuses;

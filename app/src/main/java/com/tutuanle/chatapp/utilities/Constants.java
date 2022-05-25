@@ -34,6 +34,8 @@ public class Constants {
     public static final String KEY_SEND_IMAGE = "image_bitmap";
     public static final String KEY_SEND_VIDEO = "url_video";
     public static final String KEY_SEND_RECORD = "url_record";
+    public  static  final String KEY_COLLECTION_STORIES = "stories";
+    public  static  final String KEY_COLLECTION_STATUSES = "statuses";
 
 
     public static int[] REACTIONS = new int[]{

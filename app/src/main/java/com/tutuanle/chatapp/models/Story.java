@@ -59,6 +59,8 @@ public class Story {
         this.available = available;
     }
 
+
+
     /*
         Workflow create story:
             + click button add sotry => new screen show to choose img
@@ -72,5 +74,7 @@ public class Story {
             + fetch stories from Story in db with available = true
             + show stories in screen
      */
+
+
 
 }

@@ -353,8 +353,6 @@ public class SearchActivity extends AppCompatActivity implements UserListener {
                 }
                 Log.d("TAG_TEST_FRIEND", "check sender: "+ checkFriends + "  | check recevier: "+ checkReceiverFriends);
             }
-
-
         }
     };
 

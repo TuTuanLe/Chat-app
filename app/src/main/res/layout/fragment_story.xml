@@ -76,8 +76,9 @@
 
                 <ImageButton
                     android:id="@+id/addStoryBook"
-                    android:layout_width="@dimen/_13sdp"
-                    android:layout_height="@dimen/_13sdp"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_margin="@dimen/_5sdp"
                     android:layout_gravity="center"
                     android:src="@drawable/ic_baseline_add_circle_outline_24"
                     android:scaleType="fitXY"

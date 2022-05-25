@@ -115,7 +115,6 @@ public class MainActivity extends AppCompatActivity {
                         UserStatus status = new UserStatus();
                         status.setName(storySnapshot.child("name").getValue(String.class));
                         status.setProfileImage(storySnapshot.child("profileImage").getValue(String.class));
-
                         status.setLastUpdated(storySnapshot.child("lastUpdate").getValue(Long.class));
 
 
