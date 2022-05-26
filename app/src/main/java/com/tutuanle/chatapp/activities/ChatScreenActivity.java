@@ -92,11 +92,12 @@ public class ChatScreenActivity extends OnChatActivity {
         setContentView(binding.getRoot());
         loadReceiverDetails();
         init();
-        initCustomTheme();
+//
         setListener();
         listenMessages();
         setIconSend();
         customizeYourChat();
+        initCustomTheme();
 //        updateConversation();
 
     }
@@ -113,8 +114,8 @@ public class ChatScreenActivity extends OnChatActivity {
         binding.imageBack.setOnClickListener(v -> onBackPressed());
         binding.layoutSend.setOnClickListener(v -> sendMessage());
         binding.iconCloseImage.setOnClickListener(v -> setCloseLayoutChoiseImage());
-        binding.imageCall.setOnClickListener(v->initialAudioMeeting(receiverUSer));
-        binding.imageVideoCall.setOnClickListener(v->initialVideoMeeting(receiverUSer));
+        binding.imageCall.setOnClickListener(v -> initialAudioMeeting(receiverUSer));
+        binding.imageVideoCall.setOnClickListener(v -> initialVideoMeeting(receiverUSer));
 
     }
 
@@ -151,10 +152,7 @@ public class ChatScreenActivity extends OnChatActivity {
         dialog.findViewById(R.id.addVideoDialog).setOnClickListener(v ->
                 dialog.dismiss()
         );
-
-
         dialog.setCancelable(true);
-
         dialog.show();
     }
 
@@ -297,14 +295,13 @@ public class ChatScreenActivity extends OnChatActivity {
                         customizeChat.setTheme(KeyTheme);
                         customizeChat.setGradient(snapshot.getString(Constants.KEY_GRADIENT));
                         binding.setImageScreen.setBackgroundResource(Constants.THEMES[KeyTheme]);
+                        ListenerTheme(KeyTheme);
                     } else {
-
                         database.collection(Constants.KEY_COLLECTION_CUSTOM_CHAT)
                                 .whereEqualTo(Constants.KEY_USER_UID_1, receiverUSer.getUid())
                                 .whereEqualTo(Constants.KEY_USER_UID_2, preferenceManager.getString(Constants.KEY_USER_ID))
                                 .get()
                                 .addOnCompleteListener(task1 -> {
-
                                     if (task1.isSuccessful() && task1.getResult() != null && task1.getResult().getDocuments().size() > 0) {
                                         DocumentSnapshot snapshot = task1.getResult().getDocuments().get(0);
                                         int KeyTheme = Integer.parseInt(Objects.requireNonNull(snapshot.getLong(Constants.KEY_THEME)).toString());
@@ -319,9 +316,17 @@ public class ChatScreenActivity extends OnChatActivity {
                                         cusChat.put(Constants.KEY_USER_UID_2, receiverUSer.getUid());
                                         cusChat.put(Constants.KEY_THEME, 0);
                                         cusChat.put(Constants.KEY_GRADIENT, "#fff");
+
                                         database.collection(Constants.KEY_COLLECTION_CUSTOM_CHAT)
-                                                .add(cusChat);
-                                        ListenerTheme(0);
+                                                .add(cusChat)
+                                                .addOnSuccessListener(v->{
+                                                    customizeChat.setCustomizeUid(v.getId());
+                                                    customizeChat.setTheme(0);
+                                                    customizeChat.setGradient("#fff");
+                                                    ListenerTheme(0);
+                                                })
+                                        ;
+
                                     }
                                 });
                     }
@@ -697,11 +702,10 @@ public class ChatScreenActivity extends OnChatActivity {
 
     @Override
     public void initialVideoMeeting(User user) {
-        if(user.getToken() == null || user.getToken().trim().isEmpty()){
+        if (user.getToken() == null || user.getToken().trim().isEmpty()) {
             showToast(user.getName() + " is not available for meeting ...");
 
-        }
-        else{
+        } else {
             showToast(user.getName() + " video call ...");
             Intent intent = new Intent(getApplicationContext(), OutgoingActivity.class);
             intent.putExtra(Constants.KEY_USER, user);
@@ -712,10 +716,9 @@ public class ChatScreenActivity extends OnChatActivity {
 
     @Override
     public void initialAudioMeeting(User user) {
-        if(user.getToken() == null || user.getToken().trim().isEmpty()){
+        if (user.getToken() == null || user.getToken().trim().isEmpty()) {
             showToast(user.getName() + " is not available for calling ...");
-        }
-        else{
+        } else {
             showToast(user.getName() + " call ...");
         }
     }

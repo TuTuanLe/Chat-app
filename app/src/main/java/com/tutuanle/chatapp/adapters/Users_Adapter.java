@@ -64,7 +64,7 @@ public class Users_Adapter extends RecyclerView.Adapter<Users_Adapter.UserViewHo
                 binding.statusAvailability.setVisibility(View.GONE);
             }
 
-            binding.getRoot().setOnClickListener(v -> userListener.initialVideoMeeting(user));
+            binding.getRoot().setOnClickListener(v -> userListener.onUserClicked(user));
         }
     }
 

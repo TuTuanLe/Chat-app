@@ -1,8 +1,11 @@
 package com.tutuanle.chatapp.fragment;
 
 import android.annotation.SuppressLint;
+import android.app.Dialog;
 import android.app.ProgressDialog;
 import android.content.Intent;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.net.Uri;
 import android.os.Bundle;
 
@@ -13,9 +16,14 @@ import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.util.Log;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.Window;
+import android.view.WindowManager;
+import android.view.inputmethod.EditorInfo;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -55,9 +63,15 @@ import java.util.Objects;
 public class StoryFragment extends Fragment {
 
 
-    class Sortbyroll implements Comparator<UserStatus> {
+    static class SortByRoll implements Comparator<UserStatus> {
         public int compare(UserStatus a, UserStatus b) {
             return (int) b.getLastUpdated() - (int) a.getLastUpdated();
+        }
+    }
+
+    static class SortByTimeSpan implements Comparator<Status> {
+        public int compare(Status a, Status b) {
+            return (int) b.getTimeStamp() - (int) a.getTimeStamp();
         }
     }
 
@@ -68,7 +82,8 @@ public class StoryFragment extends Fragment {
     private PreferenceManager preferenceManager;
     private ArrayList<UserStatus> userStatuses;
     FirebaseFirestore database;
-    ProgressDialog dialog;
+    ProgressDialog progressDialog;
+
 
     public StoryFragment() {
 
@@ -115,9 +130,9 @@ public class StoryFragment extends Fragment {
         temp.setText(mainScreenActivity.getTextName());
         RoundedImageView image = view.findViewById(R.id.imageProfile);
         image.setImageBitmap(mainScreenActivity.getBitmap());
-        dialog = new ProgressDialog(mainScreenActivity);
-        dialog.setMessage("upLoading Image ...");
-        dialog.setCancelable(false);
+        progressDialog = new ProgressDialog(mainScreenActivity);
+        progressDialog.setMessage("upLoading Image ...");
+        progressDialog.setCancelable(false);
         database = FirebaseFirestore.getInstance();
     }
 
@@ -136,12 +151,11 @@ public class StoryFragment extends Fragment {
                 .addSnapshotListener(eventListener);
     }
 
+    @SuppressLint("NotifyDataSetChanged")
     synchronized void getStatuesListener() {
 
         for (int i = 0; i < userStatuses.size(); i++) {
             int b = i;
-            Log.d("TAG_STATUS", ": " + userStatuses.get(i).getStatusUid());
-
             database.collection(Constants.KEY_COLLECTION_STORIES)
                     .document(userStatuses.get(i).getStatusUid())
                     .collection(Constants.KEY_COLLECTION_STATUSES)
@@ -156,13 +170,12 @@ public class StoryFragment extends Fragment {
                                     Status statusTemp = new Status();
                                     statusTemp.setImageUrl(documentChangeStatus.getDocument().getString("imageUrl"));
                                     statusTemp.setTimeStamp(documentChangeStatus.getDocument().getLong("timeStamp"));
-                                    Log.d("TAG_STATUS", ": " + statusTemp.getImageUrl());
                                     statuses.add(statusTemp);
                                 }
                             }
-
+                            Collections.sort(statuses, new SortByTimeSpan());
                             userStatuses.get(b).setStatuses(statuses);
-                            Collections.sort(userStatuses, new Sortbyroll());
+                            Collections.sort(userStatuses, new SortByRoll());
                             if (userStatuses.get(userStatuses.size() - 1).getStatuses() != null) {
                                 storyAdapter.notifyDataSetChanged();
                             }
@@ -186,11 +199,12 @@ public class StoryFragment extends Fragment {
                     status.setStatusUid(documentChange.getDocument().getId());
                     status.setName(documentChange.getDocument().getString(Constants.KEY_NAME));
                     status.setProfileImage(documentChange.getDocument().getString(Constants.KEY_IMAGE));
-                    status.setLastUpdated(documentChange.getDocument().getLong("lastUpdate"));
+                    status.setLastUpdated(documentChange.getDocument().getLong(Constants.KEY_LAST_UPDATE));
+                    status.setCaption(documentChange.getDocument().getString(Constants.KEY_CAPTION));
                     userStatuses.add(status);
                 }
             }
-            Collections.sort(userStatuses, new Sortbyroll());
+            Collections.sort(userStatuses, new SortByRoll());
             getStatuesListener();
 
 
@@ -202,41 +216,73 @@ public class StoryFragment extends Fragment {
     public void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         if (requestCode == 2 && resultCode == -1 && data != null) {
-            dialog.show();
-            FirebaseStorage storage = FirebaseStorage.getInstance();
-            Date date = new Date();
-            StorageReference reference = storage.getReference().child("status").child(date.getTime() + "");
-            reference.putFile(data.getData()).addOnCompleteListener(task -> {
-                if (task.isSuccessful()) {
-                    reference.getDownloadUrl().addOnSuccessListener(uri -> {
-                        UserStatus userStatus = new UserStatus();
-                        userStatus.setName(preferenceManager.getString(Constants.KEY_NAME));
-                        userStatus.setProfileImage(preferenceManager.getString(Constants.KEY_IMAGE));
-                        userStatus.setLastUpdated(date.getTime());
-//                        userStatuses.add(userStatus);
-                        HashMap<String, Object> obj = new HashMap<>();
-                        obj.put("name", userStatus.getName());
-                        obj.put("profileImage", userStatus.getProfileImage());
-                        obj.put("lastUpdate", userStatus.getLastUpdated());
-
-                        String imageUrl = uri.toString();
-                        Status status = new Status(imageUrl, userStatus.getLastUpdated());
-
-                        database.collection(Constants.KEY_COLLECTION_STORIES)
-                                .document(preferenceManager.getString(Constants.KEY_USER_ID))
-                                .collection(Constants.KEY_COLLECTION_STATUSES)
-                                .add(status);
-                        database.collection(Constants.KEY_COLLECTION_STORIES)
-                                .document(preferenceManager.getString(Constants.KEY_USER_ID))
-                                .set(obj);
-                        ;
-                        dialog.dismiss();
-                    });
-                }
-            });
-
+            openDialogBottom(data.getData());
         }
     }
 
+
+    private void openDialogBottom(Uri uriStory) {
+        final Dialog dialog = new Dialog(mainScreenActivity);
+        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+        dialog.setContentView(R.layout.layout_dialog_story);
+
+        Window window = dialog.getWindow();
+        if (window == null) {
+            return;
+        }
+        window.setLayout(WindowManager.LayoutParams.MATCH_PARENT, WindowManager.LayoutParams.WRAP_CONTENT);
+        window.setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+        WindowManager.LayoutParams windowAttributes = window.getAttributes();
+        windowAttributes.gravity = Gravity.FILL_VERTICAL;
+        window.setAttributes(windowAttributes);
+        TextView textView = dialog.findViewById(R.id.textCaption);
+        ImageView imageView = dialog.findViewById(R.id.imageChoice);
+        imageView.setImageURI(uriStory);
+        imageView.setOnClickListener(v -> {
+            textView.onEditorAction(EditorInfo.IME_ACTION_DONE);
+        });
+        dialog.findViewById(R.id.sendStory).setOnClickListener(v ->
+                {
+                    dialog.dismiss();
+                    progressDialog.show();
+                    FirebaseStorage storage = FirebaseStorage.getInstance();
+                    Date date = new Date();
+                    StorageReference reference = storage.getReference().child("status").child(date.getTime() + "");
+                    reference.putFile(uriStory).addOnCompleteListener(task -> {
+                        if (task.isSuccessful()) {
+                            reference.getDownloadUrl().addOnSuccessListener(uri -> {
+                                UserStatus userStatus = new UserStatus();
+                                userStatus.setName(preferenceManager.getString(Constants.KEY_NAME));
+                                userStatus.setProfileImage(preferenceManager.getString(Constants.KEY_IMAGE));
+                                userStatus.setLastUpdated(date.getTime());
+                                userStatus.setCaption(textView.getText().toString());
+                                HashMap<String, Object> obj = new HashMap<>();
+                                obj.put(Constants.KEY_NAME, userStatus.getName());
+                                obj.put(Constants.KEY_IMAGE, userStatus.getProfileImage());
+                                obj.put(Constants.KEY_LAST_UPDATE, userStatus.getLastUpdated());
+                                obj.put(Constants.KEY_CAPTION, userStatus.getCaption());
+                                String imageUrl = uri.toString();
+                                Status status = new Status(imageUrl, userStatus.getLastUpdated());
+                                database.collection(Constants.KEY_COLLECTION_STORIES)
+                                        .document(preferenceManager.getString(Constants.KEY_USER_ID))
+                                        .collection(Constants.KEY_COLLECTION_STATUSES)
+                                        .add(status);
+                                database.collection(Constants.KEY_COLLECTION_STORIES)
+                                        .document(preferenceManager.getString(Constants.KEY_USER_ID))
+                                        .set(obj);
+                                progressDialog.dismiss();
+                            });
+                        }
+                    });
+                }
+        );
+
+        dialog.findViewById(R.id.imageClose).setOnClickListener(v -> {
+                    dialog.dismiss();
+        });
+
+        dialog.setCancelable(true);
+        dialog.show();
+    }
 
 }

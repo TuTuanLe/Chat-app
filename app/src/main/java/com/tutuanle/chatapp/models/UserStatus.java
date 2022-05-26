@@ -15,6 +15,15 @@ public class UserStatus {
     private String name, profileImage;
     private long lastUpdated;
     private ArrayList<Status> statuses;
+    private String Caption;
+
+    public String getCaption() {
+        return Caption;
+    }
+
+    public void setCaption(String caption) {
+        Caption = caption;
+    }
 
     public UserStatus() {
     }

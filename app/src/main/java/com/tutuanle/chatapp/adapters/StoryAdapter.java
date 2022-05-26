@@ -37,7 +37,6 @@ public class StoryAdapter extends RecyclerView.Adapter<StoryAdapter.StoryViewHol
     @Override
     public StoryViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(context).inflate(R.layout.item_status_story, parent, false);
-
         return new StoryViewHolder(view);
     }
 
@@ -45,7 +44,7 @@ public class StoryAdapter extends RecyclerView.Adapter<StoryAdapter.StoryViewHol
     public void onBindViewHolder(@NonNull StoryViewHolder holder, @SuppressLint("RecyclerView") int position) {
         UserStatus userStatus = userStatuses.get(position);
 
-        Status lastStatus = userStatus.getStatuses().get(userStatus.getStatuses().size() -1);
+        Status lastStatus = userStatus.getStatuses().get(0);
 
         Glide.with(context).load(lastStatus.getImageUrl()).into(holder.binding.image);
         Glide.with(context).load(lastStatus.getImageUrl()).into(holder.binding.imageUserStatus);
@@ -56,8 +55,27 @@ public class StoryAdapter extends RecyclerView.Adapter<StoryAdapter.StoryViewHol
         }else{
             holder.binding.frameLayout.setBackgroundColor(0);
         }
+        holder.binding.textLike.setText("Like");
+        holder.binding.btnLike.setOnClickListener(v->
+        {
+            int temp  = Integer.parseInt(holder.binding.txtTotal.getText().toString());
+
+            if( holder.binding.textLike.getText() != "Like"){
+                temp= temp-1;
+                holder.binding.textLike.setText("Like");
+                holder.binding.txtTotal.setText(""+temp );
+
+            }else{
+                temp= temp+1;
+                holder.binding.textLike.setText("unLike");
+                holder.binding.txtTotal.setText(""+temp );
+            }
+
+        });
+
 
         holder.binding.usernameStory.setText(userStatus.getName());
+        holder.binding.caption.setText(userStatus.getCaption());
         holder.binding.frameLayout.setOnClickListener(v-> {
             int previousItem = selectedItem;
             selectedItem = position;
@@ -65,7 +83,6 @@ public class StoryAdapter extends RecyclerView.Adapter<StoryAdapter.StoryViewHol
             notifyItemChanged(previousItem);
             notifyItemChanged(position);
         });
-
         holder.binding.circularStatusView.setOnClickListener(view -> {
             ArrayList<MyStory> myStories = new ArrayList<>();
             for (Status status : userStatus.getStatuses()) {
@@ -75,8 +92,8 @@ public class StoryAdapter extends RecyclerView.Adapter<StoryAdapter.StoryViewHol
                     .setStoriesList(myStories) // Required
                     .setStoryDuration(5000) // Default is 2000 Millis (2 Seconds)
                     .setTitleText(userStatus.getName()) // Default is Hidden
-                    .setSubtitleText("") // Default is Hidden
-                    .setTitleLogoUrl(userStatus.getProfileImage()) // Default is Hidden
+                    .setSubtitleText("Active") // Default is Hidden
+                    .setTitleLogoUrl(myStories.get(0).getUrl()) // Default is Hidden
                     .setStoryClickListeners(new StoryClickListeners() {
                         @Override
                         public void onDescriptionClickListener(int position1) {
@@ -92,7 +109,6 @@ public class StoryAdapter extends RecyclerView.Adapter<StoryAdapter.StoryViewHol
                     .show();
 
         });
-
     }
 
     @Override

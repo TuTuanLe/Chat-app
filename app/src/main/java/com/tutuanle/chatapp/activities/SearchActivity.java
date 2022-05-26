@@ -103,7 +103,7 @@ public class SearchActivity extends AppCompatActivity implements UserListener {
     private void searchFilter(String name) {
         List<User> temp = new ArrayList<>();
         if (name.length() == 0) {
-            temp.addAll(users);
+                temp.addAll(users);
         } else {
 
             for (int i = 0; i < users.size(); i++) {
@@ -317,7 +317,7 @@ public class SearchActivity extends AppCompatActivity implements UserListener {
                             temp.setText("REQUEST");
                             temp.setTextColor(getResources().getColor(R.color.blue));
                             checkFriends = 0;
-                            checkReceiverFriends=0;
+                            checkReceiverFriends = 0;
                         }
 
                     }
@@ -340,18 +340,18 @@ public class SearchActivity extends AppCompatActivity implements UserListener {
                         if (checkFriends != 0) {
                             temp.setText("CANCEL");
                             temp.setTextColor(getResources().getColor(R.color.icon_background));
-                            checkFriends= 1;
+                            checkFriends = 1;
                             checkReceiverFriends = 0;
                         } else {
                             temp.setText("REQUEST");
                             temp.setTextColor(getResources().getColor(R.color.blue));
-                            checkFriends= 0;
+                            checkFriends = 0;
                             checkReceiverFriends = 0;
                         }
 
                     }
                 }
-                Log.d("TAG_TEST_FRIEND", "check sender: "+ checkFriends + "  | check recevier: "+ checkReceiverFriends);
+                Log.d("TAG_TEST_FRIEND", "check sender: " + checkFriends + "  | check recevier: " + checkReceiverFriends);
             }
         }
     };

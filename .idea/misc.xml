@@ -20,10 +20,18 @@
         <entry key="..\:/Android/ChatApp/app/src/main/res/layout/sent_drawable.xml" value="0.313585291113381" />
         <entry key="..\:/Android/ChatApp/app/src/main/res/menu/menu.xml" value="0.31979166666666664" />
         <entry key="..\:/Android/ChatApp/app/src/main/res/menu/topmenu.xml" value="0.31979166666666664" />
+        <entry key="..\:/study/Mobile-App-Development/Android/Chat-app/app/src/main/res/drawable/ic_baseline_autorenew_24.xml" value="0.2855" />
         <entry key="..\:/study/Mobile-App-Development/Android/Chat-app/app/src/main/res/layout/activity_chat_screen.xml" value="0.19010416666666666" />
         <entry key="..\:/study/Mobile-App-Development/Android/Chat-app/app/src/main/res/layout/activity_incoming.xml" value="0.15185185185185185" />
+        <entry key="..\:/study/Mobile-App-Development/Android/Chat-app/app/src/main/res/layout/activity_phone_number.xml" value="0.3703125" />
         <entry key="..\:/study/Mobile-App-Development/Android/Chat-app/app/src/main/res/layout/fragment_story.xml" value="0.3703125" />
-        <entry key="..\:/study/Mobile-App-Development/Android/Chat-app/app/src/main/res/layout/item_status_story.xml" value="0.215625" />
+        <entry key="..\:/study/Mobile-App-Development/Android/Chat-app/app/src/main/res/layout/item_status.xml" value="0.3703125" />
+        <entry key="..\:/study/Mobile-App-Development/Android/Chat-app/app/src/main/res/layout/item_status_story.xml" value="0.67" />
+        <entry key="..\:/study/Mobile-App-Development/Android/Chat-app/app/src/main/res/layout/layout_dialog_bottom.xml" value="0.3703125" />
+        <entry key="..\:/study/Mobile-App-Development/Android/Chat-app/app/src/main/res/layout/layout_dialog_info.xml" value="0.3703125" />
+        <entry key="..\:/study/Mobile-App-Development/Android/Chat-app/app/src/main/res/layout/layout_dialog_story.xml" value="0.5" />
+        <entry key="..\:/study/Mobile-App-Development/Android/Chat-app/app/src/main/res/layout/layout_dialog_theme.xml" value="0.3703125" />
+        <entry key="..\:/study/Mobile-App-Development/Android/Chat-app/app/src/main/res/layout/login_tab_fragment.xml" value="0.3703125" />
         <entry key="..\:/study/Mobile-App-Development/ChatsApp/app/src/main/res/drawable-v24/background_header_corner.xml" value="0.2815" />
         <entry key="..\:/study/Mobile-App-Development/ChatsApp/app/src/main/res/drawable-v24/ic_banner_foreground.xml" value="0.25" />
         <entry key="..\:/study/Mobile-App-Development/ChatsApp/app/src/main/res/drawable-v24/ic_launcher_foreground.xml" value="0.1" />

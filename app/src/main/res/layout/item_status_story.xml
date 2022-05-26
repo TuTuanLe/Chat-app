@@ -49,32 +49,36 @@
 
                     >
                     <LinearLayout
+                        android:id="@+id/btnLike"
                         android:layout_width="@dimen/_45sdp"
-                        android:layout_height="@dimen/_15ssp"
+                        android:layout_height="@dimen/_20sdp"
                         android:orientation="horizontal"
                         android:gravity="center_vertical"
                         android:paddingLeft="@dimen/_5sdp"
                         android:background="@drawable/border_color_like"
-
                         >
                         <ImageView
                             android:layout_width="10sp"
                             android:layout_height="wrap_content"
                             android:src="@drawable/ic_baseline_thumb_up_24"
                             android:layout_marginEnd="@dimen/_3sdp"
+                            android:layout_marginStart="@dimen/_3sdp"
                             />
 
                         <!--                    ic_baseline_thumb_up_24-->
                         <TextView
+                            android:id="@+id/textLike"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="Like"
+                            android:textStyle="bold"
                             android:textColor="@color/blue"
-                            android:textSize="@dimen/_8ssp"
+                            android:textSize="@dimen/_9ssp"
                             />
 
                     </LinearLayout>
                     <ImageView
+                        android:id="@+id/btnHeart"
                         android:layout_width="@dimen/_13ssp"
                         android:layout_height="wrap_content"
                         android:src="@drawable/like"
@@ -168,6 +172,7 @@
                             android:textStyle="bold"
                             />
                         <TextView
+                            android:id="@+id/txtTotal"
                             android:layout_width="@dimen/_50sdp"
                             android:layout_height="wrap_content"
                             android:text="10"
@@ -200,6 +205,7 @@
                             android:textStyle="bold"
                             />
                         <TextView
+                            android:id="@+id/txtHeart"
                             android:layout_width="@dimen/_50sdp"
                             android:layout_height="wrap_content"
                             android:text="10"
