@@ -56,6 +56,8 @@ public class StoryAdapter extends RecyclerView.Adapter<StoryAdapter.StoryViewHol
         }else{
             holder.binding.frameLayout.setBackgroundColor(0);
         }
+
+        holder.binding.usernameStory.setText(userStatus.getName());
         holder.binding.frameLayout.setOnClickListener(v-> {
             int previousItem = selectedItem;
             selectedItem = position;

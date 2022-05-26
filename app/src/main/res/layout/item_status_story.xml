@@ -85,7 +85,7 @@
                 </FrameLayout>
 
                 <TextView
-
+                    android:id="@+id/usernameStory"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/_5sdp"
@@ -101,6 +101,7 @@
                     android:layout_gravity="center_vertical"
                     >
                     <TextView
+                        android:id="@+id/caption"
                         android:layout_width="wrap_content"
                         android:layout_height="match_parent"
                         android:layout_marginTop="@dimen/_1sdp"
