@@ -99,7 +99,18 @@
         android:layout_marginTop="@dimen/_70sdp"
         android:layout_marginBottom="@dimen/_10ssp"
         android:orientation="vertical"
+
         app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager" />
+
+    <com.agrawalsuneet.dotsloader.loaders.LightsLoader
+        android:id="@+id/progress"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        app:lights_circleColor="@color/blue"
+        app:lights_circleDistance="4dp"
+        app:lights_circleRadius="8dp"
+        app:lights_noOfCircles="4" />
 
 
 </FrameLayout>

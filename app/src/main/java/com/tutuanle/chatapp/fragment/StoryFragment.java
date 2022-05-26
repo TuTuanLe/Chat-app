@@ -27,6 +27,8 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.agrawalsuneet.dotsloader.loaders.LightsLoader;
+import com.agrawalsuneet.dotsloader.loaders.TashieLoader;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
@@ -107,8 +109,6 @@ public class StoryFragment extends Fragment {
         getUserStatus();
         initialData();
         setOnClickListener();
-
-
         getOnStoriesListener();
 
 
@@ -184,6 +184,7 @@ public class StoryFragment extends Fragment {
 
 
         }
+        loading(false);
     }
 
     @SuppressLint("NotifyDataSetChanged")
@@ -283,6 +284,15 @@ public class StoryFragment extends Fragment {
 
         dialog.setCancelable(true);
         dialog.show();
+    }
+
+    private void loading(Boolean isLoading) {
+        LightsLoader temp = view.findViewById(R.id.progress);
+        if (isLoading) {
+            temp.setVisibility(View.VISIBLE);
+        } else {
+            temp.setVisibility(View.INVISIBLE);
+        }
     }
 
 }

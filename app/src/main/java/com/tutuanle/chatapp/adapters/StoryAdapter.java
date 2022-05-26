@@ -83,6 +83,33 @@ public class StoryAdapter extends RecyclerView.Adapter<StoryAdapter.StoryViewHol
             notifyItemChanged(previousItem);
             notifyItemChanged(position);
         });
+        holder.binding.imageUserStatus.setOnClickListener(view -> {
+            ArrayList<MyStory> myStories = new ArrayList<>();
+            for (Status status : userStatus.getStatuses()) {
+                myStories.add(new MyStory(status.getImageUrl()));
+            }
+            new StoryView.Builder(((MainScreenActivity)context).getSupportFragmentManager())
+                    .setStoriesList(myStories) // Required
+                    .setStoryDuration(5000) // Default is 2000 Millis (2 Seconds)
+                    .setTitleText(userStatus.getName()) // Default is Hidden
+                    .setSubtitleText("Active") // Default is Hidden
+                    .setTitleLogoUrl(myStories.get(0).getUrl()) // Default is Hidden
+                    .setStoryClickListeners(new StoryClickListeners() {
+                        @Override
+                        public void onDescriptionClickListener(int position1) {
+                            //your action
+                        }
+
+                        @Override
+                        public void onTitleIconClickListener(int position1) {
+                            //your action
+                        }
+                    }) // Optional Listeners
+                    .build() // Must be called before calling show method
+                    .show();
+
+        });
+
         holder.binding.circularStatusView.setOnClickListener(view -> {
             ArrayList<MyStory> myStories = new ArrayList<>();
             for (Status status : userStatus.getStatuses()) {
