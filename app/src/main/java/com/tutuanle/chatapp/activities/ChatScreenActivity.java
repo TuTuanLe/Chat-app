@@ -396,7 +396,7 @@ public class ChatScreenActivity extends OnChatActivity {
                 }
 
             }
-            Collections.sort(chatMessages, Comparator.comparing(x -> x.dataObject));
+            Collections.sort(chatMessages, (x, y) -> x.dataObject.compareTo(y.dataObject));
 
             if (count == 0) {
                 chatAdapter.notifyDataSetChanged();
