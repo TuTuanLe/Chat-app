@@ -23,7 +23,7 @@ public class SearchAdapter extends RecyclerView.Adapter<SearchAdapter.SearchView
 
     private final List<User> users;
     private final UserListener userListener;
-    private PreferenceManager preferenceManager;;
+    private PreferenceManager preferenceManager;
 
     public SearchAdapter(List<User> users, UserListener userListener) {
         this.users = users;

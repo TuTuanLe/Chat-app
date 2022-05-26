@@ -37,10 +37,10 @@
                 android:layout_gravity="center_vertical"
                 android:layout_marginStart="@dimen/_56sdp"
                 android:layout_marginTop="@dimen/_5sdp"
-                android:textStyle="bold"
-                android:textSize="@dimen/_12ssp"
+                android:text="Admin"
                 android:textColor="@color/colorTextSecondary"
-                android:text="Admin" />
+                android:textSize="@dimen/_12ssp"
+                android:textStyle="bold" />
 
 
             <FrameLayout
@@ -49,20 +49,20 @@
                 android:layout_gravity="end"
                 android:layout_marginTop="@dimen/_27sdp"
                 android:layout_marginEnd="@dimen/_56sdp"
-                android:clipToOutline="true"
-                android:background="@drawable/background_image">
+                android:background="@drawable/background_image"
+                android:clipToOutline="true">
 
                 <ImageButton
                     android:id="@+id/imageCamera"
                     android:layout_width="@dimen/_13sdp"
                     android:layout_height="@dimen/_13sdp"
-                    android:layout_margin="@dimen/_5sdp"
                     android:layout_gravity="center"
-                    android:src="@drawable/ic_baseline_photo_camera_24"
-                  android:background="@color/trans"
-                    app:tint="@color/black"
+                    android:layout_margin="@dimen/_5sdp"
+                    android:background="@color/trans"
+                    android:contentDescription="@string/app_name"
                     android:scaleType="fitXY"
-                    android:contentDescription="@string/app_name" />
+                    android:src="@drawable/ic_baseline_photo_camera_24"
+                    app:tint="@color/black" />
 
             </FrameLayout>
 
@@ -81,11 +81,11 @@
                     android:layout_width="@dimen/_13sdp"
                     android:layout_height="@dimen/_13sdp"
                     android:layout_gravity="center"
-                    android:src="@drawable/ic_baseline_edit_24"
                     android:background="@color/trans"
-                    app:tint="@color/black"
+                    android:contentDescription="@string/app_name"
                     android:scaleType="fitXY"
-                    android:contentDescription="@string/app_name" />
+                    android:src="@drawable/ic_baseline_edit_24"
+                    app:tint="@color/black" />
 
             </FrameLayout>
 
@@ -95,14 +95,13 @@
 
     <androidx.cardview.widget.CardView
 
-        android:layout_marginStart="@dimen/_15sdp"
-        android:layout_marginEnd="@dimen/_15sdp"
-        android:layout_marginBottom="@dimen/_15sdp"
         android:layout_width="match_parent"
         android:layout_height="@dimen/_30sdp"
-        app:cardCornerRadius="@dimen/_20sdp"
+        android:layout_marginStart="@dimen/_15sdp"
+        android:layout_marginEnd="@dimen/_15sdp"
+        android:layout_marginBottom="@dimen/_5sdp"
         android:background="@drawable/text_box_search"
-        >
+        app:cardCornerRadius="@dimen/_20sdp">
 
         <com.balysv.materialripple.MaterialRippleLayout
             android:id="@+id/search_friend"
@@ -110,12 +109,13 @@
             android:layout_height="@dimen/_30sdp"
 
             >
+
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:orientation="horizontal"
                 android:layout_gravity="center"
-                >
+                android:orientation="horizontal">
+
                 <ImageButton
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
@@ -123,23 +123,51 @@
                     android:layout_marginStart="@dimen/_12sdp"
                     android:background="@color/trans"
                     android:contentDescription="@string/app_name"
-                    android:src="@drawable/ic_baseline_search_24"
                     android:scaleType="center"
+                    android:src="@drawable/ic_baseline_search_24"
                     app:tint="@color/black" />
+
                 <TextView
-                    android:layout_marginStart="@dimen/_10sdp"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:text="@string/search"
+                    android:layout_marginStart="@dimen/_10sdp"
                     android:gravity="center_vertical"
+                    android:text="@string/search"
 
                     />
             </LinearLayout>
         </com.balysv.materialripple.MaterialRippleLayout>
     </androidx.cardview.widget.CardView>
 
-
-
+    <TextView
+        android:paddingTop="@dimen/_5sdp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Request Friend"
+        android:textColor="@color/colorTextSecondary"
+        android:textSize="@dimen/_12ssp"
+        android:textStyle="bold"
+        android:layout_marginStart="@dimen/_8sdp"
+        />
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/requestRecyclerView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:clipToPadding="false"
+        android:orientation="horizontal"
+        android:overScrollMode="never"
+        android:paddingTop="@dimen/_5sdp"
+        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+        android:layout_marginBottom="@dimen/_10sdp"/>
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Recent Chat"
+        android:textColor="@color/colorTextSecondary"
+        android:textSize="@dimen/_12ssp"
+        android:textStyle="bold"
+        android:layout_marginStart="@dimen/_8sdp"
+        />
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="0dp"
@@ -150,6 +178,8 @@
             android:layout_width="match_parent"
             android:layout_height="0dp"
             android:orientation="vertical">
+
+
 
             <androidx.recyclerview.widget.RecyclerView
 
@@ -163,18 +193,18 @@
 
                 app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager" />
 
-<!--            <ProgressBar-->
+            <!--            <ProgressBar-->
 
-<!--                android:id="@+id/progressBar"-->
-<!--                android:layout_width="@dimen/_25sdp"-->
-<!--                android:layout_height="@dimen/_25sdp"-->
-<!--                android:layout_gravity="center" />-->
+            <!--                android:id="@+id/progressBar"-->
+            <!--                android:layout_width="@dimen/_25sdp"-->
+            <!--                android:layout_height="@dimen/_25sdp"-->
+            <!--                android:layout_gravity="center" />-->
 
             <com.agrawalsuneet.dotsloader.loaders.TashieLoader
                 android:id="@+id/progressBar"
-                android:layout_gravity="center"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_gravity="center"
                 app:tashieloader_animDelay="20"
                 app:tashieloader_animDur="400"
                 app:tashieloader_dotsColor="@color/primaryHeader"
