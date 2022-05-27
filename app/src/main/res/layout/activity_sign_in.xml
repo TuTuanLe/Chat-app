@@ -64,19 +64,34 @@
             android:textSize="@dimen/_13ssp"
             android:textStyle="normal"
             />
-        <EditText
-            android:id="@+id/inputPassword"
+        <FrameLayout
             android:layout_width="match_parent"
             android:layout_height="@dimen/_45sdp"
             android:layout_marginTop="-16sp"
-            android:imeOptions="actionDone"
-            android:importantForAutofill="no"
-            android:inputType="textPassword"
-            android:paddingStart="@dimen/_16sdp"
-            android:paddingEnd="@dimen/_16sdp"
-            android:textColor="@color/primary_text"
-            android:textSize="@dimen/_13ssp"
-            tools:ignore="LabelFor" />
+            >
+            <EditText
+                android:id="@+id/inputPassword"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/_45sdp"
+
+                android:imeOptions="actionDone"
+                android:importantForAutofill="no"
+                android:inputType="textPassword"
+                android:paddingStart="@dimen/_16sdp"
+                android:paddingEnd="@dimen/_16sdp"
+                android:textColor="@color/primary_text"
+                android:textSize="@dimen/_13ssp"
+                tools:ignore="LabelFor" />
+            <ImageView
+                android:id="@+id/passwordHint"
+                android:layout_width="@dimen/_30sdp"
+                android:layout_height="@dimen/_30sdp"
+                android:src="@drawable/eye"
+                android:padding="@dimen/_5sdp"
+                android:layout_gravity="end"
+                android:layout_marginTop="@dimen/_10sdp"
+                />
+        </FrameLayout>
 
         <TextView
             android:id="@+id/forgetPassword"
@@ -107,13 +122,33 @@
                 android:textStyle="bold"
 
                 />
-            <ProgressBar
+
+            <com.agrawalsuneet.dotsloader.loaders.LinearDotsLoader
+                android:layout_marginTop="@dimen/_10sdp"
+                android:layout_marginBottom="@dimen/_10sdp"
                 android:id="@+id/progressBar"
-                android:layout_width="@dimen/_25sdp"
-                android:layout_height="@dimen/_25sdp"
                 android:layout_gravity="center"
-                android:visibility="invisible"
-                />
+                android:visibility="visible"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:loader_animDur="200"
+                app:loader_noOfDots="5"
+                app:loader_circleRadius="6dp"
+                app:loader_defaultColor="@color/gray_scale"
+                app:loader_selectedColor="@color/gray_scale"
+                app:loader_dotsDist="3dp"
+                app:loader_expandOnSelect="false"
+                app:loader_isSingleDir="false"
+                app:loader_selectedRadius="10dp"
+                app:loader_showRunningShadow="true"
+                app:loader_firstShadowColor="@color/blue"
+                app:loader_secondShadowColor="@color/gray_scale"/>
+<!--            <ProgressBar-->
+<!--                android:id="@+id/progressBar"-->
+<!--                android:layout_width="@dimen/_25sdp"-->
+<!--                android:layout_height="@dimen/_25sdp"-->
+<!--                android:layout_gravity="center"-->
+<!--                android:visibility="invisible" />-->
         </FrameLayout>
 
 

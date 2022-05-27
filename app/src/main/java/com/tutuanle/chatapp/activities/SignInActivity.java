@@ -11,6 +11,7 @@ import android.os.Bundle;
 import android.os.ParcelFileDescriptor;
 import android.os.StrictMode;
 import android.provider.MediaStore;
+import android.text.method.PasswordTransformationMethod;
 import android.util.Base64;
 import android.util.Log;
 import android.util.Patterns;
@@ -28,6 +29,7 @@ import com.google.firebase.auth.FirebaseAuth;
 
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.tutuanle.chatapp.R;
 import com.tutuanle.chatapp.databinding.ActivitySignInBinding;
 import com.tutuanle.chatapp.utilities.Constants;
 import com.tutuanle.chatapp.utilities.ConvertImageUrlToBitmap;
@@ -45,6 +47,7 @@ import java.util.Objects;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.atomic.AtomicInteger;
 
+
 public class SignInActivity extends AppCompatActivity {
 
     FirebaseAuth auth;
@@ -52,7 +55,7 @@ public class SignInActivity extends AppCompatActivity {
     private ActivitySignInBinding binding;
     private GoogleSignInClient mGoogleSignInClient;
     static final int RC_SIGN_IN = 0;
-
+    private int check = 1;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -88,6 +91,20 @@ public class SignInActivity extends AppCompatActivity {
 
         binding.forgetPassword.setOnClickListener(v -> {
             startActivity(new Intent(getApplicationContext(), MyPhoneNumberActivity.class));
+        });
+
+        binding.passwordHint.setOnClickListener(v->{
+            if(check == 0){
+                binding.inputPassword.setTransformationMethod(new PasswordTransformationMethod());
+                check = 1;
+//                binding.passwordHint.setBackgroundResource(R.drawable.icons8eye24);
+
+            }else{
+                check= 0;
+                binding.inputPassword.setTransformationMethod(null);
+//                binding.passwordHint.setBackgroundResource(R.drawable.eye);
+            }
+
         });
 
     }
