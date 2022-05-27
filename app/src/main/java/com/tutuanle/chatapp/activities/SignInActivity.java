@@ -11,6 +11,7 @@ import android.os.Bundle;
 import android.os.ParcelFileDescriptor;
 import android.os.StrictMode;
 import android.provider.MediaStore;
+import android.text.InputType;
 import android.text.method.PasswordTransformationMethod;
 import android.util.Base64;
 import android.util.Log;
@@ -95,14 +96,16 @@ public class SignInActivity extends AppCompatActivity {
 
         binding.passwordHint.setOnClickListener(v->{
             if(check == 0){
-                binding.inputPassword.setTransformationMethod(new PasswordTransformationMethod());
+                binding.passwordHint.setImageResource(R.drawable.eye);
+                binding.inputPassword.setInputType(InputType.TYPE_TEXT_VARIATION_PASSWORD);
                 check = 1;
-//                binding.passwordHint.setBackgroundResource(R.drawable.icons8eye24);
+
 
             }else{
+                binding.passwordHint.setImageResource(R.drawable.icons8eye24);
                 check= 0;
-                binding.inputPassword.setTransformationMethod(null);
-//                binding.passwordHint.setBackgroundResource(R.drawable.eye);
+                binding.inputPassword.setInputType(InputType.TYPE_CLASS_TEXT);
+
             }
 
         });
