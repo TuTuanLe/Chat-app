@@ -173,6 +173,7 @@
         android:layout_marginTop="@dimen/_5sdp">
 
         <FrameLayout
+            android:id="@+id/frameAccount"
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
 
@@ -192,10 +193,10 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_horizontal"
                 android:layout_marginStart="@dimen/_20sdp"
+                android:fontFamily="@font/tajawal_regular"
                 android:padding="@dimen/_11sdp"
                 android:text="@string/account"
                 android:textColor="@color/colorTextSecondary"
-                android:fontFamily="@font/tajawal_regular"
                 android:textSize="@dimen/_14ssp" />
 
             <ImageButton
