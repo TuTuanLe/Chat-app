@@ -12,6 +12,7 @@ import android.os.ParcelFileDescriptor;
 import android.os.StrictMode;
 import android.provider.MediaStore;
 import android.text.InputType;
+import android.text.method.HideReturnsTransformationMethod;
 import android.text.method.PasswordTransformationMethod;
 import android.util.Base64;
 import android.util.Log;
@@ -57,6 +58,7 @@ public class SignInActivity extends AppCompatActivity {
     private GoogleSignInClient mGoogleSignInClient;
     static final int RC_SIGN_IN = 0;
     private int check = 1;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -94,17 +96,17 @@ public class SignInActivity extends AppCompatActivity {
             startActivity(new Intent(getApplicationContext(), MyPhoneNumberActivity.class));
         });
 
-        binding.passwordHint.setOnClickListener(v->{
-            if(check == 0){
+        binding.passwordHint.setOnClickListener(v -> {
+            if (check == 0) {
                 binding.passwordHint.setImageResource(R.drawable.eye);
-                binding.inputPassword.setInputType(InputType.TYPE_TEXT_VARIATION_PASSWORD);
+                binding.inputPassword.setTransformationMethod(PasswordTransformationMethod.getInstance());
                 check = 1;
 
 
-            }else{
+            } else {
                 binding.passwordHint.setImageResource(R.drawable.icons8eye24);
-                check= 0;
-                binding.inputPassword.setInputType(InputType.TYPE_CLASS_TEXT);
+                check = 0;
+                binding.inputPassword.setTransformationMethod(HideReturnsTransformationMethod.getInstance());
 
             }
 
@@ -242,7 +244,6 @@ public class SignInActivity extends AppCompatActivity {
             Log.w("Error", "signInResult:failed code=" + e.getStatusCode());
         }
     }
-
 
 
     private void signUpGoogle(String inputName, String email, String password, String encodedImage) {

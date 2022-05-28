@@ -87,7 +87,7 @@
                 android:layout_width="@dimen/_30sdp"
                 android:layout_height="@dimen/_30sdp"
                 android:src="@drawable/eye"
-                android:padding="@dimen/_5sdp"
+                android:padding="@dimen/_8sdp"
                 android:layout_gravity="end"
                 android:layout_marginTop="@dimen/_10sdp"
                 />
