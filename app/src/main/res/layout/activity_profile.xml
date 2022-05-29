@@ -59,6 +59,16 @@
             android:textSize="@dimen/_10sdp"
             android:textColor="@color/secondary_text"
             />
+
+        <TextView
+            android:id="@+id/txtEmail"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginTop="@dimen/_10sdp"
+            android:text="Change your avatar"
+            android:textColor="@color/secondary_text"
+            android:textSize="@dimen/_15sdp" />
         <EditText
             android:id="@+id/inputName"
             android:layout_width="match_parent"

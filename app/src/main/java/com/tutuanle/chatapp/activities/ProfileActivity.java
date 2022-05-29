@@ -19,6 +19,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.makeramen.roundedimageview.RoundedImageView;
 import com.tutuanle.chatapp.R;
@@ -39,8 +40,7 @@ public class ProfileActivity extends AppCompatActivity {
     private PreferenceManager preferenceManager;
     private User currentUser;
     private User updateUser;
-    private String encodedImage ="";
-    private String currentEncodedImage;
+    private String encodedImage;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -49,24 +49,38 @@ public class ProfileActivity extends AppCompatActivity {
         setContentView(binding.getRoot());
 
         preferenceManager = new PreferenceManager(getApplicationContext());
-        loadUser();
-        init();
+        loadInfoUser();
+        changeAvatar();
         UpdateProfile();
 
     }
 
-    private void loadUser(){
+    private void loadInfoUser(){
         currentUser = (User) getIntent().getSerializableExtra(Constants.KEY_USER);
         binding.inputName.setText(currentUser.getName());
         byte[] bytes = Base64.decode(currentUser.getProfileImage(),Base64.DEFAULT);
         Bitmap bitmap = BitmapFactory.decodeByteArray(bytes, 0, bytes.length);
-        currentEncodedImage = encodeImage(bitmap);
+        encodedImage = encodeImage(bitmap);
         binding.imgAvatar.setImageBitmap(bitmap);
-        binding.inputNumberPhone.setText(currentUser.getPassword());
+
+        FirebaseFirestore db = FirebaseFirestore.getInstance();
+        db.collection(Constants.KEY_COLLECTION_USERS).document(currentUser.getUid()).get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
+            @Override
+            public void onSuccess(DocumentSnapshot documentSnapshot) {
+                binding.inputNumberPhone.setText((String) documentSnapshot.getData().get(Constants.KEY_NUMBER_PHONE));
+                currentUser.setPhoneNumber((String) documentSnapshot.getData().get(Constants.KEY_NUMBER_PHONE));
+
+                binding.txtEmail.setText((String) documentSnapshot.getData().get(Constants.KEY_EMAIL));
+                currentUser.setEmail((String) documentSnapshot.getData().get(Constants.KEY_EMAIL));
+
+                currentUser.setPassword((String) documentSnapshot.getData().get(Constants.KEY_PASSWORD));
+            }
+        });
+
 
     }
 
-    private void init(){
+    private void changeAvatar(){
         binding.layoutImage.setOnClickListener(v -> {
             Intent intent = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
             intent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
@@ -113,24 +127,26 @@ public class ProfileActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 updateUser = new User();
+
                 updateUser.setUid(currentUser.getUid());
-                if (encodedImage.equals("")){
-                    updateUser.setProfileImage(currentEncodedImage);
-                }else{
-                    updateUser.setProfileImage(encodedImage);
-                }
                 updateUser.setName(binding.inputName.getText().toString());
+                updateUser.setProfileImage(encodedImage);
                 updateUser.setPhoneNumber(binding.inputNumberPhone.getText().toString());
                 updateUser.setEmail(currentUser.getEmail());
+                //check password is change?
                 if(binding.inputCurrentPassword.getText().toString().equals("")){
                     updateUser.setPassword(currentUser.getPassword());
+                    updateData();
                 }else{
-                    if(binding.inputCurrentPassword.getText().toString().equals(currentUser.getPassword())){
-                        Toast.makeText(getApplicationContext(), "SAI Password", Toast.LENGTH_SHORT).show();
+                    if(!binding.inputCurrentPassword.getText().toString().equals(currentUser.getPassword())){
+                        Toast.makeText(getApplicationContext(), "Bạn Đã Nhập Sai Pasword Hiện Tại", Toast.LENGTH_SHORT).show();
+                    }else if (binding.inputNewPassword.getText().toString().equals(binding.inputConfirmNewPassword.getText().toString())){
+                        updateUser.setPassword(binding.inputConfirmNewPassword.getText().toString());
+                        updateData();
+                    }else{
+                        Toast.makeText(getApplicationContext(), "Mật Khẩu mới bạn nhập chưa giống nhau", Toast.LENGTH_SHORT).show();
                     }
                 }
-
-                updateData();
             }
         });
     }
