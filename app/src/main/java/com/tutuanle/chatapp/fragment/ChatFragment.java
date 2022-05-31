@@ -25,6 +25,7 @@ import com.google.firebase.firestore.QuerySnapshot;
 import com.makeramen.roundedimageview.RoundedImageView;
 import com.tutuanle.chatapp.R;
 import com.tutuanle.chatapp.activities.MainScreenActivity;
+import com.tutuanle.chatapp.activities.ProfileActivity;
 import com.tutuanle.chatapp.activities.SearchActivity;
 import com.tutuanle.chatapp.adapters.RequestAdapter;
 import com.tutuanle.chatapp.adapters.Users_Adapter;
@@ -160,6 +161,24 @@ public class ChatFragment extends Fragment {
         RoundedImageView image = view.findViewById(R.id.imageProfile);
         image.setImageBitmap(mainScreenActivity.getBitmap());
         firebaseFirestore = FirebaseFirestore.getInstance();
+
+
+//        image.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//
+//            }
+//                Intent intenProfile = new Intent(getContext(), ProfileActivity.class);
+//                User usertemp = new User();
+//                usertemp.setName(mainScreenActivity.preferenceManager.getString(Constants.KEY_NAME));
+//                usertemp.setUid(mainScreenActivity.preferenceManager.getString(Constants.KEY_USER_ID));
+//                usertemp.setProfileImage(mainScreenActivity.preferenceManager.getString(Constants.KEY_IMAGE));
+//                usertemp.setPhoneNumber(mainScreenActivity.preferenceManager.getString(Constants.KEY_NUMBER_PHONE));
+//                usertemp.setPassword(mainScreenActivity.preferenceManager.getString(Constants.KEY_PASSWORD));
+//                usertemp.setEmail(mainScreenActivity.preferenceManager.getString(Constants.KEY_EMAIL));
+//                intenProfile.putExtra(Constants.KEY_USER,user);
+//                startActivity(intenProfile);
+//            }
     }
 
     private void loading(Boolean isLoading) {

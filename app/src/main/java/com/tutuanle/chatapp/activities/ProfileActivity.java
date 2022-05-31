@@ -36,7 +36,6 @@ import java.util.HashMap;
 public class ProfileActivity extends AppCompatActivity {
 
     ActivityProfileBinding binding;
-    private MainScreenActivity mainScreenActivity;
     private PreferenceManager preferenceManager;
     private User currentUser;
     private User updateUser;
@@ -53,6 +52,7 @@ public class ProfileActivity extends AppCompatActivity {
         changeAvatar();
         UpdateProfile();
 
+        binding.imageBack.setOnClickListener(v->onBackPressed());
     }
 
     private void loadInfoUser(){
@@ -61,23 +61,19 @@ public class ProfileActivity extends AppCompatActivity {
         byte[] bytes = Base64.decode(currentUser.getProfileImage(),Base64.DEFAULT);
         Bitmap bitmap = BitmapFactory.decodeByteArray(bytes, 0, bytes.length);
         encodedImage = encodeImage(bitmap);
-        binding.imgAvatar.setImageBitmap(bitmap);
+        binding.imageProfile.setImageBitmap(bitmap);
+
 
         FirebaseFirestore db = FirebaseFirestore.getInstance();
-        db.collection(Constants.KEY_COLLECTION_USERS).document(currentUser.getUid()).get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
-            @Override
-            public void onSuccess(DocumentSnapshot documentSnapshot) {
-                binding.inputNumberPhone.setText((String) documentSnapshot.getData().get(Constants.KEY_NUMBER_PHONE));
-                currentUser.setPhoneNumber((String) documentSnapshot.getData().get(Constants.KEY_NUMBER_PHONE));
+        db.collection(Constants.KEY_COLLECTION_USERS).document(currentUser.getUid()).get().addOnSuccessListener(documentSnapshot -> {
+            binding.inputNumberPhone.setText((String) documentSnapshot.getData().get(Constants.KEY_NUMBER_PHONE));
+            currentUser.setPhoneNumber((String) documentSnapshot.getData().get(Constants.KEY_NUMBER_PHONE));
 
-                binding.txtEmail.setText((String) documentSnapshot.getData().get(Constants.KEY_EMAIL));
-                currentUser.setEmail((String) documentSnapshot.getData().get(Constants.KEY_EMAIL));
+            binding.txtEmail.setText((String) documentSnapshot.getData().get(Constants.KEY_EMAIL));
+            currentUser.setEmail((String) documentSnapshot.getData().get(Constants.KEY_EMAIL));
 
-                currentUser.setPassword((String) documentSnapshot.getData().get(Constants.KEY_PASSWORD));
-            }
+            currentUser.setPassword((String) documentSnapshot.getData().get(Constants.KEY_PASSWORD));
         });
-
-
     }
 
     private void changeAvatar(){
@@ -98,8 +94,7 @@ public class ProfileActivity extends AppCompatActivity {
                     try {
                         InputStream inputStream = getContentResolver().openInputStream(imageUri);
                         Bitmap bitmap = BitmapFactory.decodeStream(inputStream);
-                        binding.imgAvatar.setImageBitmap(bitmap);
-                        binding.imageProfile.setVisibility(View.GONE);
+                        binding.imageProfile.setImageBitmap(bitmap);
                         encodedImage = encodeImage(bitmap);
 
                     } catch (FileNotFoundException e) {
@@ -144,7 +139,7 @@ public class ProfileActivity extends AppCompatActivity {
                         updateUser.setPassword(binding.inputConfirmNewPassword.getText().toString());
                         updateData();
                     }else{
-                        Toast.makeText(getApplicationContext(), "Mật Khẩu mới bạn nhập chưa giống nhau", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(getApplicationContext(), "The password new does not match ...", Toast.LENGTH_SHORT).show();
                     }
                 }
             }
