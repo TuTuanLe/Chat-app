@@ -99,7 +99,7 @@
         android:layout_marginTop="@dimen/_70sdp"
         android:layout_marginBottom="@dimen/_10ssp"
         android:orientation="vertical"
-
+        android:visibility="gone"
         app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager" />
 
     <com.agrawalsuneet.dotsloader.loaders.LightsLoader

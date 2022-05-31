@@ -46,9 +46,11 @@ import com.google.firebase.storage.UploadTask;
 import com.makeramen.roundedimageview.RoundedImageView;
 import com.tutuanle.chatapp.R;
 import com.tutuanle.chatapp.activities.MainScreenActivity;
+import com.tutuanle.chatapp.activities.ProfileActivity;
 import com.tutuanle.chatapp.adapters.StoryAdapter;
 import com.tutuanle.chatapp.models.ChatMessage;
 import com.tutuanle.chatapp.models.Status;
+import com.tutuanle.chatapp.models.User;
 import com.tutuanle.chatapp.models.UserStatus;
 import com.tutuanle.chatapp.utilities.Constants;
 import com.tutuanle.chatapp.utilities.GridSpacingItemDecoration;
@@ -106,6 +108,7 @@ public class StoryFragment extends Fragment {
         mainScreenActivity = (MainScreenActivity) getActivity();
         assert mainScreenActivity != null;
         preferenceManager = mainScreenActivity.preferenceManager;
+        loading(true);
         getUserStatus();
         initialData();
         setOnClickListener();
@@ -134,6 +137,18 @@ public class StoryFragment extends Fragment {
         progressDialog.setMessage("upLoading Image ...");
         progressDialog.setCancelable(false);
         database = FirebaseFirestore.getInstance();
+        image.setOnClickListener(v -> {
+            User usermod = new User();
+            Intent intent = new Intent(getContext(), ProfileActivity.class);
+            usermod.setName(mainScreenActivity.preferenceManager.getString(Constants.KEY_NAME));
+            usermod.setUid(mainScreenActivity.preferenceManager.getString(Constants.KEY_USER_ID));
+            usermod.setProfileImage(mainScreenActivity.preferenceManager.getString(Constants.KEY_IMAGE));
+            usermod.setPhoneNumber(mainScreenActivity.preferenceManager.getString(Constants.KEY_NUMBER_PHONE));
+            usermod.setPassword(mainScreenActivity.preferenceManager.getString(Constants.KEY_PASSWORD));
+            usermod.setEmail(mainScreenActivity.preferenceManager.getString(Constants.KEY_EMAIL));
+            intent.putExtra(Constants.KEY_USER, usermod);
+            startActivity(intent);
+        });
     }
 
     private void setOnClickListener() {
@@ -149,6 +164,7 @@ public class StoryFragment extends Fragment {
     synchronized void getOnStoriesListener() {
         database.collection(Constants.KEY_COLLECTION_STORIES)
                 .addSnapshotListener(eventListener);
+
     }
 
     @SuppressLint("NotifyDataSetChanged")
@@ -178,13 +194,19 @@ public class StoryFragment extends Fragment {
                             Collections.sort(userStatuses, new SortByRoll());
                             if (userStatuses.get(userStatuses.size() - 1).getStatuses() != null) {
                                 storyAdapter.notifyDataSetChanged();
+
+                                RecyclerView temp = view.findViewById(R.id.statusList);
+                                temp.setAdapter(storyAdapter);
+                                temp.setVisibility(View.VISIBLE);
+                                loading(false);
                             }
                         }
                     });
 
 
         }
-        loading(false);
+
+
     }
 
     @SuppressLint("NotifyDataSetChanged")
@@ -279,7 +301,7 @@ public class StoryFragment extends Fragment {
         );
 
         dialog.findViewById(R.id.imageClose).setOnClickListener(v -> {
-                    dialog.dismiss();
+            dialog.dismiss();
         });
 
         dialog.setCancelable(true);

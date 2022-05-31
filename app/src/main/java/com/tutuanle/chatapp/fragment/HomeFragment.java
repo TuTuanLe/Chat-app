@@ -1,6 +1,7 @@
 package com.tutuanle.chatapp.fragment;
 
 import android.annotation.SuppressLint;
+import android.content.Intent;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
@@ -25,11 +26,14 @@ import com.google.firebase.firestore.QuerySnapshot;
 import com.makeramen.roundedimageview.RoundedImageView;
 import com.tutuanle.chatapp.R;
 import com.tutuanle.chatapp.activities.MainScreenActivity;
+import com.tutuanle.chatapp.activities.ProfileActivity;
+import com.tutuanle.chatapp.activities.SearchActivity;
 import com.tutuanle.chatapp.adapters.HomeFriendAdapter;
 import com.tutuanle.chatapp.adapters.TopStatusAdapter;
 
 import com.tutuanle.chatapp.models.ChatMessage;
 import com.tutuanle.chatapp.models.Status;
+import com.tutuanle.chatapp.models.User;
 import com.tutuanle.chatapp.models.UserStatus;
 import com.tutuanle.chatapp.utilities.Constants;
 import com.tutuanle.chatapp.utilities.PreferenceManager;
@@ -76,6 +80,7 @@ public class HomeFragment extends Fragment {
         getUserStatus();
         initFriend();
         listenListFriend();
+        setListener();
         return view;
     }
 
@@ -86,6 +91,20 @@ public class HomeFragment extends Fragment {
         temp.setText(mainScreenActivity.getTextName());
         RoundedImageView image = view.findViewById(R.id.imageProfile);
         image.setImageBitmap(mainScreenActivity.getBitmap());
+        image.setOnClickListener(v -> {
+            User usermod = new User();
+            Intent intent = new Intent(getContext(), ProfileActivity.class);
+            usermod.setName(mainScreenActivity.preferenceManager.getString(Constants.KEY_NAME));
+            usermod.setUid(mainScreenActivity.preferenceManager.getString(Constants.KEY_USER_ID));
+            usermod.setProfileImage(mainScreenActivity.preferenceManager.getString(Constants.KEY_IMAGE));
+            usermod.setPhoneNumber(mainScreenActivity.preferenceManager.getString(Constants.KEY_NUMBER_PHONE));
+            usermod.setPassword(mainScreenActivity.preferenceManager.getString(Constants.KEY_PASSWORD));
+            usermod.setEmail(mainScreenActivity.preferenceManager.getString(Constants.KEY_EMAIL));
+            intent.putExtra(Constants.KEY_USER, usermod);
+            startActivity(intent);
+        });
+
+
     }
 
     private void initFriend() {
@@ -265,4 +284,9 @@ public class HomeFragment extends Fragment {
 
     };
 
+
+    private void setListener() {
+        view.findViewById(R.id.search_friend).setOnClickListener(v ->
+                startActivity(new Intent(mainScreenActivity, SearchActivity.class)));
+    }
 }
