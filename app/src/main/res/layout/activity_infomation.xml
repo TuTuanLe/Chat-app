@@ -1,346 +1,136 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    android:padding="@dimen/_15sdp"
+
     tools:context=".activities.InformationActivity">
 
-    <FrameLayout
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/constraintLayout2"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="@dimen/_100sdp"
+        android:background="@drawable/button_bg"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
 
-        <ImageButton
-
-            android:layout_width="wrap_content"
+        <FrameLayout
+            android:layout_marginTop="@dimen/_15sdp"
+            android:id="@+id/frameLayout2"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_gravity="start"
-            android:background="@color/trans"
-            android:contentDescription="@string/app_name"
-            android:src="@drawable/ic_baseline_arrow_back_24"
-            app:tint="@color/black" />
+            android:padding="@dimen/_15sdp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
 
-        <ImageButton
+            <ImageButton
+                android:id="@+id/imageBack"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="start"
+                android:background="@color/trans"
+                android:contentDescription="@string/app_name"
+                android:src="@drawable/ic_baseline_arrow_back_24"
+                app:tint="@color/white" />
 
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="end"
-            android:background="@color/trans"
-            android:contentDescription="@string/app_name"
-            android:src="@drawable/ic_baseline_more_vert_24"
-            app:tint="@color/black" />
+            <ImageButton
+
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="end"
+                android:background="@color/trans"
+                android:contentDescription="@string/app_name"
+                android:src="@drawable/ic_baseline_more_vert_24"
+                app:tint="@color/white" />
+
+        </FrameLayout>
+
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+    <FrameLayout
+        android:id="@+id/frameLayout3"
+        android:layout_width="@dimen/_80sdp"
+        android:layout_height="@dimen/_80sdp"
+        android:layout_marginTop="@dimen/_54sdp"
+        android:background="@drawable/circle_write"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.498"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
 
     </FrameLayout>
+    <com.makeramen.roundedimageview.RoundedImageView
+        android:id="@+id/imageProfile"
+        android:layout_width="@dimen/_70sdp"
+        android:layout_height="@dimen/_70sdp"
+        android:layout_marginTop="@dimen/_59sdp"
+        android:scaleType="centerCrop"
+        android:src="@drawable/bg_5"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:riv_oval="true" />
 
-    <FrameLayout
+    <LinearLayout
+        android:id="@+id/linearLayout"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
-
-        <com.makeramen.roundedimageview.RoundedImageView
-            android:id="@+id/imageProfile"
-            android:layout_width="@dimen/_64sdp"
-            android:layout_height="@dimen/_64sdp"
-            android:layout_gravity="start"
-            android:layout_margin="@dimen/_10sdp"
-            android:background="@drawable/background_image"
-            android:scaleType="centerCrop"
-            app:riv_oval="true" />
+        android:layout_height="wrap_content"
+        android:layout_marginTop="144dp"
+        android:gravity="center"
+        android:orientation="vertical"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
 
         <TextView
-            android:id="@+id/nameProfile"
+            android:id="@+id/txtUserName"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="@dimen/_100sdp"
-            android:layout_marginTop="@dimen/_16sdp"
-            android:text="@string/app_name"
-            android:textAlignment="center"
-            android:textColor="@color/colorTextPrimary"
-            android:textSize="@dimen/_18ssp"
-            android:textStyle="bold" />
+            android:layout_marginTop="@dimen/_25sdp"
+            android:text="username"
+            android:textColor="@color/secondary_text"
+            android:textSize="@dimen/_17sdp" />
+
+        <TextView
+            android:id="@+id/txtEmail"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/_5sdp"
+            android:text="Change your avatar"
+            android:textColor="@color/secondary_text"
+            android:textSize="@dimen/_15sdp" />
 
         <TextView
             android:layout_width="@dimen/_168sdp"
             android:layout_height="wrap_content"
-            android:layout_marginStart="@dimen/_100sdp"
-            android:layout_marginTop="@dimen/_40sdp"
+            android:fontFamily="@font/tajawal_regular"
+
             android:text="@string/trust_your_feelings_be_a_good_human_beings"
-            android:textAlignment="textStart"
+            android:textAlignment="center"
             android:textColor="@color/colorTextSecondary"
             android:textSize="@dimen/_12sdp"
             android:textStyle="normal" />
+    </LinearLayout>
 
-
-    </FrameLayout>
-
-
-    <FrameLayout
-        android:id="@+id/modeTheme"
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/statusList"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="@dimen/_40sdp">
+        android:layout_gravity="center_horizontal"
+        android:orientation="vertical"
 
-        <ImageButton
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="start"
-            android:layout_marginStart="@dimen/_12sdp"
-            android:layout_marginTop="@dimen/_12sdp"
-            android:background="@color/trans"
-            android:contentDescription="@string/app_name"
-            android:src="@drawable/ic_baseline_brightness_2_24"
-            app:tint="@color/blue" />
-
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center_horizontal"
-            android:layout_marginStart="@dimen/_20sdp"
-            android:padding="@dimen/_11sdp"
-            android:text="@string/dark_mode"
-            android:textColor="@color/colorTextSecondary"
-            android:textSize="@dimen/_14ssp" />
-
-        <androidx.appcompat.widget.SwitchCompat
-            android:id="@+id/switch_id"
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:layout_gravity="end"
-            app:thumbTint="@color/colorTextSecondary"
-            app:trackTint="#F1EAEA" />
-
-    </FrameLayout>
+        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/linearLayout" />
 
 
-    <com.balysv.materialripple.MaterialRippleLayout
-        android:id="@+id/logout"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="@dimen/_5sdp">
-
-        <FrameLayout
-
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content">
-
-            <ImageButton
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="start"
-                android:layout_marginStart="@dimen/_12sdp"
-                android:layout_marginTop="@dimen/_12sdp"
-                android:background="@color/trans"
-                android:contentDescription="@string/app_name"
-                android:src="@drawable/ic_baseline_login_24"
-                app:tint="@color/blue" />
-
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center_horizontal"
-                android:layout_marginStart="@dimen/_20sdp"
-                android:padding="@dimen/_11sdp"
-                android:text="@string/log_out"
-                android:textColor="@color/colorTextSecondary"
-                android:textSize="@dimen/_14ssp" />
-
-            <ImageButton
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="end"
-                android:layout_marginStart="@dimen/_12sdp"
-                android:layout_marginTop="@dimen/_12sdp"
-                android:background="@color/trans"
-                android:contentDescription="@string/app_name"
-                android:src="@drawable/ic_baseline_navigate_next_24"
-                app:tint="@color/colorTextSecondary" />
-
-        </FrameLayout>
-    </com.balysv.materialripple.MaterialRippleLayout>
-
-    <com.balysv.materialripple.MaterialRippleLayout
-        android:id="@+id/Account"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="@dimen/_5sdp">
-
-        <FrameLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content">
-
-            <ImageButton
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="start"
-                android:layout_marginStart="@dimen/_12sdp"
-                android:layout_marginTop="@dimen/_12sdp"
-                android:background="@color/trans"
-                android:contentDescription="@string/app_name"
-                android:src="@drawable/ic_baseline_account_circle_24"
-                app:tint="@color/blue" />
-
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center_horizontal"
-                android:layout_marginStart="@dimen/_20sdp"
-                android:padding="@dimen/_11sdp"
-                android:text="@string/account"
-                android:textColor="@color/colorTextSecondary"
-                android:textSize="@dimen/_14ssp" />
-
-            <ImageButton
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="end"
-                android:layout_marginStart="@dimen/_12sdp"
-                android:layout_marginTop="@dimen/_12sdp"
-                android:background="@color/trans"
-                android:contentDescription="@string/app_name"
-                android:src="@drawable/ic_baseline_navigate_next_24"
-                app:tint="@color/colorTextSecondary" />
-
-        </FrameLayout>
-    </com.balysv.materialripple.MaterialRippleLayout>
-
-    <com.balysv.materialripple.MaterialRippleLayout
-        android:id="@+id/settings"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="@dimen/_5sdp">
-
-        <FrameLayout
-
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content">
-
-            <ImageButton
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="start"
-                android:layout_marginStart="@dimen/_12sdp"
-                android:layout_marginTop="@dimen/_12sdp"
-                android:background="@color/trans"
-                android:contentDescription="@string/app_name"
-                android:src="@drawable/ic_baseline_settings_24"
-                app:tint="@color/blue" />
-
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center_horizontal"
-                android:layout_marginStart="@dimen/_20sdp"
-                android:padding="@dimen/_11sdp"
-                android:text="@string/chat_settings"
-                android:textColor="@color/colorTextSecondary"
-                android:textSize="@dimen/_14ssp" />
-
-            <ImageButton
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="end"
-                android:layout_marginStart="@dimen/_12sdp"
-                android:layout_marginTop="@dimen/_12sdp"
-                android:background="@color/trans"
-                android:contentDescription="@string/app_name"
-                android:src="@drawable/ic_baseline_navigate_next_24"
-                app:tint="@color/colorTextSecondary" />
-
-        </FrameLayout>
-    </com.balysv.materialripple.MaterialRippleLayout>
-
-    <com.balysv.materialripple.MaterialRippleLayout
-        android:id="@+id/privacy"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="@dimen/_5sdp">
-
-        <FrameLayout
-
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content">
-
-            <ImageButton
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="start"
-                android:layout_marginStart="@dimen/_12sdp"
-                android:layout_marginTop="@dimen/_12sdp"
-                android:background="@color/trans"
-                android:contentDescription="@string/app_name"
-                android:src="@drawable/ic_baseline_lock_24"
-                app:tint="@color/blue" />
-
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center_horizontal"
-                android:layout_marginStart="@dimen/_20sdp"
-                android:padding="@dimen/_11sdp"
-                android:text="@string/privacy_and_security"
-                android:textColor="@color/colorTextSecondary"
-                android:textSize="@dimen/_14ssp" />
-
-            <ImageButton
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="end"
-                android:layout_marginStart="@dimen/_12sdp"
-                android:layout_marginTop="@dimen/_12sdp"
-                android:background="@color/trans"
-                android:contentDescription="@string/app_name"
-                android:src="@drawable/ic_baseline_navigate_next_24"
-                app:tint="@color/colorTextSecondary" />
-
-        </FrameLayout>
-    </com.balysv.materialripple.MaterialRippleLayout>
-
-    <com.balysv.materialripple.MaterialRippleLayout
-        android:id="@+id/about"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="@dimen/_5sdp">
-
-        <FrameLayout
-
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content">
-
-            <ImageButton
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="start"
-
-                android:layout_marginStart="@dimen/_12sdp"
-                android:layout_marginTop="@dimen/_12sdp"
-                android:background="@color/trans"
-                android:contentDescription="@string/app_name"
-                android:src="@drawable/ic_baseline_info_24"
-                app:tint="@color/blue" />
-
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center_horizontal"
-                android:layout_marginStart="@dimen/_20sdp"
-                android:padding="@dimen/_11sdp"
-                android:text="@string/about"
-                android:textColor="@color/colorTextSecondary"
-                android:textSize="@dimen/_14ssp" />
-
-            <ImageButton
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="end"
-                android:layout_marginStart="@dimen/_12sdp"
-                android:layout_marginTop="@dimen/_12sdp"
-                android:background="@color/trans"
-                android:contentDescription="@string/app_name"
-                android:src="@drawable/ic_baseline_navigate_next_24"
-                app:tint="@color/colorTextSecondary" />
-
-        </FrameLayout>
-    </com.balysv.materialripple.MaterialRippleLayout>
-
-</LinearLayout>
+</androidx.constraintlayout.widget.ConstraintLayout>

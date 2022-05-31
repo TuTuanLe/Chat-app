@@ -179,6 +179,7 @@
         </LinearLayout>
 
         <FrameLayout
+            android:id="@+id/viewProfile"
             android:layout_width="match_parent"
             android:layout_height="@dimen/_35sdp"
             android:layout_margin="@dimen/_5sdp"

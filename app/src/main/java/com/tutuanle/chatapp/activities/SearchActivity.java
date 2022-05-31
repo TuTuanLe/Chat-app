@@ -216,6 +216,12 @@ public class SearchActivity extends AppCompatActivity implements UserListener {
             dialog.dismiss();
         });
 
+        dialog.findViewById(R.id.viewProfile).setOnClickListener(v->{
+            Intent intent = new Intent(getApplicationContext(), InformationActivity.class);
+            intent.putExtra(Constants.KEY_USER, user);
+            startActivity(intent);
+        });
+
         dialog.findViewById(R.id.sendRequest).setOnClickListener(v -> {
             if (temp.getText().equals("REQUEST")) {
                 createRequestFriend(preferenceManager.getString(Constants.KEY_USER_ID), user.getUid());
