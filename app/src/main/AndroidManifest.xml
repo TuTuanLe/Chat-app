@@ -8,8 +8,6 @@
     <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
 
-
-
     <application
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
@@ -19,6 +17,9 @@
         android:theme="@style/Theme.ChatApp"
         android:usesCleartextTraffic="true"
         tools:targetApi="m">
+        <activity
+            android:name=".activities.ShowImageActivity"
+            android:exported="false" />
         <activity
             android:name=".activities.SearchActivity"
             android:exported="false" />
@@ -33,7 +34,8 @@
             android:exported="false" />
         <activity
             android:name=".activities.InformationActivity"
-            android:exported="false" />
+            android:exported="false"
+            android:theme="@style/SplashScreen" />
         <activity
             android:name=".activities.OTPScreenActivity"
             android:exported="false" />

@@ -13,6 +13,7 @@ import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
@@ -23,6 +24,7 @@ import com.github.pgreze.reactions.ReactionsConfigBuilder;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.tutuanle.chatapp.databinding.ItemReceiveBinding;
 import com.tutuanle.chatapp.databinding.ItemSentBinding;
+import com.tutuanle.chatapp.interfaces.ChatListener;
 import com.tutuanle.chatapp.models.ChatMessage;
 import com.tutuanle.chatapp.utilities.Constants;
 
@@ -35,7 +37,7 @@ public class ChatAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
     private Context context;
     public static final int VIEW_TYPE_SENT = 1;
     public static final int VIEW_TYPE_RECEIVED = 2;
-
+    private final ChatListener chatListener;
 
     @NonNull
     @Override
@@ -106,7 +108,11 @@ public class ChatAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
             viewHolder.binding.messageVideo.setOnClickListener(v ->
                     viewHolder.binding.messageVideo.start()
             );
-
+            if(message.getTypeMessage() == 1){
+                viewHolder.binding.layoutTypeMessage.setOnClickListener(v->{
+                    chatListener.onClickShowImage(message.getImageBitmap());
+                });
+            }
 
             if (chatMessages.size() != 0) {
                 if (chatMessages.get(chatMessages.size() - 1).getIsSeen() == 1 && chatMessages.get(chatMessages.size() - 1) == message) {
@@ -130,6 +136,11 @@ public class ChatAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
                 popup.onTouch(view, MotionEvent.obtain(SystemClock.uptimeMillis(), SystemClock.uptimeMillis(), MotionEvent.ACTION_DOWN, 0, 0, 0));
                 return false;
             });
+            if(message.getTypeMessage() == 1){
+                viewHolder.binding.layoutTypeMessage.setOnClickListener(v->{
+                    chatListener.onClickShowImage(message.getImageBitmap());
+                });
+            }
 
 
         }
@@ -170,10 +181,11 @@ public class ChatAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
     }
 
 
-    public ChatAdapter(List<ChatMessage> chatMessages, Bitmap receiverProfileImage, String senderId) {
+    public ChatAdapter(List<ChatMessage> chatMessages, Bitmap receiverProfileImage, String senderId, ChatListener chatListener) {
         this.chatMessages = chatMessages;
         this.receiverProfileImage = receiverProfileImage;
         this.senderId = senderId;
+        this.chatListener = chatListener;
     }
 
     static class SentMessageViewHolder extends RecyclerView.ViewHolder {

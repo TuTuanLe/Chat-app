@@ -23,13 +23,14 @@
             android:id="@+id/messageVideo"
             android:layout_width="@dimen/_150sdp"
             android:layout_height="@dimen/_150sdp"
+            android:visibility="gone"
             />
 
 
         <com.makeramen.roundedimageview.RoundedImageView
             android:id="@+id/message_image"
-            android:layout_width="@dimen/_100sdp"
-            android:layout_height="@dimen/_100sdp"
+            android:layout_width="@dimen/_150sdp"
+            android:layout_height="@dimen/_150sdp"
             android:src="@drawable/bg_4"
             android:scaleType="centerCrop"
             android:cropToPadding="true"

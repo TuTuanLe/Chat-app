@@ -149,6 +149,39 @@
             android:visibility="visible"
 
             app:riv_corner_radius="10dip" />
+        <CheckBox
+            android:id="@+id/chk1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:checked="true"
+            android:text="300     "
+            android:layout_gravity="center_horizontal"
+            android:textColor="@color/white"
+            android:textStyle="bold"
+            />
+        <CheckBox
+            android:layout_marginTop="@dimen/_30sdp"
+            android:id="@+id/chk2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:checked="false"
+            android:text="500     "
+            android:layout_gravity="center_horizontal"
+            android:textColor="@color/white"
+            android:textStyle="bold"
+            />
+        <CheckBox
+            android:layout_marginTop="@dimen/_60sdp"
+            android:id="@+id/chk3"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:checked="false"
+            android:text="HD       "
+            android:layout_gravity="center_horizontal"
+            android:textColor="@color/white"
+            android:textStyle="bold"
+            />
+
 
         <ImageButton
             android:id="@+id/iconCloseImage"

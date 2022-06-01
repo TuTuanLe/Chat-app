@@ -3,8 +3,10 @@ package com.tutuanle.chatapp.activities;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.GridLayoutManager;
 
+import android.annotation.SuppressLint;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.Color;
 import android.os.Build;
 import android.os.Bundle;
 import android.util.Base64;
@@ -63,6 +65,7 @@ public class InformationActivity extends AppCompatActivity {
         }
     }
 
+    @SuppressLint("NotifyDataSetChanged")
     private  void getImages(){
         FirebaseFirestore.getInstance().collection(Constants.KEY_COLLECTION_STORIES)
                 .document(receiverUSer.getUid())
@@ -79,7 +82,6 @@ public class InformationActivity extends AppCompatActivity {
 
 
     }
-
 
 //    task->
 //    {

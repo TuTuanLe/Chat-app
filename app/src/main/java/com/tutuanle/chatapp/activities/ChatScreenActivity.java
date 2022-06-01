@@ -39,9 +39,9 @@ import com.google.firebase.firestore.QuerySnapshot;
 import com.tutuanle.chatapp.R;
 import com.tutuanle.chatapp.adapters.ChatAdapter;
 import com.tutuanle.chatapp.databinding.ActivityChatScreenBinding;
+import com.tutuanle.chatapp.interfaces.ChatListener;
 import com.tutuanle.chatapp.models.ChatMessage;
 import com.tutuanle.chatapp.models.CustomizeChat;
-import com.tutuanle.chatapp.models.Message;
 import com.tutuanle.chatapp.models.User;
 import com.tutuanle.chatapp.network.ApiClient;
 import com.tutuanle.chatapp.network.ApiService;
@@ -58,7 +58,6 @@ import java.io.InputStream;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.Comparator;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -70,7 +69,7 @@ import retrofit2.Callback;
 import retrofit2.Response;
 
 @RequiresApi(api = Build.VERSION_CODES.N)
-public class ChatScreenActivity extends OnChatActivity {
+public class ChatScreenActivity extends OnChatActivity implements ChatListener {
     private ActivityChatScreenBinding binding;
     private User receiverUSer;
     private ChatAdapter chatAdapter;
@@ -84,6 +83,9 @@ public class ChatScreenActivity extends OnChatActivity {
     private CustomizeChat customizeChat;
     private String encodedImage;
     private int TypeMessage = 0;
+    private int ScreenResolution = 0;
+//    ChatListener chatListener;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -99,7 +101,30 @@ public class ChatScreenActivity extends OnChatActivity {
         customizeYourChat();
         initCustomTheme();
 //        updateConversation();
+        customChecked();
 
+    }
+
+    private void customChecked(){
+
+        binding.chk1.setOnClickListener(v->{
+            binding.chk1.setChecked(true);
+            binding.chk2.setChecked(false);
+            binding.chk3.setChecked(false);
+            ScreenResolution = 0;
+        });
+        binding.chk2.setOnClickListener(v->{
+            binding.chk2.setChecked(true);
+            binding.chk1.setChecked(false);
+            binding.chk3.setChecked(false);
+            ScreenResolution= 1;
+        });
+        binding.chk3.setOnClickListener(v->{
+            binding.chk3.setChecked(true);
+            binding.chk1.setChecked(false);
+            binding.chk2.setChecked(false);
+            ScreenResolution = 2;
+        });
     }
 
     private void loadReceiverDetails() {
@@ -211,11 +236,12 @@ public class ChatScreenActivity extends OnChatActivity {
         preferenceManager = new PreferenceManager(getApplicationContext());
         chatMessages = new ArrayList<>();
         customizeChat = new CustomizeChat();
+
         chatAdapter = new ChatAdapter(
                 chatMessages,
                 getBitmapFromEnCodedString(receiverUSer.getProfileImage()),
-                preferenceManager.getString(Constants.KEY_USER_ID)
-        );
+                preferenceManager.getString(Constants.KEY_USER_ID),
+                this);
 
         binding.chatRecyclerView.setAdapter(chatAdapter);
         database = FirebaseFirestore.getInstance();
@@ -319,7 +345,7 @@ public class ChatScreenActivity extends OnChatActivity {
 
                                         database.collection(Constants.KEY_COLLECTION_CUSTOM_CHAT)
                                                 .add(cusChat)
-                                                .addOnSuccessListener(v->{
+                                                .addOnSuccessListener(v -> {
                                                     customizeChat.setCustomizeUid(v.getId());
                                                     customizeChat.setTheme(0);
                                                     customizeChat.setGradient("#fff");
@@ -470,11 +496,20 @@ public class ChatScreenActivity extends OnChatActivity {
     );
 
     private String encodeImage(Bitmap bitmap) {
-        int previewWidth = 150;
+        int previewWidth = 300;
+//        if(ScreenResolution == 1){
+//            previewWidth = 500;
+//        }else if(ScreenResolution == 2){
+//            ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
+//            bitmap.compress(Bitmap.CompressFormat.JPEG, 100, byteArrayOutputStream);
+//            byte[] bytes = byteArrayOutputStream.toByteArray();
+//            return Base64.encodeToString(bytes, Base64.DEFAULT);
+//        }
+
         int previewHeight = bitmap.getHeight() * previewWidth / bitmap.getWidth();
         Bitmap previewBitmap = Bitmap.createScaledBitmap(bitmap, previewWidth, previewHeight, false);
         ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
-        previewBitmap.compress(Bitmap.CompressFormat.JPEG, 50, byteArrayOutputStream);
+        previewBitmap.compress(Bitmap.CompressFormat.JPEG, 100, byteArrayOutputStream);
         byte[] bytes = byteArrayOutputStream.toByteArray();
         return Base64.encodeToString(bytes, Base64.DEFAULT);
     }
@@ -728,6 +763,13 @@ public class ChatScreenActivity extends OnChatActivity {
     protected void onResume() {
         super.onResume();
         listenAvailabilityOfReceiver();
+    }
+
+    @Override
+    public void onClickShowImage(String url) {
+        Intent intent = new Intent(getApplicationContext(), ShowImageActivity.class);
+        intent.putExtra( Constants.KEY_IMAGE, url);
+        startActivity(intent);
     }
 
 

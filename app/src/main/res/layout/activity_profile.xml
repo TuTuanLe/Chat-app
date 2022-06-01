@@ -104,85 +104,275 @@
         </LinearLayout>
 
 
-        <EditText
-            android:id="@+id/inputName"
+        <FrameLayout
             android:layout_width="match_parent"
-            android:layout_height="@dimen/_45sdp"
-            android:layout_marginTop="@dimen/_10sdp"
-            android:hint="@string/name"
-            android:imeOptions="actionNext"
-            android:importantForAutofill="no"
-            android:inputType="textEmailAddress"
-            android:paddingStart="@dimen/_16sdp"
-            android:paddingEnd="@dimen/_16sdp"
-            android:textColor="@color/primary_text"
-            android:textSize="@dimen/_13ssp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/_35sdp"
             android:background="@drawable/text_box_outline"
             android:layout_marginHorizontal="@dimen/_10sdp"
+            >
+
+            <FrameLayout
+                android:layout_width="@dimen/_55sdp"
+                android:layout_height="match_parent"
+                android:layout_gravity="center_vertical"
+                android:background="@drawable/text_box_area"
+
+                >
+
+                <ImageButton
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_gravity="center"
+                    android:background="@color/trans"
+                    android:contentDescription="@string/app_name"
+                    android:src="@drawable/ic_baseline_drive_file_rename_outline_24"
+                    app:tint="@color/colorTextPrimary" />
+            </FrameLayout>
+            <EditText
+                android:id="@+id/inputName"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/_40sdp"
+                android:layout_marginStart="@dimen/_60sdp"
+                android:background="@color/trans"
+                android:hint="@string/name"
+                android:imeOptions="actionNext"
+                android:importantForAutofill="no"
+                android:inputType="textEmailAddress"
+                android:paddingStart="@dimen/_8sdp"
+                android:paddingEnd="@dimen/_16sdp"
+                android:textColor="@color/primary_text"
+                android:textSize="@dimen/_13ssp"
+                android:layout_marginHorizontal="@dimen/_10sdp"
+                />
+
+        </FrameLayout>
+
+
+        <FrameLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/_10sdp"
+            android:background="@drawable/text_box_outline"
+            android:layout_marginHorizontal="@dimen/_10sdp"
+            >
+
+            <FrameLayout
+                android:layout_width="@dimen/_55sdp"
+                android:layout_height="match_parent"
+                android:layout_gravity="center_vertical"
+                android:background="@drawable/text_box_area"
+
+                >
+
+                <ImageButton
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_gravity="center"
+                    android:background="@color/trans"
+                    android:contentDescription="@string/app_name"
+                    android:src="@drawable/ic_baseline_password_24"
+                    app:tint="@color/colorTextPrimary" />
+            </FrameLayout>
+
+            <EditText
+                android:layout_marginStart="@dimen/_60sdp"
+                android:id="@+id/inputCurrentPassword"
+                android:layout_width="match_parent"
+                android:layout_marginEnd="@dimen/_40sdp"
+                android:layout_height="@dimen/_40sdp"
+                android:hint="Current Password"
+                android:imeOptions="actionNext"
+                android:importantForAutofill="no"
+                android:inputType="textPassword"
+                android:paddingStart="@dimen/_8sdp"
+                android:paddingEnd="@dimen/_16sdp"
+                android:textColor="@color/primary_text"
+                android:textSize="@dimen/_13ssp"
+                android:background="@color/trans"
             />
+            <ImageView
+                android:id="@+id/passwordHintCurrent"
+                android:layout_width="@dimen/_40sdp"
+                android:layout_height="@dimen/_40sdp"
+                android:src="@drawable/eye"
+                android:padding="@dimen/_13sdp"
+                android:layout_gravity="end"
+                />
+
+        </FrameLayout>
+
+        <FrameLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/_10sdp"
+            android:background="@drawable/text_box_outline"
+            android:layout_marginHorizontal="@dimen/_10sdp"
+            >
+
+            <FrameLayout
+                android:layout_width="@dimen/_55sdp"
+                android:layout_height="match_parent"
+                android:layout_gravity="center_vertical"
+                android:background="@drawable/text_box_area"
+
+                >
+
+                <ImageButton
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_gravity="center"
+                    android:background="@color/trans"
+                    android:contentDescription="@string/app_name"
+                    android:src="@drawable/ic_baseline_password_24"
+                    app:tint="@color/blue" />
+            </FrameLayout>
 
 
-        <EditText
-            android:id="@+id/inputCurrentPassword"
-            android:layout_width="match_parent"
-            android:layout_height="@dimen/_45sdp"
-            android:layout_marginTop="@dimen/_10sdp"
-            android:hint="Current Password"
-            android:imeOptions="actionNext"
-            android:importantForAutofill="no"
-            android:inputType="textPassword"
-            android:paddingStart="@dimen/_16sdp"
-            android:paddingEnd="@dimen/_16sdp"
-            android:textColor="@color/primary_text"
-            android:textSize="@dimen/_13ssp"
-            android:background="@drawable/text_box_outline"
-            android:layout_marginHorizontal="@dimen/_10sdp"/>
-        <EditText
-            android:id="@+id/inputNewPassword"
-            android:layout_width="match_parent"
-            android:layout_height="@dimen/_45sdp"
-            android:layout_marginTop="@dimen/_10sdp"
-            android:hint="New Password"
-            android:imeOptions="actionNext"
-            android:importantForAutofill="no"
-            android:inputType="textPassword"
-            android:paddingStart="@dimen/_16sdp"
-            android:paddingEnd="@dimen/_16sdp"
-            android:textColor="@color/primary_text"
-            android:textSize="@dimen/_13ssp"
-            android:background="@drawable/text_box_outline"
-            android:layout_marginHorizontal="@dimen/_10sdp"/>
-        <EditText
-            android:id="@+id/inputConfirmNewPassword"
-            android:layout_width="match_parent"
-            android:layout_height="@dimen/_45sdp"
-            android:layout_marginTop="@dimen/_10sdp"
-            android:hint="@string/confirm_password"
-            android:imeOptions="actionNext"
-            android:importantForAutofill="no"
-            android:inputType="textPassword"
-            android:paddingStart="@dimen/_16sdp"
-            android:paddingEnd="@dimen/_16sdp"
-            android:textColor="@color/primary_text"
-            android:textSize="@dimen/_13ssp"
-            android:background="@drawable/text_box_outline"
-            android:layout_marginHorizontal="@dimen/_10sdp"/>
+            <EditText
+                android:layout_marginStart="@dimen/_60sdp"
+                android:id="@+id/inputNewPassword"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/_40sdp"
+                android:hint="New Password"
+                android:imeOptions="actionNext"
+                android:importantForAutofill="no"
+                android:inputType="textPassword"
+                android:layout_marginEnd="@dimen/_40sdp"
+                android:paddingStart="@dimen/_10sdp"
+                android:paddingEnd="@dimen/_16sdp"
+                android:textColor="@color/primary_text"
+                android:textSize="@dimen/_13ssp"
+                android:background="@color/trans"
+             />
+            <ImageView
+                android:id="@+id/passwordHintNew"
+                android:layout_width="@dimen/_40sdp"
+                android:layout_height="@dimen/_40sdp"
+                android:src="@drawable/eye"
+                android:padding="@dimen/_13sdp"
+                android:layout_gravity="end"
+                />
 
-        <EditText
-            android:id="@+id/inputNumberPhone"
+        </FrameLayout>
+
+        <FrameLayout
             android:layout_width="match_parent"
-            android:layout_height="@dimen/_45sdp"
+            android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/_10sdp"
-            android:hint="+84 Number phone"
-            android:imeOptions="actionDone"
-            android:importantForAutofill="no"
-            android:inputType="phone"
-            android:paddingStart="@dimen/_16sdp"
-            android:paddingEnd="@dimen/_16sdp"
-            android:textColor="@color/primary_text"
-            android:textSize="@dimen/_13ssp"
             android:background="@drawable/text_box_outline"
-            android:layout_marginHorizontal="@dimen/_10sdp"/>
+            android:layout_marginHorizontal="@dimen/_10sdp"
+            >
+
+            <FrameLayout
+                android:layout_width="@dimen/_55sdp"
+                android:layout_height="match_parent"
+                android:layout_gravity="center_vertical"
+                android:background="@drawable/text_box_area"
+
+                >
+
+                <ImageButton
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_gravity="center"
+                    android:background="@color/trans"
+                    android:contentDescription="@string/app_name"
+                    android:src="@drawable/ic_baseline_confirmation_number_24"
+                    app:tint="@color/colorTextPrimary" />
+            </FrameLayout>
+
+
+
+            <EditText
+                android:layout_marginStart="@dimen/_60sdp"
+                android:id="@+id/inputConfirmNewPassword"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/_40sdp"
+                android:hint="@string/confirm_password"
+                android:imeOptions="actionNext"
+                android:importantForAutofill="no"
+                android:inputType="textPassword"
+                android:layout_marginEnd="@dimen/_40sdp"
+                android:paddingStart="@dimen/_10sdp"
+                android:paddingEnd="@dimen/_16sdp"
+                android:textColor="@color/primary_text"
+                android:textSize="@dimen/_13ssp"
+                android:background="@color/trans"
+                />
+            <ImageView
+                android:id="@+id/passwordHintConfirm"
+                android:layout_width="@dimen/_40sdp"
+                android:layout_height="@dimen/_40sdp"
+                android:src="@drawable/eye"
+                android:padding="@dimen/_13sdp"
+                android:layout_gravity="end"
+                />
+        </FrameLayout>
+
+
+
+        <FrameLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/_10sdp"
+            android:background="@drawable/text_box_outline"
+            android:layout_marginHorizontal="@dimen/_10sdp"
+            >
+
+            <FrameLayout
+                android:layout_width="@dimen/_55sdp"
+                android:layout_height="match_parent"
+                android:layout_gravity="center_vertical"
+                android:background="@drawable/text_box_area"
+
+                >
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:gravity="center"
+                    android:paddingStart="@dimen/_10sdp"
+                    android:text="+84"
+                    android:textColor="@color/colorTextPrimary"
+                    android:textSize="@dimen/_13ssp"
+                    android:textStyle="bold" />
+
+                <ImageButton
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_gravity="end"
+                    android:background="@color/trans"
+                    android:contentDescription="@string/app_name"
+                    android:paddingEnd="@dimen/_5sdp"
+                    android:src="@drawable/ic_baseline_expand_more_24"
+                    app:tint="@color/colorTextPrimary" />
+            </FrameLayout>
+
+
+
+
+            <EditText
+                android:layout_marginStart="@dimen/_60sdp"
+                android:id="@+id/inputNumberPhone"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/_40sdp"
+                android:hint="Number phone"
+                android:imeOptions="actionDone"
+                android:importantForAutofill="no"
+                android:inputType="phone"
+                android:paddingStart="@dimen/_16sdp"
+                android:paddingEnd="@dimen/_16sdp"
+                android:textColor="@color/primary_text"
+                android:textSize="@dimen/_13ssp"
+                android:background="@color/trans"
+                android:layout_marginHorizontal="@dimen/_10sdp"/>
+        </FrameLayout>
+
+
+
+
+
 
         <FrameLayout
             android:layout_width="match_parent"

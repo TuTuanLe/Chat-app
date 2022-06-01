@@ -13,6 +13,8 @@ import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
+import android.text.method.HideReturnsTransformationMethod;
+import android.text.method.PasswordTransformationMethod;
 import android.util.Base64;
 import android.view.View;
 import android.widget.TextView;
@@ -40,6 +42,7 @@ public class ProfileActivity extends AppCompatActivity {
     private User currentUser;
     private User updateUser;
     private String encodedImage;
+    private int check = 0, checkOne =0 , checkTwo =0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -51,18 +54,66 @@ public class ProfileActivity extends AppCompatActivity {
         loadInfoUser();
         changeAvatar();
         UpdateProfile();
+        setBinding();
 
-        binding.imageBack.setOnClickListener(v->onBackPressed());
     }
+
+    private void setBinding(){
+        binding.imageBack.setOnClickListener(v->onBackPressed());
+        binding.passwordHintCurrent.setOnClickListener(v->{
+            if (check == 0) {
+                binding.passwordHintCurrent.setImageResource(R.drawable.eye);
+                binding.inputCurrentPassword.setTransformationMethod(PasswordTransformationMethod.getInstance());
+                check = 1;
+
+
+            } else {
+                binding.passwordHintCurrent.setImageResource(R.drawable.icons8eye24);
+                check = 0;
+                binding.inputCurrentPassword.setTransformationMethod(HideReturnsTransformationMethod.getInstance());
+            }
+
+        });
+        binding.passwordHintNew.setOnClickListener(v->{
+            if (checkOne == 0) {
+                binding.passwordHintNew.setImageResource(R.drawable.eye);
+                binding.inputNewPassword.setTransformationMethod(PasswordTransformationMethod.getInstance());
+                checkOne = 1;
+
+
+            } else {
+                binding.passwordHintNew.setImageResource(R.drawable.icons8eye24);
+                checkOne = 0;
+                binding.inputNewPassword.setTransformationMethod(HideReturnsTransformationMethod.getInstance());
+            }
+        });
+        binding.passwordHintConfirm.setOnClickListener(v->{
+            if (checkTwo == 0) {
+                binding.passwordHintConfirm.setImageResource(R.drawable.eye);
+                binding.inputConfirmNewPassword.setTransformationMethod(PasswordTransformationMethod.getInstance());
+                checkTwo = 1;
+
+
+            } else {
+                binding.passwordHintConfirm.setImageResource(R.drawable.icons8eye24);
+                checkTwo = 0;
+                binding.inputConfirmNewPassword.setTransformationMethod(HideReturnsTransformationMethod.getInstance());
+            }
+
+        });
+
+    }
+
 
     private void loadInfoUser(){
         currentUser = (User) getIntent().getSerializableExtra(Constants.KEY_USER);
         binding.inputName.setText(currentUser.getName());
+        binding.inputCurrentPassword.setText(currentUser.getPassword());
+        binding.inputNumberPhone.setText(currentUser.getPhoneNumber());
         byte[] bytes = Base64.decode(currentUser.getProfileImage(),Base64.DEFAULT);
         Bitmap bitmap = BitmapFactory.decodeByteArray(bytes, 0, bytes.length);
         encodedImage = encodeImage(bitmap);
         binding.imageProfile.setImageBitmap(bitmap);
-
 
         FirebaseFirestore db = FirebaseFirestore.getInstance();
         db.collection(Constants.KEY_COLLECTION_USERS).document(currentUser.getUid()).get().addOnSuccessListener(documentSnapshot -> {
@@ -128,7 +179,6 @@ public class ProfileActivity extends AppCompatActivity {
                 updateUser.setProfileImage(encodedImage);
                 updateUser.setPhoneNumber(binding.inputNumberPhone.getText().toString());
                 updateUser.setEmail(currentUser.getEmail());
-                //check password is change?
                 if(binding.inputCurrentPassword.getText().toString().equals("")){
                     updateUser.setPassword(currentUser.getPassword());
                     updateData();
