@@ -52,6 +52,20 @@
             android:textColor="@color/white"
             android:textSize="@dimen/_11ssp"
         />
+        <TextView
+            android:id="@+id/unMessage"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:visibility="visible"
+            android:background="@drawable/unsent_drawable"
+            android:maxWidth="@dimen/_200sdp"
+            android:padding="@dimen/_8sdp"
+            android:paddingTop="@dimen/_5sdp"
+            android:paddingBottom="@dimen/_5sdp"
+            android:text="@string/app_name"
+            android:textColor="@color/secondary_text"
+            android:textSize="@dimen/_11ssp"
+            />
     </androidx.appcompat.widget.LinearLayoutCompat>
 
 

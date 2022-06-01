@@ -84,6 +84,9 @@ public class ChatScreenActivity extends OnChatActivity implements ChatListener {
     private String encodedImage;
     private int TypeMessage = 0;
     private int ScreenResolution = 0;
+    private String messageUid;
+    private String senderUidMessage;
+    int checkRemoveMessage  = 0;
 //    ChatListener chatListener;
 
 
@@ -105,21 +108,21 @@ public class ChatScreenActivity extends OnChatActivity implements ChatListener {
 
     }
 
-    private void customChecked(){
+    private void customChecked() {
 
-        binding.chk1.setOnClickListener(v->{
+        binding.chk1.setOnClickListener(v -> {
             binding.chk1.setChecked(true);
             binding.chk2.setChecked(false);
             binding.chk3.setChecked(false);
             ScreenResolution = 0;
         });
-        binding.chk2.setOnClickListener(v->{
+        binding.chk2.setOnClickListener(v -> {
             binding.chk2.setChecked(true);
             binding.chk1.setChecked(false);
             binding.chk3.setChecked(false);
-            ScreenResolution= 1;
+            ScreenResolution = 1;
         });
-        binding.chk3.setOnClickListener(v->{
+        binding.chk3.setOnClickListener(v -> {
             binding.chk3.setChecked(true);
             binding.chk1.setChecked(false);
             binding.chk2.setChecked(false);
@@ -141,6 +144,7 @@ public class ChatScreenActivity extends OnChatActivity implements ChatListener {
         binding.iconCloseImage.setOnClickListener(v -> setCloseLayoutChoiseImage());
         binding.imageCall.setOnClickListener(v -> initialAudioMeeting(receiverUSer));
         binding.imageVideoCall.setOnClickListener(v -> initialVideoMeeting(receiverUSer));
+        binding.removeMessage.setOnClickListener(v -> openDialogMenu());
 
     }
 
@@ -180,6 +184,57 @@ public class ChatScreenActivity extends OnChatActivity implements ChatListener {
         dialog.setCancelable(true);
         dialog.show();
     }
+
+    private void openDialogMenu() {
+        final Dialog dialog = new Dialog(this);
+        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+        dialog.setContentView(R.layout.layout_dialog_menu);
+
+        Window window = dialog.getWindow();
+        if (window == null) {
+            return;
+        }
+        window.setLayout(WindowManager.LayoutParams.MATCH_PARENT, WindowManager.LayoutParams.WRAP_CONTENT);
+        WindowManager.LayoutParams windowAttributes = window.getAttributes();
+        windowAttributes.gravity = Gravity.BOTTOM;
+        window.setAttributes(windowAttributes);
+
+        if (!senderUidMessage.equals(preferenceManager.getString(Constants.KEY_USER_ID))) {
+            dialog.findViewById(R.id.layoutUnSend).setVisibility(View.GONE);
+            checkRemoveMessage = 0;
+        } else {
+            dialog.findViewById(R.id.layoutUnSend).setVisibility(View.VISIBLE);
+            checkRemoveMessage = 1;
+        }
+
+        dialog.findViewById(R.id.UnSend).setOnClickListener(v->{
+            FirebaseFirestore.getInstance()
+                    .collection(Constants.KEY_COLLECTION_CHAT)
+                    .document(messageUid)
+                    .update(Constants.KEY_MESSAGE, "You unsent a message" ,
+                            Constants.KEY_TYPE_MESSAGE, 3,
+                            Constants.KEY_SEND_IMAGE, null,
+                            Constants.KEY_FEELING, -1)
+                    .addOnSuccessListener(item -> Log.d("UNSEND_MESSAGE", "update successfully"))
+                    .addOnFailureListener(item -> Log.d("UNSEND_MESSAGE", "fail "));
+            dialog.dismiss();
+        });
+
+        dialog.findViewById(R.id.remove).setOnClickListener(v->{
+            FirebaseFirestore.getInstance()
+                    .collection(Constants.KEY_COLLECTION_CHAT)
+                    .document(messageUid)
+                    .update( Constants.KEY_TYPE_MESSAGE,  checkRemoveMessage == 1 ?4 : 5)
+                    .addOnSuccessListener(item -> Log.d("UNSEND_MESSAGE", "update successfully"))
+                    .addOnFailureListener(item -> Log.d("UNSEND_MESSAGE", "fail "));
+            dialog.dismiss();
+        });
+
+        dialog.setCancelable(true);
+        dialog.show();
+        binding.cardViewMenu.setVisibility(View.GONE);
+    }
+
 
     private void openDialogCenter() {
         final Dialog dialog = new Dialog(this);
@@ -408,17 +463,18 @@ public class ChatScreenActivity extends OnChatActivity implements ChatListener {
                     int index = findMessage(docID);
                     chatMessages.get(index).setFeeling(
                             Integer.parseInt(Objects.requireNonNull(documentChange.getDocument().getLong(Constants.KEY_FEELING)).toString()));
-
+                    chatMessages.get(index).setMessage(documentChange.getDocument().getString(Constants.KEY_MESSAGE));
+                    chatMessages.get(index).setTypeMessage(Integer.parseInt(Objects.requireNonNull(documentChange.getDocument().getLong(Constants.KEY_TYPE_MESSAGE)).toString()));
                     if (chatMessages.get(index).getTypeMessage() == 1) {
                         chatMessages.get(index).setImageBitmap(documentChange.getDocument().getString(Constants.KEY_SEND_IMAGE));
                     } else if (chatMessages.get(index).getTypeMessage() == 2) {
                         chatMessages.get(index).setImageBitmap(documentChange.getDocument().getString(Constants.KEY_SEND_VIDEO));
-                    } else if (chatMessages.get(index).getTypeMessage() == 3) {
-                        chatMessages.get(index).setImageBitmap(documentChange.getDocument().getString(Constants.KEY_SEND_RECORD));
                     }
 
 
+
                     chatAdapter.notifyDataSetChanged();
+                    binding.cardViewMenu.setVisibility(View.GONE);
                 } else if (documentChange.getType() == DocumentChange.Type.REMOVED) {
                     // remove
 //                    String docID = documentChange.getDocument().getId();
@@ -497,15 +553,11 @@ public class ChatScreenActivity extends OnChatActivity implements ChatListener {
 
     private String encodeImage(Bitmap bitmap) {
         int previewWidth = 300;
-//        if(ScreenResolution == 1){
-//            previewWidth = 500;
-//        }else if(ScreenResolution == 2){
-//            ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
-//            bitmap.compress(Bitmap.CompressFormat.JPEG, 100, byteArrayOutputStream);
-//            byte[] bytes = byteArrayOutputStream.toByteArray();
-//            return Base64.encodeToString(bytes, Base64.DEFAULT);
-//        }
-
+        if (ScreenResolution == 1) {
+            previewWidth = 500;
+        } else if (ScreenResolution == 2) {
+            previewWidth = 700;
+        }
         int previewHeight = bitmap.getHeight() * previewWidth / bitmap.getWidth();
         Bitmap previewBitmap = Bitmap.createScaledBitmap(bitmap, previewWidth, previewHeight, false);
         ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
@@ -768,8 +820,15 @@ public class ChatScreenActivity extends OnChatActivity implements ChatListener {
     @Override
     public void onClickShowImage(String url) {
         Intent intent = new Intent(getApplicationContext(), ShowImageActivity.class);
-        intent.putExtra( Constants.KEY_IMAGE, url);
+        intent.putExtra(Constants.KEY_IMAGE, url);
         startActivity(intent);
+    }
+
+    @Override
+    public void onLongClickRemoveMessage(String uidMessage, String senderId) {
+        binding.cardViewMenu.setVisibility(View.VISIBLE);
+        messageUid = uidMessage;
+        senderUidMessage = senderId;
     }
 
 
