@@ -7,6 +7,8 @@ import android.view.LayoutInflater;
 import android.view.ViewGroup;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
+
+import com.bumptech.glide.Glide;
 import com.tutuanle.chatapp.databinding.ItemImageBinding;
 import java.util.List;
 
@@ -30,7 +32,7 @@ public class InformationAdapter extends RecyclerView.Adapter<InformationAdapter.
 
     @Override
     public void onBindViewHolder(@NonNull InformationViewHolder holder, int position) {
-
+        holder.setUserData(images.get(position));
     }
 
     @Override
@@ -48,12 +50,8 @@ public class InformationAdapter extends RecyclerView.Adapter<InformationAdapter.
         }
 
         void setUserData(String item) {
-
+            Glide.with(binding.getRoot()).load(item).into(binding.image);
         }
     }
 
-    private Bitmap getUserImage(String encodedImage) {
-        byte[] bytes = Base64.decode(encodedImage, Base64.DEFAULT);
-        return BitmapFactory.decodeByteArray(bytes, 0, bytes.length);
-    }
 }
