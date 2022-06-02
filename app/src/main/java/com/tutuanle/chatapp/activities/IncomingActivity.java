@@ -113,6 +113,7 @@ public class IncomingActivity extends AppCompatActivity {
                                     .setServerURL(new URL("https://meet.jit.si"))
                                     .setRoom(getIntent().getStringExtra(Constants.REMOTE_MSG_MEETING_ROM))
                                     .setWelcomePageEnabled(false)
+                                    .setVideoMuted(meetingType.equals("audio"))
                                     .build();
                             JitsiMeetActivity.launch(IncomingActivity.this, options);
                             finish();

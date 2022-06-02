@@ -807,6 +807,10 @@ public class ChatScreenActivity extends OnChatActivity implements ChatListener {
             showToast(user.getName() + " is not available for calling ...");
         } else {
             showToast(user.getName() + " call ...");
+            Intent intent = new Intent(getApplicationContext(), OutgoingActivity.class);
+            intent.putExtra(Constants.KEY_USER, user);
+            intent.putExtra("type_call","audio");
+            startActivity(intent);
         }
     }
 
