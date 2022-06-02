@@ -5,6 +5,7 @@ import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.app.Dialog;
 import android.content.Context;
+import android.content.ContextWrapper;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
@@ -26,7 +27,6 @@ import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
 import android.view.inputmethod.EditorInfo;
-import android.widget.ImageView;
 import android.widget.Toast;
 
 import androidx.activity.result.ActivityResultLauncher;
@@ -37,15 +37,12 @@ import androidx.annotation.RequiresApi;
 import androidx.cardview.widget.CardView;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
-import androidx.core.content.PackageManagerCompat;
 
 import com.devlomi.record_view.OnRecordListener;
 import com.devlomi.record_view.RecordButton;
 import com.devlomi.record_view.RecordView;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
-import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.firestore.DocumentChange;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
@@ -59,7 +56,6 @@ import com.tutuanle.chatapp.adapters.ChatAdapter;
 import com.tutuanle.chatapp.databinding.ActivityChatScreenBinding;
 import com.tutuanle.chatapp.models.ChatMessage;
 import com.tutuanle.chatapp.models.CustomizeChat;
-import com.tutuanle.chatapp.models.Message;
 import com.tutuanle.chatapp.models.User;
 import com.tutuanle.chatapp.network.ApiClient;
 import com.tutuanle.chatapp.network.ApiService;
@@ -106,6 +102,7 @@ public class ChatScreenActivity extends OnChatActivity {
     private int TypeMessage = 0;
     private MediaRecorder recorder = null;
     private String audioPath = "";
+    private static int MICROPHONE_PERMISSION_CODE = 200;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -726,19 +723,14 @@ public class ChatScreenActivity extends OnChatActivity {
         return ContextCompat.checkSelfPermission(context, Manifest.permission.RECORD_AUDIO) == PackageManager.PERMISSION_GRANTED;
     }
     private void requestRecording(Activity activity){
-        ActivityCompat.requestPermissions(activity,new String[]{Manifest.permission.RECORD_AUDIO},1);
+        ActivityCompat.requestPermissions(activity,new String[]{Manifest.permission.RECORD_AUDIO},MICROPHONE_PERMISSION_CODE);
     }
     private void SetupRecord() {
         recorder = new MediaRecorder();
         recorder.setAudioSource(MediaRecorder.AudioSource.MIC);
         recorder.setOutputFormat(MediaRecorder.OutputFormat.THREE_GPP);
         recorder.setAudioEncoder(MediaRecorder.AudioEncoder.AMR_NB);
-
-//        File file = new File(Environment.getExternalStorageDirectory().getAbsolutePath(),'MessageApp');
-//        if(!file.exists())
-//        file.mkdirs();
-//        String audioPath = file.getAbsolutePath() + File.separator + System.currentTimeMillis() + ".3gp";
-        recorder.setOutputFile(audioPath);
+        recorder.setOutputFile(getRecordingFilePath());
     }
 
     private void pushRecordToFirebase(String audioPath){
@@ -754,6 +746,14 @@ public class ChatScreenActivity extends OnChatActivity {
                 }
             });
         });
+    }
+
+    @NonNull
+    private String getRecordingFilePath() {
+        ContextWrapper contextWrapper = new ContextWrapper(getApplicationContext());
+        File musicDirectory = contextWrapper.getExternalFilesDir(Environment.DIRECTORY_MUSIC);
+        File file = new File(musicDirectory,"testrecord" + ".mp3");
+        return file.getPath();
     }
 
     protected void initView() {
@@ -775,8 +775,8 @@ public class ChatScreenActivity extends OnChatActivity {
         recordView.setOnRecordListener(new OnRecordListener() {
             @Override
             public void onStart() {
-                SetupRecord();
                try {
+                   SetupRecord();
                    recorder.prepare();
                    recorder.start();
                }catch (IOException e){
@@ -790,9 +790,9 @@ public class ChatScreenActivity extends OnChatActivity {
                 //On Swipe To Cancel
                 recorder.reset();
                 recorder.release();
-                File file = new File(audioPath);
-                if(!file.exists())
-                    file.delete();
+//                File file = new File(audioPath);
+//                if(!file.exists())
+//                    file.delete();
                 recordView.setVisibility(View.GONE);
 
             }
@@ -808,7 +808,6 @@ public class ChatScreenActivity extends OnChatActivity {
 
             @Override
             public void onLessThanSecond() {
-                //When the record time is less than One Second
                 recorder.reset();
                 recorder.release();
                 recordView.setVisibility(View.GONE);
