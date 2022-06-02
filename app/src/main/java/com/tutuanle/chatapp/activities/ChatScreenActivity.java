@@ -10,6 +10,7 @@ import android.graphics.drawable.ColorDrawable;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.Handler;
 import android.provider.MediaStore;
 import android.text.Editable;
 import android.text.TextWatcher;
@@ -833,6 +834,22 @@ public class ChatScreenActivity extends OnChatActivity implements ChatListener {
         binding.cardViewMenu.setVisibility(View.VISIBLE);
         messageUid = uidMessage;
         senderUidMessage = senderId;
+    }
+
+    @Override
+    public void showAnimationReaction(int index) {
+        binding.animationView.setVisibility(View.VISIBLE);
+        binding.animationView.setAnimation(Constants.REACTIONS_ANIMATION[index]);
+        binding.animationView.playAnimation();
+
+        new Handler().postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                binding.animationView.pauseAnimation();
+                binding.animationView.setVisibility(View.GONE);
+            }
+        }, 2000);
+
     }
 
 

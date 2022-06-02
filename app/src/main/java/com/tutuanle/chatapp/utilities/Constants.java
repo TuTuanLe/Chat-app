@@ -59,6 +59,16 @@ public class Constants {
             R.drawable.bg_6
     };
 
+    public static int[] REACTIONS_ANIMATION = new int[]{
+            R.raw.like,
+            R.raw.heart,
+            R.raw.laugh,
+            R.raw.wow,
+            R.raw.sad,
+            R.raw.angry,
+    };
+
+
     public static final String KEY_COLLECTION_CONVERSATIONS = "conversations";
     public static final String KEY_SENDER_NAME = "senderName";
     public static final String KEY_SENDER_IMAGE = "senderImage";
