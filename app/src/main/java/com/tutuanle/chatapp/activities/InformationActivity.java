@@ -60,9 +60,7 @@ public class InformationActivity extends AppCompatActivity {
         binding.txtUserName.setText(receiverUSer.getName());
         binding.txtEmail.setText(receiverUSer.getEmail());
         binding.imageProfile.setImageBitmap(getBitmapFromEnCodedString(receiverUSer.getProfileImage()));
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
-            getWindow().setFlags(WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS, WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS);
-        }
+        getWindow().setFlags(WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS, WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS);
     }
 
     @SuppressLint("NotifyDataSetChanged")

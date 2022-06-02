@@ -16,6 +16,7 @@ import com.google.android.gms.auth.api.signin.GoogleSignInClient;
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
 import com.makeramen.roundedimageview.RoundedImageView;
 import com.tutuanle.chatapp.R;
+import com.tutuanle.chatapp.activities.ChatSettingsActivity;
 import com.tutuanle.chatapp.activities.MainScreenActivity;
 import com.tutuanle.chatapp.activities.ProfileActivity;
 import com.tutuanle.chatapp.models.User;
@@ -99,12 +100,12 @@ public class SettingFragment extends Fragment {
     }
 
     private void setListeners(){
-        FrameLayout frameLayout =  view.findViewById(R.id.logout);
-        frameLayout.setOnClickListener( v-> {
+        view.findViewById(R.id.logout).setOnClickListener( v-> {
             GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN).requestEmail().build();
             mGoogleSignInClient = GoogleSignIn.getClient(mainScreenActivity, gso);
             mainScreenActivity.signOut();
             mGoogleSignInClient.signOut();
         });
+        view.findViewById(R.id.settings).setOnClickListener(v->startActivity(new Intent(getContext(), ChatSettingsActivity.class)));
     }
 }
