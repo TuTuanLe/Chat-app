@@ -37,6 +37,7 @@
     <color name="colorTextPrimary">#1B1A57</color>
     <color name="colorTextSecondary">#4F5E7B</color>
     <color name="colorTextSeen">#474646</color>
+    <color name="secondary_gray">#F9F9F9</color>
 
 
 </resources>

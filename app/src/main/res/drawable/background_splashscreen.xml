@@ -2,6 +2,9 @@
 <layer-list xmlns:android="http://schemas.android.com/apk/res/android">
     <item android:drawable="@color/blue"/>
     <item android:drawable="@drawable/ic_banner_foreground"  android:gravity="center" >
-
     </item>
+    <item android:drawable="@drawable/ic_frame"  android:gravity="center"  android:width="@dimen/_70sdp" android:height="@dimen/_70sdp" >
+    </item>
+
+
 </layer-list>

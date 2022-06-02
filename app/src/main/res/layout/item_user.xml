@@ -24,7 +24,7 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
         android:layout_marginTop="@dimen/_2sdp"
-        android:fontFamily="@font/tajawal_regular"
+        android:fontFamily="@font/roboto_light"
         android:text="Sample Name"
         android:textSize="@dimen/_13ssp"
         android:textStyle="bold"

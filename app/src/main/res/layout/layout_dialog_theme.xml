@@ -16,9 +16,10 @@
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:gravity="start"
             android:padding="@dimen/_12ssp"
-            android:text="Customize your chat"
+            android:text="Chats"
+            android:fontFamily="@font/roboto_bold"
+            android:textAlignment="center"
             android:textColor="@color/white"
             android:textSize="@dimen/_13sdp" />
 
@@ -35,6 +36,82 @@
             android:tint="@color/white"
             />
     </FrameLayout>
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/_10sdp"
+        android:layout_marginTop="@dimen/_10sdp"
+        android:gravity="start"
+        android:text="Customize your chat"
+        android:textColor="@color/colorTextPrimary" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="start"
+        android:orientation="horizontal"
+        android:paddingTop="@dimen/_7sdp"
+        android:paddingStart="@dimen/_5sdp"
+        >
+        <androidx.cardview.widget.CardView
+            android:layout_width="@dimen/_20sdp"
+            android:layout_height="@dimen/_20sdp"
+            android:layout_marginHorizontal="@dimen/_5sdp"
+            app:cardCornerRadius="@dimen/_20sdp"
+            app:cardBackgroundColor="#2BA8C3"
+            />
+        <androidx.cardview.widget.CardView
+            android:layout_width="@dimen/_20sdp"
+            android:layout_height="@dimen/_20sdp"
+            android:layout_marginHorizontal="@dimen/_5sdp"
+            app:cardCornerRadius="@dimen/_20sdp"
+            app:cardBackgroundColor="#F472A9"
+            />
+        <androidx.cardview.widget.CardView
+            android:layout_width="@dimen/_20sdp"
+            android:layout_height="@dimen/_20sdp"
+            android:layout_marginHorizontal="@dimen/_5sdp"
+            app:cardCornerRadius="@dimen/_20sdp"
+            app:cardBackgroundColor="#42BBFD"
+            />
+        <androidx.cardview.widget.CardView
+            android:layout_width="@dimen/_20sdp"
+            android:layout_height="@dimen/_20sdp"
+            android:layout_marginHorizontal="@dimen/_5sdp"
+            app:cardCornerRadius="@dimen/_20sdp"
+            app:cardBackgroundColor="#DC72E1"
+            />
+        <androidx.cardview.widget.CardView
+            android:layout_width="@dimen/_20sdp"
+            android:layout_height="@dimen/_20sdp"
+            android:layout_marginHorizontal="@dimen/_5sdp"
+            app:cardCornerRadius="@dimen/_20sdp"
+            app:cardBackgroundColor="#FC8F80"
+            />
+        <androidx.cardview.widget.CardView
+            android:layout_width="@dimen/_20sdp"
+            android:layout_height="@dimen/_20sdp"
+            android:layout_marginHorizontal="@dimen/_5sdp"
+            app:cardCornerRadius="@dimen/_20sdp"
+            app:cardBackgroundColor="#1CAC70"
+            />
+        <androidx.cardview.widget.CardView
+            android:layout_width="@dimen/_20sdp"
+            android:layout_height="@dimen/_20sdp"
+            android:layout_marginHorizontal="@dimen/_5sdp"
+            app:cardCornerRadius="@dimen/_20sdp"
+            app:cardBackgroundColor="#FF7AA0"
+            />
+        <androidx.cardview.widget.CardView
+            android:layout_width="@dimen/_20sdp"
+            android:layout_height="@dimen/_20sdp"
+            android:layout_marginHorizontal="@dimen/_5sdp"
+            app:cardCornerRadius="@dimen/_20sdp"
+            app:cardBackgroundColor="#50C9BF"
+            />
+
+    </LinearLayout>
 
     <TextView
         android:layout_width="match_parent"
@@ -74,11 +151,18 @@
                 android:padding="@dimen/_11sdp"
                 android:text="Default"
                 android:textColor="@color/colorTextSecondary"
+                android:fontFamily="@font/roboto_light"
                 android:textSize="@dimen/_12ssp" />
 
 
         </FrameLayout>
     </com.balysv.materialripple.MaterialRippleLayout>
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_marginHorizontal="@dimen/_10sdp"
+        android:background="@color/secondary_gray"
+        />
 
     <com.balysv.materialripple.MaterialRippleLayout
         android:id="@+id/Theme_1"
@@ -108,6 +192,7 @@
                 android:layout_marginStart="@dimen/_30sdp"
                 android:padding="@dimen/_11sdp"
                 android:text="Magic"
+                android:fontFamily="@font/roboto_light"
                 android:textColor="@color/colorTextSecondary"
                 android:textSize="@dimen/_12ssp"
                 />
@@ -115,6 +200,12 @@
 
         </FrameLayout>
     </com.balysv.materialripple.MaterialRippleLayout>
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_marginHorizontal="@dimen/_10sdp"
+        android:background="@color/secondary_gray"
+        />
 
     <com.balysv.materialripple.MaterialRippleLayout
         android:id="@+id/Theme_2"
@@ -145,14 +236,19 @@
                 android:layout_marginStart="@dimen/_30sdp"
                 android:padding="@dimen/_11sdp"
                 android:text="Wash your Hard !"
-
+                android:fontFamily="@font/roboto_light"
                 android:textColor="@color/colorTextSecondary"
                 android:textSize="@dimen/_12ssp" />
 
 
         </FrameLayout>
     </com.balysv.materialripple.MaterialRippleLayout>
-
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_marginHorizontal="@dimen/_10sdp"
+        android:background="@color/secondary_gray"
+        />
     <com.balysv.materialripple.MaterialRippleLayout
         android:id="@+id/Theme_3"
         android:layout_width="match_parent"
@@ -181,13 +277,19 @@
                 android:layout_marginStart="@dimen/_30sdp"
                 android:padding="@dimen/_11sdp"
                 android:text="Simple"
+                android:fontFamily="@font/roboto_light"
                 android:textColor="@color/colorTextSecondary"
                 android:textSize="@dimen/_12ssp" />
 
 
         </FrameLayout>
     </com.balysv.materialripple.MaterialRippleLayout>
-
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_marginHorizontal="@dimen/_10sdp"
+        android:background="@color/secondary_gray"
+        />
     <com.balysv.materialripple.MaterialRippleLayout
         android:id="@+id/Theme_4"
         android:layout_width="match_parent"
@@ -216,13 +318,20 @@
                 android:layout_marginStart="@dimen/_30sdp"
                 android:padding="@dimen/_11sdp"
                 android:text="Chill Morning"
+                android:fontFamily="@font/roboto_light"
+
                 android:textColor="@color/colorTextSecondary"
                 android:textSize="@dimen/_12ssp" />
 
 
         </FrameLayout>
     </com.balysv.materialripple.MaterialRippleLayout>
-
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_marginHorizontal="@dimen/_10sdp"
+        android:background="@color/secondary_gray"
+        />
     <com.balysv.materialripple.MaterialRippleLayout
         android:id="@+id/Theme_5"
         android:layout_width="match_parent"
@@ -250,12 +359,19 @@
                 android:layout_marginStart="@dimen/_30sdp"
                 android:padding="@dimen/_11sdp"
                 android:text="Love"
+                android:fontFamily="@font/roboto_light"
                 android:textColor="@color/colorTextSecondary"
                 android:textSize="@dimen/_12ssp" />
 
 
         </FrameLayout>
     </com.balysv.materialripple.MaterialRippleLayout>
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_marginHorizontal="@dimen/_10sdp"
+        android:background="@color/secondary_gray"
+        />
     <com.balysv.materialripple.MaterialRippleLayout
         android:id="@+id/Theme_6"
         android:layout_width="match_parent"
@@ -284,6 +400,7 @@
                 android:layout_marginStart="@dimen/_30sdp"
                 android:padding="@dimen/_11sdp"
                 android:text="Talking To The Moon"
+                android:fontFamily="@font/roboto_light"
                 android:textColor="@color/colorTextSecondary"
                 android:textSize="@dimen/_12ssp" />
 

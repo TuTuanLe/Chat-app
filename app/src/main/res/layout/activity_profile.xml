@@ -36,7 +36,7 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-
+                android:fontFamily="@font/roboto_bold"
                 android:text="Update Profile"
                 android:textColor="@color/primary_text"
                 android:textSize="@dimen/_18ssp"
@@ -72,6 +72,7 @@
                     android:text="Change avatar"
                     android:textSize="@dimen/_10sdp"
                     android:textColor="@color/secondary_text"
+                    android:fontFamily="@font/roboto_light"
                     />
 
 
@@ -86,7 +87,7 @@
                     android:id="@+id/txtEmail"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-
+                    android:fontFamily="@font/roboto_medium"
                     android:layout_marginTop="@dimen/_35sdp"
                     android:text="Change your avatar"
                     android:textColor="@color/secondary_text"
@@ -98,7 +99,7 @@
                     android:textAlignment="textStart"
                     android:textColor="@color/colorTextSecondary"
                     android:textSize="@dimen/_12sdp"
-                    android:fontFamily="@font/tajawal_regular"
+                    android:fontFamily="@font/roboto_light"
                     android:textStyle="normal" />
             </LinearLayout>
         </LinearLayout>
@@ -142,6 +143,7 @@
                 android:paddingStart="@dimen/_8sdp"
                 android:paddingEnd="@dimen/_16sdp"
                 android:textColor="@color/primary_text"
+                android:fontFamily="@font/roboto_light"
                 android:textSize="@dimen/_13ssp"
                 android:layout_marginHorizontal="@dimen/_10sdp"
                 />
@@ -182,6 +184,7 @@
                 android:layout_marginEnd="@dimen/_40sdp"
                 android:layout_height="@dimen/_40sdp"
                 android:hint="Current Password"
+                android:fontFamily="@font/roboto_light"
                 android:imeOptions="actionNext"
                 android:importantForAutofill="no"
                 android:inputType="textPassword"
@@ -235,6 +238,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/_40sdp"
                 android:hint="New Password"
+                android:fontFamily="@font/roboto_light"
                 android:imeOptions="actionNext"
                 android:importantForAutofill="no"
                 android:inputType="textPassword"
@@ -292,6 +296,7 @@
                 android:hint="@string/confirm_password"
                 android:imeOptions="actionNext"
                 android:importantForAutofill="no"
+                android:fontFamily="@font/roboto_light"
                 android:inputType="textPassword"
                 android:layout_marginEnd="@dimen/_40sdp"
                 android:paddingStart="@dimen/_10sdp"
@@ -358,6 +363,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/_40sdp"
                 android:hint="Number phone"
+                android:fontFamily="@font/roboto_light"
                 android:imeOptions="actionDone"
                 android:importantForAutofill="no"
                 android:inputType="phone"

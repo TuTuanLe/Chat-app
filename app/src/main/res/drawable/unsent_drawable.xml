@@ -3,15 +3,17 @@
     <item>
         <shape>
             <stroke android:width="@dimen/_1sdp"
-                android:color="#2196F3"/>
+                android:color="#EA0F00"/>
             <gradient
                 android:startColor="#FFFFFF"
-                android:centerColor="#F1F3F4"
-                android:endColor="#BBD3DF"
+                android:centerColor="#E6BAB7"
+                android:endColor="#E65E54"
                 android:type="linear" />
             <corners android:topRightRadius="@dimen/_15sdp"
                 android:topLeftRadius="@dimen/_15sdp"
-                android:bottomLeftRadius="@dimen/_15sdp"/>
+                android:bottomLeftRadius="@dimen/_15sdp"
+                android:bottomRightRadius="@dimen/_5sdp"
+                />
         </shape>
     </item>
 
