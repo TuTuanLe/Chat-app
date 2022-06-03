@@ -3,24 +3,18 @@ package com.tutuanle.chatapp.fragment;
 import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.Bundle;
-
-import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.RecyclerView;
-
 import android.os.Handler;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.animation.LinearInterpolator;
-import android.widget.ProgressBar;
 import android.widget.TextView;
-
-import com.agrawalsuneet.dotsloader.loaders.CircularDotsLoader;
-import com.agrawalsuneet.dotsloader.loaders.LazyLoader;
+import android.widget.Toast;
 import com.agrawalsuneet.dotsloader.loaders.TashieLoader;
+import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.firebase.firestore.DocumentChange;
+import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.EventListener;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
@@ -32,16 +26,17 @@ import com.tutuanle.chatapp.activities.ProfileActivity;
 import com.tutuanle.chatapp.activities.SearchActivity;
 import com.tutuanle.chatapp.adapters.RequestAdapter;
 import com.tutuanle.chatapp.adapters.Users_Adapter;
+import com.tutuanle.chatapp.interfaces.RequestListener;
 import com.tutuanle.chatapp.models.RequestFriend;
 import com.tutuanle.chatapp.models.User;
 import com.tutuanle.chatapp.utilities.Constants;
 import com.tutuanle.chatapp.utilities.PreferenceManager;
-
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 
-public class ChatFragment extends Fragment {
+public class ChatFragment extends Fragment implements RequestListener {
 
     private View view;
 
@@ -49,14 +44,15 @@ public class ChatFragment extends Fragment {
     private PreferenceManager preferenceManager;
     private FirebaseFirestore firebaseFirestore;
     private String uidFriend;
-    private int checkFriends = 0;
-    private int checkReceiverFriends = 0;
     private String temp;
     List<User> users;
     List<RequestFriend> requestFriends;
+    private String uidReceiverFriend;
 
     public ChatFragment() {
     }
+
+
 
 
     @Override
@@ -132,16 +128,12 @@ public class ChatFragment extends Fragment {
                 for(int i = 0; i< users.size(); i++){
                     initAcceptFriend(users.get(i).getUid());
                 }
+
             }catch(Exception e){
                 showErrorMessage();
             }
 
         }, 1000);
-
-
-
-
-
 
     }
 
@@ -184,11 +176,21 @@ public class ChatFragment extends Fragment {
                             documentChange.getDocument().getString(Constants.KEY_SENDER_ID),
                             documentChange.getDocument().getString(Constants.KEY_RECEIVER_ID)
                     ));
-                    Log.d("TESSSSSS", ": " + "REQUEST"+ documentChange.getDocument().getString(Constants.KEY_RECEIVER_ID));
-                    RequestAdapter requestAdapter = new RequestAdapter(requestFriends);
+                    RequestAdapter requestAdapter = new RequestAdapter(requestFriends, this);
                     RecyclerView temp = view.findViewById(R.id.requestRecyclerView);
                     temp.setAdapter(requestAdapter);
 
+                } else if (documentChange.getType() == DocumentChange.Type.REMOVED) {
+                    int index = findRequestFriend(documentChange.getDocument().getId());
+                    requestFriends.remove(index);
+                    RequestAdapter requestAdapter = new RequestAdapter(requestFriends, this);
+                    RecyclerView temp = view.findViewById(R.id.requestRecyclerView);
+                    temp.setAdapter(requestAdapter);
+                }
+                if (requestFriends.size() != 0) {
+                    view.findViewById(R.id.textRequestFriend).setVisibility(View.VISIBLE);
+                } else {
+                    view.findViewById(R.id.textRequestFriend).setVisibility(View.GONE);
                 }
             }
 
@@ -217,8 +219,8 @@ public class ChatFragment extends Fragment {
                             documentChange.getDocument().getString(Constants.KEY_SENDER_ID),
                             documentChange.getDocument().getString(Constants.KEY_RECEIVER_ID)
                     ));
-                    Log.d("TESSSSSS", ": " + "REQUEST"+ documentChange.getDocument().getString(Constants.KEY_SENDER_ID));
-                    RequestAdapter requestAdapter = new RequestAdapter(requestFriends);
+
+                    RequestAdapter requestAdapter = new RequestAdapter(requestFriends, this);
                     RecyclerView temp = view.findViewById(R.id.requestRecyclerView);
                     temp.setAdapter(requestAdapter);
                     break;
@@ -226,11 +228,17 @@ public class ChatFragment extends Fragment {
                 else if(documentChange.getType() == DocumentChange.Type.REMOVED){
                     int index = findRequestFriend(documentChange.getDocument().getId());
                     requestFriends.remove(index);
-                    RequestAdapter requestAdapter = new RequestAdapter(requestFriends);
+                    RequestAdapter requestAdapter = new RequestAdapter(requestFriends, this);
                     RecyclerView temp = view.findViewById(R.id.requestRecyclerView);
                     temp.setAdapter(requestAdapter);
                     break;
                 }
+                if (requestFriends.size() != 0) {
+                    view.findViewById(R.id.textRequestFriend).setVisibility(View.VISIBLE);
+                } else {
+                    view.findViewById(R.id.textRequestFriend).setVisibility(View.GONE);
+                }
+
             }
 
         }
@@ -244,12 +252,7 @@ public class ChatFragment extends Fragment {
         return -1;
     }
 
-//    private int checkRequest(String uid){
-//        for (int i = 0; i < requestFriends.size(); i++)
-//            if (requestFriends.get(i).get .equals(uid))
-//                return i;
-//        return -1;
-//    }
+
 
     private int findRequestFriend(String uid) {
         for (int i = 0; i < requestFriends.size(); i++)
@@ -296,5 +299,58 @@ public class ChatFragment extends Fragment {
         temp.setVisibility(View.VISIBLE);
     }
 
+    private void deleteRequestFriend(String Uid) {
+        firebaseFirestore.collection(Constants.KEY_COLLECTION_FRIENDS).document(Uid).delete();
+    }
+
+    private void createAcceptFriend(String sender, String receiver) {
+        HashMap<String, Object> request = new HashMap<>();
+        request.put(Constants.KEY_SENDER_ID, sender);
+        request.put(Constants.KEY_RECEIVER_ID, receiver);
+        request.put(Constants.KEY_STATUS, (long) 1);
+
+        FirebaseFirestore.getInstance().collection(Constants.KEY_COLLECTION_FRIENDS)
+                .add(request)
+                .addOnSuccessListener(value -> {
+                    uidFriend = value.getId();
+                });
+
+        checkForConversionRemotely( receiver, sender);
+
+
+
+        new Handler().postDelayed(() -> {
+            FirebaseFirestore.getInstance().collection(Constants.KEY_COLLECTION_FRIENDS)
+                    .document(uidReceiverFriend)
+                    .update(Constants.KEY_STATUS, 1);
+        }, 1000);
+
+    }
+    private void checkForConversionRemotely(String senderId, String receiverId) {
+        FirebaseFirestore.getInstance()
+                .collection(Constants.KEY_COLLECTION_FRIENDS)
+                .whereEqualTo(Constants.KEY_SENDER_ID, senderId)
+                .whereEqualTo(Constants.KEY_RECEIVER_ID, receiverId)
+                .get()
+                .addOnCompleteListener(getUidOnCompleteListener);
+    }
+
+    private final OnCompleteListener<QuerySnapshot> getUidOnCompleteListener = task -> {
+        if (task.isSuccessful() && task.getResult() != null && task.getResult().getDocuments().size() > 0) {
+            DocumentSnapshot documentSnapshot = task.getResult().getDocuments().get(0);
+            uidReceiverFriend = documentSnapshot.getId();
+        }
+    };
+
+
+    @Override
+    public void onAcceptFiend(String receiver){
+        createAcceptFriend(preferenceManager.getString(Constants.KEY_USER_ID), receiver);
+    }
+
+    @Override
+    public void onCancelRequestFriend(String uid){
+        deleteRequestFriend(uid);
+    }
 
 }

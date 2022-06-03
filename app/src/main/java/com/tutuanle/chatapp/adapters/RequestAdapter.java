@@ -2,7 +2,6 @@ package com.tutuanle.chatapp.adapters;
 
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
-import android.hardware.lights.LightState;
 import android.util.Base64;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -13,8 +12,8 @@ import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.tutuanle.chatapp.R;
-import com.tutuanle.chatapp.activities.ChatScreenActivity;
 import com.tutuanle.chatapp.databinding.ItemSendRequestFriendBinding;
+import com.tutuanle.chatapp.interfaces.RequestListener;
 import com.tutuanle.chatapp.models.RequestFriend;
 import com.tutuanle.chatapp.utilities.PreferenceManager;
 
@@ -24,9 +23,11 @@ public class RequestAdapter extends RecyclerView.Adapter<RequestAdapter.RequestV
 
     private PreferenceManager preferenceManager;
     private final List<RequestFriend> requestFriends;
+    public  final RequestListener requestListener;
 
-    public RequestAdapter(List<RequestFriend> requestFriends){
+    public RequestAdapter(List<RequestFriend> requestFriends, RequestListener requestListener){
         this.requestFriends = requestFriends;
+        this.requestListener = requestListener;
     }
     @NonNull
     @Override
@@ -45,7 +46,7 @@ public class RequestAdapter extends RecyclerView.Adapter<RequestAdapter.RequestV
         return requestFriends.size();
     }
 
-    public static class RequestViewHolder extends RecyclerView.ViewHolder {
+    public  class RequestViewHolder extends RecyclerView.ViewHolder {
         private ItemSendRequestFriendBinding binding;
 
         public RequestViewHolder(@NonNull View itemView) {
@@ -59,9 +60,11 @@ public class RequestAdapter extends RecyclerView.Adapter<RequestAdapter.RequestV
             if(requestFriend.getRequest().equals("ACCEPT")){
                 binding.textRequest.setTextColor(binding.getRoot().getResources().getColor(R.color.blue));
                 binding.iconRequest.setColorFilter(ContextCompat.getColor(binding.getRoot().getContext(), R.color.blue), android.graphics.PorterDuff.Mode.MULTIPLY);
+                binding.layoutRequest.setOnClickListener(v->requestListener.onAcceptFiend(requestFriend.getSender()));
             }else{
                 binding.textRequest.setTextColor(binding.getRoot().getResources().getColor(R.color.icon_background));
                 binding.iconRequest.setColorFilter(ContextCompat.getColor(binding.getRoot().getContext(), R.color.icon_background), android.graphics.PorterDuff.Mode.MULTIPLY);
+                binding.layoutRequest.setOnClickListener(v->requestListener.onCancelRequestFriend(requestFriend.getRequestUid()));
             }
         }
         private Bitmap getBitmapFromEnCodedString(String enCodedImage) {
