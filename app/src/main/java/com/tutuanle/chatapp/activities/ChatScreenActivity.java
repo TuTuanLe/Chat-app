@@ -186,6 +186,7 @@ public class ChatScreenActivity extends OnChatActivity implements ChatListener {
         dialog.show();
     }
 
+    @SuppressLint("LogNotTimber")
     private void openDialogMenu() {
         final Dialog dialog = new Dialog(this);
         dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
@@ -216,8 +217,8 @@ public class ChatScreenActivity extends OnChatActivity implements ChatListener {
                             Constants.KEY_TYPE_MESSAGE, 3,
                             Constants.KEY_SEND_IMAGE, null,
                             Constants.KEY_FEELING, -1)
-                    .addOnSuccessListener(item -> Log.d("UNSEND_MESSAGE", "update successfully"))
-                    .addOnFailureListener(item -> Log.d("UNSEND_MESSAGE", "fail "));
+                    .addOnSuccessListener(item -> Log.d("UNSENT_MESSAGE", "update successfully"))
+                    .addOnFailureListener(item -> Log.d("UNSENT_MESSAGE", "fail "));
             dialog.dismiss();
         });
 
@@ -226,8 +227,8 @@ public class ChatScreenActivity extends OnChatActivity implements ChatListener {
                     .collection(Constants.KEY_COLLECTION_CHAT)
                     .document(messageUid)
                     .update( Constants.KEY_TYPE_MESSAGE,  checkRemoveMessage == 1 ?4 : 5)
-                    .addOnSuccessListener(item -> Log.d("UNSEND_MESSAGE", "update successfully"))
-                    .addOnFailureListener(item -> Log.d("UNSEND_MESSAGE", "fail "));
+                    .addOnSuccessListener(item -> Log.d("UNSENT_MESSAGE", "update successfully"))
+                    .addOnFailureListener(item -> Log.d("UNSENT_MESSAGE", "fail "));
             dialog.dismiss();
         });
 
@@ -576,16 +577,6 @@ public class ChatScreenActivity extends OnChatActivity implements ChatListener {
     }
 
 
-//    private void updateConversation() {
-//        if (isOnChat && chatMessages.size() != 0) {
-//            FirebaseFirestore.getInstance()
-//                    .collection(Constants.KEY_COLLECTION_CHAT)
-//                    .document(chatMessages.get(chatMessages.size() - 1).getMessageId())
-//                    .update(Constants.KEY_IS_SEEN, 0)
-//                    .addOnSuccessListener(item -> Log.d("IS_SEEN", "update successfully"))
-//                    .addOnFailureListener(item -> Log.d("IS_SEEN", "fail "));
-//        }
-//    }
 
 
     private void sendMessage() {
@@ -656,7 +647,7 @@ public class ChatScreenActivity extends OnChatActivity implements ChatListener {
                 sendNotification(body.toString());
 
             } catch (Exception e) {
-                showToast("Duoi phuong chua hoat dong" + e.getMessage());
+                showToast("The Receiver user does not active ." + e.getMessage());
             }
         }
         binding.inputMessage.setText(null);
@@ -674,6 +665,7 @@ public class ChatScreenActivity extends OnChatActivity implements ChatListener {
                 .addOnSuccessListener(value -> conversionId = value.getId());
     }
 
+    @SuppressLint("LogNotTimber")
     private void updateConversion(String message) {
         checkForConversion();
         countMessage = (isOnChat ? 0 : countMessage + 1);
@@ -842,15 +834,10 @@ public class ChatScreenActivity extends OnChatActivity implements ChatListener {
         binding.animationView.setAnimation(Constants.REACTIONS_ANIMATION[index]);
         binding.animationView.playAnimation();
 
-        new Handler().postDelayed(new Runnable() {
-            @Override
-            public void run() {
-                binding.animationView.pauseAnimation();
-                binding.animationView.setVisibility(View.GONE);
-            }
+        new Handler().postDelayed(() -> {
+            binding.animationView.pauseAnimation();
+            binding.animationView.setVisibility(View.GONE);
         }, 2000);
 
     }
-
-
 }

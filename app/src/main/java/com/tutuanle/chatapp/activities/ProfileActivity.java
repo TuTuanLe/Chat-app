@@ -17,19 +17,13 @@ import android.text.method.HideReturnsTransformationMethod;
 import android.text.method.PasswordTransformationMethod;
 import android.util.Base64;
 import android.view.View;
-import android.widget.TextView;
 import android.widget.Toast;
-
-import com.google.android.gms.tasks.OnSuccessListener;
-import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
-import com.makeramen.roundedimageview.RoundedImageView;
 import com.tutuanle.chatapp.R;
 import com.tutuanle.chatapp.databinding.ActivityProfileBinding;
 import com.tutuanle.chatapp.models.User;
 import com.tutuanle.chatapp.utilities.Constants;
 import com.tutuanle.chatapp.utilities.PreferenceManager;
-
 import java.io.ByteArrayOutputStream;
 import java.io.FileNotFoundException;
 import java.io.InputStream;
@@ -169,28 +163,25 @@ public class ProfileActivity extends AppCompatActivity {
 
 
     private void UpdateProfile(){
-        binding.btnUpdateProfile.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                updateUser = new User();
+        binding.btnUpdateProfile.setOnClickListener(v -> {
+            updateUser = new User();
 
-                updateUser.setUid(currentUser.getUid());
-                updateUser.setName(binding.inputName.getText().toString());
-                updateUser.setProfileImage(encodedImage);
-                updateUser.setPhoneNumber(binding.inputNumberPhone.getText().toString());
-                updateUser.setEmail(currentUser.getEmail());
-                if(binding.inputCurrentPassword.getText().toString().equals("")){
-                    updateUser.setPassword(currentUser.getPassword());
+            updateUser.setUid(currentUser.getUid());
+            updateUser.setName(binding.inputName.getText().toString());
+            updateUser.setProfileImage(encodedImage);
+            updateUser.setPhoneNumber(binding.inputNumberPhone.getText().toString());
+            updateUser.setEmail(currentUser.getEmail());
+            if(binding.inputCurrentPassword.getText().toString().equals("")){
+                updateUser.setPassword(currentUser.getPassword());
+                updateData();
+            }else{
+                if(!binding.inputCurrentPassword.getText().toString().equals(currentUser.getPassword())){
+                    Toast.makeText(getApplicationContext(), "The password current new does not match ...", Toast.LENGTH_SHORT).show();
+                }else if (binding.inputNewPassword.getText().toString().equals(binding.inputConfirmNewPassword.getText().toString())){
+                    updateUser.setPassword(binding.inputConfirmNewPassword.getText().toString());
                     updateData();
                 }else{
-                    if(!binding.inputCurrentPassword.getText().toString().equals(currentUser.getPassword())){
-                        Toast.makeText(getApplicationContext(), "Bạn Đã Nhập Sai Pasword Hiện Tại", Toast.LENGTH_SHORT).show();
-                    }else if (binding.inputNewPassword.getText().toString().equals(binding.inputConfirmNewPassword.getText().toString())){
-                        updateUser.setPassword(binding.inputConfirmNewPassword.getText().toString());
-                        updateData();
-                    }else{
-                        Toast.makeText(getApplicationContext(), "The password new does not match ...", Toast.LENGTH_SHORT).show();
-                    }
+                    Toast.makeText(getApplicationContext(), "The password new does not match ...", Toast.LENGTH_SHORT).show();
                 }
             }
         });
@@ -217,22 +208,19 @@ public class ProfileActivity extends AppCompatActivity {
         user.put(Constants.KEY_IMAGE, updateUser.getProfileImage());
         database.collection(Constants.KEY_COLLECTION_USERS)
                 .document(updateUser.getUid())
-                .update(user).addOnSuccessListener(new OnSuccessListener<Void>() {
-            @Override
-            public void onSuccess(Void unused) {
-                loading(false);
-                preferenceManager.putBoolean(Constants.KEY_IS_SIGNED_IN, true);
-                preferenceManager.putString(Constants.KEY_USER_ID, updateUser.getUid());
-                preferenceManager.putString(Constants.KEY_NAME, updateUser.getName());
-                preferenceManager.putString(Constants.KEY_IMAGE, encodedImage);
-                preferenceManager.putString(Constants.KEY_NUMBER_PHONE, updateUser.getPhoneNumber());
-                preferenceManager.putString(Constants.KEY_PASSWORD, updateUser.getPassword().toString());
-                preferenceManager.putString(Constants.KEY_EMAIL,updateUser.getEmail());
-                Intent intent = new Intent(getApplicationContext(), MainScreenActivity.class);
-                intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
-                startActivity(intent);
-            }
-        })
+                .update(user).addOnSuccessListener(unused -> {
+                    loading(false);
+                    preferenceManager.putBoolean(Constants.KEY_IS_SIGNED_IN, true);
+                    preferenceManager.putString(Constants.KEY_USER_ID, updateUser.getUid());
+                    preferenceManager.putString(Constants.KEY_NAME, updateUser.getName());
+                    preferenceManager.putString(Constants.KEY_IMAGE, encodedImage);
+                    preferenceManager.putString(Constants.KEY_NUMBER_PHONE, updateUser.getPhoneNumber());
+                    preferenceManager.putString(Constants.KEY_PASSWORD, updateUser.getPassword());
+                    preferenceManager.putString(Constants.KEY_EMAIL,updateUser.getEmail());
+                    Intent intent = new Intent(getApplicationContext(), MainScreenActivity.class);
+                    intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                    startActivity(intent);
+                })
                 .addOnFailureListener(exception -> {
                     loading(false);
                     showToast(exception.getMessage());

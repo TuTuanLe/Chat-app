@@ -25,10 +25,6 @@ import com.tutuanle.chatapp.utilities.Constants;
 
 public class SettingFragment extends Fragment {
 
-
-    private static final String ARG_PARAM1 = "param1";
-    private static final String ARG_PARAM2 = "param2";
-
     private View view;
     private User user;
 
@@ -39,15 +35,6 @@ public class SettingFragment extends Fragment {
 
     }
 
-
-    public static SettingFragment newInstance(String param1, String param2) {
-        SettingFragment fragment = new SettingFragment();
-        Bundle args = new Bundle();
-        args.putString(ARG_PARAM1, param1);
-        args.putString(ARG_PARAM2, param2);
-        fragment.setArguments(args);
-        return fragment;
-    }
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -70,20 +57,17 @@ public class SettingFragment extends Fragment {
 
         FrameLayout frameAccount = view.findViewById(R.id.frameAccount);
 
-        frameAccount.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intenProfile = new Intent(getContext(), ProfileActivity.class);
-                user = new User();
-                user.setName(mainScreenActivity.preferenceManager.getString(Constants.KEY_NAME));
-                user.setUid(mainScreenActivity.preferenceManager.getString(Constants.KEY_USER_ID));
-                user.setProfileImage(mainScreenActivity.preferenceManager.getString(Constants.KEY_IMAGE));
-                user.setPhoneNumber(mainScreenActivity.preferenceManager.getString(Constants.KEY_NUMBER_PHONE));
-                user.setPassword(mainScreenActivity.preferenceManager.getString(Constants.KEY_PASSWORD));
-                user.setEmail(mainScreenActivity.preferenceManager.getString(Constants.KEY_EMAIL));
-                intenProfile.putExtra(Constants.KEY_USER,user);
-                startActivity(intenProfile);
-            }
+        frameAccount.setOnClickListener(v -> {
+            Intent intentProfile = new Intent(getContext(), ProfileActivity.class);
+            user = new User();
+            user.setName(mainScreenActivity.preferenceManager.getString(Constants.KEY_NAME));
+            user.setUid(mainScreenActivity.preferenceManager.getString(Constants.KEY_USER_ID));
+            user.setProfileImage(mainScreenActivity.preferenceManager.getString(Constants.KEY_IMAGE));
+            user.setPhoneNumber(mainScreenActivity.preferenceManager.getString(Constants.KEY_NUMBER_PHONE));
+            user.setPassword(mainScreenActivity.preferenceManager.getString(Constants.KEY_PASSWORD));
+            user.setEmail(mainScreenActivity.preferenceManager.getString(Constants.KEY_EMAIL));
+            intentProfile.putExtra(Constants.KEY_USER,user);
+            startActivity(intentProfile);
         });
 
     }
@@ -95,8 +79,6 @@ public class SettingFragment extends Fragment {
         temp.setText(mainScreenActivity.getTextName());
         RoundedImageView image = view.findViewById(R.id.imageProfile);
         image.setImageBitmap(mainScreenActivity.getBitmap());
-
-
     }
 
     private void setListeners(){

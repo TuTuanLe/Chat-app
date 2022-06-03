@@ -101,25 +101,25 @@ public class SearchActivity extends AppCompatActivity implements UserListener {
 
     @SuppressLint("SetTextI18n")
     private void searchFilter(String name) {
-        List<User> temp = new ArrayList<>();
+        List<User> tempLs = new ArrayList<>();
         if (name.length() == 0) {
-                temp.addAll(users);
+            tempLs.addAll(users);
         } else {
 
             for (int i = 0; i < users.size(); i++) {
                 if (users.get(i).getName().toLowerCase().contains(name.toLowerCase())) {
-                    temp.add(users.get(i));
+                    tempLs.add(users.get(i));
                 }
             }
         }
 
-        if (temp.size() == 0) {
+        if (tempLs.size() == 0) {
             binding.layoutNotFound.setVisibility(View.VISIBLE);
             binding.txtNotFound.setText("No matches were found for " + name + " .Try checking for typos or using complete words. ");
         } else {
             binding.layoutNotFound.setVisibility(View.GONE);
         }
-        searchAdapter = new SearchAdapter(temp, SearchActivity.this);
+        searchAdapter = new SearchAdapter(tempLs, SearchActivity.this);
         binding.userRecyclerView.setAdapter(searchAdapter);
         binding.userRecyclerView.setVisibility(View.VISIBLE);
 
