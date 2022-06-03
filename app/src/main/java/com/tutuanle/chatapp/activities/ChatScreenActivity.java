@@ -473,8 +473,6 @@ public class ChatScreenActivity extends OnChatActivity implements ChatListener {
                         chatMessages.get(index).setImageBitmap(documentChange.getDocument().getString(Constants.KEY_SEND_VIDEO));
                     }
 
-
-
                     chatAdapter.notifyDataSetChanged();
                     binding.cardViewMenu.setVisibility(View.GONE);
                 } else if (documentChange.getType() == DocumentChange.Type.REMOVED) {

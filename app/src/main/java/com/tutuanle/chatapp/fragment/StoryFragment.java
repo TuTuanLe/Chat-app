@@ -229,8 +229,6 @@ public class StoryFragment extends Fragment {
             getStatuesListener();
 
 
-//            if (userStatuses.get() != null) {
-
             new Handler().postDelayed(() -> {
 
                 storyAdapter.notifyDataSetChanged();
@@ -239,7 +237,7 @@ public class StoryFragment extends Fragment {
                 temp.setVisibility(View.VISIBLE);
                 loading(false);
 
-            }, 1500);
+            }, 1300);
 
 
         }

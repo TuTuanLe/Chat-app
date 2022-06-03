@@ -277,6 +277,8 @@
                 android:hint="@string/type_a_message"
                 android:paddingStart="@dimen/_10sdp"
                 android:textColor="@color/colorTextPrimary"
+                android:textSize="@dimen/_14ssp"
+                android:fontFamily="@font/roboto_light"
                 tools:ignore="RtlSymmetry" />
 
             <ImageView

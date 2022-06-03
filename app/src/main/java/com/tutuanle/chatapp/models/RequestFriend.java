@@ -5,6 +5,24 @@ public class RequestFriend {
     private String Image;
     private String Name;
     private String request;
+    private String sender;
+    private String receiver;
+
+    public String getSender() {
+        return sender;
+    }
+
+    public void setSender(String sender) {
+        this.sender = sender;
+    }
+
+    public String getReceiver() {
+        return receiver;
+    }
+
+    public void setReceiver(String receiver) {
+        this.receiver = receiver;
+    }
 
     public String getImage() {
         return Image;
@@ -38,10 +56,12 @@ public class RequestFriend {
         RequestUid = requestUid;
     }
 
-    public RequestFriend(String requestUid, String image, String name, String request) {
+    public RequestFriend(String requestUid, String image, String name, String request, String sender, String receiver) {
         RequestUid = requestUid;
         Image = image;
         Name = name;
         this.request = request;
+        this.sender = sender;
+        this.receiver = receiver;
     }
 }

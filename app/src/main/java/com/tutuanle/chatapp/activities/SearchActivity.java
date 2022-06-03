@@ -12,6 +12,7 @@ import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.Handler;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.Base64;
@@ -54,6 +55,7 @@ public class SearchActivity extends AppCompatActivity implements UserListener {
     private FirebaseFirestore firebaseFirestore;
     private TextView temp;
     private String uidFriend;
+    private String uidReceiverFriend;
     private int checkFriends = 0;
     private int checkReceiverFriends = 0;
 
@@ -232,15 +234,14 @@ public class SearchActivity extends AppCompatActivity implements UserListener {
                 temp.setText("REQUEST");
                 temp.setTextColor(getResources().getColor(R.color.blue));
             } else if (temp.getText().equals("ACCEPT")) {
-                createRequestFriend(preferenceManager.getString(Constants.KEY_USER_ID), user.getUid());
+                createAcceptFriend(preferenceManager.getString(Constants.KEY_USER_ID), user.getUid());
                 temp.setText("UNFRIEND");
                 temp.setTextColor(getResources().getColor(R.color.icon_background));
             } else if (temp.getText().equals("UNFRIEND")) {
-                deleteRequestFriend(uidFriend);
+                deleteUnfriendFriend(uidFriend, preferenceManager.getString(Constants.KEY_USER_ID), user.getUid());
                 temp.setText("ACCEPT");
                 temp.setTextColor(getResources().getColor(R.color.blue));
             }
-
 
         });
 
@@ -269,6 +270,53 @@ public class SearchActivity extends AppCompatActivity implements UserListener {
                 });
     }
 
+    private void createAcceptFriend(String sender, String receiver) {
+        HashMap<String, Object> request = new HashMap<>();
+        request.put(Constants.KEY_SENDER_ID, sender);
+        request.put(Constants.KEY_RECEIVER_ID, receiver);
+        request.put(Constants.KEY_STATUS, (long) 1);
+
+        FirebaseFirestore.getInstance().collection(Constants.KEY_COLLECTION_FRIENDS)
+                .add(request)
+                .addOnSuccessListener(value -> {
+                    uidFriend = value.getId();
+                    showToast(" became friends  ...");
+                });
+
+        checkForConversionRemotely( receiver, sender);
+
+
+
+        new Handler().postDelayed(() -> {
+            FirebaseFirestore.getInstance().collection(Constants.KEY_COLLECTION_FRIENDS)
+                    .document(uidReceiverFriend)
+                    .update(Constants.KEY_STATUS, 1);
+        }, 1000);
+
+    }
+
+
+
+
+
+    private void checkForConversionRemotely(String senderId, String receiverId) {
+        FirebaseFirestore.getInstance()
+                .collection(Constants.KEY_COLLECTION_FRIENDS)
+                .whereEqualTo(Constants.KEY_SENDER_ID, senderId)
+                .whereEqualTo(Constants.KEY_RECEIVER_ID, receiverId)
+                .get()
+                .addOnCompleteListener(getUidOnCompleteListener);
+    }
+
+    private final OnCompleteListener<QuerySnapshot> getUidOnCompleteListener = task -> {
+        if (task.isSuccessful() && task.getResult() != null && task.getResult().getDocuments().size() > 0) {
+            DocumentSnapshot documentSnapshot = task.getResult().getDocuments().get(0);
+            uidReceiverFriend = documentSnapshot.getId();
+        }
+    };
+
+
+
     private void initFriend(String sender, String receiver) {
 
         firebaseFirestore
@@ -286,6 +334,18 @@ public class SearchActivity extends AppCompatActivity implements UserListener {
 
     private void deleteRequestFriend(String Uid) {
         firebaseFirestore.collection(Constants.KEY_COLLECTION_FRIENDS).document(Uid).delete();
+    }
+
+    private void deleteUnfriendFriend(String Uid, String sender,String receiver) {
+        firebaseFirestore.collection(Constants.KEY_COLLECTION_FRIENDS).document(Uid).delete();
+
+        checkForConversionRemotely( receiver, sender);
+
+        new Handler().postDelayed(() -> {
+            FirebaseFirestore.getInstance().collection(Constants.KEY_COLLECTION_FRIENDS)
+                    .document(uidReceiverFriend)
+                    .update(Constants.KEY_STATUS, 0);
+        }, 1000);
     }
 
 
