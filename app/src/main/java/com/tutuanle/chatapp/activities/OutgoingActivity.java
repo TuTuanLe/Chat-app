@@ -183,7 +183,7 @@ public class OutgoingActivity extends AppCompatActivity {
                                 .setServerURL(new URL("https://meet.jit.si"))
                                 .setRoom(meetingRoom)
                                 .setWelcomePageEnabled(false)
-                                .setVideoMuted(meetingType.equals("audio"))
+//                                .setVideoMuted(meetingType.equals("audio"))
                                 .build();
                         JitsiMeetActivity.launch(context, options);
                         finish();

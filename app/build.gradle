@@ -100,4 +100,7 @@ dependencies {
 
     // animation call
     implementation "com.airbnb.android:lottie:3.4.0"
+
+    //loin with facebook
+    implementation 'com.facebook.android:facebook-login:latest.release'
 }

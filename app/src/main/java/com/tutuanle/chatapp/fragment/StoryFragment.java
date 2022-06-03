@@ -15,6 +15,7 @@ import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.os.Handler;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
@@ -113,8 +114,6 @@ public class StoryFragment extends Fragment {
         initialData();
         setOnClickListener();
         getOnStoriesListener();
-
-
         return view;
     }
 
@@ -192,14 +191,7 @@ public class StoryFragment extends Fragment {
                             Collections.sort(statuses, new SortByTimeSpan());
                             userStatuses.get(b).setStatuses(statuses);
                             Collections.sort(userStatuses, new SortByRoll());
-                            if (userStatuses.get(userStatuses.size() - 1).getStatuses() != null) {
-                                storyAdapter.notifyDataSetChanged();
 
-                                RecyclerView temp = view.findViewById(R.id.statusList);
-                                temp.setAdapter(storyAdapter);
-                                temp.setVisibility(View.VISIBLE);
-                                loading(false);
-                            }
                         }
                     });
 
@@ -215,7 +207,7 @@ public class StoryFragment extends Fragment {
             return;
         }
         if (value != null) {
-
+//            userStatuses.clear();
             for (DocumentChange documentChange : value.getDocumentChanges()) {
                 if (documentChange.getType() == DocumentChange.Type.ADDED) {
                     UserStatus status = new UserStatus();
@@ -226,13 +218,43 @@ public class StoryFragment extends Fragment {
                     status.setCaption(documentChange.getDocument().getString(Constants.KEY_CAPTION));
                     userStatuses.add(status);
                 }
+                if (documentChange.getType() == DocumentChange.Type.MODIFIED) {
+                    int index = findIndexStory(documentChange.getDocument().getId());
+                    userStatuses.get(index).setCaption(documentChange.getDocument().getString(Constants.KEY_CAPTION));
+                    userStatuses.get(index).setLastUpdated(documentChange.getDocument().getLong(Constants.KEY_LAST_UPDATE));
+                    userStatuses.get(index).setProfileImage(documentChange.getDocument().getString(Constants.KEY_IMAGE));
+                }
             }
             Collections.sort(userStatuses, new SortByRoll());
             getStatuesListener();
 
 
+//            if (userStatuses.get() != null) {
+
+            new Handler().postDelayed(() -> {
+
+                storyAdapter.notifyDataSetChanged();
+                RecyclerView temp = view.findViewById(R.id.statusList);
+                temp.setAdapter(storyAdapter);
+                temp.setVisibility(View.VISIBLE);
+                loading(false);
+
+            }, 1500);
+
+
         }
     };
+
+
+    private int findIndexStory(String uid) {
+        for (int i = 0; i < userStatuses.size(); i++)
+            if (userStatuses.get(i).getStatusUid().equals(uid))
+                return i;
+        return -1;
+    }
+
+
+
 
 
     @Override
