@@ -10,7 +10,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
-import android.widget.Toast;
 import com.agrawalsuneet.dotsloader.loaders.TashieLoader;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.firebase.firestore.DocumentChange;
@@ -43,17 +42,13 @@ public class ChatFragment extends Fragment implements RequestListener {
     private MainScreenActivity mainScreenActivity;
     private PreferenceManager preferenceManager;
     private FirebaseFirestore firebaseFirestore;
-    private String uidFriend;
-    private String temp;
-    List<User> users;
-    List<RequestFriend> requestFriends;
+    private List<User> users;
+    private List<RequestFriend> requestFriends;
+    private List<User> listFriend;
     private String uidReceiverFriend;
 
     public ChatFragment() {
     }
-
-
-
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -104,14 +99,7 @@ public class ChatFragment extends Fragment implements RequestListener {
                             users.add(user);
 
                         }
-                        if (users.size() > 0) {
-                            Users_Adapter users_adapter = new Users_Adapter(users, mainScreenActivity);
-                            RecyclerView temp = view.findViewById(R.id.userRecyclerView);
-                            temp.setAdapter(users_adapter);
-                            temp.setVisibility(View.VISIBLE);
-                        } else {
-                            showErrorMessage();
-                        }
+
                     }
                 });
 
@@ -121,10 +109,11 @@ public class ChatFragment extends Fragment implements RequestListener {
     private void getRequestFriend() {
 
         requestFriends = new ArrayList<>();
+        listFriend = new ArrayList<>();
         new Handler().postDelayed(() -> {
             try{
                 initRequestFriend();
-
+                initFriend();
                 for(int i = 0; i< users.size(); i++){
                     initAcceptFriend(users.get(i).getUid());
                 }
@@ -145,7 +134,6 @@ public class ChatFragment extends Fragment implements RequestListener {
                 .addSnapshotListener(eventListener);
     }
 
-
     private void initAcceptFriend(String receiver) {
         firebaseFirestore
                 .collection(Constants.KEY_COLLECTION_FRIENDS)
@@ -154,6 +142,51 @@ public class ChatFragment extends Fragment implements RequestListener {
                 .whereEqualTo(Constants.KEY_STATUS, 0)
                 .addSnapshotListener(eventAcceptListener);
     }
+    private void initFriend(){
+        firebaseFirestore
+                .collection(Constants.KEY_COLLECTION_FRIENDS)
+                .whereEqualTo(Constants.KEY_SENDER_ID, preferenceManager.getString(Constants.KEY_USER_ID))
+                .whereEqualTo(Constants.KEY_STATUS, 1)
+                .addSnapshotListener(eventFriendListener);
+    }
+
+
+    @SuppressLint({"NotifyDataSetChanged", "SetTextI18n"})
+    private final EventListener<QuerySnapshot> eventFriendListener = (value, error) -> {
+
+        if (error != null) {
+            return;
+        }
+        if (value != null) {
+
+            for (DocumentChange documentChange : value.getDocumentChanges()) {
+
+                if (documentChange.getType() == DocumentChange.Type.ADDED) {
+                    int index = findUser(documentChange.getDocument().getString(Constants.KEY_RECEIVER_ID));
+                    if(index > -1){
+                        listFriend.add(users.get(index));
+                    }
+
+
+                } else if (documentChange.getType() == DocumentChange.Type.REMOVED) {
+                    int index = findUser(documentChange.getDocument().getString(Constants.KEY_RECEIVER_ID));
+                    if(index > -1){
+                        listFriend.remove(index);
+                    }
+
+                }
+                if (listFriend.size() > 0) {
+                    Users_Adapter users_adapter = new Users_Adapter(listFriend, mainScreenActivity);
+                    RecyclerView temp = view.findViewById(R.id.userRecyclerView);
+                    temp.setAdapter(users_adapter);
+                    temp.setVisibility(View.VISIBLE);
+                } else {
+                    showErrorMessage();
+                }
+            }
+
+        }
+    };
 
 
     @SuppressLint({"NotifyDataSetChanged", "SetTextI18n"})
@@ -198,7 +231,6 @@ public class ChatFragment extends Fragment implements RequestListener {
     };
 
 
-
     @SuppressLint({"NotifyDataSetChanged", "SetTextI18n"})
     private final EventListener<QuerySnapshot> eventAcceptListener = (value, error) -> {
 
@@ -238,20 +270,21 @@ public class ChatFragment extends Fragment implements RequestListener {
                 } else {
                     view.findViewById(R.id.textRequestFriend).setVisibility(View.GONE);
                 }
-
             }
-
         }
     };
 
 
     private int findUser(String uid) {
-        for (int i = 0; i < users.size(); i++)
-            if (users.get(i).getUid().equals(uid))
-                return i;
-        return -1;
+        try{
+            for (int i = 0; i < users.size(); i++)
+                if (users.get(i).getUid().equals(uid))
+                    return i;
+            return -1;
+        }catch (Exception e){
+            return -1;
+        }
     }
-
 
 
     private int findRequestFriend(String uid) {
@@ -260,7 +293,6 @@ public class ChatFragment extends Fragment implements RequestListener {
                 return i;
         return -1;
     }
-
 
     private void initialData() {
 
@@ -309,21 +341,16 @@ public class ChatFragment extends Fragment implements RequestListener {
         request.put(Constants.KEY_RECEIVER_ID, receiver);
         request.put(Constants.KEY_STATUS, (long) 1);
 
-        FirebaseFirestore.getInstance().collection(Constants.KEY_COLLECTION_FRIENDS)
-                .add(request)
-                .addOnSuccessListener(value -> {
-                    uidFriend = value.getId();
-                });
+        FirebaseFirestore.getInstance().collection(Constants.KEY_COLLECTION_FRIENDS).add(request);
 
         checkForConversionRemotely( receiver, sender);
 
-
-
-        new Handler().postDelayed(() -> {
-            FirebaseFirestore.getInstance().collection(Constants.KEY_COLLECTION_FRIENDS)
-                    .document(uidReceiverFriend)
-                    .update(Constants.KEY_STATUS, 1);
-        }, 1000);
+        new Handler().postDelayed(() ->
+                FirebaseFirestore
+                .getInstance()
+                .collection(Constants.KEY_COLLECTION_FRIENDS)
+                .document(uidReceiverFriend)
+                .update(Constants.KEY_STATUS, 1), 1000);
 
     }
     private void checkForConversionRemotely(String senderId, String receiverId) {
@@ -341,7 +368,6 @@ public class ChatFragment extends Fragment implements RequestListener {
             uidReceiverFriend = documentSnapshot.getId();
         }
     };
-
 
     @Override
     public void onAcceptFiend(String receiver){
