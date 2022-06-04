@@ -93,10 +93,10 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/_5sdp"
-                    android:fontFamily="@font/tajawal_regular"
+                    android:fontFamily="@font/roboto_medium"
                     android:text="CLONE X - X TAKASHI MURAKAMI"
                     android:textColor="@color/black"
-                    android:textSize="@dimen/_12ssp"
+                    android:textSize="@dimen/_10ssp"
                     android:textStyle="bold" />
                 <LinearLayout
                     android:layout_width="wrap_content"
@@ -109,10 +109,10 @@
                         android:layout_width="wrap_content"
                         android:layout_height="match_parent"
                         android:layout_marginTop="@dimen/_1sdp"
-                        android:fontFamily="@font/tajawal_regular"
+                        android:fontFamily="@font/roboto_light"
                         android:text="RTFKTCLONEXTM"
                         android:textColor="@color/black"
-                        android:textSize="@dimen/_10ssp"
+                        android:textSize="@dimen/_8ssp"
                         android:textStyle="normal"
                         android:gravity="center"
                         />

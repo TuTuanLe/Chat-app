@@ -4,11 +4,11 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
-    android:paddingStart="@dimen/_8sdp"
-
+    android:layout_marginStart="@dimen/_2sdp"
     >
 
-    <FrameLayout
+    <androidx.cardview.widget.CardView
+        android:layout_margin="@dimen/_3sdp"
         android:layout_width="@dimen/_120sdp"
         android:layout_height="@dimen/_70sdp"
         app:cardElevation="@dimen/_3sdp"
@@ -43,24 +43,21 @@
             android:layout_marginTop="@dimen/_5sdp"
             android:text="Tu Tuan Le"
             android:textSize="@dimen/_10ssp"
+            android:textColor="@color/colorTextChat"
             android:textStyle="bold" />
 
         <ImageView
-            android:layout_width="@dimen/_20sdp"
-            android:layout_height="@dimen/_20sdp"
+            android:layout_width="@dimen/_15sdp"
+            android:layout_height="@dimen/_15sdp"
             android:layout_gravity="end"
             android:layout_marginTop="@dimen/_1sdp"
             android:padding="@dimen/_3sdp"
             android:src="@drawable/ic_close"
-            android:tint="@color/blue"
+            android:tint="@color/colorTextChat"
             tools:ignore="UseAppTint" />
 
-        <FrameLayout
-            android:layout_width="match_parent"
-            android:layout_height="@dimen/_1sdp"
-            android:layout_marginHorizontal="@dimen/_10sdp"
-            android:layout_marginTop="@dimen/_40sdp"
-            android:background="@color/gray_scale" />
+
+
 
         <com.balysv.materialripple.MaterialRippleLayout
             android:id="@+id/layoutRequest"
@@ -102,7 +99,7 @@
         </com.balysv.materialripple.MaterialRippleLayout>
 
 
-    </FrameLayout>
+    </androidx.cardview.widget.CardView>
 
 
 

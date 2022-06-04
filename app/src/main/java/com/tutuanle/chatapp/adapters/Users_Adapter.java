@@ -11,6 +11,7 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.tutuanle.chatapp.databinding.ItemContainerUserBinding;
+import com.tutuanle.chatapp.databinding.ItemUserFriendBinding;
 import com.tutuanle.chatapp.interfaces.UserListener;
 import com.tutuanle.chatapp.models.User;
 
@@ -30,10 +31,10 @@ public class Users_Adapter extends RecyclerView.Adapter<Users_Adapter.UserViewHo
     @NonNull
     @Override
     public UserViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        ItemContainerUserBinding itemContainerUserBinding = ItemContainerUserBinding.inflate(
+        ItemUserFriendBinding itemUserFriendBinding = ItemUserFriendBinding.inflate(
                 LayoutInflater.from(parent.getContext()), parent, false
         );
-        return new UserViewHolder(itemContainerUserBinding);
+        return new UserViewHolder(itemUserFriendBinding);
     }
 
     @Override
@@ -48,9 +49,9 @@ public class Users_Adapter extends RecyclerView.Adapter<Users_Adapter.UserViewHo
 
     class UserViewHolder extends RecyclerView.ViewHolder {
 
-        ItemContainerUserBinding binding;
+        ItemUserFriendBinding binding;
 
-        public UserViewHolder(ItemContainerUserBinding itemContainerUserBinding) {
+        public UserViewHolder(ItemUserFriendBinding itemContainerUserBinding) {
             super(itemContainerUserBinding.getRoot());
             binding = itemContainerUserBinding;
         }

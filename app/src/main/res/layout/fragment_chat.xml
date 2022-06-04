@@ -163,7 +163,7 @@
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Recent Chat"
+        android:text="List friend"
         android:textColor="@color/colorTextSecondary"
         android:textSize="@dimen/_12ssp"
         android:textStyle="bold"
@@ -181,18 +181,28 @@
             android:orientation="vertical">
 
 
-
-            <androidx.recyclerview.widget.RecyclerView
-
-                android:id="@+id/userRecyclerView"
+            <androidx.cardview.widget.CardView
+                android:id="@+id/cardRecyclerView"
+                android:layout_marginTop="@dimen/_10sdp"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:clipToPadding="false"
-                android:overScrollMode="never"
-                android:paddingTop="@dimen/_10sdp"
-                android:visibility="gone"
+                android:layout_marginHorizontal="@dimen/_10sdp"
+                app:cardElevation="@dimen/_2sdp"
+                app:cardCornerRadius="@dimen/_1sdp"
+                >
+                <androidx.recyclerview.widget.RecyclerView
 
-                app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager" />
+                    android:id="@+id/userRecyclerView"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:clipToPadding="false"
+                    android:overScrollMode="never"
+                    android:paddingTop="@dimen/_10sdp"
+                    android:visibility="gone"
+
+                    app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager" />
+            </androidx.cardview.widget.CardView>
+
 
             <!--            <ProgressBar-->
 

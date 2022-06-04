@@ -31,6 +31,7 @@
     <color name="primaryHeader">#24A3C8</color>
 
     <color name="colorPrimary">#3F51B5</color>
+    <color name="colorTextChat">#5AA3B8</color>
     <color name="colorPrimaryDark">#303F9F</color>
     <color name="colorAccent">#c6d6f0</color>
     <color name="colorGray">#B5AEAE</color>
