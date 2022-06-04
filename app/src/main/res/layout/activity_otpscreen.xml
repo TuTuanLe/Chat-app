@@ -40,9 +40,9 @@
             android:textStyle="bold" />
 
         <ImageView
-            android:layout_width="@dimen/_100sdp"
-            android:layout_height="@dimen/_100sdp"
-            android:src="@drawable/uit" />
+            android:layout_width="@dimen/_80sdp"
+            android:layout_height="@dimen/_80sdp"
+            android:src="@drawable/ic_frame__logo" />
 
 
      <LinearLayout

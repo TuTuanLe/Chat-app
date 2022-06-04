@@ -12,7 +12,7 @@
         android:id="@+id/animationView"
         android:layout_width="@dimen/_250sdp"
         android:layout_height="@dimen/_250sdp"
-        android:layout_marginTop="84dp"
+        android:layout_marginTop="@dimen/_60sdp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
@@ -22,9 +22,9 @@
 
     <com.makeramen.roundedimageview.RoundedImageView
         android:id="@+id/imgAvatar"
-        android:layout_width="100dp"
-        android:layout_height="100dp"
-        android:layout_marginTop="209dp"
+        android:layout_width="@dimen/_90sdp"
+        android:layout_height="@dimen/_90sdp"
+        android:layout_marginTop="@dimen/_140sdp"
         android:background="@drawable/circle_bg"
         android:elevation="2dp"
         android:scaleType="fitXY"

@@ -10,6 +10,8 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
+import android.widget.Toast;
+
 import com.agrawalsuneet.dotsloader.loaders.TashieLoader;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.firebase.firestore.DocumentChange;
@@ -20,6 +22,7 @@ import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
 import com.makeramen.roundedimageview.RoundedImageView;
 import com.tutuanle.chatapp.R;
+import com.tutuanle.chatapp.activities.InformationActivity;
 import com.tutuanle.chatapp.activities.MainScreenActivity;
 import com.tutuanle.chatapp.activities.ProfileActivity;
 import com.tutuanle.chatapp.activities.SearchActivity;
@@ -377,6 +380,29 @@ public class ChatFragment extends Fragment implements RequestListener {
     @Override
     public void onCancelRequestFriend(String uid){
         deleteRequestFriend(uid);
+    }
+
+    @Override
+    public void onShowUser(String uid) {
+        FirebaseFirestore.getInstance()
+                .collection(Constants.KEY_COLLECTION_USERS)
+                .document(uid)
+                .get()
+                .addOnSuccessListener(v->
+                        {
+                            User user =new User();
+                            user.setUid(uid);
+                            user.setName(v.getString(Constants.KEY_NAME));
+                            user.setEmail(v.getString(Constants.KEY_EMAIL));
+                            user.setProfileImage(v.getString(Constants.KEY_IMAGE));
+                            user.setPhoneNumber(v.getString(Constants.KEY_NUMBER_PHONE));
+
+                            Intent intent = new Intent(mainScreenActivity, InformationActivity.class);
+                            intent.putExtra(Constants.KEY_USER, user);
+                            startActivity(intent);
+                        }
+                        );
+
     }
 
 }

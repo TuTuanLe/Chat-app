@@ -280,7 +280,7 @@ public class SearchActivity extends AppCompatActivity implements UserListener {
                 .add(request)
                 .addOnSuccessListener(value -> {
                     uidFriend = value.getId();
-                    showToast(" became friends  ...");
+                    showToast(" became friends ... ");
                 });
 
         checkForConversionRemotely( receiver, sender);

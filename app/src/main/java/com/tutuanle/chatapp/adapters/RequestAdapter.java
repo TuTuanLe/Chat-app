@@ -57,6 +57,8 @@ public class RequestAdapter extends RecyclerView.Adapter<RequestAdapter.RequestV
             binding.textRequest.setText(requestFriend.getRequest());
             binding.imgAvatar.setImageBitmap(getBitmapFromEnCodedString(requestFriend.getImage()));
             binding.textUserRequest.setText(requestFriend.getName());
+            binding.textUserRequest.setOnClickListener(v->requestListener.onShowUser(requestFriend.getReceiver()));
+
             if(requestFriend.getRequest().equals("ACCEPT")){
                 binding.textRequest.setTextColor(binding.getRoot().getResources().getColor(R.color.blue));
                 binding.iconRequest.setColorFilter(ContextCompat.getColor(binding.getRoot().getContext(), R.color.blue), android.graphics.PorterDuff.Mode.MULTIPLY);

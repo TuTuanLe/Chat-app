@@ -6,27 +6,19 @@ import androidx.recyclerview.widget.GridLayoutManager;
 import android.annotation.SuppressLint;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
-import android.graphics.Color;
-import android.os.Build;
 import android.os.Bundle;
 import android.util.Base64;
 import android.util.Log;
 import android.view.WindowManager;
-
-import com.google.android.gms.tasks.OnSuccessListener;
-import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
-import com.google.firebase.firestore.QuerySnapshot;
-import com.google.firebase.storage.StorageReference;
 import com.tutuanle.chatapp.adapters.InformationAdapter;
 import com.tutuanle.chatapp.databinding.ActivityInfomationBinding;
 import com.tutuanle.chatapp.models.User;
 import com.tutuanle.chatapp.utilities.Constants;
-
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Objects;
+
 
 public class InformationActivity extends AppCompatActivity {
     ActivityInfomationBinding binding;
@@ -45,7 +37,6 @@ public class InformationActivity extends AppCompatActivity {
 
     private void setBinding() {
         binding.imageBack.setOnClickListener(v -> onBackPressed());
-
     }
 
     private void initData() {
@@ -63,7 +54,7 @@ public class InformationActivity extends AppCompatActivity {
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS, WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS);
     }
 
-    @SuppressLint("NotifyDataSetChanged")
+    @SuppressLint({"NotifyDataSetChanged", "LogNotTimber"})
     private  void getImages(){
         FirebaseFirestore.getInstance().collection(Constants.KEY_COLLECTION_STORIES)
                 .document(receiverUSer.getUid())
@@ -81,14 +72,7 @@ public class InformationActivity extends AppCompatActivity {
 
     }
 
-//    task->
-//    {
-////                    if (task. && task.getResult() != null && task.getResult().getDocuments().size() > 0) {
-////                        DocumentSnapshot documentSnapshot = task.getResult().getDocuments().get(0);
-////                        conversionId = documentSnapshot.getId();
-////                        countMessage = Integer.valueOf(Objects.requireNonNull(documentSnapshot.getString(Constants.KEY_COUNT_NUMBER_OF_MESSAGE_SEEN)));
-////                    }
-//    }
+
 
     private Bitmap getBitmapFromEnCodedString(String enCodedImage) {
         byte[] bytes = Base64.decode(enCodedImage, Base64.DEFAULT);
