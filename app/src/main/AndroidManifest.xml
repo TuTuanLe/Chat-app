@@ -18,6 +18,9 @@
         android:usesCleartextTraffic="true"
         tools:targetApi="m">
         <activity
+            android:name=".activities.GroupScreenActivity"
+            android:exported="false" />
+        <activity
             android:name=".activities.ChatSettingsActivity"
             android:exported="false" />
         <activity
