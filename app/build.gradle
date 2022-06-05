@@ -100,4 +100,7 @@ dependencies {
 
     // animation call
     implementation "com.airbnb.android:lottie:3.4.0"
+
+    // Integrate Youtube Api
+    implementation files("libs\\YouTubeAndroidPlayerApi.jar")
 }

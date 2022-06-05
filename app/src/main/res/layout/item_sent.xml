@@ -68,6 +68,40 @@
             android:textColor="@color/secondary_text"
             android:textSize="@dimen/_11ssp"
             />
+
+        <LinearLayout
+            android:layout_width="@dimen/_150sdp"
+            android:layout_height="wrap_content"
+            android:id="@+id/messageYoutube"
+            android:background="@drawable/custome_background_link"
+            android:visibility="gone"
+            android:orientation="vertical"
+            >
+            <TextView
+                android:id="@+id/link"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="https://www.youtube.com/watch?v=VQttXb6qE6k"
+                android:layout_centerInParent="true"
+                android:textColor="@color/white"
+                android:textSize="@dimen/_15sdp"
+                android:gravity="center"
+                />
+            <com.google.android.youtube.player.YouTubePlayerView
+                android:layout_width="wrap_content"
+                android:layout_height="@dimen/_80sdp"/>
+            <TextView
+                android:id="@+id/title"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Tích hợp Youtube Api vào Android Studio!"
+                android:layout_centerInParent="true"
+                android:textColor="@color/white"
+                android:textSize="@dimen/_15sdp"
+                android:gravity="center"
+                />
+
+        </LinearLayout>
     </androidx.appcompat.widget.LinearLayoutCompat>
 
 

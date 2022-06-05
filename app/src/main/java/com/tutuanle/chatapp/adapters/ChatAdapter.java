@@ -236,6 +236,13 @@ public class ChatAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
                 binding.messageImage.setVisibility(View.GONE);
                 binding.message.setVisibility(View.GONE);
                 binding.messageVideo.setVisibility(View.GONE);
+            }else if(chatMessage.getTypeMessage() == 5){
+                binding.unMessage.setVisibility(View.GONE);
+                binding.messageImage.setBackgroundResource(0);
+                binding.messageImage.setVisibility(View.GONE);
+                binding.message.setVisibility(View.GONE);
+                binding.messageVideo.setVisibility(View.GONE);
+                binding.messageYoutube.setVisibility(View.VISIBLE);
             }
 
         }

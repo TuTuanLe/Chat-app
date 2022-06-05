@@ -619,6 +619,12 @@ public class ChatScreenActivity extends OnChatActivity implements ChatListener {
         } else {
             message.put(Constants.KEY_SEND_RECORD, null);
         }
+        // send link video
+        if(TypeMessage == 5){
+            message.put(Constants.KEY_SEND_LINK, "send link");
+        }else{
+            message.put(Constants.KEY_SEND_LINK,null);
+        }
 
         database.collection(Constants.KEY_COLLECTION_CHAT).add(message);
 
