@@ -201,7 +201,6 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent">
 
-
         <ImageView
             android:id="@+id/btn_extend"
             android:layout_width="match_parent"
@@ -212,7 +211,9 @@
             android:src="@drawable/ic_baseline_add_circle_outline_24"
             app:tint="@color/blue" />
 
+
     </FrameLayout>
+
 
     <FrameLayout
         android:id="@+id/layoutExtend3"
@@ -296,24 +297,76 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="@+id/cardView3"
         app:layout_constraintVertical_bias="0.977"
-        app:srcCompat="@drawable/ic_baseline_mic_none_24" />
+        app:srcCompat="@drawable/ic_baseline_mic_none_24"
+        tools:ignore="MissingClass" />
+
+
+    <ImageView
+        android:id="@+id/close"
+        android:layout_width="@dimen/_37sdp"
+        android:layout_height="@dimen/_35sdp"
+        android:layout_marginBottom="72dp"
+        android:background="@color/trans"
+        android:contentDescription="@string/app_name"
+        android:padding="@dimen/_8sdp"
+        android:src="@drawable/ic_close"
+        android:visibility="gone"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.093"
+        app:layout_constraintStart_toStartOf="parent"
+        app:tint="@color/black"
+
+        />
+
+    <ImageView
+        android:id="@+id/check"
+        android:layout_width="@dimen/_50sdp"
+        android:layout_height="@dimen/_60sdp"
+        android:layout_marginBottom="56dp"
+        android:background="@color/trans"
+        android:contentDescription="@string/app_name"
+        android:padding="@dimen/_8sdp"
+        android:src="@drawable/ic_check"
+        android:visibility="gone"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.953"
+        app:layout_constraintStart_toStartOf="parent"
+        app:tint="@color/black" />
 
     <com.devlomi.record_view.RecordView
         android:id="@+id/record_view"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_width="250dp"
+        android:layout_height="@dimen/_35sdp"
         android:layout_alignParentBottom="true"
         android:layout_toLeftOf="@id/record_button"
-        app:counter_time_color="#ff0000"
+        android:background="@drawable/custome_record"
+        android:rotationX="-360"
+        android:visibility="gone"
         app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.498"
+        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/progressBar"
-        app:layout_constraintVertical_bias="0.789"
-        app:slide_to_cancel_arrow="@drawable/recv_ic_arrow"
-        app:slide_to_cancel_arrow_color="#000000"
-        app:slide_to_cancel_bounds="8dp"
-        app:slide_to_cancel_margin_right="10dp"
-        app:slide_to_cancel_text="Slide To Cancel"
-        tools:ignore="MissingConstraints"
-        tools:layout_editor_absoluteX="-16dp" />
+        app:layout_constraintVertical_bias="0.81"
+
+        >
+
+
+        <ImageView
+            android:id="@+id/recordanimation"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_alignParentEnd="true"
+            android:layout_marginEnd="200dp"
+            android:background="@color/trans"
+            android:contentDescription="@string/app_name"
+            android:padding="@dimen/_8sdp"
+            android:src="@drawable/ic_record"
+            app:tint="@color/black" />
+
+
+    </com.devlomi.record_view.RecordView>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

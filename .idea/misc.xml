@@ -3,6 +3,7 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
+        <entry key="../../../../layout/custom_preview.xml" value="0.1167171207534477" />
         <entry key="..\:/Android/ChatApp/app/src/main/res/drawable-v24/receive_drawable.xml" value="0.3265" />
         <entry key="..\:/Android/ChatApp/app/src/main/res/drawable/circle_green.xml" value="0.2265" />
         <entry key="..\:/Android/ChatApp/app/src/main/res/drawable/ic_chats.xml" value="0.3265" />
@@ -221,9 +222,37 @@
         <entry key="..\:/study/Mobile-App-Development/ChatsApp/app/src/main/res/menu/menu.xml" value="0.3703125" />
         <entry key="..\:/study/Mobile-App-Development/ChatsApp/app/src/main/res/menu/topmenu.xml" value="0.3703125" />
         <entry key="..\:/study/Mobile-App-Development/ChatsApp/app/src/main/res/mipmap-anydpi-v26/ic_launcher.xml" value="0.14" />
-        <entry key="app/src/main/res/layout/activity_chat_screen.xml" value="0.33" />
+        <entry key="app/src/main/res/drawable-v24/background_header_corner.xml" value="0.1865" />
+        <entry key="app/src/main/res/drawable-v24/receive_drawable.xml" value="0.1865" />
+        <entry key="app/src/main/res/drawable/border_color_like.xml" value="0.322" />
+        <entry key="app/src/main/res/drawable/border_image.xml" value="0.322" />
+        <entry key="app/src/main/res/drawable/button_bg.xml" value="0.322" />
+        <entry key="app/src/main/res/drawable/change_background.xml" value="0.322" />
+        <entry key="app/src/main/res/drawable/circle_bg.xml" value="0.322" />
+        <entry key="app/src/main/res/drawable/custome_record.xml" value="0.3375" />
+        <entry key="app/src/main/res/drawable/custome_record_receive.xml" value="0.153" />
+        <entry key="app/src/main/res/drawable/ic_baseline_pause_circle_outline_24.xml" value="0.322" />
+        <entry key="app/src/main/res/drawable/ic_baseline_play_circle_outline_24.xml" value="0.322" />
+        <entry key="app/src/main/res/layout/activity_chat.xml" value="0.18568840579710144" />
+        <entry key="app/src/main/res/layout/activity_chat_screen.xml" value="0.25" />
         <entry key="app/src/main/res/layout/activity_main.xml" value="0.14361702127659576" />
+        <entry key="app/src/main/res/layout/custome_record.xml" value="0.1693840579710145" />
         <entry key="app/src/main/res/layout/fragment_chat.xml" value="0.14361702127659576" />
+        <entry key="app/src/main/res/layout/fragment_home.xml" value="0.15425531914893617" />
+        <entry key="app/src/main/res/layout/fragment_setting.xml" value="0.15425531914893617" />
+        <entry key="app/src/main/res/layout/fragment_story.xml" value="0.15425531914893617" />
+        <entry key="app/src/main/res/layout/item_container_user.xml" value="0.33" />
+        <entry key="app/src/main/res/layout/item_receive.xml" value="0.33" />
+        <entry key="app/src/main/res/layout/item_record_receive.xml" value="0.12635869565217392" />
+        <entry key="app/src/main/res/layout/item_record_sent.xml" value="0.33" />
+        <entry key="app/src/main/res/layout/item_sent.xml" value="0.1" />
+        <entry key="app/src/main/res/layout/item_status.xml" value="0.15425531914893617" />
+        <entry key="app/src/main/res/layout/item_status_story.xml" value="0.15425531914893617" />
+        <entry key="app/src/main/res/layout/item_user.xml" value="0.15425531914893617" />
+        <entry key="app/src/main/res/layout/layout_dialog_bottom.xml" value="0.15425531914893617" />
+        <entry key="app/src/main/res/layout/layout_dialog_info.xml" value="0.15425531914893617" />
+        <entry key="app/src/main/res/layout/layout_dialog_theme.xml" value="0.15425531914893617" />
+        <entry key="app/src/main/res/layout/login_tab_fragment.xml" value="0.15425531914893617" />
       </map>
     </option>
   </component>

@@ -205,8 +205,11 @@ public class ChatAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
                 binding.messageVideo.setVisibility(View.VISIBLE);
                 binding.messageVideo.setVideoURI(Uri.parse("https://videocdn.bodybuilding.com/video/mp4/62000/62792m.mp4"));
                 binding.messageVideo.requestFocus();
-
-
+            } else if(chatMessage.getTypeMessage() == 3){
+                binding.messageAudio.setVisibility(View.VISIBLE);
+                binding.message.setVisibility(View.GONE);
+                binding.messageImage.setVisibility(View.GONE);
+                binding.messageVideo.setVisibility(View.GONE);
             }
 
         }
@@ -238,6 +241,10 @@ public class ChatAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
                 binding.messageImage.setVisibility(View.VISIBLE);
                 binding.message.setVisibility(View.GONE);
                 binding.messageImage.setImageBitmap(getBitmapFromEnCodedString(chatMessage.getImageBitmap()));
+            }else if(chatMessage.getTypeMessage() == 3){
+                binding.messageAudio.setVisibility(View.VISIBLE);
+                binding.message.setVisibility(View.GONE);
+                binding.messageImage.setVisibility(View.GONE);
             }
         }
 

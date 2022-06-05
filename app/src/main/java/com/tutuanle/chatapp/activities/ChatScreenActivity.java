@@ -26,7 +26,10 @@ import android.view.Gravity;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 import android.view.inputmethod.EditorInfo;
+import android.widget.ImageView;
 import android.widget.Toast;
 
 import androidx.activity.result.ActivityResultLauncher;
@@ -99,7 +102,7 @@ public class ChatScreenActivity extends OnChatActivity {
     private Integer countMessage = 0;
     private CustomizeChat customizeChat;
     private String encodedImage;
-    private int TypeMessage = 0;
+    private int TypeMessage = 3;
     private MediaRecorder recorder = null;
     private String audioPath = "";
     private static int MICROPHONE_PERMISSION_CODE = 200;
@@ -538,12 +541,14 @@ public class ChatScreenActivity extends OnChatActivity {
         } else {
             message.put(Constants.KEY_SEND_VIDEO, null);
         }
-        // send record
+         //send record
         if (TypeMessage == 3) {
             message.put(Constants.KEY_SEND_RECORD, "send record");
+
         } else {
             message.put(Constants.KEY_SEND_RECORD, null);
         }
+
 
         database.collection(Constants.KEY_COLLECTION_CHAT).add(message);
 
@@ -758,8 +763,12 @@ public class ChatScreenActivity extends OnChatActivity {
 
     protected void initView() {
         RecordView recordView = (RecordView) findViewById(R.id.record_view);
+        ImageView imageClose = (ImageView) findViewById(R.id.close);
+        ImageView imageCheck = (ImageView) findViewById(R.id.check);
+        ImageView imageViewanimation = (ImageView) findViewById(R.id.recordanimation);
         RecordButton recordButton = (RecordButton) findViewById(R.id.record_button);
         CardView cardView = (CardView) findViewById(R.id.cardView2);
+
         recordButton.setListenForRecord(false);
         recordButton.setRecordView(recordView);
         recordButton.setOnClickListener(new View.OnClickListener() {
@@ -783,6 +792,10 @@ public class ChatScreenActivity extends OnChatActivity {
                     e.printStackTrace();
                }
                recordView.setVisibility(View.VISIBLE);
+               Animation animation = AnimationUtils.loadAnimation(getApplicationContext(),R.anim.move);
+               imageViewanimation.startAnimation(animation);
+               imageCheck.setVisibility(View.VISIBLE);
+               imageClose.setVisibility(View.VISIBLE);
             }
 
             @Override
@@ -790,10 +803,10 @@ public class ChatScreenActivity extends OnChatActivity {
                 //On Swipe To Cancel
                 recorder.reset();
                 recorder.release();
-//                File file = new File(audioPath);
-//                if(!file.exists())
-//                    file.delete();
+
                 recordView.setVisibility(View.GONE);
+                imageCheck.setVisibility(View.GONE);
+                imageClose.setVisibility(View.GONE);
 
             }
 
@@ -803,6 +816,8 @@ public class ChatScreenActivity extends OnChatActivity {
                 recorder.release();
 
                 recordView.setVisibility(View.GONE);
+                imageCheck.setVisibility(View.GONE);
+                imageClose.setVisibility(View.GONE);
                 pushRecordToFirebase(audioPath);
             }
 

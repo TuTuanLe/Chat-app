@@ -51,6 +51,53 @@
             android:textColor="@color/white"
             android:textSize="@dimen/_11ssp"
         />
+
+        <LinearLayout
+            android:id="@+id/messageAudio"
+            android:layout_width="@dimen/_150sdp"
+            android:layout_height="@dimen/_30sdp"
+            android:background="@drawable/custome_record"
+            android:visibility="gone"
+            >
+            <FrameLayout
+                android:id="@+id/btnStart"
+                android:layout_width="@dimen/_35sdp"
+                android:layout_height="@dimen/_35sdp"
+
+                >
+                <ImageView
+                    android:id="@+id/playRecord"
+                    android:layout_width="@dimen/_25sdp"
+                    android:layout_height="@dimen/_20sdp"
+                    android:layout_marginTop="@dimen/_5sdp"
+                    android:layout_marginLeft="@dimen/_5sdp"
+                    android:visibility="visible"
+                    android:background="@drawable/custome_record"
+                    android:src="@drawable/ic_baseline_play_circle_outline_24"
+                    app:tint="@color/blue"
+                    />
+                <ImageView
+                    android:id="@+id/pauseRecord"
+                    android:layout_width="@dimen/_25sdp"
+                    android:layout_height="@dimen/_20sdp"
+                    android:layout_marginTop="@dimen/_5sdp"
+                    android:visibility="gone"
+                    android:background="@drawable/custome_record"
+                    android:src="@drawable/ic_baseline_pause_circle_outline_24"
+                    app:tint="@color/blue" />
+            </FrameLayout>
+
+            <TextView
+                android:id="@+id/countText"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/_5sdp"
+                android:text="00:00" />
+
+        </LinearLayout>
+
+
+
     </androidx.appcompat.widget.LinearLayoutCompat>
 
 
