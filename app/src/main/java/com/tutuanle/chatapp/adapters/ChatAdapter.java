@@ -258,7 +258,12 @@ public class ChatAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
         public void setData(ChatMessage chatMessage, Bitmap receiverProfileImage) {
             binding.message.setText(chatMessage.getMessage());
             binding.textDateTime.setText(chatMessage.getDateTime());
-            binding.roundedImageView.setImageBitmap(receiverProfileImage);
+          try  {
+              binding.roundedImageView.setImageBitmap(getBitmapFromEnCodedString(chatMessage.getImage()));
+          }catch (Exception e){
+              Toast.makeText(binding.getRoot().getContext(), "Fail image", Toast.LENGTH_SHORT).show();
+          }
+
             if (chatMessage.getTypeMessage() == 0) {
                 binding.messageImage.setBackgroundResource(0);
                 binding.messageImage.setVisibility(View.GONE);

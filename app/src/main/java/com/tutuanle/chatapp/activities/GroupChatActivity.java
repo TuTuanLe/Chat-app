@@ -40,6 +40,7 @@ import com.google.firebase.firestore.QuerySnapshot;
 import com.tutuanle.chatapp.R;
 import com.tutuanle.chatapp.adapters.ChatAdapter;
 import com.tutuanle.chatapp.databinding.ActivityChatScreenBinding;
+import com.tutuanle.chatapp.databinding.ActivityGroupChatBinding;
 import com.tutuanle.chatapp.interfaces.ChatListener;
 import com.tutuanle.chatapp.models.ChatMessage;
 import com.tutuanle.chatapp.models.CustomizeChat;
@@ -70,8 +71,8 @@ import retrofit2.Callback;
 import retrofit2.Response;
 
 @RequiresApi(api = Build.VERSION_CODES.N)
-public class ChatScreenActivity extends OnChatActivity implements ChatListener {
-    private ActivityChatScreenBinding binding;
+public class GroupChatActivity extends OnChatActivity implements ChatListener {
+    private ActivityGroupChatBinding binding;
     private User receiverUSer;
     private ChatAdapter chatAdapter;
     private PreferenceManager preferenceManager;
@@ -94,7 +95,7 @@ public class ChatScreenActivity extends OnChatActivity implements ChatListener {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        binding = ActivityChatScreenBinding.inflate(getLayoutInflater());
+        binding = ActivityGroupChatBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
         loadReceiverDetails();
         init();
@@ -103,12 +104,10 @@ public class ChatScreenActivity extends OnChatActivity implements ChatListener {
         listenMessages();
         setIconSend();
         customizeYourChat();
-        initCustomTheme();
+//        initCustomTheme();
 //        updateConversation();
         customChecked();
-
     }
-
     private void customChecked() {
 
         binding.chk1.setOnClickListener(v -> {
@@ -130,6 +129,8 @@ public class ChatScreenActivity extends OnChatActivity implements ChatListener {
             ScreenResolution = 2;
         });
     }
+
+
 
     private void loadReceiverDetails() {
         receiverUSer = (User) getIntent().getSerializableExtra(Constants.KEY_USER);
@@ -316,10 +317,16 @@ public class ChatScreenActivity extends OnChatActivity implements ChatListener {
                 .whereEqualTo(Constants.KEY_SENDER_ID, preferenceManager.getString(Constants.KEY_USER_ID))
                 .whereEqualTo(Constants.KEY_RECEIVER_ID, receiverUSer.getUid())
                 .addSnapshotListener(eventListener);
+
         database.collection(Constants.KEY_COLLECTION_CHAT)
-                .whereEqualTo(Constants.KEY_SENDER_ID, receiverUSer.getUid())
-                .whereEqualTo(Constants.KEY_RECEIVER_ID, preferenceManager.getString(Constants.KEY_USER_ID))
+                .whereNotEqualTo(Constants.KEY_SENDER_ID, preferenceManager.getString(Constants.KEY_USER_ID))
+                .whereEqualTo(Constants.KEY_RECEIVER_ID, receiverUSer.getUid())
+
                 .addSnapshotListener(eventListener);
+//        database.collection(Constants.KEY_COLLECTION_CHAT)
+//                .whereEqualTo(Constants.KEY_SENDER_ID, receiverUSer.getUid())
+//                .whereNotEqualTo(Constants.KEY_RECEIVER_ID, preferenceManager.getString(Constants.KEY_USER_ID))
+//                .addSnapshotListener(eventListener);
 
     }
 
@@ -333,10 +340,10 @@ public class ChatScreenActivity extends OnChatActivity implements ChatListener {
             @Override
             public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
                 if (!charSequence.toString().trim().isEmpty()) {
-                    binding.iconSend.setColorFilter(ContextCompat.getColor(ChatScreenActivity.this, R.color.blue), android.graphics.PorterDuff.Mode.MULTIPLY);
+                    binding.iconSend.setColorFilter(ContextCompat.getColor(GroupChatActivity.this, R.color.blue), android.graphics.PorterDuff.Mode.MULTIPLY);
 
                 } else {
-                    binding.iconSend.setColorFilter(ContextCompat.getColor(ChatScreenActivity.this, R.color.colorGray), android.graphics.PorterDuff.Mode.MULTIPLY);
+                    binding.iconSend.setColorFilter(ContextCompat.getColor(GroupChatActivity.this, R.color.colorGray), android.graphics.PorterDuff.Mode.MULTIPLY);
                 }
             }
 
@@ -716,7 +723,7 @@ public class ChatScreenActivity extends OnChatActivity implements ChatListener {
     private void listenAvailabilityOfReceiver() {
         database.collection(Constants.KEY_COLLECTION_USERS)
                 .document(receiverUSer.getUid())
-                .addSnapshotListener(ChatScreenActivity.this, (value, error) -> {
+                .addSnapshotListener(GroupChatActivity.this, (value, error) -> {
                     if (error != null) {
                         return;
                     }

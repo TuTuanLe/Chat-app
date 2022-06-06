@@ -7,6 +7,16 @@ public class ChatMessage {
         return senderId;
     }
 
+    String Image;
+
+    public String getImage() {
+        return Image;
+    }
+
+    public void setImage(String image) {
+        Image = image;
+    }
+
     public void setSenderId(String senderId) {
         this.senderId = senderId;
     }
