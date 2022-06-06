@@ -3,8 +3,10 @@ package com.tutuanle.chatapp.fragment;
 import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.Bundle;
+
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.RecyclerView;
+
 import android.os.Handler;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -22,6 +24,7 @@ import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
 import com.makeramen.roundedimageview.RoundedImageView;
 import com.tutuanle.chatapp.R;
+import com.tutuanle.chatapp.activities.CreateGroupActivity;
 import com.tutuanle.chatapp.activities.InformationActivity;
 import com.tutuanle.chatapp.activities.MainScreenActivity;
 import com.tutuanle.chatapp.activities.ProfileActivity;
@@ -33,6 +36,7 @@ import com.tutuanle.chatapp.models.RequestFriend;
 import com.tutuanle.chatapp.models.User;
 import com.tutuanle.chatapp.utilities.Constants;
 import com.tutuanle.chatapp.utilities.PreferenceManager;
+
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -114,14 +118,14 @@ public class ChatFragment extends Fragment implements RequestListener {
         requestFriends = new ArrayList<>();
         listFriend = new ArrayList<>();
         new Handler().postDelayed(() -> {
-            try{
+            try {
                 initRequestFriend();
                 initFriend();
-                for(int i = 0; i< users.size(); i++){
+                for (int i = 0; i < users.size(); i++) {
                     initAcceptFriend(users.get(i).getUid());
                 }
 
-            }catch(Exception e){
+            } catch (Exception e) {
                 showErrorMessage();
             }
 
@@ -145,7 +149,8 @@ public class ChatFragment extends Fragment implements RequestListener {
                 .whereEqualTo(Constants.KEY_STATUS, 0)
                 .addSnapshotListener(eventAcceptListener);
     }
-    private void initFriend(){
+
+    private void initFriend() {
         firebaseFirestore
                 .collection(Constants.KEY_COLLECTION_FRIENDS)
                 .whereEqualTo(Constants.KEY_SENDER_ID, preferenceManager.getString(Constants.KEY_USER_ID))
@@ -166,14 +171,14 @@ public class ChatFragment extends Fragment implements RequestListener {
 
                 if (documentChange.getType() == DocumentChange.Type.ADDED) {
                     int index = findUser(documentChange.getDocument().getString(Constants.KEY_RECEIVER_ID));
-                    if(index > -1){
+                    if (index > -1) {
                         listFriend.add(users.get(index));
                     }
 
 
                 } else if (documentChange.getType() == DocumentChange.Type.REMOVED) {
                     int index = findUser(documentChange.getDocument().getString(Constants.KEY_RECEIVER_ID));
-                    if(index > -1){
+                    if (index > -1) {
                         listFriend.remove(index);
                     }
 
@@ -259,8 +264,7 @@ public class ChatFragment extends Fragment implements RequestListener {
                     RecyclerView temp = view.findViewById(R.id.requestRecyclerView);
                     temp.setAdapter(requestAdapter);
                     break;
-                }
-                else if(documentChange.getType() == DocumentChange.Type.REMOVED){
+                } else if (documentChange.getType() == DocumentChange.Type.REMOVED) {
                     int index = findRequestFriend(documentChange.getDocument().getId());
                     requestFriends.remove(index);
                     RequestAdapter requestAdapter = new RequestAdapter(requestFriends, this);
@@ -279,12 +283,12 @@ public class ChatFragment extends Fragment implements RequestListener {
 
 
     private int findUser(String uid) {
-        try{
+        try {
             for (int i = 0; i < users.size(); i++)
                 if (users.get(i).getUid().equals(uid))
                     return i;
             return -1;
-        }catch (Exception e){
+        } catch (Exception e) {
             return -1;
         }
     }
@@ -316,6 +320,7 @@ public class ChatFragment extends Fragment implements RequestListener {
             intent.putExtra(Constants.KEY_USER, usermod);
             startActivity(intent);
         });
+        view.setOnClickListener(v -> startActivity(new Intent(mainScreenActivity, CreateGroupActivity.class)));
     }
 
     private void loading(Boolean isLoading) {
@@ -346,16 +351,17 @@ public class ChatFragment extends Fragment implements RequestListener {
 
         FirebaseFirestore.getInstance().collection(Constants.KEY_COLLECTION_FRIENDS).add(request);
 
-        checkForConversionRemotely( receiver, sender);
+        checkForConversionRemotely(receiver, sender);
 
         new Handler().postDelayed(() ->
                 FirebaseFirestore
-                .getInstance()
-                .collection(Constants.KEY_COLLECTION_FRIENDS)
-                .document(uidReceiverFriend)
-                .update(Constants.KEY_STATUS, 1), 1000);
+                        .getInstance()
+                        .collection(Constants.KEY_COLLECTION_FRIENDS)
+                        .document(uidReceiverFriend)
+                        .update(Constants.KEY_STATUS, 1), 1000);
 
     }
+
     private void checkForConversionRemotely(String senderId, String receiverId) {
         FirebaseFirestore.getInstance()
                 .collection(Constants.KEY_COLLECTION_FRIENDS)
@@ -373,12 +379,12 @@ public class ChatFragment extends Fragment implements RequestListener {
     };
 
     @Override
-    public void onAcceptFiend(String receiver){
+    public void onAcceptFiend(String receiver) {
         createAcceptFriend(preferenceManager.getString(Constants.KEY_USER_ID), receiver);
     }
 
     @Override
-    public void onCancelRequestFriend(String uid){
+    public void onCancelRequestFriend(String uid) {
         deleteRequestFriend(uid);
     }
 
@@ -388,9 +394,9 @@ public class ChatFragment extends Fragment implements RequestListener {
                 .collection(Constants.KEY_COLLECTION_USERS)
                 .document(uid)
                 .get()
-                .addOnSuccessListener(v->
+                .addOnSuccessListener(v ->
                         {
-                            User user =new User();
+                            User user = new User();
                             user.setUid(uid);
                             user.setName(v.getString(Constants.KEY_NAME));
                             user.setEmail(v.getString(Constants.KEY_EMAIL));
@@ -401,7 +407,7 @@ public class ChatFragment extends Fragment implements RequestListener {
                             intent.putExtra(Constants.KEY_USER, user);
                             startActivity(intent);
                         }
-                        );
+                );
 
     }
 
