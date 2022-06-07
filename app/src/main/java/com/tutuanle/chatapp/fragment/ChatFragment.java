@@ -190,20 +190,19 @@ public class ChatFragment extends Fragment implements RequestListener, UsersList
                     if(documentChange.getDocument().getString(Constants.KEY_USER_ADMIN_GROUP).equals(preferenceManager.getString(Constants.KEY_USER_ID)) ){
                         check = 1;
                     }else{
-                        List<User> userTemp = new ArrayList<>();
-                        userTemp.addAll((ArrayList<User>) documentChange.getDocument().get("memberUid"));
-                        Log.d("TAG_TEST_GROUP", ": "+ userTemp.size());
-                        for(int i =0 ; i< userTemp.size(); i++){
-//                            User test = userTemp.get(i);
-                            Object a = (Object) userTemp.get(i);
-
-
-                            Log.d("TAG_TEST_GROUP", ": "+  a.toString());
-//                            if(userTemp.get(i).getUid().equals(preferenceManager.getString(Constants.KEY_USER_ID))){
-//                                check  =1;
-//                                break;
-//                            }
+                        List<String> userTemp = new ArrayList<>();
+                        userTemp.addAll((ArrayList<String>) documentChange.getDocument().get("memberUid"));
+                        try{
+                            for(int i =0 ; i< userTemp.size(); i++){
+                                if(userTemp.get(i).toString().equals(preferenceManager.getString(Constants.KEY_USER_ID))){
+                                    check  =1;
+                                    break;
+                                }
+                            }
+                        }catch (Exception e){
+                            showErrorMessage();
                         }
+
                     }
                     if(check == 1){
                         User user = new User();
@@ -212,9 +211,6 @@ public class ChatFragment extends Fragment implements RequestListener, UsersList
                         user.setName(documentChange.getDocument().getString(Constants.KEY_NAME));
                         userGroup.add(user);
                     }
-
-
-
 
                 }
                 try{

@@ -142,7 +142,12 @@ public class CreateGroupActivity extends AppCompatActivity implements UserListen
             group.put(Constants.KEY_NAME, binding.inputNameGroup.getText().toString());
             group.put(Constants.KEY_IMAGE, encodedImage);
             group.put(Constants.KEY_USER_ADMIN_GROUP, preferenceManager.getString(Constants.KEY_USER_ID));
-            group.put("memberUid", userChecked);
+
+            List<String> lsUid = new ArrayList<>();
+            for (int i = 0; i < userChecked.size(); i++) {
+                lsUid.add(userChecked.get(i).getUid());
+            }
+            group.put("memberUid", lsUid);
 
 
             FirebaseFirestore.getInstance()
@@ -190,7 +195,6 @@ public class CreateGroupActivity extends AppCompatActivity implements UserListen
         binding.userRecyclerView.setVisibility(View.VISIBLE);
 
     }
-
 
 
     private void getUSer() {
