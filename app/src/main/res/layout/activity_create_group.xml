@@ -9,7 +9,8 @@
     >
 
     <androidx.cardview.widget.CardView
-        android:id="@+id/cardView4"
+        android:id="@+id/cardViewHeaderTwo"
+        android:visibility="gone"
         android:layout_width="match_parent"
         android:layout_height="@dimen/_50sdp"
         app:layout_constraintEnd_toEndOf="parent"
@@ -36,9 +37,10 @@
             android:textStyle="bold"
             />
         <TextView
+            android:id="@+id/btnComplete"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
-            android:text="@string/next"
+            android:text="@string/complete"
             android:layout_gravity="end"
             android:textSize="@dimen/_14sdp"
             android:textColor="@color/blue"
@@ -52,6 +54,8 @@
     </androidx.cardview.widget.CardView>
 
     <LinearLayout
+        android:visibility="gone"
+        android:id="@+id/cardViewGroup"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:gravity="center_horizontal"
@@ -103,10 +107,13 @@
         <EditText
             android:id="@+id/inputNameGroup"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="@dimen/_25sdp"
+            android:background="@drawable/background_input"
+            android:layout_marginHorizontal="@dimen/_5sdp"
             android:inputType="text" />
 
         <TextView
+            android:id="@+id/textParticipants"
             android:paddingTop="@dimen/_5sdp"
             android:layout_marginStart="@dimen/_3sdp"
             android:layout_width="match_parent"
@@ -115,6 +122,18 @@
             android:gravity="start"
             android:textSize="@dimen/_8sdp"
             />
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/userRecyclerViewChecked"
+            android:orientation="horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:clipToPadding="false"
+            android:overScrollMode="never"
+            android:paddingTop="@dimen/_10sdp"
+            android:visibility="visible"
+            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager" />
+
     </LinearLayout>
 
 
@@ -122,6 +141,7 @@
 
 
     <androidx.cardview.widget.CardView
+        android:id="@+id/cardHeader"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:visibility="visible"
@@ -149,19 +169,23 @@
             android:textSize="@dimen/_14ssp"
             />
 
-        <androidx.appcompat.widget.AppCompatImageView
-            android:id="@+id/removeText"
-            android:layout_width="@dimen/_40sdp"
-            android:layout_height="@dimen/_40sdp"
+
+
+        <TextView
+            android:id="@+id/nextStep"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:text="@string/next"
             android:layout_gravity="end"
-            android:layout_weight="1"
-            android:visibility="gone"
-            android:padding="@dimen/_10sdp"
-            android:src="@drawable/ic_baseline_close_24"
-            android:tint="@color/black" />
+            android:textSize="@dimen/_14sdp"
+            android:textColor="@color/blue"
+            android:layout_marginEnd="@dimen/_5sdp"
+            android:gravity="center"
+            />
     </androidx.cardview.widget.CardView>
 
     <ScrollView
+        android:id="@+id/scrollable"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:visibility="visible"

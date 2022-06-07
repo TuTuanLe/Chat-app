@@ -10,9 +10,8 @@ import android.view.ViewGroup;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.tutuanle.chatapp.databinding.ItemContainerUserBinding;
-import com.tutuanle.chatapp.databinding.ItemUserBinding;
 import com.tutuanle.chatapp.databinding.ItemUserCheckedBinding;
+import com.tutuanle.chatapp.interfaces.GroupListener;
 import com.tutuanle.chatapp.interfaces.UserListener;
 import com.tutuanle.chatapp.models.User;
 import com.tutuanle.chatapp.utilities.PreferenceManager;
@@ -24,11 +23,13 @@ public class GroupAdapter extends RecyclerView.Adapter<GroupAdapter.GroupViewHol
 
     private final List<User> users;
     private final UserListener userListener;
+    private  final GroupListener groupListener;
     private PreferenceManager preferenceManager;
 
-    public GroupAdapter(List<User> users, UserListener userListener) {
+    public GroupAdapter(List<User> users, UserListener userListener, GroupListener groupListener) {
         this.users = users;
         this.userListener = userListener;
+        this.groupListener = groupListener;
     }
 
 
@@ -69,6 +70,7 @@ public class GroupAdapter extends RecyclerView.Adapter<GroupAdapter.GroupViewHol
                 binding.statusAvailability.setVisibility(View.GONE);
             }
             binding.getRoot().setOnClickListener(v -> userListener.onUserClicked(user));
+            binding.radioChecked.setOnClickListener(v->groupListener.getUserChecked(user));
         }
     }
 

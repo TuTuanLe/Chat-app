@@ -51,5 +51,6 @@
     <string name="send_request">SEND REQUEST</string>
     <string name="view_profile">VIEW PROFILE</string>
     <string name="who_do_you_want_to_remove_this_message_for">Who do you want to remove this message for ?</string>
+    <string name="complete">Complete</string>
 
 </resources>

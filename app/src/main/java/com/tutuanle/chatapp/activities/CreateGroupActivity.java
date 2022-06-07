@@ -34,9 +34,9 @@ import com.google.firebase.firestore.QuerySnapshot;
 import com.makeramen.roundedimageview.RoundedImageView;
 import com.tutuanle.chatapp.R;
 import com.tutuanle.chatapp.adapters.GroupAdapter;
-import com.tutuanle.chatapp.adapters.SearchAdapter;
+import com.tutuanle.chatapp.adapters.UserCheckedAdapter;
 import com.tutuanle.chatapp.databinding.ActivityCreateGroupBinding;
-import com.tutuanle.chatapp.databinding.ActivitySearchBinding;
+import com.tutuanle.chatapp.interfaces.GroupListener;
 import com.tutuanle.chatapp.interfaces.UserListener;
 import com.tutuanle.chatapp.models.User;
 import com.tutuanle.chatapp.utilities.Constants;
@@ -45,13 +45,13 @@ import com.tutuanle.chatapp.utilities.PreferenceManager;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
-import java.util.Objects;
 
-public class CreateGroupActivity extends AppCompatActivity implements UserListener {
+public class CreateGroupActivity extends AppCompatActivity implements UserListener, GroupListener {
 
     ActivityCreateGroupBinding binding;
     PreferenceManager preferenceManager;
     GroupAdapter groupAdapter;
+    UserCheckedAdapter userCheckedAdapter;
     private List<User> users;
     private int status = -1;
     private FirebaseFirestore firebaseFirestore;
@@ -60,6 +60,7 @@ public class CreateGroupActivity extends AppCompatActivity implements UserListen
     private String uidReceiverFriend;
     private int checkFriends = 0;
     private int checkReceiverFriends = 0;
+    private List<User> userChecked;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -74,6 +75,7 @@ public class CreateGroupActivity extends AppCompatActivity implements UserListen
     private void initData() {
         preferenceManager = new PreferenceManager(getApplicationContext());
         firebaseFirestore = FirebaseFirestore.getInstance();
+        userChecked = new ArrayList<>();
     }
 
     private void setListenerBinding() {
@@ -87,11 +89,11 @@ public class CreateGroupActivity extends AppCompatActivity implements UserListen
             @Override
             public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
                 if (!charSequence.toString().trim().isEmpty()) {
-                    binding.removeText.setVisibility(View.VISIBLE);
+//                    binding.removeText.setVisibility(View.VISIBLE);
                     searchFilter(binding.search.getText().toString());
                 } else {
                     searchFilter(binding.search.getText().toString());
-                    binding.removeText.setVisibility(View.GONE);
+//                    binding.removeText.setVisibility(View.GONE);
                 }
             }
 
@@ -100,7 +102,37 @@ public class CreateGroupActivity extends AppCompatActivity implements UserListen
 
             }
         });
-        binding.removeText.setOnClickListener(v -> binding.search.setText(null));
+//        binding.removeText.setOnClickListener(v -> binding.search.setText(null));
+
+        binding.nextStep.setOnClickListener(v->{
+            binding.cardHeader.setVisibility(View.GONE);
+            binding.scrollable.setVisibility(View.GONE);
+            binding.cardViewGroup.setVisibility(View.VISIBLE);
+            binding.cardViewHeaderTwo.setVisibility(View.VISIBLE);
+            setListUserChecked();
+        });
+
+        binding.goBackSearch.setOnClickListener(v->{
+            binding.cardHeader.setVisibility(View.VISIBLE);
+            binding.scrollable.setVisibility(View.VISIBLE);
+            binding.cardViewGroup.setVisibility(View.GONE);
+            binding.cardViewHeaderTwo.setVisibility(View.GONE);
+            userChecked.clear();
+        });
+    }
+
+
+
+    private void setListUserChecked(){
+
+        userCheckedAdapter = new UserCheckedAdapter(userChecked);
+        binding.userRecyclerViewChecked.setAdapter(userCheckedAdapter);
+        try{
+            binding.textParticipants.setText("Participants: "+userChecked.size());
+        }catch(Exception e){
+            binding.textParticipants.setText("Participants: 0");
+        }
+
     }
 
     @SuppressLint("SetTextI18n")
@@ -123,7 +155,7 @@ public class CreateGroupActivity extends AppCompatActivity implements UserListen
         } else {
             binding.layoutNotFound.setVisibility(View.GONE);
         }
-        groupAdapter = new GroupAdapter(tempLs, CreateGroupActivity.this);
+        groupAdapter = new GroupAdapter(tempLs, CreateGroupActivity.this, CreateGroupActivity.this);
         binding.userRecyclerView.setAdapter(groupAdapter);
         binding.userRecyclerView.setVisibility(View.VISIBLE);
 
@@ -155,7 +187,7 @@ public class CreateGroupActivity extends AppCompatActivity implements UserListen
 
                         }
                         if (users.size() > 0) {
-                            groupAdapter = new GroupAdapter(users, CreateGroupActivity.this);
+                            groupAdapter = new GroupAdapter(users, CreateGroupActivity.this, CreateGroupActivity.this);
                             binding.userRecyclerView.setAdapter(groupAdapter);
                             binding.userRecyclerView.setVisibility(View.VISIBLE);
                         } else {
@@ -244,7 +276,6 @@ public class CreateGroupActivity extends AppCompatActivity implements UserListen
                 temp.setText("ACCEPT");
                 temp.setTextColor(getResources().getColor(R.color.blue));
             }
-
         });
 
 
@@ -455,5 +486,11 @@ public class CreateGroupActivity extends AppCompatActivity implements UserListen
             intent.putExtra("type_call","audio");
             startActivity(intent);
         }
+    }
+
+    @Override
+    public void getUserChecked(User user) {
+        showToast(user.getName() +" is checked. ");
+        userChecked.add(user);
     }
 }
