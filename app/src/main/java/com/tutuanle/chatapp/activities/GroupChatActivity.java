@@ -622,41 +622,41 @@ public class GroupChatActivity extends OnChatActivity implements ChatListener {
 
 
         // set recent chat
-        if (conversionId != null) {
-            updateConversion(ms);
-        } else {
-            HashMap<String, Object> conversion = new HashMap<>();
-            conversion.put(Constants.KEY_SENDER_ID, preferenceManager.getString(Constants.KEY_USER_ID));
-            conversion.put(Constants.KEY_SENDER_NAME, preferenceManager.getString(Constants.KEY_NAME));
-            conversion.put(Constants.KEY_SENDER_IMAGE, preferenceManager.getString(Constants.KEY_IMAGE));
-            conversion.put(Constants.KEY_RECEIVER_ID, receiverUSer.getUid());
-            conversion.put(Constants.KEY_RECEIVER_NAME, receiverUSer.getName());
-            conversion.put(Constants.KEY_RECEIVER_IMAGE, receiverUSer.getProfileImage());
-            conversion.put(Constants.KEY_LAST_MESSAGE, ms);
-            conversion.put(Constants.KEY_TIMESTAMP, new Date());
-            conversion.put(Constants.KEY_COUNT_NUMBER_OF_MESSAGE_SEEN, "0");
-            conversion.put(Constants.KEY_IS_ACTIVE, preferenceManager.getString(Constants.KEY_USER_ID));
-            addConversion(conversion);
-        }
-
-        if (!isReceiverAvailable) {
-            try {
-                JSONArray tokens = new JSONArray();
-                tokens.put(receiverUSer.getToken());
-                JSONObject data = new JSONObject();
-                data.put(Constants.KEY_USER_ID, preferenceManager.getString(Constants.KEY_USER_ID));
-                data.put(Constants.KEY_NAME, preferenceManager.getString(Constants.KEY_NAME));
-                data.put(Constants.KEY_FCM_TOKEN, preferenceManager.getString(Constants.KEY_FCM_TOKEN));
-                data.put(Constants.KEY_MESSAGE, binding.inputMessage.getText().toString());
-                JSONObject body = new JSONObject();
-                body.put(Constants.REMOTE_MSG_DATA, data);
-                body.put(Constants.REMOTE_MSG_REGISTRATION_IDS, tokens);
-                sendNotification(body.toString());
-
-            } catch (Exception e) {
-                showToast("The Receiver user does not active ." + e.getMessage());
-            }
-        }
+//        if (conversionId != null) {
+//            updateConversion(ms);
+//        } else {
+//            HashMap<String, Object> conversion = new HashMap<>();
+//            conversion.put(Constants.KEY_SENDER_ID, preferenceManager.getString(Constants.KEY_USER_ID));
+//            conversion.put(Constants.KEY_SENDER_NAME, preferenceManager.getString(Constants.KEY_NAME));
+//            conversion.put(Constants.KEY_SENDER_IMAGE, preferenceManager.getString(Constants.KEY_IMAGE));
+//            conversion.put(Constants.KEY_RECEIVER_ID, receiverUSer.getUid());
+//            conversion.put(Constants.KEY_RECEIVER_NAME, receiverUSer.getName());
+//            conversion.put(Constants.KEY_RECEIVER_IMAGE, receiverUSer.getProfileImage());
+//            conversion.put(Constants.KEY_LAST_MESSAGE, ms);
+//            conversion.put(Constants.KEY_TIMESTAMP, new Date());
+//            conversion.put(Constants.KEY_COUNT_NUMBER_OF_MESSAGE_SEEN, "0");
+//            conversion.put(Constants.KEY_IS_ACTIVE, preferenceManager.getString(Constants.KEY_USER_ID));
+//            addConversion(conversion);
+//        }
+//
+//        if (!isReceiverAvailable) {
+//            try {
+//                JSONArray tokens = new JSONArray();
+//                tokens.put(receiverUSer.getToken());
+//                JSONObject data = new JSONObject();
+//                data.put(Constants.KEY_USER_ID, preferenceManager.getString(Constants.KEY_USER_ID));
+//                data.put(Constants.KEY_NAME, preferenceManager.getString(Constants.KEY_NAME));
+//                data.put(Constants.KEY_FCM_TOKEN, preferenceManager.getString(Constants.KEY_FCM_TOKEN));
+//                data.put(Constants.KEY_MESSAGE, binding.inputMessage.getText().toString());
+//                JSONObject body = new JSONObject();
+//                body.put(Constants.REMOTE_MSG_DATA, data);
+//                body.put(Constants.REMOTE_MSG_REGISTRATION_IDS, tokens);
+//                sendNotification(body.toString());
+//
+//            } catch (Exception e) {
+//                showToast("The Receiver user does not active ." + e.getMessage());
+//            }
+//        }
         binding.inputMessage.setText(null);
         binding.inputMessage.onEditorAction(EditorInfo.IME_ACTION_DONE);
     }

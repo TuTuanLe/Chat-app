@@ -39,6 +39,7 @@ import com.makeramen.roundedimageview.RoundedImageView;
 import com.tutuanle.chatapp.R;
 import com.tutuanle.chatapp.adapters.GroupAdapter;
 import com.tutuanle.chatapp.adapters.UserCheckedAdapter;
+import com.tutuanle.chatapp.adapters.UserGroupAdapter;
 import com.tutuanle.chatapp.databinding.ActivityCreateGroupBinding;
 import com.tutuanle.chatapp.interfaces.GroupListener;
 import com.tutuanle.chatapp.interfaces.UserListener;
@@ -70,6 +71,7 @@ public class CreateGroupActivity extends AppCompatActivity implements UserListen
     private List<User> userChecked;
     private String encodedImage;
 
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -84,6 +86,7 @@ public class CreateGroupActivity extends AppCompatActivity implements UserListen
         preferenceManager = new PreferenceManager(getApplicationContext());
         firebaseFirestore = FirebaseFirestore.getInstance();
         userChecked = new ArrayList<>();
+
     }
 
     private void setListenerBinding() {
@@ -145,7 +148,6 @@ public class CreateGroupActivity extends AppCompatActivity implements UserListen
             FirebaseFirestore.getInstance()
                     .collection(Constants.KEY_COLLECTION_USER_GROUP)
                     .add(group);
-
             onBackPressed();
         });
     }
@@ -188,6 +190,7 @@ public class CreateGroupActivity extends AppCompatActivity implements UserListen
         binding.userRecyclerView.setVisibility(View.VISIBLE);
 
     }
+
 
 
     private void getUSer() {

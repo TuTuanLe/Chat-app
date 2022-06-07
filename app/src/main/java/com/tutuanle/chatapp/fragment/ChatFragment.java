@@ -2,12 +2,15 @@ package com.tutuanle.chatapp.fragment;
 
 import android.annotation.SuppressLint;
 import android.content.Intent;
+import android.os.Build;
 import android.os.Bundle;
 
+import androidx.annotation.RequiresApi;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.os.Handler;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -24,25 +27,31 @@ import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
 import com.makeramen.roundedimageview.RoundedImageView;
 import com.tutuanle.chatapp.R;
+import com.tutuanle.chatapp.activities.ChatScreenActivity;
 import com.tutuanle.chatapp.activities.CreateGroupActivity;
+import com.tutuanle.chatapp.activities.GroupChatActivity;
 import com.tutuanle.chatapp.activities.InformationActivity;
 import com.tutuanle.chatapp.activities.MainScreenActivity;
 import com.tutuanle.chatapp.activities.ProfileActivity;
 import com.tutuanle.chatapp.activities.SearchActivity;
 import com.tutuanle.chatapp.adapters.RequestAdapter;
+import com.tutuanle.chatapp.adapters.UserGroupAdapter;
 import com.tutuanle.chatapp.adapters.Users_Adapter;
 import com.tutuanle.chatapp.interfaces.RequestListener;
+import com.tutuanle.chatapp.interfaces.UsersListener;
 import com.tutuanle.chatapp.models.RequestFriend;
 import com.tutuanle.chatapp.models.User;
 import com.tutuanle.chatapp.utilities.Constants;
 import com.tutuanle.chatapp.utilities.PreferenceManager;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Objects;
 
 
-public class ChatFragment extends Fragment implements RequestListener {
+public class ChatFragment extends Fragment implements RequestListener, UsersListener {
 
     private View view;
 
@@ -53,6 +62,8 @@ public class ChatFragment extends Fragment implements RequestListener {
     private List<RequestFriend> requestFriends;
     private List<User> listFriend;
     private String uidReceiverFriend;
+    private UserGroupAdapter userGroupAdapter;
+    private List<User> userGroup;
 
     public ChatFragment() {
     }
@@ -74,6 +85,7 @@ public class ChatFragment extends Fragment implements RequestListener {
         getUSer();
         setListener();
         getRequestFriend();
+        initGroupChat();
         return view;
     }
 
@@ -158,6 +170,84 @@ public class ChatFragment extends Fragment implements RequestListener {
                 .addSnapshotListener(eventFriendListener);
     }
 
+    private void initGroupChat(){
+        firebaseFirestore
+                .collection(Constants.KEY_COLLECTION_USER_GROUP)
+                .addSnapshotListener(eventGroupListener);
+    }
+    @SuppressLint({"NotifyDataSetChanged", "SetTextI18n"})
+    private final EventListener<QuerySnapshot> eventGroupListener = (value, error) -> {
+
+        if (error != null) {
+            return;
+        }
+        if (value != null) {
+
+            for (DocumentChange documentChange : value.getDocumentChanges()) {
+
+                if (documentChange.getType() == DocumentChange.Type.ADDED) {
+                    int check = 0;
+                    if(documentChange.getDocument().getString(Constants.KEY_USER_ADMIN_GROUP).equals(preferenceManager.getString(Constants.KEY_USER_ID)) ){
+                        check = 1;
+                    }else{
+                        List<User> userTemp = new ArrayList<>();
+                        userTemp.addAll((ArrayList<User>) documentChange.getDocument().get("memberUid"));
+                        Log.d("TAG_TEST_GROUP", ": "+ userTemp.size());
+                        for(int i =0 ; i< userTemp.size(); i++){
+//                            User test = userTemp.get(i);
+                            Object a = (Object) userTemp.get(i);
+
+
+                            Log.d("TAG_TEST_GROUP", ": "+  a.toString());
+//                            if(userTemp.get(i).getUid().equals(preferenceManager.getString(Constants.KEY_USER_ID))){
+//                                check  =1;
+//                                break;
+//                            }
+                        }
+                    }
+                    if(check == 1){
+                        User user = new User();
+                        user.setUid(documentChange.getDocument().getId());
+                        user.setProfileImage(documentChange.getDocument().getString(Constants.KEY_IMAGE));
+                        user.setName(documentChange.getDocument().getString(Constants.KEY_NAME));
+                        userGroup.add(user);
+                    }
+
+
+
+
+                }
+                try{
+                    RecyclerView temp = view.findViewById(R.id.groupRecyclerView);
+                    temp.setAdapter(userGroupAdapter);
+                    userGroupAdapter.notifyDataSetChanged();
+                    temp.setVisibility(View.VISIBLE);
+
+//                    TextView txtExist = view.findViewById(R.id.txtNotExits);
+//                    if(userGroup.size() > 0){
+//                        txtExist.setVisibility(View.GONE);
+//                    }else{
+//                        txtExist.setVisibility(View.VISIBLE);
+//                    }
+                }
+                catch (Exception e){
+                    showErrorMessage();
+                }
+
+            }
+            TextView txtExist = view.findViewById(R.id.txtNotExits);
+            if(userGroup.size() > 0){
+                txtExist.setVisibility(View.GONE);
+            }else{
+                txtExist.setVisibility(View.VISIBLE);
+            }
+
+        }
+    };
+
+
+
+
 
     @SuppressLint({"NotifyDataSetChanged", "SetTextI18n"})
     private final EventListener<QuerySnapshot> eventFriendListener = (value, error) -> {
@@ -184,26 +274,19 @@ public class ChatFragment extends Fragment implements RequestListener {
 
                 }
                 try{
-//                    if (listFriend.size() > 0) {
+
                         Users_Adapter users_adapter = new Users_Adapter(listFriend, mainScreenActivity);
                         RecyclerView temp = view.findViewById(R.id.userRecyclerView);
                         temp.setAdapter(users_adapter);
                         temp.setVisibility(View.VISIBLE);
-//                    }
+
                 }
                 catch (Exception e){
                     showErrorMessage();
                 }
-//                if (listFriend.size() > 0) {
-//                    Users_Adapter users_adapter = new Users_Adapter(listFriend, mainScreenActivity);
-//                    RecyclerView temp = view.findViewById(R.id.userRecyclerView);
-//                    temp.setAdapter(users_adapter);
-//                    temp.setVisibility(View.VISIBLE);
-//                } else {
-//                    showErrorMessage();
-//                }
 
             }
+
 
         }
     };
@@ -220,18 +303,23 @@ public class ChatFragment extends Fragment implements RequestListener {
             for (DocumentChange documentChange : value.getDocumentChanges()) {
 
                 if (documentChange.getType() == DocumentChange.Type.ADDED) {
-                    int index = findUser(documentChange.getDocument().getString(Constants.KEY_RECEIVER_ID));
-                    requestFriends.add(new RequestFriend(
-                            documentChange.getDocument().getId(),
-                            users.get(index).getProfileImage(),
-                            users.get(index).getName(),
-                            "CANCEL",
-                            documentChange.getDocument().getString(Constants.KEY_SENDER_ID),
-                            documentChange.getDocument().getString(Constants.KEY_RECEIVER_ID)
-                    ));
-                    RequestAdapter requestAdapter = new RequestAdapter(requestFriends, this);
-                    RecyclerView temp = view.findViewById(R.id.requestRecyclerView);
-                    temp.setAdapter(requestAdapter);
+                   try {
+                       int index = findUser(documentChange.getDocument().getString(Constants.KEY_RECEIVER_ID));
+                       requestFriends.add(new RequestFriend(
+                               documentChange.getDocument().getId(),
+                               users.get(index).getProfileImage(),
+                               users.get(index).getName(),
+                               "CANCEL",
+                               documentChange.getDocument().getString(Constants.KEY_SENDER_ID),
+                               documentChange.getDocument().getString(Constants.KEY_RECEIVER_ID)
+                       ));
+                       RequestAdapter requestAdapter = new RequestAdapter(requestFriends, this);
+                       RecyclerView temp = view.findViewById(R.id.requestRecyclerView);
+                       temp.setAdapter(requestAdapter);
+                   }catch (Exception e){
+                       showErrorMessage();
+                   }
+
 
                 } else if (documentChange.getType() == DocumentChange.Type.REMOVED) {
                     int index = findRequestFriend(documentChange.getDocument().getId());
@@ -240,13 +328,14 @@ public class ChatFragment extends Fragment implements RequestListener {
                     RecyclerView temp = view.findViewById(R.id.requestRecyclerView);
                     temp.setAdapter(requestAdapter);
                 }
-                if (requestFriends.size() != 0) {
-                    view.findViewById(R.id.textRequestFriend).setVisibility(View.VISIBLE);
-                } else {
-                    view.findViewById(R.id.textRequestFriend).setVisibility(View.GONE);
-                }
-            }
 
+            }
+            TextView txtExist = view.findViewById(R.id.txtNotExitsRequest);
+            if(requestFriends.size() > 0){
+                txtExist.setVisibility(View.GONE);
+            }else{
+                txtExist.setVisibility(View.VISIBLE);
+            }
         }
     };
 
@@ -284,12 +373,15 @@ public class ChatFragment extends Fragment implements RequestListener {
                     temp.setAdapter(requestAdapter);
                     break;
                 }
-                if (requestFriends.size() != 0) {
-                    view.findViewById(R.id.textRequestFriend).setVisibility(View.VISIBLE);
-                } else {
-                    view.findViewById(R.id.textRequestFriend).setVisibility(View.GONE);
-                }
+
             }
+            TextView txtExist = view.findViewById(R.id.txtNotExitsRequest);
+            if(requestFriends.size() > 0){
+                txtExist.setVisibility(View.GONE);
+            }else{
+                txtExist.setVisibility(View.VISIBLE);
+            }
+
         }
     };
 
@@ -306,6 +398,8 @@ public class ChatFragment extends Fragment implements RequestListener {
     }
 
 
+
+
     private int findRequestFriend(String uid) {
         for (int i = 0; i < requestFriends.size(); i++)
             if (requestFriends.get(i).getRequestUid().equals(uid))
@@ -314,7 +408,8 @@ public class ChatFragment extends Fragment implements RequestListener {
     }
 
     private void initialData() {
-
+        userGroup = new ArrayList<>();
+        userGroupAdapter = new UserGroupAdapter(userGroup, this);
         TextView nameTextView = view.findViewById(R.id.nameTextView);
         nameTextView.setText(mainScreenActivity.getTextName());
         RoundedImageView image = view.findViewById(R.id.imageProfile);
@@ -423,4 +518,11 @@ public class ChatFragment extends Fragment implements RequestListener {
 
     }
 
+    @RequiresApi(api = Build.VERSION_CODES.N)
+    @Override
+    public void onUsersClicked(User user) {
+        Intent intent = new Intent(mainScreenActivity , GroupChatActivity.class);
+        intent.putExtra(Constants.KEY_USER, user);
+        startActivity(intent);
+    }
 }

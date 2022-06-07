@@ -85,12 +85,7 @@
         </FrameLayout>
     </FrameLayout>
 
-    <Button
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:id="@+id/groupChat"
-        android:text="Group Chat"
-        />
+
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="0dp"
