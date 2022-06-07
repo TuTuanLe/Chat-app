@@ -75,9 +75,9 @@ public class MainScreenActivity extends BaseActivity  implements UserListener , 
 
     private void setBottomNavigation (){
         binding.BottomNavigation.add(new MeowBottomNavigation.Model(ID_HOME, R.drawable.ic_baseline_home_24));
-        binding.BottomNavigation.add(new MeowBottomNavigation.Model(ID_MESSAGE, R.drawable.ic_baseline_message_24));
-        binding.BottomNavigation.add(new MeowBottomNavigation.Model(ID_NOTIFICATION, R.drawable.ic_baseline_notifications_24));
-        binding.BottomNavigation.add(new MeowBottomNavigation.Model(ID_ACCOUNT, R.drawable.ic_baseline_account_circle_24));
+        binding.BottomNavigation.add(new MeowBottomNavigation.Model(ID_MESSAGE, R.drawable.ic_baseline_people_24));
+        binding.BottomNavigation.add(new MeowBottomNavigation.Model(ID_NOTIFICATION, R.drawable.ic_baseline_web_stories_24));
+        binding.BottomNavigation.add(new MeowBottomNavigation.Model(ID_ACCOUNT, R.drawable.ic_baseline_settings_24));
 
         binding.BottomNavigation.setOnClickMenuListener(item -> {});
         binding.BottomNavigation.setOnReselectListener(item -> {});

@@ -1,5 +1,7 @@
 package com.tutuanle.chatapp.activities;
 
+import androidx.activity.result.ActivityResultLauncher;
+import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -10,9 +12,11 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
+import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
+import android.provider.MediaStore;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.Base64;
@@ -42,6 +46,9 @@ import com.tutuanle.chatapp.models.User;
 import com.tutuanle.chatapp.utilities.Constants;
 import com.tutuanle.chatapp.utilities.PreferenceManager;
 
+import java.io.ByteArrayOutputStream;
+import java.io.FileNotFoundException;
+import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -61,6 +68,7 @@ public class CreateGroupActivity extends AppCompatActivity implements UserListen
     private int checkFriends = 0;
     private int checkReceiverFriends = 0;
     private List<User> userChecked;
+    private String encodedImage;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -104,7 +112,7 @@ public class CreateGroupActivity extends AppCompatActivity implements UserListen
         });
 //        binding.removeText.setOnClickListener(v -> binding.search.setText(null));
 
-        binding.nextStep.setOnClickListener(v->{
+        binding.nextStep.setOnClickListener(v -> {
             binding.cardHeader.setVisibility(View.GONE);
             binding.scrollable.setVisibility(View.GONE);
             binding.cardViewGroup.setVisibility(View.VISIBLE);
@@ -112,24 +120,44 @@ public class CreateGroupActivity extends AppCompatActivity implements UserListen
             setListUserChecked();
         });
 
-        binding.goBackSearch.setOnClickListener(v->{
+        binding.goBackSearch.setOnClickListener(v -> {
             binding.cardHeader.setVisibility(View.VISIBLE);
             binding.scrollable.setVisibility(View.VISIBLE);
             binding.cardViewGroup.setVisibility(View.GONE);
             binding.cardViewHeaderTwo.setVisibility(View.GONE);
-            userChecked.clear();
+//            userChecked.clear();
+        });
+
+        binding.layoutImage.setOnClickListener(v -> {
+            Intent intent = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
+            intent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
+            pickImage.launch(intent);
+        });
+
+        binding.btnComplete.setOnClickListener(v -> {
+            HashMap<String, Object> group = new HashMap<>();
+            group.put(Constants.KEY_NAME, binding.inputNameGroup.getText().toString());
+            group.put(Constants.KEY_IMAGE, encodedImage);
+            group.put(Constants.KEY_USER_ADMIN_GROUP, preferenceManager.getString(Constants.KEY_USER_ID));
+            group.put("memberUid", userChecked);
+
+
+            FirebaseFirestore.getInstance()
+                    .collection(Constants.KEY_COLLECTION_USER_GROUP)
+                    .add(group);
+
+            onBackPressed();
         });
     }
 
 
-
-    private void setListUserChecked(){
+    private void setListUserChecked() {
 
         userCheckedAdapter = new UserCheckedAdapter(userChecked);
         binding.userRecyclerViewChecked.setAdapter(userCheckedAdapter);
-        try{
-            binding.textParticipants.setText("Participants: "+userChecked.size());
-        }catch(Exception e){
+        try {
+            binding.textParticipants.setText("Participants: " + userChecked.size());
+        } catch (Exception e) {
             binding.textParticipants.setText("Participants: 0");
         }
 
@@ -252,7 +280,7 @@ public class CreateGroupActivity extends AppCompatActivity implements UserListen
             dialog.dismiss();
         });
 
-        dialog.findViewById(R.id.viewProfile).setOnClickListener(v->{
+        dialog.findViewById(R.id.viewProfile).setOnClickListener(v -> {
             Intent intent = new Intent(getApplicationContext(), InformationActivity.class);
             intent.putExtra(Constants.KEY_USER, user);
             startActivity(intent);
@@ -316,8 +344,7 @@ public class CreateGroupActivity extends AppCompatActivity implements UserListen
                     showToast(" became friends ... ");
                 });
 
-        checkForConversionRemotely( receiver, sender);
-
+        checkForConversionRemotely(receiver, sender);
 
 
         new Handler().postDelayed(() -> {
@@ -327,9 +354,6 @@ public class CreateGroupActivity extends AppCompatActivity implements UserListen
         }, 1000);
 
     }
-
-
-
 
 
     private void checkForConversionRemotely(String senderId, String receiverId) {
@@ -347,7 +371,6 @@ public class CreateGroupActivity extends AppCompatActivity implements UserListen
             uidReceiverFriend = documentSnapshot.getId();
         }
     };
-
 
 
     private void initFriend(String sender, String receiver) {
@@ -369,10 +392,10 @@ public class CreateGroupActivity extends AppCompatActivity implements UserListen
         firebaseFirestore.collection(Constants.KEY_COLLECTION_FRIENDS).document(Uid).delete();
     }
 
-    private void deleteUnfriendFriend(String Uid, String sender,String receiver) {
+    private void deleteUnfriendFriend(String Uid, String sender, String receiver) {
         firebaseFirestore.collection(Constants.KEY_COLLECTION_FRIENDS).document(Uid).delete();
 
-        checkForConversionRemotely( receiver, sender);
+        checkForConversionRemotely(receiver, sender);
 
         new Handler().postDelayed(() -> {
             FirebaseFirestore.getInstance().collection(Constants.KEY_COLLECTION_FRIENDS)
@@ -483,14 +506,47 @@ public class CreateGroupActivity extends AppCompatActivity implements UserListen
             showToast(user.getName() + " call ...");
             Intent intent = new Intent(getApplicationContext(), OutgoingActivity.class);
             intent.putExtra(Constants.KEY_USER, user);
-            intent.putExtra("type_call","audio");
+            intent.putExtra("type_call", "audio");
             startActivity(intent);
         }
     }
 
     @Override
     public void getUserChecked(User user) {
-        showToast(user.getName() +" is checked. ");
+        showToast(user.getName() + " is checked. ");
         userChecked.add(user);
     }
+
+
+    private String encodeImage(Bitmap bitmap) {
+        int previewWidth = 150;
+        int previewHeight = bitmap.getHeight() * previewWidth / bitmap.getWidth();
+        Bitmap previewBitmap = Bitmap.createScaledBitmap(bitmap, previewWidth, previewHeight, false);
+
+        ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
+        previewBitmap.compress(Bitmap.CompressFormat.JPEG, 80, byteArrayOutputStream);
+        byte[] bytes = byteArrayOutputStream.toByteArray();
+        return Base64.encodeToString(bytes, Base64.DEFAULT);
+    }
+
+    private final ActivityResultLauncher<Intent> pickImage = registerForActivityResult(
+            new ActivityResultContracts.StartActivityForResult(),
+            result -> {
+                if (result.getResultCode() == RESULT_OK) {
+                    assert result.getData() != null;
+                    Uri imageUri = result.getData().getData();
+                    try {
+                        InputStream inputStream = getContentResolver().openInputStream(imageUri);
+                        Bitmap bitmap = BitmapFactory.decodeStream(inputStream);
+                        binding.imageProfile.setImageBitmap(bitmap);
+                        binding.layoutImageView.setVisibility(View.GONE);
+                        encodedImage = encodeImage(bitmap);
+
+
+                    } catch (FileNotFoundException e) {
+                        e.printStackTrace();
+                    }
+                }
+            }
+    );
 }

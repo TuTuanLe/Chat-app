@@ -38,6 +38,7 @@ public class Constants {
     public static final String KEY_COLLECTION_STATUSES = "statuses";
     public static final String KEY_CAPTION = "caption";
     public static final String KEY_LAST_UPDATE = "lastUpdate";
+    public static final String KEY_USER_ADMIN_GROUP = "userAdmin";
 
 
     public static int[] REACTIONS = new int[]{

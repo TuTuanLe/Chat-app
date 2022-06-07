@@ -183,14 +183,26 @@ public class ChatFragment extends Fragment implements RequestListener {
                     }
 
                 }
-                if (listFriend.size() > 0) {
-                    Users_Adapter users_adapter = new Users_Adapter(listFriend, mainScreenActivity);
-                    RecyclerView temp = view.findViewById(R.id.userRecyclerView);
-                    temp.setAdapter(users_adapter);
-                    temp.setVisibility(View.VISIBLE);
-                } else {
+                try{
+//                    if (listFriend.size() > 0) {
+                        Users_Adapter users_adapter = new Users_Adapter(listFriend, mainScreenActivity);
+                        RecyclerView temp = view.findViewById(R.id.userRecyclerView);
+                        temp.setAdapter(users_adapter);
+                        temp.setVisibility(View.VISIBLE);
+//                    }
+                }
+                catch (Exception e){
                     showErrorMessage();
                 }
+//                if (listFriend.size() > 0) {
+//                    Users_Adapter users_adapter = new Users_Adapter(listFriend, mainScreenActivity);
+//                    RecyclerView temp = view.findViewById(R.id.userRecyclerView);
+//                    temp.setAdapter(users_adapter);
+//                    temp.setVisibility(View.VISIBLE);
+//                } else {
+//                    showErrorMessage();
+//                }
+
             }
 
         }
