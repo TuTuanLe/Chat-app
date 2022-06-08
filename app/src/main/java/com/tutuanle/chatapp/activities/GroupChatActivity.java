@@ -814,8 +814,6 @@ public class GroupChatActivity extends OnChatActivity implements ChatListener {
                                 usGroup.setEmail(task.getResult().getString(Constants.KEY_EMAIL));
                                 usGroup.setToken(task.getResult().getString(Constants.KEY_FCM_TOKEN));
                                 userList.add(usGroup);
-
-
                             });
                 }
 
