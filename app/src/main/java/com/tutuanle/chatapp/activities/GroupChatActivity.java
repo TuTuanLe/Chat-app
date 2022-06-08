@@ -36,9 +36,11 @@ import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.EventListener;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
 import com.tutuanle.chatapp.R;
 import com.tutuanle.chatapp.adapters.ChatAdapter;
+import com.tutuanle.chatapp.adapters.SearchAdapter;
 import com.tutuanle.chatapp.databinding.ActivityChatScreenBinding;
 import com.tutuanle.chatapp.databinding.ActivityGroupChatBinding;
 import com.tutuanle.chatapp.interfaces.ChatListener;
@@ -90,6 +92,7 @@ public class GroupChatActivity extends OnChatActivity implements ChatListener {
     private String senderUidMessage;
     int checkRemoveMessage  = 0;
 //    ChatListener chatListener;
+    private List<User> userList;
 
 
     @Override
@@ -107,6 +110,7 @@ public class GroupChatActivity extends OnChatActivity implements ChatListener {
 //        initCustomTheme();
 //        updateConversation();
         customChecked();
+        getUserGroup();
     }
     private void customChecked() {
 
@@ -294,7 +298,7 @@ public class GroupChatActivity extends OnChatActivity implements ChatListener {
         preferenceManager = new PreferenceManager(getApplicationContext());
         chatMessages = new ArrayList<>();
         customizeChat = new CustomizeChat();
-
+        userList = new ArrayList<>();
         chatAdapter = new ChatAdapter(
                 chatMessages,
                 getBitmapFromEnCodedString(receiverUSer.getProfileImage()),
@@ -787,8 +791,73 @@ public class GroupChatActivity extends OnChatActivity implements ChatListener {
         });
     }
 
+    private void getUserGroup(){
+        database.collection(Constants.KEY_COLLECTION_USER_GROUP)
+            .document(receiverUSer.getUid())
+            .get()
+            .addOnSuccessListener(v->{
+//                userList.add()
+
+
+                List<String> userTemp = new ArrayList<>();
+                userTemp.addAll((ArrayList<String>) v.get("memberUid"));
+
+                if(!v.getString(Constants.KEY_USER_ADMIN_GROUP).equals(preferenceManager.getString(Constants.KEY_USER_ID))){
+                    database.collection(Constants.KEY_USER)
+                            .document(v.getString(Constants.KEY_USER_ADMIN_GROUP))
+                            .get()
+                            .addOnCompleteListener(task -> {
+                                User usGroup = new User();
+                                usGroup.setUid(task.getResult().getId());
+                                usGroup.setName(task.getResult().getString(Constants.KEY_NAME));
+                                usGroup.setProfileImage(task.getResult().getString(Constants.KEY_IMAGE));
+                                usGroup.setEmail(task.getResult().getString(Constants.KEY_EMAIL));
+                                usGroup.setToken(task.getResult().getString(Constants.KEY_FCM_TOKEN));
+                                userList.add(usGroup);
+
+
+                            });
+                }
+
+
+                    for(int i =0 ; i< userTemp.size(); i++){
+                        if(!userTemp.get(i).toString().equals(preferenceManager.getString(Constants.KEY_USER_ID))){
+                            database.collection(Constants.KEY_USER)
+                                    .document(userTemp.get(i))
+                                    .get()
+                                    .addOnCompleteListener(k->{
+                                        User usGroup = new User();
+                                        usGroup.setUid(k.getResult().getId());
+                                        usGroup.setName(k.getResult().getString(Constants.KEY_NAME));
+                                        usGroup.setProfileImage(k.getResult().getString(Constants.KEY_IMAGE));
+                                        usGroup.setEmail(k.getResult().getString(Constants.KEY_EMAIL));
+                                        usGroup.setToken(k.getResult().getString(Constants.KEY_FCM_TOKEN));
+                                        userList.add(usGroup);
+
+
+                                    });
+                        }
+                    }
+
+
+//
+//        if(check == 1){
+//            User user = new User();
+//            user.setUid(documentChange.getDocument().getId());
+//            user.setProfileImage(documentChange.getDocument().getString(Constants.KEY_IMAGE));
+//            user.setName(documentChange.getDocument().getString(Constants.KEY_NAME));
+//            userGroup.add(user);
+//        }
+            });
+    }
+
+
     @Override
     public void initialVideoMeeting(User user) {
+        for (int i =0; i< userList.size(); i++){
+            Log.d("getUserGroup", ": "+userList.get(i).getUid()+userList.get(i).getName() + userList.get(i).getEmail() );
+        }
+
         if (user.getToken() == null || user.getToken().trim().isEmpty()) {
             showToast(user.getName() + " is not available for meeting ...");
 
