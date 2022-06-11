@@ -103,4 +103,7 @@ dependencies {
 
     //loin with facebook
     implementation 'com.facebook.android:facebook-login:latest.release'
+
+    //Record Audio
+    implementation 'com.devlomi.record-view:record-view:2.0.1'
 }
