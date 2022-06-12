@@ -1,12 +1,8 @@
 package com.tutuanle.chatapp.activities;
-
-import android.Manifest;
 import android.annotation.SuppressLint;
-import android.app.Activity;
 import android.app.Dialog;
-import android.content.Context;
 import android.content.Intent;
-import android.content.pm.PackageManager;
+
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Color;
@@ -33,21 +29,14 @@ import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.annotation.NonNull;
 
 import androidx.annotation.RequiresApi;
-import androidx.cardview.widget.CardView;
-import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
-
-import com.devlomi.record_view.OnRecordListener;
 import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.Task;
 import com.google.firebase.firestore.DocumentChange;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.EventListener;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QuerySnapshot;
-import com.google.firebase.storage.FirebaseStorage;
-import com.google.firebase.storage.StorageReference;
 import com.tutuanle.chatapp.R;
 import com.tutuanle.chatapp.adapters.ChatAdapter;
 import com.tutuanle.chatapp.databinding.ActivityChatScreenBinding;
@@ -65,9 +54,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.ByteArrayOutputStream;
-import java.io.File;
 import java.io.FileNotFoundException;
-import java.io.IOException;
 import java.io.InputStream;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -120,107 +107,9 @@ public class ChatScreenActivity extends OnChatActivity implements ChatListener {
         initCustomTheme();
 //        updateConversation();
         customChecked();
-//        SetupRecord();
-//        initView();
+
 
     }
-
-    private void SetupRecord() {
-        recorder = new MediaRecorder();
-        recorder.setAudioSource(MediaRecorder.AudioSource.MIC);
-        recorder.setOutputFormat(MediaRecorder.OutputFormat.THREE_GPP);
-        recorder.setAudioEncoder(MediaRecorder.AudioEncoder.AMR_NB);
-        recorder.setOutputFile(audioPath);
-    }
-    private boolean isRecordOk(Context context){
-        return ContextCompat.checkSelfPermission(context, Manifest.permission.RECORD_AUDIO) == PackageManager.PERMISSION_GRANTED;
-    }
-
-    private void requestRecording(Activity activity){
-        ActivityCompat.requestPermissions(activity,new String[]{Manifest.permission.RECORD_AUDIO},1);
-    }
-
-    private void pushRecordToFirebase(String audioPath){
-        StorageReference storageReference = FirebaseStorage.getInstance().getReference("/Media/Recording/" + System.currentTimeMillis());
-        Uri audioFile = Uri.fromFile(new File(audioPath));
-        storageReference.putFile(audioFile).addOnSuccessListener(success -> {
-            Task<Uri> audioUrl = success.getStorage().getDownloadUrl();
-            audioUrl.addOnCompleteListener(path -> {
-                if(path.isSuccessful()){
-                    String url = path.getResult().toString();
-//                    DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference('Chat').child();
-
-                }
-            });
-        });
-    }
-
-
-    protected void initView() {
-
-        binding.recordButton.setOnClickListener(v->{
-            if(isRecordOk(ChatScreenActivity.this)){
-                binding.recordButton.setListenForRecord(true);
-            }else {
-                requestRecording(ChatScreenActivity.this);
-            }
-        });
-
-
-
-        binding.recordButton.setListenForRecord(false);
-        binding.recordButton.setRecordView(binding.recordView);
-        binding.recordButton.setOnClickListener(view -> {
-            if(isRecordOk(ChatScreenActivity.this)){
-                    binding.recordButton.setListenForRecord(true);
-            }else {
-                requestRecording(ChatScreenActivity.this);
-            }
-        });
-        binding.recordView.setOnRecordListener(new OnRecordListener() {
-            @Override
-            public void onStart() {
-                SetupRecord();
-                try {
-                    recorder.prepare();
-                    recorder.start();
-                }catch (IOException e){
-                    e.printStackTrace();
-                }
-                binding.recordView.setVisibility(View.VISIBLE);
-            }
-
-            @Override
-            public void onCancel() {
-                //On Swipe To Cancel
-                recorder.reset();
-                recorder.release();
-                File file = new File(audioPath);
-                if(!file.exists())
-                    file.delete();
-                binding.recordView.setVisibility(View.GONE);
-
-            }
-
-            @Override
-            public void onFinish(long recordTime) {
-                recorder.stop();
-                recorder.release();
-
-                binding.recordView.setVisibility(View.GONE);
-                pushRecordToFirebase(audioPath);
-            }
-
-            @Override
-            public void onLessThanSecond() {
-                //When the record time is less than One Second
-                recorder.reset();
-                recorder.release();
-                binding.recordView.setVisibility(View.GONE);
-            }
-        });
-    }
-
 
 
 
