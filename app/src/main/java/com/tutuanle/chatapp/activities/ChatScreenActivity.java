@@ -1,16 +1,22 @@
 package com.tutuanle.chatapp.activities;
+
+import android.Manifest;
 import android.annotation.SuppressLint;
 import android.app.Dialog;
 import android.content.Intent;
 
+import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
+import android.media.MediaParser;
+import android.media.MediaPlayer;
 import android.media.MediaRecorder;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.Environment;
 import android.os.Handler;
 import android.provider.MediaStore;
 import android.text.Editable;
@@ -29,7 +35,9 @@ import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.annotation.NonNull;
 
 import androidx.annotation.RequiresApi;
+import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
+
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.firebase.firestore.DocumentChange;
 import com.google.firebase.firestore.DocumentReference;
@@ -55,6 +63,7 @@ import org.json.JSONObject;
 
 import java.io.ByteArrayOutputStream;
 import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.io.InputStream;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -87,10 +96,11 @@ public class ChatScreenActivity extends OnChatActivity implements ChatListener {
     private int ScreenResolution = 0;
     private String messageUid;
     private String senderUidMessage;
-    int checkRemoveMessage  = 0;
-//    ChatListener chatListener;
-    private MediaRecorder recorder = null;
-    private String audioPath = "";
+    int checkRemoveMessage = 0;
+    private MediaPlayer mediaPlayer;
+    private MediaRecorder mediaRecorder;
+    private String AudioSavePath = null;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -110,7 +120,6 @@ public class ChatScreenActivity extends OnChatActivity implements ChatListener {
 
 
     }
-
 
 
     private void customChecked() {
@@ -150,6 +159,27 @@ public class ChatScreenActivity extends OnChatActivity implements ChatListener {
         binding.imageCall.setOnClickListener(v -> initialAudioMeeting(receiverUSer));
         binding.imageVideoCall.setOnClickListener(v -> initialVideoMeeting(receiverUSer));
         binding.removeMessage.setOnClickListener(v -> openDialogMenu());
+        binding.btnCloseRecord.setOnClickListener(v->{
+            try {
+                mediaRecorder.stop();
+                mediaRecorder.release();
+                showToast("record stopped");
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+
+        });
+        binding.btnAcceptRecord.setOnClickListener(v->{
+            mediaPlayer = new MediaPlayer();
+            try {
+                mediaPlayer.setDataSource(AudioSavePath);
+                mediaPlayer.prepare();
+                mediaPlayer.start();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+
+        });
 
     }
 
@@ -179,9 +209,30 @@ public class ChatScreenActivity extends OnChatActivity implements ChatListener {
             dialog.dismiss();
         });
 
-        dialog.findViewById(R.id.addRecordeDialog).setOnClickListener(v ->
-                dialog.dismiss()
-        );
+        dialog.findViewById(R.id.addRecordeDialog).setOnClickListener(v -> {
+            if (checkPermissions()) {
+                binding.layoutRecord.setVisibility(View.VISIBLE);
+                AudioSavePath = Environment.getExternalStorageDirectory().getAbsolutePath() + "/" + "recordingAudio.mp3";
+                mediaRecorder = new MediaRecorder();
+                mediaRecorder.setAudioSource(MediaRecorder.AudioSource.MIC);
+                mediaRecorder.setOutputFormat(MediaRecorder.OutputFormat.MPEG_4);
+                mediaRecorder.setAudioEncoder(MediaRecorder.AudioEncoder.AAC);
+                mediaRecorder.setOutputFile(AudioSavePath);
+                try {
+                    mediaRecorder.prepare();
+                    mediaRecorder.start();
+                    showToast("record started");
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            } else {
+                ActivityCompat.requestPermissions(ChatScreenActivity.this, new String[]{
+                        Manifest.permission.RECORD_AUDIO, Manifest.permission.WRITE_EXTERNAL_STORAGE}, 1);
+            }
+
+
+            dialog.dismiss();
+        });
 
         dialog.findViewById(R.id.addVideoDialog).setOnClickListener(v ->
                 dialog.dismiss()
@@ -189,6 +240,13 @@ public class ChatScreenActivity extends OnChatActivity implements ChatListener {
         dialog.setCancelable(true);
         dialog.show();
     }
+
+    private boolean checkPermissions() {
+        int first = ActivityCompat.checkSelfPermission(getApplicationContext(), Manifest.permission.RECORD_AUDIO);
+        int second = ActivityCompat.checkSelfPermission(getApplicationContext(), Manifest.permission.WRITE_EXTERNAL_STORAGE);
+        return first == PackageManager.PERMISSION_GRANTED && second == PackageManager.PERMISSION_GRANTED;
+    }
+
 
     @SuppressLint("LogNotTimber")
     private void openDialogMenu() {
@@ -213,11 +271,11 @@ public class ChatScreenActivity extends OnChatActivity implements ChatListener {
             checkRemoveMessage = 1;
         }
 
-        dialog.findViewById(R.id.UnSend).setOnClickListener(v->{
+        dialog.findViewById(R.id.UnSend).setOnClickListener(v -> {
             FirebaseFirestore.getInstance()
                     .collection(Constants.KEY_COLLECTION_CHAT)
                     .document(messageUid)
-                    .update(Constants.KEY_MESSAGE, "You unsent a message" ,
+                    .update(Constants.KEY_MESSAGE, "You unsent a message",
                             Constants.KEY_TYPE_MESSAGE, 3,
                             Constants.KEY_SEND_IMAGE, null,
                             Constants.KEY_FEELING, -1)
@@ -226,11 +284,11 @@ public class ChatScreenActivity extends OnChatActivity implements ChatListener {
             dialog.dismiss();
         });
 
-        dialog.findViewById(R.id.remove).setOnClickListener(v->{
+        dialog.findViewById(R.id.remove).setOnClickListener(v -> {
             FirebaseFirestore.getInstance()
                     .collection(Constants.KEY_COLLECTION_CHAT)
                     .document(messageUid)
-                    .update( Constants.KEY_TYPE_MESSAGE,  checkRemoveMessage == 1 ?4 : 5)
+                    .update(Constants.KEY_TYPE_MESSAGE, checkRemoveMessage == 1 ? 4 : 5)
                     .addOnSuccessListener(item -> Log.d("UNSENT_MESSAGE", "update successfully"))
                     .addOnFailureListener(item -> Log.d("UNSENT_MESSAGE", "fail "));
             dialog.dismiss();
@@ -580,8 +638,6 @@ public class ChatScreenActivity extends OnChatActivity implements ChatListener {
     }
 
 
-
-
     private void sendMessage() {
 
         String ms = binding.inputMessage.getText().length() == 0 ? "\uD83D\uDC4D" : binding.inputMessage.getText().toString();
@@ -594,7 +650,7 @@ public class ChatScreenActivity extends OnChatActivity implements ChatListener {
         message.put(Constants.KEY_FEELING, -1);
         message.put(Constants.KEY_IS_SEEN, isOnChat ? 0 : 1);
         message.put(Constants.KEY_TYPE_MESSAGE, TypeMessage);
-        message.put(Constants.KEY_IMAGE,  preferenceManager.getString(Constants.KEY_IMAGE));
+        message.put(Constants.KEY_IMAGE, preferenceManager.getString(Constants.KEY_IMAGE));
         //send image
         if (TypeMessage == 1) {
             message.put(Constants.KEY_SEND_IMAGE, encodedImage);
@@ -806,7 +862,7 @@ public class ChatScreenActivity extends OnChatActivity implements ChatListener {
             showToast(user.getName() + " call ...");
             Intent intent = new Intent(getApplicationContext(), OutgoingActivity.class);
             intent.putExtra(Constants.KEY_USER, user);
-            intent.putExtra("type_call","audio");
+            intent.putExtra("type_call", "audio");
             startActivity(intent);
         }
     }

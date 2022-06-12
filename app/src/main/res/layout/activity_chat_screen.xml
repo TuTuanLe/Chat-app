@@ -435,24 +435,13 @@
         app:lottie_rawRes="@raw/heart" />
 
     <LinearLayout
+        android:id="@+id/layoutRecord"
         android:visibility="gone"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         app:layout_constraintBottom_toTopOf="@+id/cardView2"
         android:gravity="center"
         >
-        <com.devlomi.record_view.RecordButton
-            android:id="@+id/record_button"
-            android:layout_width="@dimen/_25sdp"
-            android:layout_height="@dimen/_30sdp"
-            android:scaleType="centerInside"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.113"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="@+id/cardView3"
-            app:layout_constraintVertical_bias="0.977"
-            app:srcCompat="@drawable/ic_baseline_mic_none_24" />
         <ImageButton
             android:id="@+id/btnCloseRecord"
             android:layout_width="@dimen/_50sdp"
@@ -488,27 +477,11 @@
             android:id="@+id/btnAcceptRecord"
             android:layout_width="@dimen/_50sdp"
             android:layout_height="@dimen/_50sdp"
-            android:src="@drawable/ic_baseline_check_circle_outline_24"
+            android:src="@drawable/ic_baseline_autorenew_24"
             android:background="@color/trans"
             android:tint="@color/blue"
             tools:ignore="UseAppTint" />
-        <com.devlomi.record_view.RecordView
-            android:id="@+id/record_view"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_alignParentBottom="true"
-            android:layout_toLeftOf="@id/record_button"
-            app:counter_time_color="#ff0000"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/progressBar"
-            app:layout_constraintVertical_bias="0.789"
-            app:slide_to_cancel_arrow="@drawable/recv_ic_arrow"
-            app:slide_to_cancel_arrow_color="#000000"
-            app:slide_to_cancel_bounds="8dp"
-            app:slide_to_cancel_margin_right="10dp"
-            app:slide_to_cancel_text="Slide To Cancel"
-            tools:ignore="MissingConstraints"
-            tools:layout_editor_absoluteX="-16dp" />
+
     </LinearLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
