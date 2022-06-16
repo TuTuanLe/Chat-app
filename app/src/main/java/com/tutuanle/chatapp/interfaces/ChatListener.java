@@ -5,4 +5,7 @@ public interface ChatListener {
     void onLongClickRemoveMessage(String uidMessage, String senderId);
     void showAnimationReaction(int index);
     void playRecording(String url);
+    void onClickShowVideo(String url);
+    void onClickShowVideoYouTobe(String url);
+
 }

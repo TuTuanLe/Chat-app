@@ -19,12 +19,7 @@
         android:background="@color/trans"
         android:layout_marginEnd="@dimen/_12ssp"
         >
-        <VideoView
-            android:id="@+id/messageVideo"
-            android:layout_width="@dimen/_150sdp"
-            android:layout_height="@dimen/_150sdp"
-            android:visibility="gone"
-            />
+
 
 
         <com.makeramen.roundedimageview.RoundedImageView
@@ -69,6 +64,7 @@
             android:textSize="@dimen/_11ssp"
             />
         <FrameLayout
+            android:visibility="gone"
             android:id="@+id/layoutRecording"
             android:layout_width="@dimen/_100sdp"
             android:layout_height="@dimen/_25sdp"
@@ -94,6 +90,23 @@
                 app:lottie_loop="false"
                 android:visibility="visible"
                 app:lottie_rawRes="@raw/recording" />
+        </FrameLayout>
+        <FrameLayout
+            android:visibility="visible"
+            android:id="@+id/messageVideo"
+            android:layout_width="@dimen/_100sdp"
+            android:layout_height="@dimen/_100sdp"
+            android:background="@drawable/sent_drawable"
+            >
+            <ImageView
+                android:id="@+id/btnStartVideo"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:padding="@dimen/_30sdp"
+                android:src="@drawable/ic_baseline_play_circle_outline_24"
+                android:background="@color/trans"
+                android:tint="@color/white"
+                tools:ignore="UseAppTint" />
         </FrameLayout>
     </androidx.appcompat.widget.LinearLayoutCompat>
 

@@ -200,6 +200,44 @@
     </FrameLayout>
 
     <FrameLayout
+        android:id="@+id/layoutChoiceVideo"
+        android:visibility="gone"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintBottom_toTopOf="@+id/cardView2"
+        app:layout_constraintEnd_toEndOf="@+id/cardView2"
+        app:layout_constraintStart_toEndOf="@+id/layoutExtend"
+        android:background="@drawable/button_bg"
+        android:padding="@dimen/_5sdp"
+        android:layout_margin="@dimen/_7sdp"
+        >
+
+        <VideoView
+            android:id="@+id/showVideo"
+            android:layout_width="wrap_content"
+            android:layout_height="@dimen/_150sdp"
+            android:visibility="visible"
+            />
+
+        <ImageButton
+            android:id="@+id/iconCloseVideo"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="end"
+            android:background="@color/trans"
+            android:contentDescription="@string/app_name"
+            android:layout_marginEnd="@dimen/_5sdp"
+            android:layout_marginTop="@dimen/_5sdp"
+            android:src="@drawable/ic_baseline_close_24"
+            tools:ignore="RtlSymmetry,UseAppTint"
+            android:tint="@color/white"
+            />
+
+    </FrameLayout>
+
+
+
+    <FrameLayout
         android:id="@+id/layoutSend"
         android:layout_width="@dimen/_33sdp"
         android:layout_height="@dimen/_36sdp"

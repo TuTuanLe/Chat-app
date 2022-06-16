@@ -110,9 +110,9 @@ public class ChatAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
                 popup.onTouch(view, MotionEvent.obtain(SystemClock.uptimeMillis(), SystemClock.uptimeMillis(), MotionEvent.ACTION_DOWN, 0, 0, 0));
                 return false;
             });
-            viewHolder.binding.messageVideo.setOnClickListener(v ->
-                    viewHolder.binding.messageVideo.start()
-            );
+//            viewHolder.binding.messageVideo.setOnClickListener(v ->
+////                    viewHolder.binding.messageVideo.start()
+//            );
             if(message.getTypeMessage() == 1){
                 viewHolder.binding.layoutTypeMessage.setOnClickListener(v->{
                     chatListener.onClickShowImage(message.getImageBitmap());
@@ -124,6 +124,11 @@ public class ChatAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
                     viewHolder.binding.btnAcceptRecord.setImageResource(R.drawable.ic_baseline_pause_24);
                     viewHolder.binding.animationRecord.playAnimation();
                     chatListener.playRecording(message.getUrlRecord());
+                });
+            }
+            if(message.getTypeMessage() == 7){
+                viewHolder.binding.layoutTypeMessage.setOnClickListener(v->{
+                    chatListener.onClickShowVideo(message.getUrlVideo());
                 });
             }
 
@@ -161,6 +166,11 @@ public class ChatAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
                     viewHolder.binding.btnAcceptRecord.setImageResource(R.drawable.ic_baseline_pause_24);
                     viewHolder.binding.animationRecord.playAnimation();
                     chatListener.playRecording(message.getUrlRecord());
+                });
+            }
+            if(message.getTypeMessage() == 7){
+                viewHolder.binding.layoutTypeMessage.setOnClickListener(v->{
+                    chatListener.onClickShowVideo(message.getUrlVideo());
                 });
             }
         }
@@ -233,16 +243,7 @@ public class ChatAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
                 binding.messageImage.setImageBitmap(getBitmapFromEnCodedString(chatMessage.getImageBitmap()));
                 binding.unMessage.setVisibility(View.GONE);
                 binding.layoutRecording.setVisibility(View.GONE);
-            } else if (chatMessage.getTypeMessage() == 2) {
-                binding.messageImage.setBackgroundResource(0);
-                binding.messageImage.setVisibility(View.GONE);
-                binding.message.setVisibility(View.GONE);
-                binding.messageVideo.setVisibility(View.VISIBLE);
-                binding.messageVideo.setVideoURI(Uri.parse("https://videocdn.bodybuilding.com/video/mp4/62000/62792m.mp4"));
-                binding.messageVideo.requestFocus();
-                binding.unMessage.setVisibility(View.GONE);
-                binding.layoutRecording.setVisibility(View.GONE);
-            }else if(chatMessage.getTypeMessage() == 3){
+            } else if(chatMessage.getTypeMessage() == 3){
                 binding.unMessage.setVisibility(View.VISIBLE);
                 binding.unMessage.setText(chatMessage.getMessage());
                 binding.messageImage.setBackgroundResource(0);
@@ -264,8 +265,18 @@ public class ChatAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
                 binding.messageVideo.setVisibility(View.GONE);
                 binding.message.setVisibility(View.GONE);
                 binding.unMessage.setVisibility(View.GONE);
-            }
+            } else if (chatMessage.getTypeMessage() == 7) {
+                binding.messageVideo.setVisibility(View.VISIBLE);
+                binding.messageImage.setBackgroundResource(0);
+                binding.messageImage.setVisibility(View.GONE);
+                binding.message.setVisibility(View.GONE);
 
+//                binding.messageVideo.setVideoURI(Uri.parse(chatMessage.getUrlVideo()));
+//                binding.messageVideo.requestFocus();
+                binding.unMessage.setVisibility(View.GONE);
+                binding.layoutRecording.setVisibility(View.GONE);
+
+            }
         }
 
         private Bitmap getBitmapFromEnCodedString(String enCodedImage) {
@@ -282,7 +293,6 @@ public class ChatAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
             super(itemReceiveBinding.getRoot());
             binding = itemReceiveBinding;
         }
-
         public void setData(ChatMessage chatMessage, Bitmap receiverProfileImage) {
             binding.message.setText(chatMessage.getMessage());
             binding.textDateTime.setText(chatMessage.getDateTime());
@@ -298,25 +308,22 @@ public class ChatAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
                 binding.message.setVisibility(View.VISIBLE);
                 binding.unMessage.setVisibility(View.GONE);
                 binding.layoutRecording.setVisibility(View.GONE);
+                binding.messageVideo.setVisibility(View.GONE);
             } else if (chatMessage.getTypeMessage() == 1) {
                 binding.messageImage.setVisibility(View.VISIBLE);
                 binding.message.setVisibility(View.GONE);
                 binding.unMessage.setVisibility(View.GONE);
                 binding.messageImage.setImageBitmap(getBitmapFromEnCodedString(chatMessage.getImageBitmap()));
                 binding.layoutRecording.setVisibility(View.GONE);
-            } else if (chatMessage.getTypeMessage() == 2) {
-                binding.messageImage.setBackgroundResource(0);
-                binding.messageImage.setVisibility(View.GONE);
-                binding.message.setVisibility(View.GONE);
-                binding.unMessage.setVisibility(View.GONE);
-                binding.layoutRecording.setVisibility(View.GONE);
-            }else if(chatMessage.getTypeMessage() == 3){
+                binding.messageVideo.setVisibility(View.GONE);
+            } else if(chatMessage.getTypeMessage() == 3){
                 binding.unMessage.setVisibility(View.VISIBLE);
                 binding.unMessage.setText(chatMessage.getMessage());
                 binding.messageImage.setBackgroundResource(0);
                 binding.messageImage.setVisibility(View.GONE);
                 binding.message.setVisibility(View.GONE);
                 binding.layoutRecording.setVisibility(View.GONE);
+                binding.messageVideo.setVisibility(View.GONE);
             }else if(chatMessage.getTypeMessage() == 4){
                 binding.unMessage.setVisibility(View.GONE);
                 binding.message.setVisibility(View.VISIBLE);
@@ -324,6 +331,7 @@ public class ChatAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
                 binding.messageImage.setBackgroundResource(0);
                 binding.messageImage.setVisibility(View.GONE);
                 binding.layoutRecording.setVisibility(View.GONE);
+                binding.messageVideo.setVisibility(View.GONE);
             }
             else if(chatMessage.getTypeMessage() == 5){
                 binding.unMessage.setVisibility(View.VISIBLE);
@@ -332,18 +340,25 @@ public class ChatAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
                 binding.messageImage.setBackgroundResource(0);
                 binding.messageImage.setVisibility(View.GONE);
                 binding.layoutRecording.setVisibility(View.GONE);
+                binding.messageVideo.setVisibility(View.GONE);
             }else if(chatMessage.getTypeMessage() == 6){
                 binding.layoutRecording.setVisibility(View.VISIBLE);
                 binding.unMessage.setVisibility(View.GONE);
                 binding.messageImage.setVisibility(View.GONE);
                 binding.message.setVisibility(View.GONE);
+                binding.messageVideo.setVisibility(View.GONE);
+            }else if (chatMessage.getTypeMessage() == 7) {
+                binding.messageVideo.setVisibility(View.VISIBLE);
+                binding.messageImage.setBackgroundResource(0);
+                binding.messageImage.setVisibility(View.GONE);
+                binding.message.setVisibility(View.GONE);
+                binding.unMessage.setVisibility(View.GONE);
+                binding.layoutRecording.setVisibility(View.GONE);
             }
         }
-
         private Bitmap getBitmapFromEnCodedString(String enCodedImage) {
             byte[] bytes = Base64.decode(enCodedImage, Base64.DEFAULT);
             return BitmapFactory.decodeByteArray(bytes, 0, bytes.length);
         }
-
     }
 }

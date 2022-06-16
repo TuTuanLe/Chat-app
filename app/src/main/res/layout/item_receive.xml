@@ -74,7 +74,10 @@
             android:maxWidth="@dimen/_180sdp"
             android:textColor="@color/secondary_text"/>
 
+
+
         <FrameLayout
+            android:visibility="gone"
             android:id="@+id/layoutRecording"
             android:layout_marginStart="@dimen/_6ssp"
             android:layout_width="@dimen/_100sdp"
@@ -102,6 +105,25 @@
                 android:visibility="visible"
                 app:lottie_rawRes="@raw/recording" />
         </FrameLayout>
+        <FrameLayout
+            android:visibility="visible"
+            android:layout_marginStart="@dimen/_6ssp"
+            android:id="@+id/messageVideo"
+            android:layout_width="@dimen/_100sdp"
+            android:layout_height="@dimen/_100sdp"
+            android:background="@drawable/receive_drawable"
+            >
+            <ImageView
+                android:id="@+id/btnStartVideo"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:padding="@dimen/_30sdp"
+                android:src="@drawable/ic_baseline_play_circle_outline_24"
+                android:background="@color/trans"
+                android:tint="@color/blue"
+                tools:ignore="UseAppTint" />
+        </FrameLayout>
+
 
     </LinearLayout>
 

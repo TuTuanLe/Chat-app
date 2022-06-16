@@ -106,7 +106,8 @@ public class ChatScreenActivity extends OnChatActivity implements ChatListener {
     private String AudioSavePath = null;
     private boolean checkRecording = true;
     private ProgressDialog mProgress;
-    private String urlRecording ;
+    private String urlRecording;
+    private Uri urlVideoLocal;
 
 
     @Override
@@ -211,6 +212,11 @@ public class ChatScreenActivity extends OnChatActivity implements ChatListener {
 
         });
 
+        binding.showVideo.setOnClickListener(v -> {
+            binding.showVideo.start();
+        });
+
+        binding.iconCloseVideo.setOnClickListener(v -> setCloseLayoutChoiseVideo());
     }
 
     private void sendRecording() {
@@ -223,7 +229,6 @@ public class ChatScreenActivity extends OnChatActivity implements ChatListener {
         }
         try {
             mProgress.setMessage("Uploading Audio ...");
-
 
 
         } catch (Exception e) {
@@ -240,6 +245,7 @@ public class ChatScreenActivity extends OnChatActivity implements ChatListener {
 
     private void openDialogBottom() {
         setCloseLayoutChoiseImage();
+        setCloseLayoutChoiseVideo();
         final Dialog dialog = new Dialog(this);
         dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
         dialog.setContentView(R.layout.layout_dialog_bottom);
@@ -283,8 +289,10 @@ public class ChatScreenActivity extends OnChatActivity implements ChatListener {
             dialog.dismiss();
         });
 
-        dialog.findViewById(R.id.addVideoDialog).setOnClickListener(v ->
-                dialog.dismiss()
+        dialog.findViewById(R.id.addVideoDialog).setOnClickListener(v -> {
+                    showVideo();
+                    dialog.dismiss();
+                }
         );
         dialog.setCancelable(true);
         dialog.show();
@@ -567,6 +575,9 @@ public class ChatScreenActivity extends OnChatActivity implements ChatListener {
                         } else if (chatMessage.getTypeMessage() == 6) {
                             chatMessage.setUrlRecord(documentChange.getDocument().getString(Constants.KEY_SEND_RECORD));
                         }
+                        else if (chatMessage.getTypeMessage() == 7) {
+                            chatMessage.setUrlVideo(documentChange.getDocument().getString(Constants.KEY_SEND_VIDEO));
+                        }
                     } catch (Exception e) {
                         e.printStackTrace();
                     }
@@ -634,12 +645,48 @@ public class ChatScreenActivity extends OnChatActivity implements ChatListener {
         TypeMessage = 0;
     }
 
+    private void setCloseLayoutChoiseVideo() {
+        binding.showVideo.setVideoURI(null);
+        binding.layoutChoiceVideo.setVisibility(View.GONE);
+        binding.inputMessage.setText(null);
+        TypeMessage = 0;
+    }
+
     private void showEmoji() {
         Intent intent = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
         intent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
         pickImage.launch(intent);
 
     }
+
+    private void showVideo() {
+        Intent intent = new Intent(Intent.ACTION_PICK, MediaStore.Video.Media.EXTERNAL_CONTENT_URI);
+        intent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
+        pickVideo.launch(intent);
+
+    }
+
+
+    @SuppressLint("SetTextI18n")
+    private final ActivityResultLauncher<Intent> pickVideo = registerForActivityResult(
+            new ActivityResultContracts.StartActivityForResult(),
+            result -> {
+                if (result.getResultCode() == RESULT_OK) {
+                    assert result.getData() != null;
+                    Uri uriVideo = result.getData().getData();
+                    TypeMessage = 7;
+                    binding.inputMessage.setText("\uD83C\uDFA5" + " " + "  sent a video .");
+                    binding.layoutChoiceVideo.setVisibility(View.VISIBLE);
+                    binding.showVideo.setVideoURI(uriVideo);
+                    urlVideoLocal = uriVideo;
+                    Log.d("url_VIDEO" , ""+ urlVideoLocal);
+                    binding.showVideo.requestFocus();
+                    binding.showVideo.start();
+
+                }
+            }
+    );
+
 
     @SuppressLint("SetTextI18n")
     private final ActivityResultLauncher<Intent> pickImage = registerForActivityResult(
@@ -677,6 +724,7 @@ public class ChatScreenActivity extends OnChatActivity implements ChatListener {
         previewBitmap.compress(Bitmap.CompressFormat.JPEG, 100, byteArrayOutputStream);
         byte[] bytes = byteArrayOutputStream.toByteArray();
         return Base64.encodeToString(bytes, Base64.DEFAULT);
+
     }
 
 
@@ -709,10 +757,10 @@ public class ChatScreenActivity extends OnChatActivity implements ChatListener {
             message.put(Constants.KEY_SEND_IMAGE, null);
         }
 //        send video
-        if (TypeMessage == 2) {
-            message.put(Constants.KEY_SEND_VIDEO, "send video");
-        } else {
+        if (TypeMessage != 7) {
             message.put(Constants.KEY_SEND_VIDEO, null);
+//            message.put(Constants.KEY_SEND_VIDEO, "send video");
+
         }
         // send record
         if (TypeMessage == 6) {
@@ -722,10 +770,8 @@ public class ChatScreenActivity extends OnChatActivity implements ChatListener {
             message.put(Constants.KEY_SEND_RECORD, null);
         }
 
-        if(TypeMessage != 6){
-            database.collection(Constants.KEY_COLLECTION_CHAT).add(message);
-        }
-        else if(TypeMessage == 6){
+
+        if (TypeMessage == 6) {
             mProgress.show();
             Date date = new Date();
             FirebaseStorage storage = FirebaseStorage.getInstance();
@@ -736,14 +782,33 @@ public class ChatScreenActivity extends OnChatActivity implements ChatListener {
             reference.putFile(uri).addOnCompleteListener(task -> {
                 if (task.isSuccessful()) {
                     reference.getDownloadUrl().addOnSuccessListener(uri_record -> {
-                        urlRecording = uri_record.toString();
-                        message.put(Constants.KEY_SEND_RECORD, urlRecording);
+                        message.put(Constants.KEY_SEND_RECORD, uri_record.toString());
                         database.collection(Constants.KEY_COLLECTION_CHAT).add(message);
-                        showToast(urlRecording);
                         mProgress.dismiss();
                     });
                 }
             });
+        } else if (TypeMessage == 7) {
+            mProgress.setMessage("Uploading video ...");
+            mProgress.show();
+            Date date = new Date();
+            FirebaseStorage storage = FirebaseStorage.getInstance();
+            StorageReference reference = storage.getReference()
+                    .child("video")
+                    .child(date.getTime() + ".mp4");
+
+            reference.putFile(urlVideoLocal).addOnCompleteListener(task -> {
+                if (task.isSuccessful()) {
+                    reference.getDownloadUrl().addOnSuccessListener(uri_video -> {
+                        message.put(Constants.KEY_SEND_VIDEO, uri_video.toString());
+                        database.collection(Constants.KEY_COLLECTION_CHAT).add(message);
+                        setCloseLayoutChoiseVideo();
+                        mProgress.dismiss();
+                    });
+                }
+            });
+        } else {
+            database.collection(Constants.KEY_COLLECTION_CHAT).add(message);
         }
 
 
@@ -977,7 +1042,7 @@ public class ChatScreenActivity extends OnChatActivity implements ChatListener {
     @Override
     public void playRecording(String url) {
         try {
-            showToast("start"+ url);
+            showToast("start" + url);
             MediaPlayer Player = new MediaPlayer();
             Player.setDataSource(url);
             Player.prepare();
@@ -986,5 +1051,17 @@ public class ChatScreenActivity extends OnChatActivity implements ChatListener {
             e.printStackTrace();
             showToast("fail");
         }
+    }
+
+    @Override
+    public void onClickShowVideo(String url) {
+        Intent intent = new Intent(getApplicationContext(), ShowVideoActivity.class);
+        intent.putExtra(Constants.KEY_SEND_VIDEO, url);
+        startActivity(intent);
+    }
+
+    @Override
+    public void onClickShowVideoYouTobe(String url) {
+
     }
 }

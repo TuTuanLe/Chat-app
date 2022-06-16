@@ -919,4 +919,19 @@ public class GroupChatActivity extends OnChatActivity implements ChatListener {
     public void playRecording(String url) {
 
     }
+
+    @Override
+    public void onClickShowVideo(String url) {
+
+    }
+
+    @Override
+    public void onClickShowVideoYouTobe(String url) {
+
+    }
+
+    @Override
+    public void onPointerCaptureChanged(boolean hasCapture) {
+        super.onPointerCaptureChanged(hasCapture);
+    }
 }
