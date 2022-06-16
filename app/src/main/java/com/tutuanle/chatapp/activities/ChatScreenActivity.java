@@ -3,6 +3,7 @@ package com.tutuanle.chatapp.activities;
 import android.Manifest;
 import android.annotation.SuppressLint;
 import android.app.Dialog;
+import android.app.ProgressDialog;
 import android.content.Intent;
 
 import android.content.pm.PackageManager;
@@ -45,6 +46,8 @@ import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.EventListener;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QuerySnapshot;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
 import com.tutuanle.chatapp.R;
 import com.tutuanle.chatapp.adapters.ChatAdapter;
 import com.tutuanle.chatapp.databinding.ActivityChatScreenBinding;
@@ -62,6 +65,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.ByteArrayOutputStream;
+import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
@@ -100,6 +104,9 @@ public class ChatScreenActivity extends OnChatActivity implements ChatListener {
     private MediaPlayer mediaPlayer;
     private MediaRecorder mediaRecorder;
     private String AudioSavePath = null;
+    private boolean checkRecording = true;
+    private ProgressDialog mProgress;
+    private String urlRecording ;
 
 
     @Override
@@ -159,29 +166,72 @@ public class ChatScreenActivity extends OnChatActivity implements ChatListener {
         binding.imageCall.setOnClickListener(v -> initialAudioMeeting(receiverUSer));
         binding.imageVideoCall.setOnClickListener(v -> initialVideoMeeting(receiverUSer));
         binding.removeMessage.setOnClickListener(v -> openDialogMenu());
-        binding.btnCloseRecord.setOnClickListener(v->{
+        binding.btnCloseRecord.setOnClickListener(v -> {
+
+            binding.inputMessage.setText(null);
             try {
                 mediaRecorder.stop();
                 mediaRecorder.release();
-                showToast("record stopped");
+
             } catch (Exception e) {
                 e.printStackTrace();
             }
+            binding.layoutRecord.setVisibility(View.GONE);
 
         });
-        binding.btnAcceptRecord.setOnClickListener(v->{
-            mediaPlayer = new MediaPlayer();
-            try {
-                mediaPlayer.setDataSource(AudioSavePath);
-                mediaPlayer.prepare();
-                mediaPlayer.start();
-            } catch (IOException e) {
-                e.printStackTrace();
+
+        binding.btnAcceptRecord.setOnClickListener(v -> {
+            TypeMessage = 6;
+
+            if (checkRecording) {
+                binding.btnAcceptRecord.setImageResource(R.drawable.ic_baseline_play_arrow_24);
+                binding.animationRecord.pauseAnimation();
+                try {
+                    mediaRecorder.stop();
+                    mediaRecorder.release();
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+                checkRecording = false;
+            } else {
+                binding.btnAcceptRecord.setImageResource(R.drawable.ic_baseline_check_circle_24);
+                binding.animationRecord.playAnimation();
+                try {
+                    mediaPlayer = new MediaPlayer();
+                    mediaPlayer.setDataSource(AudioSavePath);
+                    mediaPlayer.prepare();
+                    mediaPlayer.start();
+
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+                checkRecording = true;
             }
+
 
         });
 
     }
+
+    private void sendRecording() {
+        try {
+            binding.layoutRecord.setVisibility(View.GONE);
+            mediaRecorder.stop();
+            mediaRecorder.release();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        try {
+            mProgress.setMessage("Uploading Audio ...");
+
+
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+    }
+
 
     private void customizeYourChat() {
         binding.imageInfo.setOnClickListener(v -> openDialogCenter());
@@ -212,6 +262,7 @@ public class ChatScreenActivity extends OnChatActivity implements ChatListener {
         dialog.findViewById(R.id.addRecordeDialog).setOnClickListener(v -> {
             if (checkPermissions()) {
                 binding.layoutRecord.setVisibility(View.VISIBLE);
+                binding.inputMessage.setText("\uD83D\uDD0A" + " " + "  sent a voice message .");
                 AudioSavePath = Environment.getExternalStorageDirectory().getAbsolutePath() + "/" + "recordingAudio.mp3";
                 mediaRecorder = new MediaRecorder();
                 mediaRecorder.setAudioSource(MediaRecorder.AudioSource.MIC);
@@ -229,8 +280,6 @@ public class ChatScreenActivity extends OnChatActivity implements ChatListener {
                 ActivityCompat.requestPermissions(ChatScreenActivity.this, new String[]{
                         Manifest.permission.RECORD_AUDIO, Manifest.permission.WRITE_EXTERNAL_STORAGE}, 1);
             }
-
-
             dialog.dismiss();
         });
 
@@ -352,6 +401,7 @@ public class ChatScreenActivity extends OnChatActivity implements ChatListener {
 
 
     private void init() {
+        mProgress = new ProgressDialog(this);
         preferenceManager = new PreferenceManager(getApplicationContext());
         chatMessages = new ArrayList<>();
         customizeChat = new CustomizeChat();
@@ -514,7 +564,7 @@ public class ChatScreenActivity extends OnChatActivity implements ChatListener {
                             chatMessage.setImageBitmap(documentChange.getDocument().getString(Constants.KEY_SEND_IMAGE));
                         } else if (chatMessage.getTypeMessage() == 2) {
                             chatMessage.setUrlVideo(documentChange.getDocument().getString(Constants.KEY_SEND_VIDEO));
-                        } else if (chatMessage.getTypeMessage() == 3) {
+                        } else if (chatMessage.getTypeMessage() == 6) {
                             chatMessage.setUrlRecord(documentChange.getDocument().getString(Constants.KEY_SEND_RECORD));
                         }
                     } catch (Exception e) {
@@ -665,13 +715,36 @@ public class ChatScreenActivity extends OnChatActivity implements ChatListener {
             message.put(Constants.KEY_SEND_VIDEO, null);
         }
         // send record
-        if (TypeMessage == 3) {
-            message.put(Constants.KEY_SEND_RECORD, "send record");
+        if (TypeMessage == 6) {
+            sendRecording();
+
         } else {
             message.put(Constants.KEY_SEND_RECORD, null);
         }
 
-        database.collection(Constants.KEY_COLLECTION_CHAT).add(message);
+        if(TypeMessage != 6){
+            database.collection(Constants.KEY_COLLECTION_CHAT).add(message);
+        }
+        else if(TypeMessage == 6){
+            mProgress.show();
+            Date date = new Date();
+            FirebaseStorage storage = FirebaseStorage.getInstance();
+            StorageReference reference = storage.getReference()
+                    .child("Audio")
+                    .child(date.getTime() + ".mp3");
+            Uri uri = Uri.fromFile(new File(AudioSavePath));
+            reference.putFile(uri).addOnCompleteListener(task -> {
+                if (task.isSuccessful()) {
+                    reference.getDownloadUrl().addOnSuccessListener(uri_record -> {
+                        urlRecording = uri_record.toString();
+                        message.put(Constants.KEY_SEND_RECORD, urlRecording);
+                        database.collection(Constants.KEY_COLLECTION_CHAT).add(message);
+                        showToast(urlRecording);
+                        mProgress.dismiss();
+                    });
+                }
+            });
+        }
 
 
         // set recent chat
@@ -899,5 +972,19 @@ public class ChatScreenActivity extends OnChatActivity implements ChatListener {
             binding.animationView.setVisibility(View.GONE);
         }, 2000);
 
+    }
+
+    @Override
+    public void playRecording(String url) {
+        try {
+            showToast("start"+ url);
+            MediaPlayer Player = new MediaPlayer();
+            Player.setDataSource(url);
+            Player.prepare();
+            Player.start();
+        } catch (IOException e) {
+            e.printStackTrace();
+            showToast("fail");
+        }
     }
 }

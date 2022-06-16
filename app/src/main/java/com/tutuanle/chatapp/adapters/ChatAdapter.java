@@ -22,6 +22,7 @@ import com.github.pgreze.reactions.ReactionPopup;
 import com.github.pgreze.reactions.ReactionsConfig;
 import com.github.pgreze.reactions.ReactionsConfigBuilder;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.tutuanle.chatapp.R;
 import com.tutuanle.chatapp.databinding.ItemReceiveBinding;
 import com.tutuanle.chatapp.databinding.ItemSentBinding;
 import com.tutuanle.chatapp.interfaces.ChatListener;
@@ -117,6 +118,14 @@ public class ChatAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
                     chatListener.onClickShowImage(message.getImageBitmap());
                 });
             }
+            if(message.getTypeMessage() == 6){
+
+                viewHolder.binding.layoutTypeMessage.setOnClickListener(v->{
+                    viewHolder.binding.btnAcceptRecord.setImageResource(R.drawable.ic_baseline_pause_24);
+                    viewHolder.binding.animationRecord.playAnimation();
+                    chatListener.playRecording(message.getUrlRecord());
+                });
+            }
 
             if (chatMessages.size() != 0) {
                 if (chatMessages.get(chatMessages.size() - 1).getIsSeen() == 1 && chatMessages.get(chatMessages.size() - 1) == message) {
@@ -144,6 +153,14 @@ public class ChatAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
             if(message.getTypeMessage() == 1){
                 viewHolder.binding.layoutTypeMessage.setOnClickListener(v->{
                     chatListener.onClickShowImage(message.getImageBitmap());
+                });
+            }
+            if(message.getTypeMessage() == 6){
+
+                viewHolder.binding.layoutTypeMessage.setOnClickListener(v->{
+                    viewHolder.binding.btnAcceptRecord.setImageResource(R.drawable.ic_baseline_pause_24);
+                    viewHolder.binding.animationRecord.playAnimation();
+                    chatListener.playRecording(message.getUrlRecord());
                 });
             }
         }
@@ -208,12 +225,14 @@ public class ChatAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
                 binding.messageVideo.setVisibility(View.GONE);
                 binding.message.setVisibility(View.VISIBLE);
                 binding.unMessage.setVisibility(View.GONE);
+                binding.layoutRecording.setVisibility(View.GONE);
             } else if (chatMessage.getTypeMessage() == 1) {
                 binding.message.setVisibility(View.GONE);
                 binding.messageVideo.setVisibility(View.GONE);
                 binding.messageImage.setVisibility(View.VISIBLE);
                 binding.messageImage.setImageBitmap(getBitmapFromEnCodedString(chatMessage.getImageBitmap()));
                 binding.unMessage.setVisibility(View.GONE);
+                binding.layoutRecording.setVisibility(View.GONE);
             } else if (chatMessage.getTypeMessage() == 2) {
                 binding.messageImage.setBackgroundResource(0);
                 binding.messageImage.setVisibility(View.GONE);
@@ -222,6 +241,7 @@ public class ChatAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
                 binding.messageVideo.setVideoURI(Uri.parse("https://videocdn.bodybuilding.com/video/mp4/62000/62792m.mp4"));
                 binding.messageVideo.requestFocus();
                 binding.unMessage.setVisibility(View.GONE);
+                binding.layoutRecording.setVisibility(View.GONE);
             }else if(chatMessage.getTypeMessage() == 3){
                 binding.unMessage.setVisibility(View.VISIBLE);
                 binding.unMessage.setText(chatMessage.getMessage());
@@ -229,6 +249,7 @@ public class ChatAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
                 binding.messageImage.setVisibility(View.GONE);
                 binding.message.setVisibility(View.GONE);
                 binding.messageVideo.setVisibility(View.GONE);
+                binding.layoutRecording.setVisibility(View.GONE);
             }else if(chatMessage.getTypeMessage() == 4){
                 binding.unMessage.setVisibility(View.VISIBLE);
                 binding.unMessage.setText("Remove a message for you. ");
@@ -236,6 +257,13 @@ public class ChatAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
                 binding.messageImage.setVisibility(View.GONE);
                 binding.message.setVisibility(View.GONE);
                 binding.messageVideo.setVisibility(View.GONE);
+                binding.layoutRecording.setVisibility(View.GONE);
+            }else if(chatMessage.getTypeMessage() == 6) {
+                binding.layoutRecording.setVisibility(View.VISIBLE);
+                binding.messageImage.setVisibility(View.GONE);
+                binding.messageVideo.setVisibility(View.GONE);
+                binding.message.setVisibility(View.GONE);
+                binding.unMessage.setVisibility(View.GONE);
             }
 
         }
@@ -269,28 +297,33 @@ public class ChatAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
                 binding.messageImage.setVisibility(View.GONE);
                 binding.message.setVisibility(View.VISIBLE);
                 binding.unMessage.setVisibility(View.GONE);
+                binding.layoutRecording.setVisibility(View.GONE);
             } else if (chatMessage.getTypeMessage() == 1) {
                 binding.messageImage.setVisibility(View.VISIBLE);
                 binding.message.setVisibility(View.GONE);
                 binding.unMessage.setVisibility(View.GONE);
                 binding.messageImage.setImageBitmap(getBitmapFromEnCodedString(chatMessage.getImageBitmap()));
+                binding.layoutRecording.setVisibility(View.GONE);
             } else if (chatMessage.getTypeMessage() == 2) {
                 binding.messageImage.setBackgroundResource(0);
                 binding.messageImage.setVisibility(View.GONE);
                 binding.message.setVisibility(View.GONE);
                 binding.unMessage.setVisibility(View.GONE);
+                binding.layoutRecording.setVisibility(View.GONE);
             }else if(chatMessage.getTypeMessage() == 3){
                 binding.unMessage.setVisibility(View.VISIBLE);
                 binding.unMessage.setText(chatMessage.getMessage());
                 binding.messageImage.setBackgroundResource(0);
                 binding.messageImage.setVisibility(View.GONE);
                 binding.message.setVisibility(View.GONE);
+                binding.layoutRecording.setVisibility(View.GONE);
             }else if(chatMessage.getTypeMessage() == 4){
                 binding.unMessage.setVisibility(View.GONE);
                 binding.message.setVisibility(View.VISIBLE);
                 binding.message.setText(chatMessage.getMessage());
                 binding.messageImage.setBackgroundResource(0);
                 binding.messageImage.setVisibility(View.GONE);
+                binding.layoutRecording.setVisibility(View.GONE);
             }
             else if(chatMessage.getTypeMessage() == 5){
                 binding.unMessage.setVisibility(View.VISIBLE);
@@ -298,6 +331,12 @@ public class ChatAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
                 binding.unMessage.setText("Remove a message for you.");
                 binding.messageImage.setBackgroundResource(0);
                 binding.messageImage.setVisibility(View.GONE);
+                binding.layoutRecording.setVisibility(View.GONE);
+            }else if(chatMessage.getTypeMessage() == 6){
+                binding.layoutRecording.setVisibility(View.VISIBLE);
+                binding.unMessage.setVisibility(View.GONE);
+                binding.messageImage.setVisibility(View.GONE);
+                binding.message.setVisibility(View.GONE);
             }
         }
 

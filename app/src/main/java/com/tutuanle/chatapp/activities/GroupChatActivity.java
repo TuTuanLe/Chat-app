@@ -914,4 +914,9 @@ public class GroupChatActivity extends OnChatActivity implements ChatListener {
         }, 2000);
 
     }
+
+    @Override
+    public void playRecording(String url) {
+
+    }
 }
