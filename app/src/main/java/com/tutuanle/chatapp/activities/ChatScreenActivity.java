@@ -24,6 +24,7 @@ import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.Base64;
 import android.util.Log;
+import android.view.Display;
 import android.view.Gravity;
 import android.view.View;
 import android.view.Window;
@@ -54,9 +55,16 @@ import com.tutuanle.chatapp.databinding.ActivityChatScreenBinding;
 import com.tutuanle.chatapp.interfaces.ChatListener;
 import com.tutuanle.chatapp.models.ChatMessage;
 import com.tutuanle.chatapp.models.CustomizeChat;
+import com.tutuanle.chatapp.models.InformationYouTube;
+import com.tutuanle.chatapp.models.Model;
 import com.tutuanle.chatapp.models.User;
+import com.tutuanle.chatapp.models.YouTube;
 import com.tutuanle.chatapp.network.ApiClient;
 import com.tutuanle.chatapp.network.ApiService;
+import com.tutuanle.chatapp.network.ApiYouTubeService;
+import com.tutuanle.chatapp.network.ApiYoutubeClient;
+import com.tutuanle.chatapp.network.Methods;
+import com.tutuanle.chatapp.network.RetrofitClient;
 import com.tutuanle.chatapp.utilities.Constants;
 import com.tutuanle.chatapp.utilities.PreferenceManager;
 
@@ -109,6 +117,8 @@ public class ChatScreenActivity extends OnChatActivity implements ChatListener {
     private String urlRecording;
     private Uri urlVideoLocal;
 
+    private InformationYouTube informationYouTube;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -126,7 +136,56 @@ public class ChatScreenActivity extends OnChatActivity implements ChatListener {
 //        updateConversation();
         customChecked();
 
+    }
 
+
+    private void getDataInfoYT(String url) {
+        String VideoId = null;
+        try {
+            VideoId = url.split("=")[1];
+        } catch (Exception e) {
+            VideoId = url.substring(17);
+        }
+        ApiYouTubeService youTube = ApiYoutubeClient.getRetrofitInstance().create(ApiYouTubeService.class);
+        Call<YouTube> call = youTube.getInfoYouTube("AIzaSyAanRwCrLcd4E2HlegoctCfiIv4tmlnhPs", "video", "snippet", 1, VideoId);
+        String finalVideoId = VideoId;
+        call.enqueue(new Callback<YouTube>() {
+            @Override
+            public void onResponse(Call<YouTube> call, Response<YouTube> response) {
+
+                ArrayList<YouTube.items> infoYT = response.body().getItems();
+
+                informationYouTube = new InformationYouTube();
+                informationYouTube.setUrl(url);
+                informationYouTube.setUrlImage(infoYT.get(0).getSnippet().getThumbnails().getMedium().getUrl());
+                informationYouTube.setTitle(infoYT.get(0).getSnippet().getTitle());
+                informationYouTube.setDescription(infoYT.get(0).getSnippet().getDescription());
+                informationYouTube.setVideoId(finalVideoId);
+                Log.e("TAG_DATA_INFO", "onResponse: " + informationYouTube.toString());
+
+            }
+
+            @Override
+            public void onFailure(Call<YouTube> call, Throwable t) {
+                Log.e("TAG_DATA_INFO", "fail");
+            }
+        });
+
+//        Methods methods =  RetrofitClient.getRetrofitInstance().create(Methods.class);
+//        Call<Model> call = methods.getAllData();
+//        call.enqueue(new Callback<Model>() {
+//
+//
+//            @Override
+//            public void onResponse(Call<Model> call, Response<Model> response) {
+//                Log.e("TAG_DATA_INFO", "onResponse: " + response.body());
+//            }
+//
+//            @Override
+//            public void onFailure(Call<Model> call, Throwable t) {
+//                Log.e("TAG_DATA_INFO", "fail");
+//            }
+//        });
     }
 
 
@@ -574,12 +633,14 @@ public class ChatScreenActivity extends OnChatActivity implements ChatListener {
                             chatMessage.setUrlVideo(documentChange.getDocument().getString(Constants.KEY_SEND_VIDEO));
                         } else if (chatMessage.getTypeMessage() == 6) {
                             chatMessage.setUrlRecord(documentChange.getDocument().getString(Constants.KEY_SEND_RECORD));
-                        }
-                        else if (chatMessage.getTypeMessage() == 7) {
+                        } else if (chatMessage.getTypeMessage() == 7) {
                             chatMessage.setUrlVideo(documentChange.getDocument().getString(Constants.KEY_SEND_VIDEO));
+                        }else  if (chatMessage.getTypeMessage() == 8){
+                            chatMessage.setInformationYouTube(documentChange.getDocument().get(Constants.KEY_INFO_VIDEO,InformationYouTube.class));
                         }
                     } catch (Exception e) {
                         e.printStackTrace();
+                        Log.e("TAG_DATA_INFO", "onResponse: " +e.getMessage());
                     }
 
                     chatMessages.add(chatMessage);
@@ -679,7 +740,7 @@ public class ChatScreenActivity extends OnChatActivity implements ChatListener {
                     binding.layoutChoiceVideo.setVisibility(View.VISIBLE);
                     binding.showVideo.setVideoURI(uriVideo);
                     urlVideoLocal = uriVideo;
-                    Log.d("url_VIDEO" , ""+ urlVideoLocal);
+                    Log.d("url_VIDEO", "" + urlVideoLocal);
                     binding.showVideo.requestFocus();
                     binding.showVideo.start();
 
@@ -738,7 +799,12 @@ public class ChatScreenActivity extends OnChatActivity implements ChatListener {
 
     private void sendMessage() {
 
+
         String ms = binding.inputMessage.getText().length() == 0 ? "\uD83D\uDC4D" : binding.inputMessage.getText().toString();
+
+//        https://www.youtube.com/watch?v=omacvKrg-ys
+
+
         HashMap<String, Object> message = new HashMap<>();
         // get senderId from Preference manage on save a local app
         message.put(Constants.KEY_SENDER_ID, preferenceManager.getString(Constants.KEY_USER_ID));
@@ -747,8 +813,20 @@ public class ChatScreenActivity extends OnChatActivity implements ChatListener {
         message.put(Constants.KEY_TIMESTAMP, new Date());
         message.put(Constants.KEY_FEELING, -1);
         message.put(Constants.KEY_IS_SEEN, isOnChat ? 0 : 1);
+        // check type message before sent
+        if (ms.contains("https://www.youtube.com") || ms.contains("https://youtu.be")) {
+
+
+            getDataInfoYT(ms);
+            TypeMessage = 8;
+
+        }
+
+
         message.put(Constants.KEY_TYPE_MESSAGE, TypeMessage);
         message.put(Constants.KEY_IMAGE, preferenceManager.getString(Constants.KEY_IMAGE));
+
+
         //send image
         if (TypeMessage == 1) {
             message.put(Constants.KEY_SEND_IMAGE, encodedImage);
@@ -807,6 +885,11 @@ public class ChatScreenActivity extends OnChatActivity implements ChatListener {
                     });
                 }
             });
+        } else if (TypeMessage == 8) {
+            new Handler().postDelayed(() -> {
+                message.put(Constants.KEY_INFO_VIDEO, informationYouTube );
+                database.collection(Constants.KEY_COLLECTION_CHAT).add(message);
+            }, 1000);
         } else {
             database.collection(Constants.KEY_COLLECTION_CHAT).add(message);
         }
@@ -1058,10 +1141,13 @@ public class ChatScreenActivity extends OnChatActivity implements ChatListener {
         Intent intent = new Intent(getApplicationContext(), ShowVideoActivity.class);
         intent.putExtra(Constants.KEY_SEND_VIDEO, url);
         startActivity(intent);
+
     }
 
     @Override
-    public void onClickShowVideoYouTobe(String url) {
-
+    public void onClickShowVideoYouTobe(String VideoId) {
+        Intent intent = new Intent(getApplicationContext(), YouTubeActivity.class);
+        intent.putExtra(Constants.KEY_SEND_VIDEO, VideoId);
+        startActivity(intent);
     }
 }

@@ -22,6 +22,9 @@
         android:usesCleartextTraffic="true"
         tools:targetApi="m">
         <activity
+            android:name=".activities.YouTubeActivity"
+            android:exported="false" />
+        <activity
             android:name=".activities.ShowVideoActivity"
             android:exported="false" />
         <activity

@@ -3,6 +3,16 @@ package com.tutuanle.chatapp.models;
 import java.util.Date;
 
 public class ChatMessage {
+    public  InformationYouTube informationYouTube;
+
+    public InformationYouTube getInformationYouTube() {
+        return informationYouTube;
+    }
+
+    public void setInformationYouTube(InformationYouTube informationYouTube) {
+        this.informationYouTube = informationYouTube;
+    }
+
     public String getSenderId() {
         return senderId;
     }

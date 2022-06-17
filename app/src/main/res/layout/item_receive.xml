@@ -106,7 +106,7 @@
                 app:lottie_rawRes="@raw/recording" />
         </FrameLayout>
         <FrameLayout
-            android:visibility="visible"
+            android:visibility="gone"
             android:layout_marginStart="@dimen/_6ssp"
             android:id="@+id/messageVideo"
             android:layout_width="@dimen/_100sdp"
@@ -123,6 +123,63 @@
                 android:tint="@color/blue"
                 tools:ignore="UseAppTint" />
         </FrameLayout>
+        <LinearLayout
+            android:layout_marginStart="@dimen/_6ssp"
+            android:id="@+id/messageLinkYoutube"
+            android:layout_width="@dimen/_200sdp"
+            android:layout_height="wrap_content"
+            android:background="@drawable/sent_layout_drawable"
+            android:orientation="vertical"
+            >
+            <TextView
+                android:id="@+id/url"
+                android:paddingHorizontal="@dimen/_10sdp"
+                android:paddingVertical="@dimen/_5sdp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="https://www.youtube.com/watch?v=Kx23aNXCJ54"
+                android:textSize="@dimen/_10ssp"
+                android:fontFamily="@font/roboto_light"
+                android:textColor="@color/black"
+                android:background="@drawable/receiver_link_drawable"
+                />
+            <ImageView
+                android:transformPivotY="@dimen/_50sdp"
+                android:cropToPadding="false"
+
+                android:id="@+id/imageUrl"
+                android:layout_width="@dimen/_200sdp"
+                android:layout_height="@dimen/_110sdp"
+                android:src="@drawable/bg_4"
+                android:scaleType="centerCrop"
+                />
+            <TextView
+                android:id="@+id/title"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textColor="@color/black"
+                android:text="CHÚNG TA CỦA HIỆN TẠI (LOFI VERSION) SƠN TÙNG M-TP "
+                android:padding="@dimen/_6sdp"
+                android:textSize="@dimen/_11ssp"
+                android:fontFamily="@font/roboto_bold"
+                android:maxHeight="@dimen/_50sdp"
+
+                />
+            <TextView
+                android:id="@+id/description"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:maxHeight="@dimen/_72sdp"
+                android:textColor="@color/black"
+                android:text="CHÚNG TA CỦA HIỆN TẠI (LOFI VERSION) SƠN TÙNG M-TP Ủng hộ Sếp tại đây mọi người nhaaaaaa: ...  SƠN TÙNG M-TP Ủng hộ Sếp tại đây mọi người nhaaaaaa: ...  SƠN TÙNG M-TP Ủng hộ Sếp tại đây mọi người nhaaaaaa: ..."
+                android:paddingHorizontal="@dimen/_6sdp"
+                android:paddingBottom="@dimen/_10sdp"
+                android:textSize="@dimen/_9ssp"
+                android:fontFamily="@font/roboto_light"
+                >
+
+            </TextView>
+        </LinearLayout>
 
 
     </LinearLayout>
