@@ -15,7 +15,9 @@ import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.os.CountDownTimer;
 import android.os.Handler;
+
 import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
@@ -29,32 +31,22 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.agrawalsuneet.dotsloader.loaders.LightsLoader;
-import com.agrawalsuneet.dotsloader.loaders.TashieLoader;
-import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
-import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.firestore.DocumentChange;
-import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.EventListener;
 import com.google.firebase.firestore.FirebaseFirestore;
-import com.google.firebase.firestore.FirebaseFirestoreException;
 import com.google.firebase.firestore.QuerySnapshot;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
-import com.google.firebase.storage.UploadTask;
 import com.makeramen.roundedimageview.RoundedImageView;
 import com.tutuanle.chatapp.R;
 import com.tutuanle.chatapp.activities.MainScreenActivity;
 import com.tutuanle.chatapp.activities.ProfileActivity;
 import com.tutuanle.chatapp.adapters.StoryAdapter;
-import com.tutuanle.chatapp.models.ChatMessage;
 import com.tutuanle.chatapp.models.Status;
 import com.tutuanle.chatapp.models.User;
 import com.tutuanle.chatapp.models.UserStatus;
 import com.tutuanle.chatapp.utilities.Constants;
-import com.tutuanle.chatapp.utilities.GridSpacingItemDecoration;
 import com.tutuanle.chatapp.utilities.PreferenceManager;
 
 import java.util.ArrayList;
@@ -62,7 +54,6 @@ import java.util.Collections;
 import java.util.Comparator;
 import java.util.Date;
 import java.util.HashMap;
-import java.util.Objects;
 
 
 public class StoryFragment extends Fragment {
@@ -89,7 +80,7 @@ public class StoryFragment extends Fragment {
     FirebaseFirestore database;
     ProgressDialog progressDialog;
 
-
+    int check = 0;
     public StoryFragment() {
 
     }
@@ -167,10 +158,12 @@ public class StoryFragment extends Fragment {
     }
 
     @SuppressLint("NotifyDataSetChanged")
-    synchronized void getStatuesListener() {
+    void getStatuesListener() {
 
         for (int i = 0; i < userStatuses.size(); i++) {
             int b = i;
+
+
             database.collection(Constants.KEY_COLLECTION_STORIES)
                     .document(userStatuses.get(i).getStatusUid())
                     .collection(Constants.KEY_COLLECTION_STATUSES)
@@ -201,6 +194,7 @@ public class StoryFragment extends Fragment {
 
     }
 
+
     @SuppressLint("NotifyDataSetChanged")
     private final EventListener<QuerySnapshot> eventListener = (value, error) -> {
         if (error != null) {
@@ -226,22 +220,140 @@ public class StoryFragment extends Fragment {
                 }
             }
             Collections.sort(userStatuses, new SortByRoll());
+
+
+//            getStatuesListener();
+//            allTask.addOnCompleteListener( v->{
             getStatuesListener();
 
 
+            storyAdapter.notifyDataSetChanged();
+
+            RecyclerView temp = view.findViewById(R.id.statusList);
+//
+//            temp.setAdapter(storyAdapter);
+//            temp.setVisibility(View.VISIBLE);
+//            loading(false);
+//            if(checkNUllData() == 1  ){
+//                new Handler().postDelayed(() -> {
+//                    {
+//                        temp.setAdapter(storyAdapter);
+//                        temp.setVisibility(View.VISIBLE);
+//                        loading(false);
+//                    }
+//                }, 100);
+//                Log.e("TIMEOUT__: ", "100");
+//
+//            }else{
+//                new Handler().postDelayed(() -> {
+//                    {
+//                        temp.setAdapter(storyAdapter);
+//                        temp.setVisibility(View.VISIBLE);
+//                        loading(false);
+//                    }
+//                }, 1000);
+//            }
+
+
+
+
             new Handler().postDelayed(() -> {
+                {
+                    if (checkNUllData() == 1) {
+                        temp.setAdapter(storyAdapter);
+                        temp.setVisibility(View.VISIBLE);
+                        loading(false);
+                    }
+                    else{
+                        new Handler().postDelayed(() -> {
+                            {
+                                if (checkNUllData() == 1) {
+                                    temp.setAdapter(storyAdapter);
+                                    temp.setVisibility(View.VISIBLE);
+                                    loading(false);
+                                }else{
+                                    new Handler().postDelayed(() -> {
+                                        {
+                                            if (checkNUllData() == 1) {
+                                                temp.setAdapter(storyAdapter);
+                                                temp.setVisibility(View.VISIBLE);
+                                                loading(false);
+                                            }else{
+                                                new Handler().postDelayed(() -> {
+                                                    {
+                                                        if (checkNUllData() == 1) {
+                                                            temp.setAdapter(storyAdapter);
+                                                            temp.setVisibility(View.VISIBLE);
+                                                            loading(false);
+                                                        }
+                                                        else {
+                                                            Toast.makeText(mainScreenActivity, "please refresh screen ...", Toast.LENGTH_SHORT).show();
+                                                        }
+                                                    }
+                                                }, 1000);
+                                            }
+                                        }
+                                    }, 500);
+                                }
+                            }
+                        }, 300);
+                    }
+                }
+            }, 200);
 
-                storyAdapter.notifyDataSetChanged();
-                RecyclerView temp = view.findViewById(R.id.statusList);
-                temp.setAdapter(storyAdapter);
-                temp.setVisibility(View.VISIBLE);
-                loading(false);
 
-            }, 1300);
+            if(check == 1){
+                new Handler().postDelayed(() -> {
+                    {
+                        if (checkNUllData() == 1) {
+                            temp.setAdapter(storyAdapter);
+                            temp.setVisibility(View.VISIBLE);
+                            loading(false);
+                        }else{
+                            check= 0;
+                        }
+                        Log.e("TIMEOUT__: ", "1000");
 
+                    }
+                }, 1000);
+
+            }
+
+            if(check == 1){
+                new Handler().postDelayed(() -> {
+                    {
+                        if (checkNUllData() == 1) {
+                            temp.setAdapter(storyAdapter);
+                            temp.setVisibility(View.VISIBLE);
+                            loading(false);
+                        }else{
+                            check= 0;
+                        }
+                        Log.e("TIMEOUT__: ", "1000");
+
+                    }
+                }, 2000);
+
+            }
 
         }
     };
+
+    private int checkNUllData() {
+        for (int i = 0; i < userStatuses.size(); i++) {
+            try {
+                for (int j = 0; j < userStatuses.get(i).getStatuses().size(); j++) {
+                    if (userStatuses.get(i).getStatuses() == null) {
+                        return 0;
+                    }
+                }
+            } catch (Exception e) {
+                return 0;
+            }
+        }
+
+        return 1;
+    }
 
 
     private int findIndexStory(String uid) {
@@ -250,9 +362,6 @@ public class StoryFragment extends Fragment {
                 return i;
         return -1;
     }
-
-
-
 
 
     @Override
