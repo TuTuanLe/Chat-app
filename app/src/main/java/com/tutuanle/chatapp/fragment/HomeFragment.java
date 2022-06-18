@@ -11,12 +11,14 @@ import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.RecyclerView;
 
 
+import android.os.Handler;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ProgressBar;
 import android.widget.TextView;
+import android.widget.Toast;
 
 
 import com.google.firebase.firestore.DocumentChange;
@@ -24,6 +26,7 @@ import com.google.firebase.firestore.DocumentChange;
 import com.google.firebase.firestore.EventListener;
 import com.google.firebase.firestore.FirebaseFirestore;
 
+import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
 import com.makeramen.roundedimageview.RoundedImageView;
 import com.tutuanle.chatapp.R;
@@ -132,15 +135,17 @@ public class HomeFragment extends Fragment {
 
         temp.setAdapter(statusAdapter);
 
+
+
         ArrayList<Status> statuses = new ArrayList<>();
 
 
         statuses.add(new Status(
-                "https://firebasestorage.googleapis.com/v0/b/chatsapp-4b8d6.appspot.com/o/status%2F1648451488181?alt=media&token=9e1f4eb7-8825-43c2-8220-106c92409620",
-                164845148
+                "https://firebasestorage.googleapis.com/v0/b/messagingchatapp.appspot.com/o/status%2F1653551053028?alt=media&token=41ff5595-592e-466f-9ebc-b0a3d3c64a30",
+                1648545148
         ));
         statuses.add(new Status(
-                "https://firebasestorage.googleapis.com/v0/b/chatsapp-4b8d6.appspot.com/o/status%2F1648451488181?alt=media&token=9e1f4eb7-8825-43c2-8220-106c92409620",
+                "https://firebasestorage.googleapis.com/v0/b/messagingchatapp.appspot.com/o/status%2F1653805717721?alt=media&token=be94c980-afc6-43cd-9a0d-2e7eb0bd3668",
                 164853774
         ));
 
@@ -149,7 +154,7 @@ public class HomeFragment extends Fragment {
 
 
         statuses1.add(new Status(
-                "hhttps://images.unsplash.com/photo-1453728013993-6d66e9c9123a?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxzZWFyY2h8Mnx8dmlld3xlbnwwfHwwfHw%3D&w=1000&q=80",
+                "https://firebasestorage.googleapis.com/v0/b/messagingchatapp.appspot.com/o/status%2F1653805717721?alt=media&token=be94c980-afc6-43cd-9a0d-2e7eb0bd3668",
                 164845148
         ));
         statuses1.add(new Status(
@@ -157,7 +162,7 @@ public class HomeFragment extends Fragment {
                 164853774
         ));
         statuses1.add(new Status(
-                "https://st.depositphotos.com/1006706/2671/i/600/depositphotos_26715369-stock-photo-which-way-to-choose-3d.jpg",
+                "https://firebasestorage.googleapis.com/v0/b/messagingchatapp.appspot.com/o/status%2F1654225594003?alt=media&token=f835e910-fda5-477c-a980-b1233e29ef8d",
                 164853774
         ));
 
@@ -169,10 +174,32 @@ public class HomeFragment extends Fragment {
                 164845148
         ));
 
+        statuses2.add(new Status(
+                "https://firebasestorage.googleapis.com/v0/b/messagingchatapp.appspot.com/o/status%2F1655178746355?alt=media&token=651719a3-5afa-4635-bd0c-6c71bcdf96ea",
+                164847148
+        ));
+
+
+        ArrayList<Status> statuses3 = new ArrayList<>();
+
+
+        statuses3.add(new Status(
+                "https://firebasestorage.googleapis.com/v0/b/messagingchatapp.appspot.com/o/status%2F1654414233643?alt=media&token=874aaad8-dcc4-4f34-acd6-22a76bba046c",
+                164845148
+        ));
+
+        statuses3.add(new Status(
+                "https://firebasestorage.googleapis.com/v0/b/messagingchatapp.appspot.com/o/status%2F1655181861286?alt=media&token=bf581145-7e2a-470f-9dd3-a014346330d1",
+                164847148
+        ));
+
+
+
+
 
         userStatuses.add(new UserStatus(
                 "Tuan Anh",
-                "https://firebasestorage.googleapis.com/v0/b/chatsapp-4b8d6.appspot.com/o/status%2F1648537741702?alt=media&token=685fb7d8-a05d-429d-9834-1db74b41ff0e",
+                "https://firebasestorage.googleapis.com/v0/b/messagingchatapp.appspot.com/o/status%2F1653805717721?alt=media&token=be94c980-afc6-43cd-9a0d-2e7eb0bd3668",
                 164853810,
                 statuses
         ));
@@ -184,9 +211,16 @@ public class HomeFragment extends Fragment {
         ));
         userStatuses.add(new UserStatus(
                 "TAnh",
-                "https://images.unsplash.com/photo-1453728013993-6d66e9c9123a?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxzZWFyY2h8Mnx8dmlld3xlbnwwfHwwfHw%3D&w=1000&q=80",
+                "https://firebasestorage.googleapis.com/v0/b/messagingchatapp.appspot.com/o/status%2F1654223433090?alt=media&token=e3faa34c-c756-4298-aee9-0d9b18a8c679",
                 184853810,
                 statuses2
+        ));
+
+        userStatuses.add(new UserStatus(
+                "Phuong",
+                "https://firebasestorage.googleapis.com/v0/b/messagingchatapp.appspot.com/o/status%2F1654223433090?alt=media&token=e3faa34c-c756-4298-aee9-0d9b18a8c679",
+                184854810,
+                statuses3
         ));
 
 
@@ -296,4 +330,41 @@ public class HomeFragment extends Fragment {
         view.findViewById(R.id.search_friend).setOnClickListener(v ->
                 startActivity(new Intent(mainScreenActivity, SearchActivity.class)));
     }
+
+
+
+
+
+    @SuppressLint("NotifyDataSetChanged")
+    void getStatuesListener() {
+
+        for (int i = 0; i < userStatuses.size(); i++) {
+            int b = i;
+            database.collection(Constants.KEY_COLLECTION_STORIES)
+                    .document(userStatuses.get(i).getStatusUid())
+                    .collection(Constants.KEY_COLLECTION_STATUSES)
+                    .addSnapshotListener((valueStatuses, errorStatuses) -> {
+                        if (errorStatuses != null) {
+                            return;
+                        }
+                        if (valueStatuses != null) {
+                            ArrayList<Status> statuses = new ArrayList<>();
+                            for (DocumentChange documentChangeStatus : valueStatuses.getDocumentChanges()) {
+                                if (documentChangeStatus.getType() == DocumentChange.Type.ADDED) {
+                                    Status statusTemp = new Status();
+                                    statusTemp.setImageUrl(documentChangeStatus.getDocument().getString("imageUrl"));
+                                    statusTemp.setTimeStamp(documentChangeStatus.getDocument().getLong("timeStamp"));
+                                    statuses.add(statusTemp);
+                                }
+                            }
+                        }
+                    });
+
+
+        }
+
+
+    }
+
+
 }

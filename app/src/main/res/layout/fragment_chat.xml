@@ -79,7 +79,7 @@
                 <ImageButton
                     android:id="@+id/imageEdit"
                     android:layout_width="@dimen/_13sdp"
-                    android:layout_height="@dimen/_13sdp"
+                    android:layout_height="12dp"
                     android:layout_gravity="center"
                     android:background="@color/trans"
                     android:contentDescription="@string/app_name"

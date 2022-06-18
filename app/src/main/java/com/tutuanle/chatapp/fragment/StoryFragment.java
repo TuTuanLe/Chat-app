@@ -4,20 +4,20 @@ import android.annotation.SuppressLint;
 import android.app.Dialog;
 import android.app.ProgressDialog;
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.net.Uri;
 import android.os.Bundle;
 
-import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
-import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import android.os.CountDownTimer;
 import android.os.Handler;
 
+import android.util.Base64;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
@@ -26,12 +26,13 @@ import android.view.ViewGroup;
 import android.view.Window;
 import android.view.WindowManager;
 import android.view.inputmethod.EditorInfo;
+import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.agrawalsuneet.dotsloader.loaders.LightsLoader;
-import com.google.android.gms.tasks.Task;
 import com.google.firebase.firestore.DocumentChange;
 import com.google.firebase.firestore.EventListener;
 import com.google.firebase.firestore.FirebaseFirestore;
@@ -42,21 +43,29 @@ import com.makeramen.roundedimageview.RoundedImageView;
 import com.tutuanle.chatapp.R;
 import com.tutuanle.chatapp.activities.MainScreenActivity;
 import com.tutuanle.chatapp.activities.ProfileActivity;
+import com.tutuanle.chatapp.adapters.CommentAdapter;
 import com.tutuanle.chatapp.adapters.StoryAdapter;
+import com.tutuanle.chatapp.interfaces.StoryListener;
+import com.tutuanle.chatapp.models.ChatMessage;
+import com.tutuanle.chatapp.models.Comment;
+import com.tutuanle.chatapp.models.InformationYouTube;
 import com.tutuanle.chatapp.models.Status;
 import com.tutuanle.chatapp.models.User;
 import com.tutuanle.chatapp.models.UserStatus;
 import com.tutuanle.chatapp.utilities.Constants;
 import com.tutuanle.chatapp.utilities.PreferenceManager;
+import com.yqritc.scalablevideoview.ScaleManager;
 
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.List;
+import java.util.Objects;
 
 
-public class StoryFragment extends Fragment {
+public class StoryFragment extends Fragment implements StoryListener {
 
 
     static class SortByRoll implements Comparator<UserStatus> {
@@ -75,12 +84,16 @@ public class StoryFragment extends Fragment {
     private MainScreenActivity mainScreenActivity;
 
     private StoryAdapter storyAdapter;
+    private CommentAdapter commentAdapter;
     private PreferenceManager preferenceManager;
     private ArrayList<UserStatus> userStatuses;
     FirebaseFirestore database;
     ProgressDialog progressDialog;
 
     int check = 0;
+
+    private List<Comment> comments;
+
     public StoryFragment() {
 
     }
@@ -111,7 +124,7 @@ public class StoryFragment extends Fragment {
     @SuppressLint("NotifyDataSetChanged")
     private void getUserStatus() {
         userStatuses = new ArrayList<>();
-        storyAdapter = new StoryAdapter(mainScreenActivity, userStatuses);
+        storyAdapter = new StoryAdapter(mainScreenActivity, userStatuses, this);
         RecyclerView temp = view.findViewById(R.id.statusList);
         temp.setAdapter(storyAdapter);
     }
@@ -162,8 +175,6 @@ public class StoryFragment extends Fragment {
 
         for (int i = 0; i < userStatuses.size(); i++) {
             int b = i;
-
-
             database.collection(Constants.KEY_COLLECTION_STORIES)
                     .document(userStatuses.get(i).getStatusUid())
                     .collection(Constants.KEY_COLLECTION_STATUSES)
@@ -222,39 +233,12 @@ public class StoryFragment extends Fragment {
             Collections.sort(userStatuses, new SortByRoll());
 
 
-//            getStatuesListener();
-//            allTask.addOnCompleteListener( v->{
             getStatuesListener();
 
 
             storyAdapter.notifyDataSetChanged();
 
             RecyclerView temp = view.findViewById(R.id.statusList);
-//
-//            temp.setAdapter(storyAdapter);
-//            temp.setVisibility(View.VISIBLE);
-//            loading(false);
-//            if(checkNUllData() == 1  ){
-//                new Handler().postDelayed(() -> {
-//                    {
-//                        temp.setAdapter(storyAdapter);
-//                        temp.setVisibility(View.VISIBLE);
-//                        loading(false);
-//                    }
-//                }, 100);
-//                Log.e("TIMEOUT__: ", "100");
-//
-//            }else{
-//                new Handler().postDelayed(() -> {
-//                    {
-//                        temp.setAdapter(storyAdapter);
-//                        temp.setVisibility(View.VISIBLE);
-//                        loading(false);
-//                    }
-//                }, 1000);
-//            }
-
-
 
 
             new Handler().postDelayed(() -> {
@@ -263,30 +247,28 @@ public class StoryFragment extends Fragment {
                         temp.setAdapter(storyAdapter);
                         temp.setVisibility(View.VISIBLE);
                         loading(false);
-                    }
-                    else{
+                    } else {
                         new Handler().postDelayed(() -> {
                             {
                                 if (checkNUllData() == 1) {
                                     temp.setAdapter(storyAdapter);
                                     temp.setVisibility(View.VISIBLE);
                                     loading(false);
-                                }else{
+                                } else {
                                     new Handler().postDelayed(() -> {
                                         {
                                             if (checkNUllData() == 1) {
                                                 temp.setAdapter(storyAdapter);
                                                 temp.setVisibility(View.VISIBLE);
                                                 loading(false);
-                                            }else{
+                                            } else {
                                                 new Handler().postDelayed(() -> {
                                                     {
                                                         if (checkNUllData() == 1) {
                                                             temp.setAdapter(storyAdapter);
                                                             temp.setVisibility(View.VISIBLE);
                                                             loading(false);
-                                                        }
-                                                        else {
+                                                        } else {
                                                             Toast.makeText(mainScreenActivity, "please refresh screen ...", Toast.LENGTH_SHORT).show();
                                                         }
                                                     }
@@ -302,15 +284,15 @@ public class StoryFragment extends Fragment {
             }, 200);
 
 
-            if(check == 1){
+            if (check == 1) {
                 new Handler().postDelayed(() -> {
                     {
                         if (checkNUllData() == 1) {
                             temp.setAdapter(storyAdapter);
                             temp.setVisibility(View.VISIBLE);
                             loading(false);
-                        }else{
-                            check= 0;
+                        } else {
+                            check = 0;
                         }
                         Log.e("TIMEOUT__: ", "1000");
 
@@ -319,15 +301,15 @@ public class StoryFragment extends Fragment {
 
             }
 
-            if(check == 1){
+            if (check == 1) {
                 new Handler().postDelayed(() -> {
                     {
                         if (checkNUllData() == 1) {
                             temp.setAdapter(storyAdapter);
                             temp.setVisibility(View.VISIBLE);
                             loading(false);
-                        }else{
-                            check= 0;
+                        } else {
+                            check = 0;
                         }
                         Log.e("TIMEOUT__: ", "1000");
 
@@ -445,5 +427,128 @@ public class StoryFragment extends Fragment {
             temp.setVisibility(View.INVISIBLE);
         }
     }
+
+    private void openDialogCenter() {
+        final Dialog dialog = new Dialog(mainScreenActivity);
+        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+        dialog.setContentView(R.layout.layout_dialog_comment);
+
+        Window window = dialog.getWindow();
+        if (window == null) {
+            return;
+        }
+        window.setLayout(WindowManager.LayoutParams.MATCH_PARENT, WindowManager.LayoutParams.WRAP_CONTENT);
+        window.setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+
+        WindowManager.LayoutParams windowAttributes = window.getAttributes();
+        windowAttributes.gravity = Gravity.CENTER;
+        window.setAttributes(windowAttributes);
+
+        RoundedImageView roundedImageView = dialog.findViewById(R.id.profile);
+        roundedImageView.setImageBitmap(getBitmapFromEnCodedString(preferenceManager.getString(Constants.KEY_IMAGE)));
+//        profile
+        dialog.setCancelable(true);
+
+        dialog.findViewById(R.id.sendComment).setOnClickListener(v -> {
+            EditText editText = dialog.findViewById(R.id.editText);
+            addComment(editText.getText().toString());
+            dialog.dismiss();
+        });
+        ProgressBar progressBar = dialog.findViewById(R.id.progressBarComment);
+        progressBar.setVisibility(View.VISIBLE);
+
+
+        RecyclerView recyclerView = dialog.findViewById(R.id.listComment);
+        comments = new ArrayList<>();
+        commentAdapter = new CommentAdapter(mainScreenActivity, (ArrayList<Comment>) comments);
+        showCommentStories();
+        recyclerView.setVisibility(View.VISIBLE);
+        TextView tv = dialog.findViewById(R.id.noComment);
+        new Handler().postDelayed(() -> {
+            if(comments.size() == 0){
+//                recyclerView.smoothScrollToPosition(comments.size() - 1);
+                tv.setVisibility(View.VISIBLE);
+
+            }else{
+                recyclerView.smoothScrollToPosition(comments.size() - 1);
+                tv.setVisibility(View.GONE);
+            }
+
+            recyclerView.setAdapter(commentAdapter);
+            progressBar.setVisibility(View.GONE);
+        }, 300);
+
+
+        dialog.findViewById(R.id.icon_close).setOnClickListener(v -> dialog.dismiss());
+        dialog.show();
+    }
+
+    private String uidStory;
+
+    private void addComment(String message) {
+        HashMap<String, Object> cm = new HashMap<>();
+        cm.put("uid", uidStory);
+        cm.put("name", preferenceManager.getString(Constants.KEY_NAME));
+        cm.put("message", message);
+        cm.put("timestamp", new Date());
+        cm.put("image", preferenceManager.getString(Constants.KEY_IMAGE));
+        FirebaseFirestore.getInstance().collection(Constants.KEY_COLLECTION_COMMENT).add(cm);
+    }
+
+    private void showCommentStories() {
+        FirebaseFirestore.getInstance().collection(Constants.KEY_COLLECTION_COMMENT)
+                .whereEqualTo("uid", uidStory)
+                .addSnapshotListener(eventCommentListener);
+    }
+
+
+    @SuppressLint("NotifyDataSetChanged")
+    private final EventListener<QuerySnapshot> eventCommentListener = (value, error) -> {
+        if (error != null) {
+            return;
+        }
+        if (value != null) {
+            for (DocumentChange documentChange : value.getDocumentChanges()) {
+                if (documentChange.getType() == DocumentChange.Type.ADDED) {
+                    Comment comment = new Comment();
+                    comment.setUid(documentChange.getDocument().getString("uid"));
+                    comment.setName(documentChange.getDocument().getString("name"));
+                    comment.setImage(documentChange.getDocument().getString("image"));
+                    comment.setMessage(documentChange.getDocument().getString("message"));
+                    comments.add(comment);
+                }
+
+            }
+            commentAdapter.notifyDataSetChanged();
+        }
+    };
+
+
+    private Bitmap getBitmapFromEnCodedString(String enCodedImage) {
+        byte[] bytes = Base64.decode(enCodedImage, Base64.DEFAULT);
+        return BitmapFactory.decodeByteArray(bytes, 0, bytes.length);
+    }
+
+    @Override
+    public void OnLikeStory(String uid) {
+        Toast.makeText(mainScreenActivity, "like", Toast.LENGTH_SHORT).show();
+        uidStory = uid;
+    }
+
+    @Override
+    public void OnHeartStory(String uid) {
+        Toast.makeText(mainScreenActivity, "heart", Toast.LENGTH_SHORT).show();
+        uidStory = uid;
+    }
+
+    @Override
+    public void OnShowCommentStory(String uid) {
+        uidStory = uid;
+        openDialogCenter();
+
+
+
+    }
+
 
 }

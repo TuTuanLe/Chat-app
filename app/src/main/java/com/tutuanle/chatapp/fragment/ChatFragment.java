@@ -423,7 +423,7 @@ public class ChatFragment extends Fragment implements RequestListener, UsersList
             intent.putExtra(Constants.KEY_USER, usermod);
             startActivity(intent);
         });
-        view.setOnClickListener(v -> startActivity(new Intent(mainScreenActivity, CreateGroupActivity.class)));
+        view.findViewById(R.id.imageEdit).setOnClickListener(v -> startActivity(new Intent(mainScreenActivity, CreateGroupActivity.class)));
     }
 
     private void loading(Boolean isLoading) {

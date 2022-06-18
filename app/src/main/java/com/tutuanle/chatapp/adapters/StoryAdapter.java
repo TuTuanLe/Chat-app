@@ -2,21 +2,23 @@ package com.tutuanle.chatapp.adapters;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
-import android.util.DisplayMetrics;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.FrameLayout;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
+
 import com.bumptech.glide.Glide;
 import com.tutuanle.chatapp.R;
 import com.tutuanle.chatapp.activities.MainScreenActivity;
 import com.tutuanle.chatapp.databinding.ItemStatusStoryBinding;
+import com.tutuanle.chatapp.interfaces.StoryListener;
 import com.tutuanle.chatapp.models.Status;
 import com.tutuanle.chatapp.models.UserStatus;
+
 import java.util.ArrayList;
+
 import omari.hamza.storyview.StoryView;
 import omari.hamza.storyview.callback.StoryClickListeners;
 import omari.hamza.storyview.model.MyStory;
@@ -27,9 +29,12 @@ public class StoryAdapter extends RecyclerView.Adapter<StoryAdapter.StoryViewHol
     ArrayList<UserStatus> userStatuses;
     private int selectedItem;
 
-    public StoryAdapter(Context context, ArrayList<UserStatus> userStatuses) {
+    public final StoryListener storyListener;
+
+    public StoryAdapter(Context context, ArrayList<UserStatus> userStatuses, StoryListener storyListener) {
         this.context = context;
         this.userStatuses = userStatuses;
+        this.storyListener = storyListener;
         selectedItem = -1;
     }
 
@@ -42,6 +47,9 @@ public class StoryAdapter extends RecyclerView.Adapter<StoryAdapter.StoryViewHol
 
     @Override
     public void onBindViewHolder(@NonNull StoryViewHolder holder, @SuppressLint("RecyclerView") int position) {
+
+
+
         UserStatus userStatus = userStatuses.get(position);
 
         Status lastStatus = userStatus.getStatuses().get(0);
@@ -50,33 +58,38 @@ public class StoryAdapter extends RecyclerView.Adapter<StoryAdapter.StoryViewHol
         Glide.with(context).load(lastStatus.getImageUrl()).into(holder.binding.imageUserStatus);
         holder.binding.circularStatusView.setPortionsCount(userStatus.getStatuses().size());
 
-        if(selectedItem == position){
+        if (selectedItem == position) {
             holder.binding.frameLayout.setBackgroundResource(R.drawable.button_bg);
-        }else{
+        } else {
             holder.binding.frameLayout.setBackgroundColor(0);
         }
         holder.binding.textLike.setText("Like");
-        holder.binding.btnLike.setOnClickListener(v->
+        holder.binding.btnLike.setOnClickListener(v ->
         {
-            int temp  = Integer.parseInt(holder.binding.txtTotal.getText().toString());
+            storyListener.OnLikeStory(userStatus.getStatusUid());
 
-            if( holder.binding.textLike.getText() != "Like"){
-                temp= temp-1;
+            int temp = Integer.parseInt(holder.binding.txtTotal.getText().toString());
+
+            if (holder.binding.textLike.getText() != "Like") {
+                temp = temp - 1;
                 holder.binding.textLike.setText("Like");
-                holder.binding.txtTotal.setText(""+temp );
+                holder.binding.txtTotal.setText("" + temp);
 
-            }else{
-                temp= temp+1;
+            } else {
+                temp = temp + 1;
                 holder.binding.textLike.setText("unLike");
-                holder.binding.txtTotal.setText(""+temp );
+                holder.binding.txtTotal.setText("" + temp);
             }
 
+        });
+        holder.binding.btnHeart.setOnClickListener(v->{
+            storyListener.OnHeartStory(userStatus.getStatusUid());
         });
 
 
         holder.binding.usernameStory.setText(userStatus.getName());
         holder.binding.caption.setText(userStatus.getCaption());
-        holder.binding.frameLayout.setOnClickListener(v-> {
+        holder.binding.frameLayout.setOnClickListener(v -> {
             int previousItem = selectedItem;
             selectedItem = position;
 
@@ -88,7 +101,7 @@ public class StoryAdapter extends RecyclerView.Adapter<StoryAdapter.StoryViewHol
             for (Status status : userStatus.getStatuses()) {
                 myStories.add(new MyStory(status.getImageUrl()));
             }
-            new StoryView.Builder(((MainScreenActivity)context).getSupportFragmentManager())
+            new StoryView.Builder(((MainScreenActivity) context).getSupportFragmentManager())
                     .setStoriesList(myStories) // Required
                     .setStoryDuration(5000) // Default is 2000 Millis (2 Seconds)
                     .setTitleText(userStatus.getName()) // Default is Hidden
@@ -115,7 +128,7 @@ public class StoryAdapter extends RecyclerView.Adapter<StoryAdapter.StoryViewHol
             for (Status status : userStatus.getStatuses()) {
                 myStories.add(new MyStory(status.getImageUrl()));
             }
-            new StoryView.Builder(((MainScreenActivity)context).getSupportFragmentManager())
+            new StoryView.Builder(((MainScreenActivity) context).getSupportFragmentManager())
                     .setStoriesList(myStories) // Required
                     .setStoryDuration(5000) // Default is 2000 Millis (2 Seconds)
                     .setTitleText(userStatus.getName()) // Default is Hidden
@@ -136,6 +149,11 @@ public class StoryAdapter extends RecyclerView.Adapter<StoryAdapter.StoryViewHol
                     .show();
 
         });
+
+        holder.binding.btnShowComment.setOnClickListener(view -> {
+            storyListener.OnShowCommentStory(userStatus.getStatusUid());
+        });
+
     }
 
     @Override

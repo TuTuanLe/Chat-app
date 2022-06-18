@@ -3,227 +3,271 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="@dimen/_110sdp"
+    android:layout_height="wrap_content"
     >
 
-    <androidx.cardview.widget.CardView
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="@dimen/_100sdp"
-        android:layout_marginStart="@dimen/_8sdp"
-        android:layout_marginTop="@dimen/_4sdp"
-        android:layout_marginBottom="@dimen/_4sdp"
-        android:layout_marginEnd="@dimen/_8sdp"
-        app:cardCornerRadius="@dimen/_10sdp"
-        app:cardElevation="@dimen/_2sdp"
+        android:layout_height="wrap_content"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
-        <FrameLayout
-            android:id="@+id/frameLayout"
+        app:layout_constraintTop_toTopOf="parent"
+        android:orientation="vertical"
+        >
+        <androidx.cardview.widget.CardView
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:background="@drawable/selected_row"
+            android:layout_height="@dimen/_100sdp"
+            android:layout_marginStart="@dimen/_8sdp"
+            android:layout_marginTop="@dimen/_4sdp"
+            android:layout_marginEnd="@dimen/_8sdp"
+            android:layout_marginBottom="@dimen/_4sdp"
+            app:cardCornerRadius="@dimen/_10sdp"
+            app:cardElevation="@dimen/_2sdp"
             >
-            <com.makeramen.roundedimageview.RoundedImageView
-                android:padding="@dimen/_2sdp"
-                android:id="@+id/imageUserStatus"
-                android:layout_width="@dimen/_100sdp"
-                android:layout_height="@dimen/_100sdp"
-                android:scaleType="centerCrop"
-                android:src="@drawable/bg_5"
 
-                app:riv_corner_radius="@dimen/_10sdp" />
-
-            <LinearLayout
-                android:layout_marginTop="@dimen/_5sdp"
+            <FrameLayout
+                android:id="@+id/frameLayout"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:layout_marginStart="@dimen/_110sdp"
-                android:orientation="vertical"
-                >
+                android:background="@drawable/selected_row">
 
-                <FrameLayout
+                <com.makeramen.roundedimageview.RoundedImageView
+                    android:id="@+id/imageUserStatus"
+                    android:layout_width="@dimen/_100sdp"
+                    android:layout_height="@dimen/_100sdp"
+                    android:padding="@dimen/_2sdp"
+                    android:scaleType="centerCrop"
+                    android:src="@drawable/bg_5"
+
+                    app:riv_corner_radius="@dimen/_10sdp" />
+
+                <LinearLayout
+                    android:id="@+id/showCommentBox"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="horizontal"
+                    android:layout_height="match_parent"
+                    android:layout_marginStart="@dimen/_110sdp"
+                    android:layout_marginTop="@dimen/_5sdp"
+                    android:orientation="vertical">
 
-                    >
                     <LinearLayout
-                        android:id="@+id/btnLike"
-                        android:layout_width="@dimen/_45sdp"
-                        android:layout_height="@dimen/_20sdp"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
                         android:orientation="horizontal"
-                        android:gravity="center_vertical"
-                        android:paddingLeft="@dimen/_5sdp"
-                        android:background="@drawable/border_color_like"
                         >
-                        <ImageView
-                            android:layout_width="10sp"
-                            android:layout_height="wrap_content"
-                            android:src="@drawable/ic_baseline_thumb_up_24"
-                            android:layout_marginEnd="@dimen/_3sdp"
-                            android:layout_marginStart="@dimen/_3sdp"
-                            />
 
-                        <!--                    ic_baseline_thumb_up_24-->
-                        <TextView
-                            android:id="@+id/textLike"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="Like"
-                            android:textStyle="bold"
-                            android:textColor="@color/blue"
-                            android:textSize="@dimen/_9ssp"
-                            />
+                        <LinearLayout
+                            android:id="@+id/btnLike"
+                            android:layout_width="@dimen/_55sdp"
+                            android:layout_height="@dimen/_20sdp"
+                            android:background="@drawable/border_color_like"
+                            android:gravity="center_vertical"
+                            android:orientation="horizontal"
+                            android:paddingLeft="@dimen/_5sdp">
+
+                            <ImageView
+                                android:layout_width="10sp"
+                                android:layout_height="wrap_content"
+                                android:layout_marginStart="@dimen/_3sdp"
+                                android:layout_marginEnd="@dimen/_3sdp"
+                                android:src="@drawable/ic_baseline_thumb_up_24" />
+
+                            <!--                    ic_baseline_thumb_up_24-->
+                            <TextView
+                                android:id="@+id/textLike"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="Like"
+                                android:textColor="@color/blue"
+                                android:textSize="@dimen/_9ssp"
+                                android:textStyle="bold" />
+
+                        </LinearLayout>
+
+                        <FrameLayout
+                            android:id="@+id/btnH"
+                            android:layout_width="@dimen/_20sdp"
+                            android:layout_height="@dimen/_20sdp"
+                            android:background="@drawable/border_color_like"
+                            android:gravity="center"
+                            android:layout_gravity="center"
+                            android:layout_marginHorizontal="@dimen/_20sdp"
+                            >
+
+                            <ImageView
+
+                                android:id="@+id/btnHeart"
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent"
+                                android:padding="@dimen/_3sdp"
+                                android:layout_gravity="end"
+                                android:background="@color/trans"
+                                android:src="@drawable/like" />
+                        </FrameLayout>
+
+                        <LinearLayout
+                            android:id="@+id/btnShowComment"
+                            android:layout_width="@dimen/_55sdp"
+                            android:layout_height="@dimen/_20sdp"
+                            android:background="@drawable/border_color_like"
+                            android:gravity="center"
+                            android:orientation="horizontal"
+                        >
+
+
+                            <TextView
+
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="Comment"
+                                android:textColor="@color/blue"
+                                android:textSize="@dimen/_9ssp"
+                                android:textStyle="bold" />
+
+                        </LinearLayout>
+
+
 
                     </LinearLayout>
-                    <ImageView
-                        android:id="@+id/btnHeart"
-                        android:layout_width="@dimen/_13ssp"
-                        android:layout_height="wrap_content"
-                        android:src="@drawable/like"
-                        android:layout_gravity="end"
-                        android:layout_marginEnd="@dimen/_6sdp"
-                        />
 
-                </FrameLayout>
-
-                <TextView
-                    android:id="@+id/usernameStory"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="@dimen/_5sdp"
-                    android:fontFamily="@font/roboto_medium"
-                    android:text="CLONE X - X TAKASHI MURAKAMI"
-                    android:textColor="@color/black"
-                    android:textSize="@dimen/_10ssp"
-                    android:textStyle="bold" />
-                <LinearLayout
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:orientation="horizontal"
-                    android:layout_gravity="center_vertical"
-                    >
                     <TextView
-                        android:id="@+id/caption"
+                        android:id="@+id/usernameStory"
                         android:layout_width="wrap_content"
-                        android:layout_height="match_parent"
-                        android:layout_marginTop="@dimen/_1sdp"
-                        android:fontFamily="@font/roboto_light"
-                        android:text="RTFKTCLONEXTM"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/_5sdp"
+                        android:fontFamily="@font/roboto_medium"
+                        android:text="CLONE X - X TAKASHI MURAKAMI"
                         android:textColor="@color/black"
-                        android:textSize="@dimen/_8ssp"
-                        android:textStyle="normal"
-                        android:gravity="center"
-                        />
+                        android:textSize="@dimen/_10ssp"
+                        android:textStyle="bold" />
 
-                    <ImageView
-                        android:layout_width="15sp"
-                        android:layout_height="@dimen/_15sdp"
-                        android:src="@drawable/ic_verified_account"
-                        android:layout_marginStart="@dimen/_4sdp"
-                        />
-
-
-
-                </LinearLayout>
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    >
-                    <RelativeLayout
-                        android:id="@+id/image_layout"
+                    <LinearLayout
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:elevation="@dimen/_20ssp"
-                        >
-                        <de.hdodenhof.circleimageview.CircleImageView
-                            android:id="@+id/image"
-                            android:layout_width="@dimen/_25sdp"
-                            android:layout_height="@dimen/_25sdp"
-                            android:layout_centerInParent="true"
-                            android:padding="@dimen/_4sdp"
-                            android:src="@mipmap/ic_launcher" />
+                        android:layout_gravity="center_vertical"
+                        android:orientation="horizontal">
 
-                        <com.devlomi.circularstatusview.CircularStatusView
-                            android:id="@+id/circular_status_view"
-                            android:layout_width="@dimen/_25sdp"
-                            android:layout_height="@dimen/_25sdp"
-                            android:layout_centerInParent="true"
-                            app:portion_color="@color/primaryHeader"
-                            app:portion_spacing="5dp"
-                            app:portion_width="2dp"
-                            app:portions_count="8" />
+                        <TextView
+                            android:id="@+id/caption"
+                            android:layout_width="wrap_content"
+                            android:layout_height="match_parent"
+                            android:layout_marginTop="@dimen/_1sdp"
+                            android:fontFamily="@font/roboto_light"
+                            android:gravity="center"
+                            android:text="RTFKTCLONEXTM"
+                            android:textColor="@color/black"
+                            android:textSize="@dimen/_8ssp"
+                            android:textStyle="normal" />
 
-                    </RelativeLayout>
-                    <androidx.appcompat.widget.LinearLayoutCompat
-                        android:layout_width="wrap_content"
-                        android:layout_height="match_parent"
-                        android:orientation="vertical"
-                        >
-                        <TextView
-                            android:layout_width="@dimen/_50sdp"
-                            android:layout_height="wrap_content"
-                            android:text="Total"
-                            android:textColor="@color/black"
-                            android:fontFamily="@font/tajawal_regular"
-                            android:textAlignment="center"
-                            android:textStyle="bold"
-                            />
-                        <TextView
-                            android:id="@+id/txtTotal"
-                            android:layout_width="@dimen/_50sdp"
-                            android:layout_height="wrap_content"
-                            android:text="10"
-                            android:textColor="@color/black"
-                            android:fontFamily="@font/tajawal_regular"
-                            android:textAlignment="center"
-                            android:textStyle="normal"
-                            android:textSize="@dimen/_10sdp"
-                            />
-                    </androidx.appcompat.widget.LinearLayoutCompat>
+                        <ImageView
+                            android:layout_width="15sp"
+                            android:layout_height="@dimen/_15sdp"
+                            android:layout_marginStart="@dimen/_4sdp"
+                            android:src="@drawable/ic_verified_account" />
 
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="match_parent"
-                        android:text="|"
-                        />
 
-                    <androidx.appcompat.widget.LinearLayoutCompat
-                        android:layout_width="wrap_content"
-                        android:layout_height="match_parent"
-                        android:orientation="vertical"
-                        >
-                        <TextView
-                            android:layout_width="@dimen/_50sdp"
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content">
+
+                        <RelativeLayout
+                            android:id="@+id/image_layout"
+                            android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="Hearts"
-                            android:textColor="@color/black"
-                            android:fontFamily="@font/tajawal_regular"
-                            android:textAlignment="center"
-                            android:textStyle="bold"
-                            />
+                            android:elevation="@dimen/_20ssp">
+
+                            <de.hdodenhof.circleimageview.CircleImageView
+                                android:id="@+id/image"
+                                android:layout_width="@dimen/_25sdp"
+                                android:layout_height="@dimen/_25sdp"
+                                android:layout_centerInParent="true"
+                                android:padding="@dimen/_4sdp"
+                                android:src="@mipmap/ic_launcher" />
+
+                            <com.devlomi.circularstatusview.CircularStatusView
+                                android:id="@+id/circular_status_view"
+                                android:layout_width="@dimen/_25sdp"
+                                android:layout_height="@dimen/_25sdp"
+                                android:layout_centerInParent="true"
+                                app:portion_color="@color/primaryHeader"
+                                app:portion_spacing="5dp"
+                                app:portion_width="2dp"
+                                app:portions_count="8" />
+
+                        </RelativeLayout>
+
+                        <androidx.appcompat.widget.LinearLayoutCompat
+                            android:layout_width="wrap_content"
+                            android:layout_height="match_parent"
+                            android:orientation="vertical">
+
+                            <TextView
+                                android:layout_width="@dimen/_50sdp"
+                                android:layout_height="wrap_content"
+                                android:fontFamily="@font/tajawal_regular"
+                                android:text="Total"
+                                android:textAlignment="center"
+                                android:textColor="@color/black"
+                                android:textSize="@dimen/_10ssp"
+                                android:textStyle="bold" />
+
+                            <TextView
+                                android:id="@+id/txtTotal"
+                                android:layout_width="@dimen/_50sdp"
+                                android:layout_height="wrap_content"
+                                android:fontFamily="@font/tajawal_regular"
+                                android:text="10"
+                                android:textAlignment="center"
+                                android:textColor="@color/black"
+                                android:textSize="@dimen/_10ssp"
+                                android:textStyle="normal" />
+                        </androidx.appcompat.widget.LinearLayoutCompat>
+
                         <TextView
-                            android:id="@+id/txtHeart"
-                            android:layout_width="@dimen/_50sdp"
-                            android:layout_height="wrap_content"
-                            android:text="10"
-                            android:textColor="@color/black"
-                            android:fontFamily="@font/tajawal_regular"
-                            android:textAlignment="center"
-                            android:textStyle="normal"
-                            android:textSize="@dimen/_10sdp"
-                            />
-                    </androidx.appcompat.widget.LinearLayoutCompat>
+                            android:layout_width="wrap_content"
+                            android:layout_height="match_parent"
+                            android:text="|" />
+
+                        <androidx.appcompat.widget.LinearLayoutCompat
+                            android:layout_width="wrap_content"
+                            android:layout_height="match_parent"
+                            android:orientation="vertical">
+
+                            <TextView
+                                android:layout_width="@dimen/_50sdp"
+                                android:layout_height="wrap_content"
+                                android:fontFamily="@font/tajawal_regular"
+                                android:text="Hearts"
+                                android:textAlignment="center"
+                                android:textColor="@color/black"
+                                android:textSize="@dimen/_10ssp"
+                                android:textStyle="bold" />
+
+                            <TextView
+                                android:id="@+id/txtHeart"
+                                android:layout_width="@dimen/_50sdp"
+                                android:layout_height="wrap_content"
+                                android:fontFamily="@font/tajawal_regular"
+                                android:text="10"
+                                android:textAlignment="center"
+                                android:textColor="@color/black"
+                                android:textSize="@dimen/_10sdp"
+                                android:textStyle="normal" />
+                        </androidx.appcompat.widget.LinearLayoutCompat>
+                    </LinearLayout>
+
+
                 </LinearLayout>
-            </LinearLayout>
-        </FrameLayout>
+            </FrameLayout>
+
+
+        </androidx.cardview.widget.CardView>
 
 
 
-    </androidx.cardview.widget.CardView>
 
+    </LinearLayout>
 
 
 

@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:padding="10dp">
+
+
+    <com.makeramen.roundedimageview.RoundedImageView
+        android:id="@+id/profile"
+        android:layout_width="@dimen/_25sdp"
+        android:layout_height="@dimen/_25sdp"
+        android:layout_marginStart="4dp"
+        android:scaleType="centerCrop"
+        android:src="@drawable/avatar"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.1"
+        app:riv_oval="true" />
+
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:maxWidth="@dimen/_150sdp"
+        android:layout_marginStart="8dp"
+        android:background="@drawable/layout_comment_drawable"
+        android:orientation="vertical"
+        android:padding="@dimen/_5ssp"
+
+        android:paddingStart="@dimen/_10sdp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/profile"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.8">
+
+        <TextView
+
+            android:id="@+id/username"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/roboto_bold"
+            android:text="Sample Name"
+            android:paddingEnd="@dimen/_30sdp"
+            android:textSize="@dimen/_12ssp"
+            android:textStyle="bold" />
+
+        <TextView
+
+            android:id="@+id/comment"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:maxWidth="@dimen/_150sdp"
+            android:fontFamily="@font/roboto_light"
+            android:text="Sample Name "
+            android:textSize="@dimen/_11ssp"
+            android:textStyle="italic" />
+    </LinearLayout>
+
+    <FrameLayout
+        android:id="@+id/statusAvailability"
+        android:visibility="gone"
+        android:layout_width="@dimen/_12sdp"
+        android:layout_height="@dimen/_12sdp"
+        android:background="@drawable/item_status_active"
+        app:layout_constraintBottom_toBottomOf="@+id/profile"
+        app:layout_constraintEnd_toEndOf="@+id/profile" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

@@ -40,6 +40,9 @@ public class Constants {
     public static final String KEY_LAST_UPDATE = "lastUpdate";
     public static final String KEY_USER_ADMIN_GROUP = "userAdmin";
     public static final String KEY_INFO_VIDEO = "infoVideo";
+    public static final String KEY_COLLECTION_COMMENT = "comments";
+    public static final String KEY_LIKE = "like";
+    public static final String KEY_HEART = "heart";
 
 
     public static int[] REACTIONS = new int[]{

@@ -1,0 +1,120 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_margin="@dimen/_16sdp"
+    android:background="@drawable/border_color_comment"
+    android:maxHeight="@dimen/_400sdp"
+    android:orientation="vertical">
+
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/background_header_corner">
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/roboto_bold"
+            android:padding="@dimen/_12ssp"
+            android:text="Comments"
+            android:textAlignment="center"
+            android:textColor="@color/white"
+            android:textSize="@dimen/_13sdp" />
+
+        <ImageButton
+            android:id="@+id/icon_close"
+            android:layout_width="@dimen/_30sdp"
+            android:layout_height="match_parent"
+            android:layout_gravity="end"
+            android:background="@color/trans"
+            android:contentDescription="@string/app_name"
+            android:paddingEnd="@dimen/_10sdp"
+            android:src="@drawable/ic_baseline_close_24"
+            android:tint="@color/white"
+            tools:ignore="RtlSymmetry,UseAppTint" />
+    </FrameLayout>
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/_200sdp">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <TextView
+                android:id="@+id/noComment"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginTop="@dimen/_60sdp"
+                android:gravity="center"
+                android:text="No comment ..."
+                android:visibility="gone" />
+
+            <androidx.recyclerview.widget.RecyclerView
+
+                android:id="@+id/listComment"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginBottom="@dimen/_10ssp"
+                android:orientation="vertical"
+                android:visibility="gone"
+                app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager" />
+
+            <ProgressBar
+                android:id="@+id/progressBarComment"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginTop="@dimen/_50sdp" />
+        </RelativeLayout>
+    </ScrollView>
+
+
+    <androidx.appcompat.widget.LinearLayoutCompat
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="fill_horizontal"
+        android:layout_marginHorizontal="@dimen/_10sdp"
+        android:layout_marginBottom="@dimen/_10sdp"
+        android:background="@drawable/border_color_like"
+        android:orientation="horizontal">
+
+        <com.makeramen.roundedimageview.RoundedImageView
+            android:id="@+id/profile"
+            android:layout_width="@dimen/_20sdp"
+            android:layout_height="@dimen/_20sdp"
+            android:layout_gravity="center"
+            android:layout_marginStart="4dp"
+            android:padding="@dimen/_1sdp"
+            android:scaleType="centerCrop"
+            android:src="@drawable/avatar"
+            app:riv_oval="true" />
+
+        <EditText
+            android:id="@+id/editText"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_margin="@dimen/_5sdp"
+            android:layout_marginStart="@dimen/_10sdp"
+            android:layout_marginLeft="@dimen/_10sdp"
+            android:layout_weight="1"
+            android:background="@color/white"
+            android:fontFamily="@font/roboto_light"
+            android:hint="write a commment ..."
+            android:textSize="@dimen/_11sdp" />
+
+        <ImageView
+            android:id="@+id/sendComment"
+            android:layout_width="@dimen/_20sdp"
+            android:layout_height="match_parent"
+            android:layout_marginEnd="@dimen/_10sdp"
+            android:padding="@dimen/_3sdp"
+            android:src="@drawable/ic_baseline_send_status" />
+
+    </androidx.appcompat.widget.LinearLayoutCompat>
+
+</LinearLayout>

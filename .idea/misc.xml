@@ -241,25 +241,41 @@
         <entry key="..\:/study/Mobile-App-Development/ChatsApp/app/src/main/res/menu/topmenu.xml" value="0.3703125" />
         <entry key="..\:/study/Mobile-App-Development/ChatsApp/app/src/main/res/mipmap-anydpi-v26/ic_launcher.xml" value="0.14" />
         <entry key="..\:/study/Mobile-App-Development/Working/Chat-app/app/src/main/res/drawable-v24/receive_drawable.xml" value="0.198" />
+        <entry key="..\:/study/Mobile-App-Development/Working/Chat-app/app/src/main/res/drawable/background_input.xml" value="0.221" />
+        <entry key="..\:/study/Mobile-App-Development/Working/Chat-app/app/src/main/res/drawable/border_color_comment.xml" value="0.221" />
+        <entry key="..\:/study/Mobile-App-Development/Working/Chat-app/app/src/main/res/drawable/border_color_like.xml" value="0.221" />
+        <entry key="..\:/study/Mobile-App-Development/Working/Chat-app/app/src/main/res/drawable/layout_comment_drawable.xml" value="0.221" />
         <entry key="..\:/study/Mobile-App-Development/Working/Chat-app/app/src/main/res/drawable/receiver_link_dawable.xml" value="0.198" />
         <entry key="..\:/study/Mobile-App-Development/Working/Chat-app/app/src/main/res/drawable/sent_drawable.xml" value="0.2215" />
         <entry key="..\:/study/Mobile-App-Development/Working/Chat-app/app/src/main/res/drawable/sent_layout_drawable.xml" value="0.2215" />
         <entry key="..\:/study/Mobile-App-Development/Working/Chat-app/app/src/main/res/drawable/sent_link_drawable.xml" value="0.2215" />
         <entry key="..\:/study/Mobile-App-Development/Working/Chat-app/app/src/main/res/layout/activity_chat.xml" value="0.19010416666666666" />
         <entry key="..\:/study/Mobile-App-Development/Working/Chat-app/app/src/main/res/layout/activity_chat_screen.xml" value="0.3703125" />
+        <entry key="..\:/study/Mobile-App-Development/Working/Chat-app/app/src/main/res/layout/activity_infomation.xml" value="0.22916666666666666" />
         <entry key="..\:/study/Mobile-App-Development/Working/Chat-app/app/src/main/res/layout/activity_show_video.xml" value="0.3703125" />
         <entry key="..\:/study/Mobile-App-Development/Working/Chat-app/app/src/main/res/layout/activity_show_you_tube.xml" value="0.175" />
         <entry key="..\:/study/Mobile-App-Development/Working/Chat-app/app/src/main/res/layout/activity_you_tube.xml" value="0.19010416666666666" />
+        <entry key="..\:/study/Mobile-App-Development/Working/Chat-app/app/src/main/res/layout/fragment_chat.xml" value="0.22916666666666666" />
+        <entry key="..\:/study/Mobile-App-Development/Working/Chat-app/app/src/main/res/layout/fragment_home.xml" value="0.22916666666666666" />
         <entry key="..\:/study/Mobile-App-Development/Working/Chat-app/app/src/main/res/layout/fragment_story.xml" value="0.21458333333333332" />
         <entry key="..\:/study/Mobile-App-Development/Working/Chat-app/app/src/main/res/layout/item_container_user.xml" value="0.21458333333333332" />
         <entry key="..\:/study/Mobile-App-Development/Working/Chat-app/app/src/main/res/layout/item_image.xml" value="0.21458333333333332" />
         <entry key="..\:/study/Mobile-App-Development/Working/Chat-app/app/src/main/res/layout/item_receive.xml" value="0.6358885017421603" />
+        <entry key="..\:/study/Mobile-App-Development/Working/Chat-app/app/src/main/res/layout/item_send_request_friend.xml" value="0.3703125" />
         <entry key="..\:/study/Mobile-App-Development/Working/Chat-app/app/src/main/res/layout/item_sent.xml" value="0.33" />
-        <entry key="..\:/study/Mobile-App-Development/Working/Chat-app/app/src/main/res/layout/item_status_story.xml" value="0.21458333333333332" />
+        <entry key="..\:/study/Mobile-App-Development/Working/Chat-app/app/src/main/res/layout/item_status.xml" value="0.3703125" />
+        <entry key="..\:/study/Mobile-App-Development/Working/Chat-app/app/src/main/res/layout/item_status_story.xml" value="0.5" />
         <entry key="..\:/study/Mobile-App-Development/Working/Chat-app/app/src/main/res/layout/item_user.xml" value="0.21458333333333332" />
+        <entry key="..\:/study/Mobile-App-Development/Working/Chat-app/app/src/main/res/layout/item_user_checked.xml" value="0.3703125" />
+        <entry key="..\:/study/Mobile-App-Development/Working/Chat-app/app/src/main/res/layout/item_user_checked_recycle.xml" value="0.3703125" />
+        <entry key="..\:/study/Mobile-App-Development/Working/Chat-app/app/src/main/res/layout/item_user_comment.xml" value="0.5" />
+        <entry key="..\:/study/Mobile-App-Development/Working/Chat-app/app/src/main/res/layout/item_user_friend.xml" value="0.3703125" />
         <entry key="..\:/study/Mobile-App-Development/Working/Chat-app/app/src/main/res/layout/layout_dialog_bottom.xml" value="0.21458333333333332" />
-        <entry key="..\:/study/Mobile-App-Development/Working/Chat-app/app/src/main/res/layout/layout_dialog_info.xml" value="0.21458333333333332" />
+        <entry key="..\:/study/Mobile-App-Development/Working/Chat-app/app/src/main/res/layout/layout_dialog_comment.xml" value="0.5" />
+        <entry key="..\:/study/Mobile-App-Development/Working/Chat-app/app/src/main/res/layout/layout_dialog_info.xml" value="0.5" />
         <entry key="..\:/study/Mobile-App-Development/Working/Chat-app/app/src/main/res/layout/layout_dialog_menu.xml" value="0.21458333333333332" />
+        <entry key="..\:/study/Mobile-App-Development/Working/Chat-app/app/src/main/res/layout/layout_dialog_story.xml" value="0.3703125" />
+        <entry key="..\:/study/Mobile-App-Development/Working/Chat-app/app/src/main/res/layout/layout_dialog_theme.xml" value="0.3703125" />
       </map>
     </option>
   </component>
