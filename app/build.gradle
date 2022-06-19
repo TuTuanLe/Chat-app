@@ -111,5 +111,7 @@ dependencies {
     // youtube api
     implementation 'com.pierfrancescosoffritti.androidyoutubeplayer:core:10.0.5'
 
+    implementation "androidx.core:core:1.8.0"
+
 
 }

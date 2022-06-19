@@ -2,11 +2,17 @@ package com.tutuanle.chatapp.activities;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.NotificationCompat;
+import androidx.core.app.NotificationManagerCompat;
 
+import android.annotation.SuppressLint;
+import android.app.NotificationChannel;
+import android.app.NotificationManager;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.ParcelFileDescriptor;
 import android.os.StrictMode;
@@ -77,11 +83,49 @@ public class SignInActivity extends AppCompatActivity {
 
     }
 
+
+    private void createNotificationChannel() {
+        // Create the NotificationChannel, but only on API 26+ because
+        // the NotificationChannel class is new and not in the support library
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            CharSequence name =  "chat_name";
+            String description = "chat_des";
+            int importance = NotificationManagerCompat.IMPORTANCE_DEFAULT;
+            @SuppressLint("WrongConstant") NotificationChannel channel = new NotificationChannel("login_123", name, importance);
+            channel.setDescription(description);
+            // Register the channel with the system; you can't change the importance
+            // or other notification behaviors after this
+            NotificationManager notificationManager = getSystemService(NotificationManager.class);
+            notificationManager.createNotificationChannel(channel);
+        }
+    }
+
+    private void showNotification(){
+
+        NotificationCompat.Builder builder = new NotificationCompat.Builder(this, "login_123")
+                .setSmallIcon(R.drawable.icon)
+                .setContentTitle("textTitle")
+                .setContentText("tesst 123")
+                .setPriority(NotificationCompat.PRIORITY_DEFAULT);
+
+        createNotificationChannel();
+
+        NotificationManagerCompat notificationManager = NotificationManagerCompat.from(this);
+
+
+
+
+// notificationId is a unique int for each notification that you must define
+        notificationManager.notify(123, builder.build());
+    }
+
+
     private void setListeners() {
         binding.textCreateNewAccount.setOnClickListener(v ->
                 startActivity(new Intent(getApplicationContext(), SignUpActivity.class)));
 
         binding.buttonSignIn.setOnClickListener(v -> {
+//            showNotification();
                     if (isValidSignInDetail()) {
                         signIn();
                     }

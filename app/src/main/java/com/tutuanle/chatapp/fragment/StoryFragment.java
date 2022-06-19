@@ -95,7 +95,7 @@ public class StoryFragment extends Fragment implements StoryListener {
 
     int check = 0;
 
-    private List<Comment> comments;
+    private ArrayList<Comment> comments;
 
     public StoryFragment() {
 
@@ -463,7 +463,7 @@ public class StoryFragment extends Fragment implements StoryListener {
 
         RecyclerView recyclerView = dialog.findViewById(R.id.listComment);
         comments = new ArrayList<>();
-        commentAdapter = new CommentAdapter(mainScreenActivity, (ArrayList<Comment>) comments);
+        commentAdapter = new CommentAdapter(mainScreenActivity,  comments);
         showCommentStories();
         recyclerView.setVisibility(View.VISIBLE);
         TextView tv = dialog.findViewById(R.id.noComment);
@@ -517,7 +517,7 @@ public class StoryFragment extends Fragment implements StoryListener {
         }
         if (value != null) {
             for (DocumentChange documentChange : value.getDocumentChanges()) {
-                if (documentChange.getType() == DocumentChange.Type.ADDED) {
+
                     Comment comment = new Comment();
                     comment.setUid(documentChange.getDocument().getString("uid"));
                     comment.setName(documentChange.getDocument().getString("name"));
@@ -525,7 +525,8 @@ public class StoryFragment extends Fragment implements StoryListener {
                     comment.setTimestamp(getReadableDatetime(documentChange.getDocument().getDate(Constants.KEY_TIMESTAMP)));
                     comment.setMessage(documentChange.getDocument().getString("message"));
                     comments.add(comment);
-                }
+                    Log.d("TEST_DATA__", ": "+documentChange.getDocument().getString("message"));
+
 
             }
             commentAdapter.notifyDataSetChanged();
@@ -543,21 +544,23 @@ public class StoryFragment extends Fragment implements StoryListener {
 
     @Override
     public void OnLikeStory(String uid) {
-        Toast.makeText(mainScreenActivity, "like", Toast.LENGTH_SHORT).show();
         uidStory = uid;
+        Toast.makeText(mainScreenActivity, "like", Toast.LENGTH_SHORT).show();
+
     }
 
     @Override
     public void OnHeartStory(String uid) {
-        Toast.makeText(mainScreenActivity, "heart", Toast.LENGTH_SHORT).show();
         uidStory = uid;
+        Toast.makeText(mainScreenActivity, "heart", Toast.LENGTH_SHORT).show();
+
     }
 
     @Override
     public void OnShowCommentStory(String uid) {
         uidStory = uid;
         openDialogCenter();
-
+        Log.d("TEST_DATA__", ": "+uidStory);
 
     }
 
