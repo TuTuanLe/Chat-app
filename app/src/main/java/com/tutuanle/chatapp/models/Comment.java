@@ -1,11 +1,14 @@
 package com.tutuanle.chatapp.models;
 
+import java.util.Date;
+
 public class Comment {
     private String uid;
     private String name;
     private String message;
     private String timestamp;
     private String image;
+    public Date dataObject;
 
     public String getImage() {
         return image;

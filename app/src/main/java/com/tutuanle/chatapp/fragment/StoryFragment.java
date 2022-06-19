@@ -37,6 +37,7 @@ import com.google.firebase.firestore.DocumentChange;
 import com.google.firebase.firestore.EventListener;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.Query;
+import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
@@ -463,7 +464,7 @@ public class StoryFragment extends Fragment implements StoryListener {
 
         RecyclerView recyclerView = dialog.findViewById(R.id.listComment);
         comments = new ArrayList<>();
-        commentAdapter = new CommentAdapter(mainScreenActivity,  comments);
+        commentAdapter = new CommentAdapter(mainScreenActivity, comments);
         showCommentStories();
         recyclerView.setVisibility(View.VISIBLE);
         TextView tv = dialog.findViewById(R.id.noComment);
@@ -483,7 +484,7 @@ public class StoryFragment extends Fragment implements StoryListener {
 
             recyclerView.setAdapter(commentAdapter);
             progressBar.setVisibility(View.GONE);
-        }, 300);
+        }, 500);
 
 
         dialog.findViewById(R.id.icon_close).setOnClickListener(v -> dialog.dismiss());
@@ -505,7 +506,6 @@ public class StoryFragment extends Fragment implements StoryListener {
     private void showCommentStories() {
         FirebaseFirestore.getInstance().collection(Constants.KEY_COLLECTION_COMMENT)
                 .whereEqualTo("uid", uidStory)
-                .orderBy("timestamp", Query.Direction.DESCENDING)
                 .addSnapshotListener(eventCommentListener);
     }
 
@@ -518,17 +518,20 @@ public class StoryFragment extends Fragment implements StoryListener {
         if (value != null) {
             for (DocumentChange documentChange : value.getDocumentChanges()) {
 
-                    Comment comment = new Comment();
-                    comment.setUid(documentChange.getDocument().getString("uid"));
-                    comment.setName(documentChange.getDocument().getString("name"));
-                    comment.setImage(documentChange.getDocument().getString("image"));
-                    comment.setTimestamp(getReadableDatetime(documentChange.getDocument().getDate(Constants.KEY_TIMESTAMP)));
-                    comment.setMessage(documentChange.getDocument().getString("message"));
-                    comments.add(comment);
-                    Log.d("TEST_DATA__", ": "+documentChange.getDocument().getString("message"));
+                Comment comment = new Comment();
+                comment.setUid(documentChange.getDocument().getString("uid"));
+                comment.setName(documentChange.getDocument().getString("name"));
+                comment.setImage(documentChange.getDocument().getString("image"));
+                comment.setTimestamp(getReadableDatetime(documentChange.getDocument().getDate(Constants.KEY_TIMESTAMP)));
+                comment.setMessage(documentChange.getDocument().getString("message"));
+                comment.dataObject = documentChange.getDocument().getDate(Constants.KEY_TIMESTAMP);
+                comments.add(comment);
+                Log.d("TEST_DATA__", ": " + documentChange.getDocument().getString("message"));
 
 
             }
+            Collections.sort(comments, (x, y) -> y.dataObject.compareTo(x.dataObject));
+
             commentAdapter.notifyDataSetChanged();
         }
     };
@@ -560,7 +563,7 @@ public class StoryFragment extends Fragment implements StoryListener {
     public void OnShowCommentStory(String uid) {
         uidStory = uid;
         openDialogCenter();
-        Log.d("TEST_DATA__", ": "+uidStory);
+        Log.d("TEST_DATA__", ": " + uidStory);
 
     }
 
