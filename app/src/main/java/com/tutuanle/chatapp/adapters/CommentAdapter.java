@@ -38,6 +38,7 @@ public class CommentAdapter extends RecyclerView.Adapter<CommentAdapter.CommentV
         holder.binding.comment.setText(comment.getMessage());
         holder.binding.profile.setImageBitmap(getBitmapFromEnCodedString(comment.getImage()));
         holder.binding.username.setText(comment.getName());
+        holder.binding.timestamp.setText(comment.getTimestamp());
     }
 
     @Override

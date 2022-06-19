@@ -4,7 +4,7 @@ public class Comment {
     private String uid;
     private String name;
     private String message;
-    private long timestamp;
+    private String timestamp;
     private String image;
 
     public String getImage() {
@@ -39,11 +39,11 @@ public class Comment {
         this.message = message;
     }
 
-    public long getTimestamp() {
+    public String getTimestamp() {
         return timestamp;
     }
 
-    public void setTimestamp(long timestamp) {
+    public void setTimestamp(String timestamp) {
         this.timestamp = timestamp;
     }
 }

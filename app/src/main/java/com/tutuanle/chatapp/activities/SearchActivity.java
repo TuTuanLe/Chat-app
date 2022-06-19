@@ -58,6 +58,7 @@ public class SearchActivity extends AppCompatActivity implements UserListener {
     private String uidReceiverFriend;
     private int checkFriends = 0;
     private int checkReceiverFriends = 0;
+    private int checkSendMessage = 0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -199,26 +200,42 @@ public class SearchActivity extends AppCompatActivity implements UserListener {
         username.setText(user.getName());
 
         temp = (TextView) dialog.findViewById(R.id.textRequest);
+        checkSendMessage =0;
         initFriend(preferenceManager.getString(Constants.KEY_USER_ID), user.getUid());
 
         dialog.findViewById(R.id.imageChat).setOnClickListener(v -> {
-            Intent intent = new Intent(getApplicationContext(), ChatScreenActivity.class);
-            intent.putExtra(Constants.KEY_USER, user);
-            startActivity(intent);
-            dialog.dismiss();
+
+                if (checkSendMessage == 1) {
+                    Intent intent = new Intent(getApplicationContext(), ChatScreenActivity.class);
+                    intent.putExtra(Constants.KEY_USER, user);
+                    startActivity(intent);
+                    dialog.dismiss();
+                } else {
+                    showToast("-> Not Friends");
+                }
+
+
         });
 
         dialog.findViewById(R.id.imageCall).setOnClickListener(v -> {
-            initialAudioMeeting(user);
-            dialog.dismiss();
+            if (checkSendMessage == 1) {
+                initialAudioMeeting(user);
+                dialog.dismiss();
+            } else {
+                showToast("-> Not Friends");
+            }
         });
 
         dialog.findViewById(R.id.imageVideo).setOnClickListener(v -> {
-            initialVideoMeeting(user);
-            dialog.dismiss();
+            if (checkSendMessage == 1) {
+                initialVideoMeeting(user);
+                dialog.dismiss();
+            } else {
+                showToast("-> Not Friends");
+            }
         });
 
-        dialog.findViewById(R.id.viewProfile).setOnClickListener(v->{
+        dialog.findViewById(R.id.viewProfile).setOnClickListener(v -> {
             Intent intent = new Intent(getApplicationContext(), InformationActivity.class);
             intent.putExtra(Constants.KEY_USER, user);
             startActivity(intent);
@@ -228,18 +245,22 @@ public class SearchActivity extends AppCompatActivity implements UserListener {
             if (temp.getText().equals("REQUEST")) {
                 createRequestFriend(preferenceManager.getString(Constants.KEY_USER_ID), user.getUid());
                 temp.setText("CANCEL");
+                checkSendMessage = 0;
                 temp.setTextColor(getResources().getColor(R.color.icon_background));
             } else if (temp.getText().equals("CANCEL")) {
                 deleteRequestFriend(uidFriend);
                 temp.setText("REQUEST");
+                checkSendMessage = 0;
                 temp.setTextColor(getResources().getColor(R.color.blue));
             } else if (temp.getText().equals("ACCEPT")) {
                 createAcceptFriend(preferenceManager.getString(Constants.KEY_USER_ID), user.getUid());
+                checkSendMessage = 1;
                 temp.setText("UNFRIEND");
                 temp.setTextColor(getResources().getColor(R.color.icon_background));
             } else if (temp.getText().equals("UNFRIEND")) {
                 deleteUnfriendFriend(uidFriend, preferenceManager.getString(Constants.KEY_USER_ID), user.getUid());
                 temp.setText("ACCEPT");
+                checkSendMessage = 0;
                 temp.setTextColor(getResources().getColor(R.color.blue));
             }
 
@@ -283,8 +304,7 @@ public class SearchActivity extends AppCompatActivity implements UserListener {
                     showToast(" became friends ... ");
                 });
 
-        checkForConversionRemotely( receiver, sender);
-
+        checkForConversionRemotely(receiver, sender);
 
 
         new Handler().postDelayed(() -> {
@@ -294,9 +314,6 @@ public class SearchActivity extends AppCompatActivity implements UserListener {
         }, 1000);
 
     }
-
-
-
 
 
     private void checkForConversionRemotely(String senderId, String receiverId) {
@@ -314,7 +331,6 @@ public class SearchActivity extends AppCompatActivity implements UserListener {
             uidReceiverFriend = documentSnapshot.getId();
         }
     };
-
 
 
     private void initFriend(String sender, String receiver) {
@@ -336,10 +352,10 @@ public class SearchActivity extends AppCompatActivity implements UserListener {
         firebaseFirestore.collection(Constants.KEY_COLLECTION_FRIENDS).document(Uid).delete();
     }
 
-    private void deleteUnfriendFriend(String Uid, String sender,String receiver) {
+    private void deleteUnfriendFriend(String Uid, String sender, String receiver) {
         firebaseFirestore.collection(Constants.KEY_COLLECTION_FRIENDS).document(Uid).delete();
 
-        checkForConversionRemotely( receiver, sender);
+        checkForConversionRemotely(receiver, sender);
 
         new Handler().postDelayed(() -> {
             FirebaseFirestore.getInstance().collection(Constants.KEY_COLLECTION_FRIENDS)
@@ -365,10 +381,12 @@ public class SearchActivity extends AppCompatActivity implements UserListener {
                             temp.setText("UNFRIEND");
                             temp.setTextColor(getResources().getColor(R.color.icon_background));
                             checkFriends = 1;
+                            checkSendMessage = 1;
                         } else {
                             temp.setText("CANCEL");
                             temp.setTextColor(getResources().getColor(R.color.icon_background));
                             checkFriends = 1;
+                            checkSendMessage = 0;
                         }
 
                     }
@@ -379,11 +397,13 @@ public class SearchActivity extends AppCompatActivity implements UserListener {
                             temp.setTextColor(getResources().getColor(R.color.blue));
                             checkFriends = 0;
                             checkReceiverFriends = 1;
+                            checkSendMessage = 0;
                         } else {
                             temp.setText("REQUEST");
                             temp.setTextColor(getResources().getColor(R.color.blue));
                             checkFriends = 0;
                             checkReceiverFriends = 0;
+                            checkSendMessage = 0;
                         }
 
                     }
@@ -396,10 +416,12 @@ public class SearchActivity extends AppCompatActivity implements UserListener {
                             temp.setTextColor(getResources().getColor(R.color.icon_background));
                             checkReceiverFriends = 1;
                             checkFriends = 1;
+                            checkSendMessage = 1;
                         } else {
                             temp.setText("ACCEPT");
                             temp.setTextColor(getResources().getColor(R.color.blue));
                             checkReceiverFriends = 1;
+                            checkSendMessage = 0;
                         }
                     }
                     if (documentChange.getType() == DocumentChange.Type.REMOVED) {
@@ -408,16 +430,21 @@ public class SearchActivity extends AppCompatActivity implements UserListener {
                             temp.setTextColor(getResources().getColor(R.color.icon_background));
                             checkFriends = 1;
                             checkReceiverFriends = 0;
+                            checkSendMessage = 0;
+
                         } else {
                             temp.setText("REQUEST");
                             temp.setTextColor(getResources().getColor(R.color.blue));
                             checkFriends = 0;
                             checkReceiverFriends = 0;
+                            checkSendMessage = 0;
                         }
 
                     }
                 }
                 Log.d("TAG_TEST_FRIEND", "check sender: " + checkFriends + "  | check recevier: " + checkReceiverFriends);
+
+
             }
         }
     };
@@ -450,7 +477,7 @@ public class SearchActivity extends AppCompatActivity implements UserListener {
             showToast(user.getName() + " call ...");
             Intent intent = new Intent(getApplicationContext(), OutgoingActivity.class);
             intent.putExtra(Constants.KEY_USER, user);
-            intent.putExtra("type_call","audio");
+            intent.putExtra("type_call", "audio");
             startActivity(intent);
         }
     }

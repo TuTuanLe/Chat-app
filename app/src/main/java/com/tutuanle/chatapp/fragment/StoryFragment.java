@@ -36,6 +36,7 @@ import com.agrawalsuneet.dotsloader.loaders.LightsLoader;
 import com.google.firebase.firestore.DocumentChange;
 import com.google.firebase.firestore.EventListener;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.Query;
 import com.google.firebase.firestore.QuerySnapshot;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
@@ -56,12 +57,14 @@ import com.tutuanle.chatapp.utilities.Constants;
 import com.tutuanle.chatapp.utilities.PreferenceManager;
 import com.yqritc.scalablevideoview.ScaleManager;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Locale;
 import java.util.Objects;
 
 
@@ -441,7 +444,7 @@ public class StoryFragment extends Fragment implements StoryListener {
         window.setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
 
         WindowManager.LayoutParams windowAttributes = window.getAttributes();
-        windowAttributes.gravity = Gravity.CENTER;
+        windowAttributes.gravity = Gravity.BOTTOM;
         window.setAttributes(windowAttributes);
 
         RoundedImageView roundedImageView = dialog.findViewById(R.id.profile);
@@ -464,14 +467,18 @@ public class StoryFragment extends Fragment implements StoryListener {
         showCommentStories();
         recyclerView.setVisibility(View.VISIBLE);
         TextView tv = dialog.findViewById(R.id.noComment);
+        TextView countComment = dialog.findViewById(R.id.countComment);
+
         new Handler().postDelayed(() -> {
-            if(comments.size() == 0){
+            if (comments.size() == 0) {
 //                recyclerView.smoothScrollToPosition(comments.size() - 1);
                 tv.setVisibility(View.VISIBLE);
+                countComment.setText("0");
 
-            }else{
+            } else {
                 recyclerView.smoothScrollToPosition(comments.size() - 1);
                 tv.setVisibility(View.GONE);
+                countComment.setText(String.format("%d", comments.size()));
             }
 
             recyclerView.setAdapter(commentAdapter);
@@ -498,6 +505,7 @@ public class StoryFragment extends Fragment implements StoryListener {
     private void showCommentStories() {
         FirebaseFirestore.getInstance().collection(Constants.KEY_COLLECTION_COMMENT)
                 .whereEqualTo("uid", uidStory)
+                .orderBy("timestamp", Query.Direction.DESCENDING)
                 .addSnapshotListener(eventCommentListener);
     }
 
@@ -514,6 +522,7 @@ public class StoryFragment extends Fragment implements StoryListener {
                     comment.setUid(documentChange.getDocument().getString("uid"));
                     comment.setName(documentChange.getDocument().getString("name"));
                     comment.setImage(documentChange.getDocument().getString("image"));
+                    comment.setTimestamp(getReadableDatetime(documentChange.getDocument().getDate(Constants.KEY_TIMESTAMP)));
                     comment.setMessage(documentChange.getDocument().getString("message"));
                     comments.add(comment);
                 }
@@ -523,6 +532,9 @@ public class StoryFragment extends Fragment implements StoryListener {
         }
     };
 
+    private String getReadableDatetime(Date date) {
+        return new SimpleDateFormat("hh:mm a", Locale.getDefault()).format(date);
+    }
 
     private Bitmap getBitmapFromEnCodedString(String enCodedImage) {
         byte[] bytes = Base64.decode(enCodedImage, Base64.DEFAULT);
@@ -545,7 +557,6 @@ public class StoryFragment extends Fragment implements StoryListener {
     public void OnShowCommentStory(String uid) {
         uidStory = uid;
         openDialogCenter();
-
 
 
     }

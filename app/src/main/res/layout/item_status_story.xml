@@ -87,14 +87,12 @@
                             android:id="@+id/btnH"
                             android:layout_width="@dimen/_20sdp"
                             android:layout_height="@dimen/_20sdp"
-                            android:background="@drawable/border_color_like"
                             android:gravity="center"
                             android:layout_gravity="center"
                             android:layout_marginHorizontal="@dimen/_20sdp"
                             >
 
                             <ImageView
-
                                 android:id="@+id/btnHeart"
                                 android:layout_width="match_parent"
                                 android:layout_height="match_parent"
@@ -108,7 +106,6 @@
                             android:id="@+id/btnShowComment"
                             android:layout_width="@dimen/_55sdp"
                             android:layout_height="@dimen/_20sdp"
-                            android:background="@drawable/border_color_like"
                             android:gravity="center"
                             android:orientation="horizontal"
                         >
@@ -118,7 +115,7 @@
 
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:text="Comment"
+                                android:text="Comments"
                                 android:textColor="@color/blue"
                                 android:textSize="@dimen/_9ssp"
                                 android:textStyle="bold" />
